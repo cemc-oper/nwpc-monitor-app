@@ -18,7 +18,7 @@ INCLUDEPATH+=../../libs
 
 LIBS += -L$$build_lib_dir -lplugin_system
 
-DESTDIR = $$base_build_dir/bin
+DESTDIR = $$build_base_dir/plugins
 
 SOURCES += core_plugin.cpp \
     mainwindow.cpp

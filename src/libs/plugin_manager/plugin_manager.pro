@@ -1,8 +1,3 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2016-06-26T17:28:47
-#
-#-------------------------------------------------
 DEFINES += PLUGIN_SYSTEM_LIBRARY
 
 include(../../../nwpc-monitor-app.pri)
@@ -11,9 +6,17 @@ QT       -= gui
 
 TARGET = plugin_system
 TEMPLATE = lib
-CONFIG += staticlib
+CONFIG += shared dll
 
-DESTDIR = $$build_lib_dir
+win32{
+    DESTDIR = $$build_base_dir/lib
+}
+
+unix {
+    target.path = /usr/lib
+    INSTALLS += target
+}
+
 
 SOURCES += plugin_manager.cpp \
     iplugin.cpp
@@ -21,7 +24,3 @@ SOURCES += plugin_manager.cpp \
 HEADERS += plugin_manager.h \
     iplugin.h \
     plugin_system_global.h
-unix {
-    target.path = /usr/lib
-    INSTALLS += target
-}

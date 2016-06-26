@@ -7,14 +7,21 @@
 
 class MainWindow;
 
-class CORE_PLUGIN_EXPORT CorePlugin : public IPlugin
+class CorePlugin : public IPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.cma.nwpc.nwpc-monitor-app.plugin" FILE "core_plugin.json")
 
 public:
     CorePlugin(QObject *parent = 0);
+    ~CorePlugin();
+
+    bool initialize(const QStringList& arguments, QString* error_string);
+
+    void pluginsInitialized();
+
+    void aboutToShutDown();
 
 private:
-    MainWindow *mian_window_;
+    MainWindow *main_window_;
 };
