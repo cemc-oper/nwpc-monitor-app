@@ -5,7 +5,7 @@
 
 #include <QObject>
 
-class PLUGIN_SYSTEM_EXPORT IPlugin : public QObject
+class IPlugin : public QObject
 {
     Q_OBJECT
 public:

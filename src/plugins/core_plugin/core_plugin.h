@@ -3,15 +3,13 @@
 
 #include <QGenericPlugin>
 
-#include <plugin_manager/plugin_manager.h>
+#include <plugin_manager/iplugin.h>
 
 
-class CorePlugin : public QGenericPlugin
+class CorePlugin : public IPlugin
 {
     Q_OBJECT
-#if QT_VERSION >= 0x050000
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QGenericPluginFactoryInterface" FILE "core_plugin.json")
-#endif // QT_VERSION >= 0x050000
+    Q_PLUGIN_METADATA(IID "org.cma.nwpc.nwpc-monitor-app.plugin" FILE "core_plugin.json")
 
 public:
     CorePlugin(QObject *parent = 0);
