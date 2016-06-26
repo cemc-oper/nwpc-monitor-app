@@ -14,6 +14,8 @@ CONFIG += plugin
 
 INCLUDEPATH+=../../libs
 
+LIBS += -L $$plugin_system -lplugin_system
+
 DESTDIR = $$base_build_dir/bin
 
 SOURCES += core_plugin.cpp
