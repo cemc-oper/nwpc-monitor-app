@@ -21,7 +21,7 @@ public:
 
     void loadPerspectives();
 
-    void setPerspective(int id);
+    void activatePerspective(int id);
 
 private:
     void addPerspective(IPerspective* perspective);

@@ -8,7 +8,7 @@ WelcomePerspective::WelcomePerspective(QObject *parent):
     IPerspective(parent)
 {
     setDisplayName("Welcome");
-    setId("0");
+    setId("Welcome");
 
     welcome_widget_ = new WelcomeWidget();
     setWidget(welcome_widget_);

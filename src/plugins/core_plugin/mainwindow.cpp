@@ -31,7 +31,7 @@ void MainWindow::loadPerspectives()
     }
 }
 
-void MainWindow::setPerspective(int id)
+void MainWindow::activatePerspective(int id)
 {
     IPerspective* pers = perspective_list_[id];
     QWidget* widget = pers->widget();
