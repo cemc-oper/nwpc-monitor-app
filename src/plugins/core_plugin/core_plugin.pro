@@ -21,11 +21,17 @@ LIBS += -L$$build_lib_dir -lplugin_system
 DESTDIR = $$build_base_dir/plugins
 
 SOURCES += core_plugin.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    iperspective.cpp \
+    welcome_perspective.cpp \
+    welcome_widget.cpp
 
 HEADERS += core_plugin.h \
     core_plugin_global.h \
-    mainwindow.h
+    mainwindow.h \
+    iperspective.h \
+    welcome_perspective.h \
+    welcome_widget.h
 
 DISTFILES += core_plugin.json
 
@@ -35,4 +41,5 @@ unix {
 }
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    welcome_widget.ui

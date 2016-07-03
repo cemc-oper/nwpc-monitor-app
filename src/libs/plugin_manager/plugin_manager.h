@@ -23,6 +23,20 @@ public:
     static void addObject(QObject* obj);
     static void removeObject(QObject *obj);
 
+    static QList<QObject *> allObjects();
+
+    template <typename T> static QList<T *> getObjects()
+    {
+        QList<T *> results;
+        QList<QObject *> all = allObjects();
+        foreach (QObject *obj, all) {
+            T *result = qobject_cast<T *>(obj);
+            if (result)
+                results += result;
+        }
+        return results;
+    }
+
     friend class PluginManagerPrivate;
 };
 
@@ -41,6 +55,7 @@ public:
 
     void removeObject(QObject *obj);
 
+    QList<QObject *> allObjects();
 
 private:
     PluginManager *q;

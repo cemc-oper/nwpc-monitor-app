@@ -1,7 +1,11 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
+
+#include "iperspective.h"
 
 #include <QMainWindow>
+#include <QList>
+
+namespace Core{
 
 namespace Ui {
 class MainWindow;
@@ -15,8 +19,16 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void loadPerspectives();
+
+    void setPerspective(int id);
+
 private:
+    void addPerspective(IPerspective* perspective);
+
     Ui::MainWindow *ui;
+
+    QList<IPerspective*> perspective_list_;
 };
 
-#endif // MAINWINDOW_H
+}

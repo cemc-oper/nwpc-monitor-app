@@ -43,6 +43,11 @@ void PluginManager::removeObject(QObject *obj)
     d->removeObject(obj);
 }
 
+QList<QObject *> PluginManager::allObjects()
+{
+    return d->allObjects();
+}
+
 PluginManagerPrivate::PluginManagerPrivate(PluginManager *plugin_manager):
     q(plugin_manager)
 {
@@ -85,7 +90,7 @@ void PluginManagerPrivate::loadPlugins()
         if(loader_.load())
         {
             a = loader_.instance();
-            qDebug()<<a->objectName();
+//            qDebug()<<a->objectName();
             IPlugin *plugin_object = qobject_cast<IPlugin*>(a);
             if (!plugin_object)
             {
@@ -118,5 +123,11 @@ void PluginManagerPrivate::removeObject(QObject *obj)
 {
     all_objects_.removeAll(obj);
 }
+
+QList<QObject *> PluginManagerPrivate::allObjects()
+{
+    return all_objects_;
+}
+
 
 

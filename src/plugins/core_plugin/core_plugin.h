@@ -2,10 +2,12 @@
 
 #include "core_plugin_global.h"
 
-
 #include <plugin_manager/iplugin.h>
 
+namespace Core{
+
 class MainWindow;
+class WelcomePerspective;
 
 class CorePlugin : public IPlugin
 {
@@ -24,4 +26,9 @@ public:
 
 private:
     MainWindow *main_window_;
+
+    //add for test
+    WelcomePerspective *welcome_perspective_;
 };
+
+}
