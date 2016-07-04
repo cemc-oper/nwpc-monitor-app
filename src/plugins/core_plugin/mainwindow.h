@@ -3,7 +3,15 @@
 #include "iperspective.h"
 
 #include <QMainWindow>
-#include <QList>
+#include <QVector>
+#include <QMap>
+
+QT_BEGIN_NAMESPACE
+class QToolBar;
+class QActionGroup;
+class QAction;
+class QSignalMapper;
+QT_END_NAMESPACE
 
 namespace Core{
 
@@ -21,14 +29,25 @@ public:
 
     void loadPerspectives();
 
-    void activatePerspective(int id);
+    void activatePerspective(QString id);
+
+public slots:
+    void slotPerspectiveActionTriggered(QAction* action);
+    void slotActivatePerspective(QString id);
 
 private:
     void addPerspective(IPerspective* perspective);
+    int perspectiveIndex(QString id);
 
     Ui::MainWindow *ui;
 
-    QList<IPerspective*> perspective_list_;
+    QVector<IPerspective*> perspective_list_;
+
+    QToolBar* perspective_tool_bar_;
+    QVector<QAction*> perspective_action_list_;
+    QMap<QString, QAction*> perspective_id_to_action_map_;
+    QActionGroup* perspective_action_group_;
+    QSignalMapper* perspective_signal_mapper_;
 };
 
 }

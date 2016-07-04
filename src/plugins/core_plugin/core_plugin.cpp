@@ -34,7 +34,7 @@ void CorePlugin::pluginsInitialized()
 {
     main_window_->loadPerspectives();
 
-    main_window_->activatePerspective(0);
+    main_window_->activatePerspective("Welcome");
 
     main_window_->show();
 }
