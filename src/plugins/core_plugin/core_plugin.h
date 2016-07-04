@@ -9,7 +9,7 @@ namespace Core{
 class MainWindow;
 class WelcomePerspective;
 
-class CorePlugin : public IPlugin
+class CorePlugin : public PluginSystem::IPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.cma.nwpc.nwpc-monitor-app.plugin" FILE "core_plugin.json")

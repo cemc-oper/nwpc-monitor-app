@@ -2,6 +2,8 @@
 
 #include "plugin_manager.h"
 
+using namespace PluginSystem;
+
 IPlugin::IPlugin(QObject *parent) : QObject(parent)
 {
 

@@ -12,6 +12,7 @@
 #include <QtDebug>
 
 using namespace Core;
+using namespace PluginSystem;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),

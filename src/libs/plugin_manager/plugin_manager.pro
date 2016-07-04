@@ -19,8 +19,10 @@ unix {
 
 
 SOURCES += plugin_manager.cpp \
-    iplugin.cpp
+    iplugin.cpp \
+    plugin_spec.cpp
 
 HEADERS += plugin_manager.h \
     iplugin.h \
-    plugin_system_global.h
+    plugin_system_global.h \
+    plugin_spec.h

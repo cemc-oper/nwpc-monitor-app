@@ -1,11 +1,14 @@
-#ifndef PLUGIN_MANAGER_H
-#define PLUGIN_MANAGER_H
+#pragma once
 
 #include "iplugin.h"
 
 #include <QObject>
+#include <QVector>
 #include <QList>
-#include <QPluginLoader>
+
+namespace PluginSystem{
+
+class PluginSpec;
 
 class PLUGIN_SYSTEM_EXPORT PluginManager: public QObject
 {
@@ -58,19 +61,19 @@ public:
     QList<QObject *> allObjects();
 
 private:
+    void readPluginPaths();
+    void resolveDependencies();
+
     PluginManager *q;
 
     QList<QObject*> all_objects_;
 
     QStringList plugin_paths_;
 
-    QPluginLoader loader_;
-
-    QList<IPlugin*> plugins_;
+    QVector<PluginSpec*> plugin_specs_;
 
     QObject* a;
 
 };
 
-
-#endif // PLUGIN_MANAGER_H
+}

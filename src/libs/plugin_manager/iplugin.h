@@ -1,10 +1,11 @@
-#ifndef IPLUGIN_H
-#define IPLUGIN_H
+#pragma once
 
 #include "plugin_system_global.h"
 
 #include <QObject>
 #include <QString>
+
+namespace PluginSystem{
 
 class PLUGIN_SYSTEM_EXPORT IPlugin : public QObject
 {
@@ -25,4 +26,4 @@ signals:
 public slots:
 };
 
-#endif // IPLUGIN_H
+}

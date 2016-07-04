@@ -7,6 +7,7 @@
 #include <plugin_manager/plugin_manager.h>
 
 using namespace Core;
+using namespace PluginSystem;
 
 CorePlugin::CorePlugin(QObject *parent) :
     IPlugin(parent),

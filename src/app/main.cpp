@@ -3,6 +3,8 @@
 #include <QApplication>
 #include <QDir>
 
+using namespace PluginSystem;
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);

@@ -1,7 +1,11 @@
 #include "plugin_manager.h"
+#include "plugin_spec.h"
 
 #include <QDir>
+#include <QLibrary>
 #include <QtDebug>
+
+using namespace PluginSystem;
 
 static PluginManager *plugin_manager_instance = 0;
 static PluginManagerPrivate *d = 0;
@@ -20,7 +24,8 @@ PluginManager::PluginManager():
 
 PluginManager::~PluginManager()
 {
-
+    d->deleteLater();
+    d = 0;
 }
 
 void PluginManager::setPluginPaths(const QStringList &paths)
@@ -62,9 +67,45 @@ PluginManagerPrivate::~PluginManagerPrivate()
 void PluginManagerPrivate::setPluginPaths(const QStringList &paths)
 {
     plugin_paths_ = paths;
+    readPluginPaths();
 }
 
 void PluginManagerPrivate::loadPlugins()
+{
+    QString error_string;
+    foreach(PluginSpec *plugin_spec, plugin_specs_)
+    {
+        plugin_spec->loadLibrary();
+    }
+
+    foreach(PluginSpec *plugin_spec, plugin_specs_)
+    {
+        plugin_spec->initializePlugin();
+    }
+    foreach(PluginSpec *plugin_spec, plugin_specs_)
+    {
+        plugin_spec->pluginsInitialized();
+    }
+
+
+}
+
+void PluginManagerPrivate::addObject(QObject *obj)
+{
+    all_objects_.append(obj);
+}
+
+void PluginManagerPrivate::removeObject(QObject *obj)
+{
+    all_objects_.removeAll(obj);
+}
+
+QList<QObject *> PluginManagerPrivate::allObjects()
+{
+    return all_objects_;
+}
+
+void PluginManagerPrivate::readPluginPaths()
 {
     QStringList plugin_files;
 
@@ -83,50 +124,25 @@ void PluginManagerPrivate::loadPlugins()
         foreach (const QFileInfo &subdir, dirs)
             search_paths << subdir.absoluteFilePath();
     }
-    a = 0;
+
+
     foreach(QString plugin_file_path, plugin_files)
     {
-        loader_.setFileName(plugin_file_path);
-        if(loader_.load())
+        PluginSpec* spec = new PluginSpec();
+        if(!spec->read(plugin_file_path))
         {
-            a = loader_.instance();
-//            qDebug()<<a->objectName();
-            IPlugin *plugin_object = qobject_cast<IPlugin*>(a);
-            if (!plugin_object)
-            {
-                qDebug()<<"Plugin load failed:"<< plugin_file_path;
-                loader_.unload();
-                continue;
-            }
-            plugins_.append(plugin_object);
+            delete spec;
+            continue;
         }
-    }
-    QString error_string;
-    foreach(IPlugin *a_plugin, plugins_)
-    {
-        a_plugin->initialize(QStringList(), &error_string);
+        plugin_specs_.append(spec);
     }
 
-    foreach(IPlugin *a_plugin, plugins_)
-    {
-        a_plugin->pluginsInitialized();
-    }
-
+    resolveDependencies();
 }
 
-void PluginManagerPrivate::addObject(QObject *obj)
+void PluginManagerPrivate::resolveDependencies()
 {
-    all_objects_.append(obj);
-}
-
-void PluginManagerPrivate::removeObject(QObject *obj)
-{
-    all_objects_.removeAll(obj);
-}
-
-QList<QObject *> PluginManagerPrivate::allObjects()
-{
-    return all_objects_;
+    qDebug()<<"[PluginManagerPrivate::resolveDependencies] TODO";
 }
 
 
