@@ -22,9 +22,9 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
 public:
     explicit MainWindow(QWidget *parent = 0);
+
     ~MainWindow();
 
     void loadPerspectives();
@@ -33,6 +33,8 @@ public:
 
 public slots:
     void slotPerspectiveActionTriggered(QAction* action);
+
+private slots:
     void slotActivatePerspective(QString id);
 
 private:
