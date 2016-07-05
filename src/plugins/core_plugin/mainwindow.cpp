@@ -110,7 +110,18 @@ void MainWindow::slotActivatePerspective(QString id)
     }
     IPerspective* pers = perspective_list_[index];
     QWidget* widget = pers->widget();
-    ui->main_grid_layout->addWidget(widget, 0, 0);
+
+    QLayoutItem *item = ui->main_grid_layout->itemAtPosition(0,0);
+    if(item==0)
+    {
+        ui->main_grid_layout->addWidget(widget, 0, 0);
+    }
+    else
+    {
+        item->widget()->hide();
+        ui->main_grid_layout->replaceWidget(item->widget(), widget);
+        widget->show();
+    }
 }
 
 void MainWindow::addPerspective(IPerspective *perspective)
