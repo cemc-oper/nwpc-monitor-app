@@ -98,5 +98,10 @@ void PluginManagerPrivate::readPluginPaths()
 
 void PluginManagerPrivate::resolveDependencies()
 {
-    qDebug()<<"[PluginManagerPrivate::resolveDependencies] TODO";
+    //qDebug()<<"[PluginManagerPrivate::resolveDependencies] ";
+    foreach(PluginSpec* spec, plugin_specs_)
+    {
+        spec->resolveDependencies(plugin_specs_);
+    }
+    return;
 }

@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QString>
 #include <QVector>
+#include <QHash>
 #include <QPluginLoader>
 #include <QJsonObject>
 
@@ -21,8 +22,12 @@ struct PLUGIN_SYSTEM_EXPORT PluginDependency
 public:
     explicit PluginDependency();
 
+    bool operator ==(const PluginDependency &other) const;
+
     QString name_;
 };
+
+uint qHash(const PluginSystem::PluginDependency &value);
 
 class PLUGIN_SYSTEM_EXPORT PluginSpec : public QObject
 {
@@ -32,7 +37,10 @@ public:
 
     ~PluginSpec();
 
+    bool satisfyDependency(const PluginDependency& dependency) const;
+
     bool read(const QString &file_path);
+    bool resolveDependencies(const QList<PluginSpec*> &specs);
 
     QString name() const;
     void setName(const QString &name);
@@ -57,6 +65,7 @@ private:
 
     QString name_;
     QVector<PluginDependency> dependency_list_;
+    QHash<PluginDependency, PluginSpec*> dependency_plugins_;
 
     // file
     QString file_location_;

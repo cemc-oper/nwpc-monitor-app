@@ -4,7 +4,6 @@
 #include "plugin_manager_private.h"
 
 #include <QObject>
-#include <QVector>
 #include <QList>
 #include <QStringList>
 
@@ -40,7 +39,7 @@ private:
 
     QStringList plugin_paths_;
 
-    QVector<PluginSpec*> plugin_specs_;
+    QList<PluginSpec*> plugin_specs_;
 
     QObject* a;
 

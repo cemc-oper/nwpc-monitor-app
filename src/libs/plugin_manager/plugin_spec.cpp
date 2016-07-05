@@ -14,6 +14,20 @@ PluginDependency::PluginDependency()
 
 }
 
+bool PluginDependency::operator ==(const PluginDependency &other) const
+{
+    bool flag = true;
+    if(name_ != other.name_)
+        flag = false;
+    return flag;
+}
+
+uint PluginSystem::qHash(const PluginSystem::PluginDependency &value)
+{
+    return qHash(value.name_);
+}
+
+
 
 PluginSpec::PluginSpec(QObject *parent) :
     QObject(parent),
@@ -26,6 +40,14 @@ PluginSpec::PluginSpec(QObject *parent) :
 PluginSpec::~PluginSpec()
 {
     loader_.deleteLater();
+}
+
+bool PluginSpec::satisfyDependency(const PluginDependency &dependency) const
+{
+    if(dependency.name_ != name_)
+        return false;
+
+    return true;
 }
 
 bool PluginSpec::read(const QString &file_path)
@@ -49,6 +71,31 @@ bool PluginSpec::read(const QString &file_path)
     }
 
     return true;
+}
+
+bool PluginSpec::resolveDependencies(const QList<PluginSpec *> &specs)
+{
+    QHash<PluginDependency, PluginSpec*> dependency_plugins;
+    foreach(PluginDependency dependency, dependency_list_)
+    {
+        bool flag = false;
+        PluginSpec* dep_spec = 0;
+        foreach(PluginSpec* spec, specs)
+        {
+            if(spec->satisfyDependency(dependency))
+            {
+                flag = true;
+                dep_spec = spec;
+                break;
+            }
+        }
+        if(!flag)
+        {
+            qDebug()<<"[PluginSpec::resolveDependencies] can't find dependency plugin for "<<name_;
+            return false;
+        }
+        dependency_plugins.insert(dependency, dep_spec);
+    }
 }
 
 QString PluginSpec::name() const
@@ -156,4 +203,5 @@ bool PluginSpec::readMetaData(const QJsonObject &meta_data)
 
     return true;
 }
+
 
