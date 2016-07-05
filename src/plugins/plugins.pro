@@ -1,4 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    core_plugin
+    core_plugin \
+    welcome_plugin

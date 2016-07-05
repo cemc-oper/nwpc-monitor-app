@@ -1,12 +1,14 @@
 #pragma once
 
-#include "iperspective.h"
+#include "welcome_plugin_global.h"
 
-namespace Core{
+#include <core_plugin/iperspective.h>
+
+namespace Welcome{
 
 class WelcomeWidget;
 
-class CORE_PLUGIN_EXPORT WelcomePerspective : public IPerspective
+class WELCOME_PLUGIN_EXPORT WelcomePerspective : public Core::IPerspective
 {
     Q_OBJECT
 public:

@@ -7,3 +7,4 @@ build_base_dir ~= s,$$re_escape($$sub_dir)$,,
 
 
 build_lib_dir = $$build_base_dir/lib
+build_plugins_dir = $$build_base_dir/plugins

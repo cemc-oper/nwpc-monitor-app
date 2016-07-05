@@ -1,7 +1,7 @@
 #include "welcome_widget.h"
 #include "ui_welcome_widget.h"
 
-using namespace Core;
+using namespace Welcome;
 
 WelcomeWidget::WelcomeWidget(QWidget *parent) :
     QWidget(parent),

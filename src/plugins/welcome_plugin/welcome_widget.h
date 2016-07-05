@@ -2,7 +2,7 @@
 
 #include <QWidget>
 
-namespace Core{
+namespace Welcome{
 
 namespace Ui {
 class WelcomeWidget;

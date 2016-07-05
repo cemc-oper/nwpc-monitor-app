@@ -1,0 +1,7 @@
+#pragma once
+
+#if defined(WELCOME_PLUGIN_LIBRARY)
+#  define WELCOME_PLUGIN_EXPORT Q_DECL_EXPORT
+#else
+#  define WELCOME_PLUGIN_EXPORT Q_DECL_IMPORT
+#endif

@@ -2,8 +2,6 @@
 
 #include "mainwindow.h"
 
-#include "welcome_perspective.h"
-
 #include <plugin_manager/plugin_manager.h>
 
 using namespace Core;
@@ -24,10 +22,6 @@ bool CorePlugin::initialize(const QStringList &arguments, QString *error_string)
 {
     main_window_ = new MainWindow();
 
-    // add for test
-    welcome_perspective_ = new WelcomePerspective(this);
-    PluginManager::addObject(welcome_perspective_);
-
     return true;
 }
 
@@ -35,7 +29,7 @@ void CorePlugin::pluginsInitialized()
 {
     main_window_->loadPerspectives();
 
-    main_window_->activatePerspective("Welcome");
+    main_window_->activatePerspective("welcome");
 
     main_window_->show();
 }

@@ -1,9 +1,3 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2016-06-26T17:31:13
-#
-#-------------------------------------------------
-
 DEFINES += CORE_PLUGIN_LIBRARY
 
 include(../../../nwpc-monitor-app.pri)
@@ -22,16 +16,12 @@ DESTDIR = $$build_base_dir/plugins
 
 SOURCES += core_plugin.cpp \
     mainwindow.cpp \
-    iperspective.cpp \
-    welcome_perspective.cpp \
-    welcome_widget.cpp
+    iperspective.cpp
 
 HEADERS += core_plugin.h \
     core_plugin_global.h \
     mainwindow.h \
-    iperspective.h \
-    welcome_perspective.h \
-    welcome_widget.h
+    iperspective.h
 
 DISTFILES += core_plugin.json
 
@@ -41,5 +31,4 @@ unix {
 }
 
 FORMS += \
-    mainwindow.ui \
-    welcome_widget.ui
+    mainwindow.ui
