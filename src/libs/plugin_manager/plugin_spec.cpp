@@ -96,6 +96,7 @@ bool PluginSpec::resolveDependencies(const QList<PluginSpec *> &specs)
         }
         dependency_plugins.insert(dependency, dep_spec);
     }
+    dependency_plugins_ = dependency_plugins;
 }
 
 QString PluginSpec::name() const
