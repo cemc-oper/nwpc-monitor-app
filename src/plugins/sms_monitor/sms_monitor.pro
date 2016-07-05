@@ -14,7 +14,7 @@ INCLUDEPATH += ../../plugins
 LIBS += -L$$build_lib_dir -lplugin_system \
         -L$$build_plugins_dir -lcore_plugin
 
-DESTDIR = $$build_plugins_dir
+DESTDIR = $$build_plugins_dir/sms_monitor
 
 SOURCES += sms_monitor_plugin.cpp \
     sms_monitor_perspective.cpp \
