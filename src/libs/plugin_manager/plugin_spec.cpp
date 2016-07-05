@@ -96,7 +96,7 @@ bool PluginSpec::resolveDependencies(const QList<PluginSpec *> &specs)
         }
         dependency_plugins.insert(dependency, dep_spec);
     }
-    dependency_plugins_ = dependency_plugins;
+    dependency_plugin_specs_ = dependency_plugins;
 }
 
 QString PluginSpec::name() const
@@ -107,6 +107,11 @@ QString PluginSpec::name() const
 void PluginSpec::setName(const QString &name)
 {
     name_ = name;
+}
+
+QHash<PluginDependency, PluginSpec *> PluginSpec::dependencyPluginSpecs() const
+{
+    return dependency_plugin_specs_;
 }
 
 IPlugin *PluginSpec::plugin()
@@ -204,5 +209,3 @@ bool PluginSpec::readMetaData(const QJsonObject &meta_data)
 
     return true;
 }
-
-

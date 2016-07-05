@@ -45,6 +45,8 @@ public:
     QString name() const;
     void setName(const QString &name);
 
+    QHash<PluginDependency, PluginSpec *> dependencyPluginSpecs() const;
+
     IPlugin *plugin();
 
     // Step 1. load
@@ -65,7 +67,7 @@ private:
 
     QString name_;
     QVector<PluginDependency> dependency_list_;
-    QHash<PluginDependency, PluginSpec*> dependency_plugins_;
+    QHash<PluginDependency, PluginSpec*> dependency_plugin_specs_;
 
     // file
     QString file_location_;

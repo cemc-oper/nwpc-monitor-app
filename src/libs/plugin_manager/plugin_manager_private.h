@@ -33,6 +33,10 @@ private:
     void readPluginPaths();
     void resolveDependencies();
 
+    QList<PluginSpec *> loadQueue();
+
+    bool loadQueue(PluginSpec* spec, QList<PluginSpec*> &load_queue, QList<PluginSpec*> &circular_dependency_queue);
+
     PluginManager *q;
 
     QList<QObject*> all_objects_;
