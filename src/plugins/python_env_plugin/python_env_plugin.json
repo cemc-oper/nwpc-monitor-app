@@ -1,0 +1,6 @@
+{
+    "name" : "python_env",
+    "dependencies": [
+        { "name": "core" }
+    ]
+}
