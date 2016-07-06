@@ -5,6 +5,10 @@
 #include <QObject>
 #include <QString>
 
+QT_BEGIN_NAMESPACE
+class QProcess;
+QT_END_NAMESPACE
+
 namespace PythonEnv{
 
 class PYTHON_ENV_EXPORT PythonEngine : public QObject
@@ -20,7 +24,7 @@ public:
     QString pythonExecutableProgramPath() const;
     void setPythonExecutableProgramPath(const QString &pythonExecutableProgramPath);
 
-    void executePythonScript(const QString &script_path, const QStringList &argument_list);
+    bool executePythonScript(const QString &script_path, const QStringList &argument_list);
 
 signals:
 
@@ -29,6 +33,8 @@ public slots:
 private:
     QString python_distribution_dir_;
     QString python_executable_program_path_;
+
+    QProcess* process_;
 };
 
 }
