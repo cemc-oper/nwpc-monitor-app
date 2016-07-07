@@ -3,10 +3,7 @@
 #include "util_global.h"
 
 #include <QObject>
-
-QT_BEGIN_NAMESPACE
-class QProcess;
-QT_END_NAMESPACE
+#include <QProcess>
 
 namespace Util{
 
@@ -29,8 +26,11 @@ public:
     void runCommandStep(const CommandStep &step);
 
 signals:
+    void signalStdOutString(const QString &out);
+    void signalStdErrString(const QString &err);
 
-public slots:
+private slots:
+    void slotProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
 
 protected:
     QList<CommandStep> command_steps_;

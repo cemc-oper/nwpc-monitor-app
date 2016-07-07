@@ -18,12 +18,7 @@ ShellCommand::ShellCommand(QObject *parent) :
     process_{new QProcess(this)}
 {
     connect(process_, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-        [=](int exitCode, QProcess::ExitStatus exitStatus)
-        {
-            qDebug()<<exitCode;
-            qDebug()<<exitStatus;
-            qDebug()<<process_->readAllStandardOutput();
-        }
+        this, &ShellCommand::slotProcessFinished
     );
 }
 
@@ -53,4 +48,21 @@ void ShellCommand::runCommandStep(const CommandStep &step)
         return;
     }
     process_->start(step.program_, step.arguments_);
+}
+
+void ShellCommand::slotProcessFinished(int exitCode, QProcess::ExitStatus exitStatus)
+{
+    qDebug()<<exitCode;
+    qDebug()<<exitStatus;
+
+    QString std_out(process_->readAllStandardOutput());
+    QString std_err(process_->readAllStandardError());
+
+    emit signalStdOutString(std_out);
+    if(!std_err.isEmpty())
+    {
+        emit signalStdErrString(std_err);
+    }
+
+    this->deleteLater();
 }

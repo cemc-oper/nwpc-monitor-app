@@ -47,6 +47,22 @@ bool PythonEngine::executePythonScript(const QString &script_path, const QString
         process_arg_list<<str;
 
     PythonCommand *command = new PythonCommand{this};
+
+    connect(command, &PythonCommand::signalStdErrString,
+            [=](const QString &out)
+            {
+                qDebug()<<"[PythonEngine::executePythonScript] stderr:"<<out;
+            }
+
+    );
+    connect(command, &PythonCommand::signalStdOutString,
+            [=](const QString &out)
+            {
+                qDebug()<<"[PythonEngine::executePythonScript] stdout:"<<out;
+            }
+
+    );
+
     command->addCommandStep(python_executable_program_path_, process_arg_list);
     command->run();
 
