@@ -66,5 +66,10 @@ void ShellCommand::slotProcessFinished(int exit_code, QProcess::ExitStatus exit_
 
     emit signalFinished(exit_code, exit_status);
 
+    if(exit_code == 0 && exit_status == QProcess::NormalExit)
+    {
+        emit signalSuccess();
+    }
+
     this->deleteLater();
 }

@@ -7,7 +7,7 @@
 
 namespace Util{
 
-struct CommandStep{
+struct UTILSHARED_EXPORT CommandStep{
     explicit CommandStep(const QString &program, const QStringList &arguments);
     QString program_;
     QStringList arguments_;
@@ -29,6 +29,7 @@ signals:
     void signalStdOutString(const QString &out);
     void signalStdErrString(const QString &err);
     void signalFinished(int exit_code, QProcess::ExitStatus exitStatus);
+    void signalSuccess();
 
 private slots:
     void slotProcessFinished(int exit_code, QProcess::ExitStatus exit_status);

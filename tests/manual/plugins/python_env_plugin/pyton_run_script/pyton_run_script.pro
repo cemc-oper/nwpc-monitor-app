@@ -10,6 +10,7 @@ INCLUDEPATH += $$source_base_dir/src/plugins
 
 LIBS += -L$$build_lib_dir -lplugin_system \
         -L$$build_plugins_dir -lcore_plugin \
+        -L$$build_plugins_dir -lutil \
         -L$$build_plugins_dir/python_env -lpython_env
 
 

@@ -7,6 +7,8 @@
 
 namespace PythonEnv{
 
+class PythonCommand;
+
 class PYTHON_ENV_EXPORT PythonEngine : public QObject
 {
     Q_OBJECT
@@ -20,7 +22,7 @@ public:
     QString pythonExecutableProgramPath() const;
     void setPythonExecutableProgramPath(const QString &pythonExecutableProgramPath);
 
-    bool executePythonScript(const QString &script_path, const QStringList &argument_list);
+    PythonCommand* executePythonScript(const QString &script_path, const QStringList &argument_list);
 
 signals:
 
