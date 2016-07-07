@@ -5,10 +5,6 @@
 #include <QObject>
 #include <QString>
 
-QT_BEGIN_NAMESPACE
-class QProcess;
-QT_END_NAMESPACE
-
 namespace PythonEnv{
 
 class PYTHON_ENV_EXPORT PythonEngine : public QObject
@@ -34,7 +30,6 @@ private:
     QString python_distribution_dir_;
     QString python_executable_program_path_;
 
-    QProcess* process_;
 };
 
 }
