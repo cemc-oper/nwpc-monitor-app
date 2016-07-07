@@ -97,6 +97,7 @@ bool PluginSpec::resolveDependencies(const QList<PluginSpec *> &specs)
         dependency_plugins.insert(dependency, dep_spec);
     }
     dependency_plugin_specs_ = dependency_plugins;
+    return true;
 }
 
 QString PluginSpec::name() const
@@ -136,6 +137,7 @@ bool PluginSpec::loadLibrary()
         return false;
     }
     plugin_ = plugin_object;
+    plugin_->plugin_spec_ = this;
     return true;
 }
 

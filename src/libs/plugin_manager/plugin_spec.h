@@ -76,7 +76,6 @@ private:
     // qt plugin
     QPluginLoader loader_;
     IPlugin* plugin_;
-
 };
 
 }

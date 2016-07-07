@@ -4,7 +4,9 @@
 
 using namespace PluginSystem;
 
-IPlugin::IPlugin(QObject *parent) : QObject(parent)
+IPlugin::IPlugin(QObject *parent) :
+    QObject(parent),
+    plugin_spec_{0}
 {
 
 }
@@ -12,6 +14,11 @@ IPlugin::IPlugin(QObject *parent) : QObject(parent)
 IPlugin::~IPlugin()
 {
 
+}
+
+PluginSpec *IPlugin::pluginSpec()
+{
+    return plugin_spec_;
 }
 
 void IPlugin::addObject(QObject *obj)
