@@ -50,10 +50,10 @@ void ShellCommand::runCommandStep(const CommandStep &step)
     process_->start(step.program_, step.arguments_);
 }
 
-void ShellCommand::slotProcessFinished(int exitCode, QProcess::ExitStatus exitStatus)
+void ShellCommand::slotProcessFinished(int exit_code, QProcess::ExitStatus exit_status)
 {
-    qDebug()<<exitCode;
-    qDebug()<<exitStatus;
+//    qDebug()<<exit_code;
+//    qDebug()<<exit_status;
 
     QString std_out(process_->readAllStandardOutput());
     QString std_err(process_->readAllStandardError());
@@ -63,6 +63,8 @@ void ShellCommand::slotProcessFinished(int exitCode, QProcess::ExitStatus exitSt
     {
         emit signalStdErrString(std_err);
     }
+
+    emit signalFinished(exit_code, exit_status);
 
     this->deleteLater();
 }

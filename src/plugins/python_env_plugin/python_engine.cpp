@@ -63,6 +63,14 @@ bool PythonEngine::executePythonScript(const QString &script_path, const QString
 
     );
 
+    connect(command, &PythonCommand::signalFinished,
+            [=](int exit_code, QProcess::ExitStatus exit_status)
+            {
+                qDebug()<<"[PythonEngine::executePythonScript] exit_code:"<<exit_code;
+                qDebug()<<"[PythonEngine::executePythonScript] exit_status:"<<exit_status;
+            }
+    );
+
     command->addCommandStep(python_executable_program_path_, process_arg_list);
     command->run();
 

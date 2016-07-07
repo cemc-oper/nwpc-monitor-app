@@ -28,9 +28,10 @@ public:
 signals:
     void signalStdOutString(const QString &out);
     void signalStdErrString(const QString &err);
+    void signalFinished(int exit_code, QProcess::ExitStatus exitStatus);
 
 private slots:
-    void slotProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void slotProcessFinished(int exit_code, QProcess::ExitStatus exit_status);
 
 protected:
     QList<CommandStep> command_steps_;

@@ -26,7 +26,7 @@ Widget::~Widget()
     delete python_engine_;
 }
 
-void Widget::on_btn_run_python_script_clicked()
+void Widget::on_btn_run_success_python_script_clicked()
 {
     QStringList arg_list;
     python_engine_->executePythonScript(
@@ -34,4 +34,19 @@ void Widget::on_btn_run_python_script_clicked()
                 "\\tests\\manual\\plugins\\python_env_plugin\\pyton_run_script\\helloworld.py",
                 arg_list
     );
+}
+
+void Widget::on_btn_run_nonexist_python_script_clicked()
+{
+    QStringList arg_list;
+    python_engine_->executePythonScript(
+                "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app"
+                "\\tests\\manual\\plugins\\python_env_plugin\\pyton_run_script\\helloworld.py1",
+                arg_list
+    );
+}
+
+void Widget::on_btn_run_nonexist_python_exe_clicked()
+{
+
 }

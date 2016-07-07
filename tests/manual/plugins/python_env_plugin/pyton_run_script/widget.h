@@ -20,7 +20,11 @@ public:
     ~Widget();
 
 private slots:
-    void on_btn_run_python_script_clicked();
+    void on_btn_run_success_python_script_clicked();
+
+    void on_btn_run_nonexist_python_script_clicked();
+
+    void on_btn_run_nonexist_python_exe_clicked();
 
 private:
     Ui::Widget *ui;
