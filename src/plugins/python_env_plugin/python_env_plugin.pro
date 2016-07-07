@@ -12,6 +12,7 @@ INCLUDEPATH += ../../libs
 INCLUDEPATH += ../../plugins
 
 LIBS += -L$$build_lib_dir -lplugin_system \
+        -L$$build_lib_dir -lutil \
         -L$$build_plugins_dir -lcore_plugin
 
 DESTDIR = $$build_plugins_dir/python_env

@@ -1,4 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    plugin_manager
+    plugin_manager \
+    util
