@@ -1,9 +1,8 @@
 from paramiko import SSHClient, AutoAddPolicy
 
 client = SSHClient()
-client.load_system_host_keys()
-client.set_missing_host_key_policy(AutoAddPolicy)
-client.connect('uranus.hpc.nmic.cn', username='wangdp', password='perilla')
+client.set_missing_host_key_policy(AutoAddPolicy())
+client.connect('uranus.hpc.nmic.cn', 22, 'wangdp', 'perilla')
 
 stdin, stdout, stderr = client.exec_command(
     '/cma/g3/wangdp/usr/local/bin/python '
