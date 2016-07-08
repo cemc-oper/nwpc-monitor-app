@@ -7,6 +7,7 @@
 namespace SmsMonitor{
 
 class SmsMonitorPerspective;
+class SmsMonitorClient;
 
 class SMS_MONITOR_EXPORT SmsMonitorPlugin : public PluginSystem::IPlugin
 {
@@ -24,8 +25,13 @@ public:
 
     void aboutToShutDown();
 
+    SmsMonitorPlugin *instance();
+
+    SmsMonitorClient *client();
+
 private:
     SmsMonitorPerspective* sms_monitor_perspective_;
+    SmsMonitorClient *sms_monitor_client_;
 };
 
 }
