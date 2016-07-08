@@ -96,9 +96,9 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="update_sms_staus_button">
        <property name="text">
-        <string>Update</string>
+        <string>Update SMS Status</string>
        </property>
       </widget>
      </item>

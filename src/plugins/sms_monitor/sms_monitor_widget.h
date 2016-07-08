@@ -16,6 +16,9 @@ public:
     explicit SmsMonitorWidget(QWidget *parent = 0);
     ~SmsMonitorWidget();
 
+private slots:
+    void on_update_sms_staus_button_clicked();
+
 private:
     Ui::SmsMonitorWidget *ui;
 };

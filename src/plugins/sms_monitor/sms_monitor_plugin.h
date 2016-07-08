@@ -25,9 +25,9 @@ public:
 
     void aboutToShutDown();
 
-    SmsMonitorPlugin *instance();
+    static SmsMonitorPlugin *instance();
 
-    SmsMonitorClient *client();
+    static SmsMonitorClient *client();
 
 private:
     SmsMonitorPerspective* sms_monitor_perspective_;

@@ -22,7 +22,9 @@ public:
     QString pythonExecutableProgramPath() const;
     void setPythonExecutableProgramPath(const QString &pythonExecutableProgramPath);
 
-    PythonCommand* executePythonScript(const QString &script_path, const QStringList &argument_list);
+
+    PythonCommand *createPythonCommand();
+    void executePythonScript(PythonCommand *command, const QString &script_path, const QStringList &argument_list);
 
 signals:
 

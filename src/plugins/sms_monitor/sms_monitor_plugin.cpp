@@ -34,6 +34,14 @@ bool SmsMonitorPlugin::initialize(const QStringList &arguments, QString *error_s
     sms_monitor_client_ = new SmsMonitorClient{this};
     PluginManager::addObject(sms_monitor_client_);
 
+    //TODO(windroc, 2016.07.08): use plugin dir.
+    sms_monitor_client_->setPythonDistributionDir(
+        "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app-playground\\python\\python35"
+    );
+    sms_monitor_client_->setPythonExecutableProgramPath(
+        "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app-playground\\python\\python35\\python.exe"
+    );
+
     return true;
 }
 
@@ -55,6 +63,6 @@ SmsMonitorPlugin *SmsMonitorPlugin::instance()
 
 SmsMonitorClient *SmsMonitorPlugin::client()
 {
-    return sms_monitor_client_;
+    return sms_monitor_plugin_instance->sms_monitor_client_;
 }
 

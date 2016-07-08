@@ -36,7 +36,37 @@ void PythonEngine::setPythonExecutableProgramPath(const QString &python_executab
     python_executable_program_path_ = python_executable_program_path;
 }
 
-PythonCommand* PythonEngine::executePythonScript(const QString &script_path, const QStringList &argument_list)
+PythonCommand *PythonEngine::createPythonCommand()
+{
+    PythonCommand *command = new PythonCommand{this};
+
+    //    connect(command, &PythonCommand::signalStdErrString,
+    //            [=](const QString &out)
+    //            {
+    //                qDebug()<<"[PythonEngine::executePythonScript] stderr:"<<out;
+    //            }
+
+    //    );
+    //    connect(command, &PythonCommand::signalStdOutString,
+    //            [=](const QString &out)
+    //            {
+    //                qDebug()<<"[PythonEngine::executePythonScript] stdout:"<<out;
+    //            }
+
+    //    );
+
+    //    connect(command, &PythonCommand::signalFinished,
+    //            [=](int exit_code, QProcess::ExitStatus exit_status)
+    //            {
+    //                qDebug()<<"[PythonEngine::executePythonScript] exit_code:"<<exit_code;
+    //                qDebug()<<"[PythonEngine::executePythonScript] exit_status:"<<exit_status;
+    //            }
+    //    );
+
+    return command;
+}
+
+void PythonEngine::executePythonScript(PythonCommand *command, const QString &script_path, const QStringList &argument_list)
 {
     qDebug()<<"[PythonEngine::executePythonScript] start";
 
@@ -45,34 +75,9 @@ PythonCommand* PythonEngine::executePythonScript(const QString &script_path, con
     foreach(QString str, argument_list)
         process_arg_list<<str;
 
-    PythonCommand *command = new PythonCommand{this};
-
-//    connect(command, &PythonCommand::signalStdErrString,
-//            [=](const QString &out)
-//            {
-//                qDebug()<<"[PythonEngine::executePythonScript] stderr:"<<out;
-//            }
-
-//    );
-//    connect(command, &PythonCommand::signalStdOutString,
-//            [=](const QString &out)
-//            {
-//                qDebug()<<"[PythonEngine::executePythonScript] stdout:"<<out;
-//            }
-
-//    );
-
-//    connect(command, &PythonCommand::signalFinished,
-//            [=](int exit_code, QProcess::ExitStatus exit_status)
-//            {
-//                qDebug()<<"[PythonEngine::executePythonScript] exit_code:"<<exit_code;
-//                qDebug()<<"[PythonEngine::executePythonScript] exit_status:"<<exit_status;
-//            }
-//    );
-
     command->addCommandStep(python_executable_program_path_, process_arg_list);
     command->run();
 
     qDebug()<<"[PythonEngine::executePythonScript] end";
-    return command;
+    return;
 }

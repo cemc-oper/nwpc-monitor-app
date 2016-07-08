@@ -28,7 +28,8 @@ HEADERS += sms_monitor_plugin.h \
     sms_monitor_widget.h \
     sms_monitor_client.h
 
-DISTFILES += sms_monitor.json
+DISTFILES += sms_monitor.json \
+    nwpc_sms_monitor/update_sms_status.py
 
 unix {
     target.path = /usr/lib
