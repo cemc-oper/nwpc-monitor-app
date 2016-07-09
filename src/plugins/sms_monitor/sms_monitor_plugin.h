@@ -19,15 +19,18 @@ public:
 
     ~SmsMonitorPlugin();
 
-    bool initialize(const QStringList& arguments, QString* error_string);
+    bool initialize(const QStringList& arguments, QString* error_string) override;
 
-    void pluginsInitialized();
+    void pluginsInitialized() override;
 
-    void aboutToShutDown();
+    void aboutToShutDown() override;
 
     static SmsMonitorPlugin *instance();
 
     static SmsMonitorClient *client();
+
+public slots:
+    void slotUpdateSmsStatus();
 
 private:
     SmsMonitorPerspective* sms_monitor_perspective_;

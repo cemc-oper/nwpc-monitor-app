@@ -66,3 +66,8 @@ SmsMonitorClient *SmsMonitorPlugin::client()
     return sms_monitor_plugin_instance->sms_monitor_client_;
 }
 
+void SmsMonitorPlugin::slotUpdateSmsStatus()
+{
+
+}
+
