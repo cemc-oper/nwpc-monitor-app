@@ -81,6 +81,7 @@ void SmsMonitorPlugin::slotUpdateSmsStatus()
 
 void SmsMonitorPlugin::receiveUpdateStatusStdOut(const QString &out)
 {
+    qDebug()<<"[SmsMonitorPlugin::receiveUpdateStatusStdOut] start";
     QString result_str = out;
     QJsonDocument doc = QJsonDocument::fromJson(result_str.toUtf8());
     if(!doc.isObject())
@@ -112,5 +113,6 @@ void SmsMonitorPlugin::receiveUpdateStatusStdOut(const QString &out)
     qDebug()<<owner<<repo;
     sms_monitor_perspective_->widget()->showMessageOnMessagePanel(owner+"/"+repo);
 
+    qDebug()<<"[SmsMonitorPlugin::receiveUpdateStatusStdOut] end";
 }
 

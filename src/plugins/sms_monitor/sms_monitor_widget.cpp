@@ -20,6 +20,12 @@ SmsMonitorWidget::SmsMonitorWidget(QWidget *parent) :
 SmsMonitorWidget::~SmsMonitorWidget()
 {
     delete ui;
+    if(bunch_)
+    {
+        delete bunch_;
+        bunch_ = 0;
+    }
+
 }
 
 void SmsMonitorWidget::setBunch(SmsModel::Bunch *bunch)
