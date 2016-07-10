@@ -1,5 +1,7 @@
 #pragma once
 
+#include "sms_model/bunch.h"
+
 #include <QWidget>
 
 namespace SmsMonitor{
@@ -16,6 +18,8 @@ public:
     explicit SmsMonitorWidget(QWidget *parent = 0);
     ~SmsMonitorWidget();
 
+    void setBunch(SmsModel::Bunch *bunch);
+
     void showMessageOnMessagePanel(const QString &message);
 
 private slots:
@@ -23,6 +27,9 @@ private slots:
 
 private:
     Ui::SmsMonitorWidget *ui;
+
+    SmsModel::Bunch *bunch_;
+
 };
 
 }

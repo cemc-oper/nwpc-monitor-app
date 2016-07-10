@@ -3,6 +3,8 @@
 #include "sms_monitor_client.h"
 #include "sms_monitor_widget.h"
 
+#include "sms_model/bunch.h"
+
 #include <plugin_manager/plugin_manager.h>
 
 #include <QJsonDocument>
@@ -10,6 +12,7 @@
 #include <QtDebug>
 
 using namespace SmsMonitor;
+using namespace SmsMonitor::SmsModel;
 using namespace PluginSystem;
 
 SmsMonitorPlugin* sms_monitor_plugin_instance = nullptr;
@@ -102,6 +105,9 @@ void SmsMonitorPlugin::receiveUpdateStatusStdOut(const QString &out)
     QString sms_user = data["sms_user"].toString();
     QString time = data["time"].toString();
     QJsonObject status = data["status"].toObject();
+
+    Bunch* bunch = Bunch::buildFromJsonStatus(data);
+    sms_monitor_perspective_->widget()->setBunch(bunch);
 
     qDebug()<<owner<<repo;
     sms_monitor_perspective_->widget()->showMessageOnMessagePanel(owner+"/"+repo);

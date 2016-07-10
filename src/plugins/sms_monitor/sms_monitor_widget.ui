@@ -49,19 +49,35 @@
     </layout>
    </item>
    <item row="2" column="0">
-    <widget class="QSplitter" name="splitter">
+    <widget class="QSplitter" name="splitter_2">
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Vertical</enum>
      </property>
-     <widget class="QTreeView" name="repo_tree_view"/>
-     <widget class="QTreeView" name="status_tree_view"/>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QTextEdit" name="message_text_edit">
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
+     <widget class="QSplitter" name="middle_splitter">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QTreeView" name="repo_tree_view"/>
+      <widget class="QTreeView" name="bunch_view">
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::ExtendedSelection</enum>
+       </property>
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectItems</enum>
+       </property>
+       <attribute name="headerVisible">
+        <bool>false</bool>
+       </attribute>
+      </widget>
+     </widget>
+     <widget class="QTextEdit" name="message_text_edit">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
     </widget>
    </item>
   </layout>

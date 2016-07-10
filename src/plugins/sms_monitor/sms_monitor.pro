@@ -20,13 +20,17 @@ DESTDIR = $$build_plugins_dir/sms_monitor
 SOURCES += sms_monitor_plugin.cpp \
     sms_monitor_perspective.cpp \
     sms_monitor_widget.cpp \
-    sms_monitor_client.cpp
+    sms_monitor_client.cpp \
+    sms_model/node.cpp \
+    sms_model/bunch.cpp
 
 HEADERS += sms_monitor_plugin.h \
     sms_monitor_global.h \
     sms_monitor_perspective.h \
     sms_monitor_widget.h \
-    sms_monitor_client.h
+    sms_monitor_client.h \
+    sms_model/node.h \
+    sms_model/bunch.h
 
 DISTFILES += sms_monitor.json \
     nwpc_sms_monitor/update_sms_status.py
