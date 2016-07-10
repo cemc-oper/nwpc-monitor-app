@@ -16,6 +16,8 @@ public:
 
     ~SmsMonitorPerspective();
 
+    SmsMonitorWidget *widget();
+
 private:
     SmsMonitorWidget* sms_monitor_widget_;
 };

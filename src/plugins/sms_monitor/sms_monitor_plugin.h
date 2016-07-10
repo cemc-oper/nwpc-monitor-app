@@ -32,6 +32,8 @@ public:
 public slots:
     void slotUpdateSmsStatus();
 
+    void receiveUpdateStatusStdOut(const QString &out);
+
 private:
     SmsMonitorPerspective* sms_monitor_perspective_;
     SmsMonitorClient *sms_monitor_client_;

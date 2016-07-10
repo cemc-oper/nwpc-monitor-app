@@ -18,7 +18,7 @@ public:
 signals:
 
 public slots:
-    void slotUpdateStatusStdOut(const QString &out);
+
 
 private:
 

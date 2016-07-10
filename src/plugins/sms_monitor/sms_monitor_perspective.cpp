@@ -20,3 +20,8 @@ SmsMonitorPerspective::~SmsMonitorPerspective()
     delete sms_monitor_widget_;
     sms_monitor_widget_ = 0;
 }
+
+SmsMonitorWidget *SmsMonitorPerspective::widget()
+{
+    return sms_monitor_widget_;
+}
