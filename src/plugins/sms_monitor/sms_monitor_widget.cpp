@@ -22,19 +22,17 @@ SmsMonitorWidget::~SmsMonitorWidget()
     delete ui;
     if(bunch_)
     {
-        delete bunch_;
-        bunch_ = 0;
+        bunch_->deleteLater();
     }
 
 }
 
-void SmsMonitorWidget::setBunch(SmsModel::Bunch *bunch)
+void SmsMonitorWidget::setBunch(QPointer<SmsModel::Bunch> bunch)
 {
     if(bunch_)
     {
         ui->bunch_view->setModel(0);
         bunch_->deleteLater();
-        bunch_ = nullptr;
     }
 
     bunch_ = bunch;
