@@ -49,7 +49,7 @@
     </layout>
    </item>
    <item row="2" column="0">
-    <widget class="QSplitter" name="splitter_2">
+    <widget class="QSplitter" name="bottom_splitter">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>

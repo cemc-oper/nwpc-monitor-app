@@ -15,6 +15,9 @@ SmsMonitorWidget::SmsMonitorWidget(QWidget *parent) :
 
     ui->middle_splitter->setStretchFactor(0,1);
     ui->middle_splitter->setStretchFactor(1,3);
+
+    ui->bottom_splitter->setStretchFactor(0, 5);
+    ui->bottom_splitter->setStretchFactor(0, 1);
 }
 
 SmsMonitorWidget::~SmsMonitorWidget()
