@@ -12,7 +12,8 @@ INCLUDEPATH += ../../libs
 INCLUDEPATH += ../../plugins
 
 LIBS += -L$$build_lib_dir -lplugin_system \
-        -L$$build_plugins_dir -lcore_plugin
+        -L$$build_plugins_dir -lcore_plugin \
+        -L$$build_plugins_dir/python_env -lpython_env
 
 DESTDIR = $$build_plugins_dir/loadleveler_monitor
 
@@ -25,7 +26,8 @@ HEADERS += loadleveler_monitor_plugin.h \
     loadleveler_monitor_perspective.h \
     loadleveler_monitor_widget.h
 
-DISTFILES += loadleveler_monitor.json
+DISTFILES += loadleveler_monitor.json \
+    nwpc_loadleveler/loadleveler.py
 
 unix {
     target.path = /usr/lib
