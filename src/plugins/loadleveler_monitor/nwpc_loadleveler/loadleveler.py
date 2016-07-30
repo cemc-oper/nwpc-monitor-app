@@ -145,12 +145,10 @@ def loadleveler_main():
 
     subparsers = parser.add_subparsers(help='sub-command help')
 
-    # create the parser for the "a" command
     parser_llq = subparsers.add_parser('llq', help='use llq command', parents=[login_parser])
     parser_llq.add_argument('-c', '--command', type=str, help='llq command', required=True)
     parser_llq.set_defaults(func=llq_handler)
 
-    # create the parser for the "b" command
     parser_llclass = subparsers.add_parser('llclass', help='use llclass command', parents=[login_parser])
     parser_llclass.add_argument('-c', '--command', type=str, help='llq command', required=True)
     parser_llclass.set_defaults(func=llclass_handler)
