@@ -1,3 +1,4 @@
+import argparse
 import datetime
 import json
 import re
@@ -5,13 +6,19 @@ import re
 from paramiko import SSHClient, AutoAddPolicy
 
 
-def main():
+def llq_handler(args):
+    host = args.host
+    port = args.port
+    user = args.user
+    password = args.password
+    command = args.command
+
     client = SSHClient()
     client.set_missing_host_key_policy(AutoAddPolicy())
-    client.connect('uranus.hpc.nmic.cn', 22, 'wangdp', 'perilla')
+    client.connect(host, port, user, password)
 
     stdin, stdout, stderr = client.exec_command(
-        'llq'
+        command
     )
 
     std_out_string = stdout.read().decode('UTF-8')
@@ -104,5 +111,54 @@ def main():
     return
 
 
+def llclass_handler(args):
+    host = args.host
+    port = args.port
+    user = args.user
+    password = args.password
+    command = args.command
+
+    client = SSHClient()
+    client.set_missing_host_key_policy(AutoAddPolicy())
+    client.connect(host, port, user, password)
+
+    stdin, stdout, stderr = client.exec_command(
+        command
+    )
+
+    std_out_string = stdout.read().decode('UTF-8')
+
+    print(std_out_string)
+
+    return
+
+
+def loadleveler_main():
+    parser = argparse.ArgumentParser(prog="hpc-loadleveler")
+    parser.add_argument('--foo', action='store_true', help='foo help')
+
+    login_parser = argparse.ArgumentParser(add_help=False)
+    login_parser.add_argument('-H', '--host', type=str, help='remote host', required=True)
+    login_parser.add_argument('-P', '--port', type=int, help='remote host\'s port', default=22)
+    login_parser.add_argument('-u', '--user', type=str, help='user', required=True)
+    login_parser.add_argument('-p', '--password', type=str, help='password', required=True)
+
+    subparsers = parser.add_subparsers(help='sub-command help')
+
+    # create the parser for the "a" command
+    parser_llq = subparsers.add_parser('llq', help='use llq command', parents=[login_parser])
+    parser_llq.add_argument('-c', '--command', type=str, help='llq command', required=True)
+    parser_llq.set_defaults(func=llq_handler)
+
+    # create the parser for the "b" command
+    parser_llclass = subparsers.add_parser('llclass', help='use llclass command', parents=[login_parser])
+    parser_llclass.add_argument('-c', '--command', type=str, help='llq command', required=True)
+    parser_llclass.set_defaults(func=llclass_handler)
+
+    args = parser.parse_args()
+
+    args.func(args)
+
+
 if __name__ == "__main__":
-    main()
+    loadleveler_main()
