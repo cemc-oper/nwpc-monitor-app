@@ -43,10 +43,10 @@ void LoadLevelerClient::runLlqCommand()
     );
 
     arguments<<"llq";
-    arguments<<"-H uranus.hpc.nmic.cn";
-    arguments<<"-u wangdp";
-    arguments<<"-p perilla";
-    arguments<<"-c llq";
+    arguments<<"--host=uranus.hpc.nmic.cn";
+    arguments<<"--user=wangdp";
+    arguments<<"--password=perilla";
+    arguments<<"--command=llq";
 
     executePythonScript(
         command,
