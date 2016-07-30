@@ -4,20 +4,20 @@
 
 #include <core_plugin/iperspective.h>
 
-namespace LoadlevelerMonitor{
+namespace LoadLevelerMonitor{
 
-class LoadlevelerMonitorWidget;
+class LoadLevelerMonitorWidget;
 
-class LOADLEVELER_MONITOR_EXPORT LoadlevelerMonitorPerspective : public Core::IPerspective
+class LOADLEVELER_MONITOR_EXPORT LoadLevelerMonitorPerspective : public Core::IPerspective
 {
     Q_OBJECT
 public:
-    explicit LoadlevelerMonitorPerspective(QObject *parent = 0);
+    explicit LoadLevelerMonitorPerspective(QObject *parent = 0);
 
-    ~LoadlevelerMonitorPerspective();
+    ~LoadLevelerMonitorPerspective();
 
 private:
-    LoadlevelerMonitorWidget* loadleveler_monitor_widget_;
+    LoadLevelerMonitorWidget* loadleveler_monitor_widget_;
 };
 
 }

@@ -1,16 +1,16 @@
 #include "loadleveler_monitor_widget.h"
 #include "ui_loadleveler_monitor_widget.h"
 
-using namespace LoadlevelerMonitor;
+using namespace LoadLevelerMonitor;
 
-LoadlevelerMonitorWidget::LoadlevelerMonitorWidget(QWidget *parent) :
+LoadLevelerMonitorWidget::LoadLevelerMonitorWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::LoadlevelerMonitorWidget)
+    ui(new Ui::LoadLevelerMonitorWidget)
 {
     ui->setupUi(this);
 }
 
-LoadlevelerMonitorWidget::~LoadlevelerMonitorWidget()
+LoadLevelerMonitorWidget::~LoadLevelerMonitorWidget()
 {
     delete ui;
 }

@@ -4,19 +4,19 @@
 
 #include <plugin_manager/iplugin.h>
 
-namespace LoadlevelerMonitor{
+namespace LoadLevelerMonitor{
 
-class LoadlevelerMonitorPerspective;
+class LoadLevelerMonitorPerspective;
 
-class LOADLEVELER_MONITOR_EXPORT LoadlevelerMonitorPlugin : public PluginSystem::IPlugin
+class LOADLEVELER_MONITOR_EXPORT LoadLevelerMonitorPlugin : public PluginSystem::IPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.cma.nwpc.nwpc-monitor-app.plugin" FILE "loadleveler_monitor.json")
 
 public:
-    LoadlevelerMonitorPlugin(QObject *parent = 0);
+    LoadLevelerMonitorPlugin(QObject *parent = 0);
 
-    ~LoadlevelerMonitorPlugin();
+    ~LoadLevelerMonitorPlugin();
 
     bool initialize(const QStringList& arguments, QString* error_string);
 
@@ -25,7 +25,7 @@ public:
     void aboutToShutDown();
 
 private:
-    LoadlevelerMonitorPerspective* loadleveler_monitor_perspective_;
+    LoadLevelerMonitorPerspective* loadleveler_monitor_perspective_;
 };
 
 }

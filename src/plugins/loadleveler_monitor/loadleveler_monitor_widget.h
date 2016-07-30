@@ -2,22 +2,22 @@
 
 #include <QWidget>
 
-namespace LoadlevelerMonitor{
+namespace LoadLevelerMonitor{
 
 namespace Ui {
-class LoadlevelerMonitorWidget;
+class LoadLevelerMonitorWidget;
 }
 
-class LoadlevelerMonitorWidget : public QWidget
+class LoadLevelerMonitorWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit LoadlevelerMonitorWidget(QWidget *parent = 0);
-    ~LoadlevelerMonitorWidget();
+    explicit LoadLevelerMonitorWidget(QWidget *parent = 0);
+    ~LoadLevelerMonitorWidget();
 
 private:
-    Ui::LoadlevelerMonitorWidget *ui;
+    Ui::LoadLevelerMonitorWidget *ui;
 };
 
 }
