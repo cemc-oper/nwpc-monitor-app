@@ -7,6 +7,7 @@
 namespace LoadLevelerMonitor{
 
 class LoadLevelerMonitorPerspective;
+class LoadLevelerClient;
 
 class LOADLEVELER_MONITOR_EXPORT LoadLevelerMonitorPlugin : public PluginSystem::IPlugin
 {
@@ -24,8 +25,16 @@ public:
 
     void aboutToShutDown();
 
+    static LoadLevelerMonitorPlugin *instance();
+
+    static LoadLevelerClient *client();
+
+public slots:
+    void receiveLlqQueryStdOut(const QString &out);
+
 private:
     LoadLevelerMonitorPerspective* loadleveler_monitor_perspective_;
+    LoadLevelerClient *loadleveler_client_;
 };
 
 }

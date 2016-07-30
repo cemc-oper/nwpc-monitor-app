@@ -92,6 +92,7 @@ void PluginManagerPrivate::readPluginPaths()
         PluginSpec* spec = new PluginSpec();
         if(!spec->read(plugin_file_path))
         {
+            qDebug()<<"[PluginManagerPrivate::readPluginPaths] can't read plugin spec"<<plugin_file_path;
             delete spec;
             continue;
         }

@@ -1,6 +1,7 @@
 {
     "name" : "sms_monitor",
     "dependencies": [
-        { "name": "core" }
+        { "name": "core" },
+        { "name": "python_env" }
     ]
 }

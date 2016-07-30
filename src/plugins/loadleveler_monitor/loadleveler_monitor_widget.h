@@ -16,6 +16,9 @@ public:
     explicit LoadLevelerMonitorWidget(QWidget *parent = 0);
     ~LoadLevelerMonitorWidget();
 
+private slots:
+    void on_query_button_clicked();
+
 private:
     Ui::LoadLevelerMonitorWidget *ui;
 };
