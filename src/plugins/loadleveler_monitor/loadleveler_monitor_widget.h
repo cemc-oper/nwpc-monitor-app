@@ -24,6 +24,8 @@ public:
     void setJobQueryModel(QPointer<LoadLevelerModel::JobQueryModel> job_query_model);
 
 private slots:
+    void slotLlqQueryRecordContextMenuRequest(const QPoint& pos);
+
     void on_query_button_clicked();
 
 private:

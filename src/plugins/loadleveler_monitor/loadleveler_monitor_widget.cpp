@@ -8,6 +8,8 @@
 #include "loadleveler_model/job_query_item.h"
 
 #include <QMap>
+#include <QMenu>
+#include <QtDebug>
 
 using namespace LoadLevelerMonitor;
 using namespace LoadLevelerMonitor::LoadLevelerModel;
@@ -49,8 +51,42 @@ void LoadLevelerMonitorWidget::setJobQueryModel(QPointer<JobQueryModel> job_quer
         job_query_model_->deleteLater();
     }
     job_query_model_ = job_query_model;
+
     ui->llq_table_view->setModel(job_query_model_);
+
     ui->llq_table_view->horizontalHeader()->setStretchLastSection(true);
+
+    disconnect(ui->llq_table_view, &QTableView::customContextMenuRequested, 0, 0);
+    ui->llq_table_view->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->llq_table_view, &QTableView::customContextMenuRequested,
+            this, &LoadLevelerMonitorWidget::slotLlqQueryRecordContextMenuRequest);
+}
+
+void LoadLevelerMonitorWidget::slotLlqQueryRecordContextMenuRequest(const QPoint &pos)
+{
+    //qDebug()<<"[LoadLevelerMonitorWidget::slotLlqQueryRecordContextMenuRequest]";
+    QModelIndex index = ui->llq_table_view->indexAt(pos);
+    if (index.isValid()) {
+        QMenu *context_menu = new QMenu{};
+        QAction *detail_action = new QAction{tr("详情")};
+
+        connect(detail_action, &QAction::triggered,
+                [=](bool flag){
+            QModelIndex id_index = index.sibling(index.row(), 1);
+            if(index.isValid())
+            {
+                QStandardItem *id_item = job_query_model_->itemFromIndex(id_index);
+                QString id = id_item->text();
+                qDebug()<<"[LoadLevelerMonitorWidget::slotLlqQueryRecordContextMenuRequest]"<<id;
+            }
+        });
+
+        context_menu->addAction(detail_action);
+        context_menu->exec(ui->llq_table_view->mapToGlobal(pos));
+        delete context_menu;
+        delete detail_action;
+    }
+
 }
 
 void LoadLevelerMonitorWidget::on_query_button_clicked()
