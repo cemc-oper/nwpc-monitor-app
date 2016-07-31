@@ -16,6 +16,8 @@ public:
 
     ~LoadLevelerMonitorPerspective();
 
+    LoadLevelerMonitorWidget *widget();
+
 private:
     LoadLevelerMonitorWidget* loadleveler_monitor_widget_;
 };

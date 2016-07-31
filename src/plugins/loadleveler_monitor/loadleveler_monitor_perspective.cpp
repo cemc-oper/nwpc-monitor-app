@@ -20,3 +20,8 @@ LoadLevelerMonitorPerspective::~LoadLevelerMonitorPerspective()
     delete loadleveler_monitor_widget_;
     loadleveler_monitor_widget_ = 0;
 }
+
+LoadLevelerMonitorWidget *LoadLevelerMonitorPerspective::widget()
+{
+    return loadleveler_monitor_widget_;
+}
