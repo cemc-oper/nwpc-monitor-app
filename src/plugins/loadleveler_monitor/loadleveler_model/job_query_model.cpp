@@ -8,7 +8,7 @@ using namespace LoadLevelerMonitor::LoadLevelerModel;
 JobQueryModel::JobQueryModel(QObject *parent):
     QStandardItemModel{parent}
 {
-
+    setSortRole(JobQueryItem::SortRole);
 }
 
 JobQueryModel::~JobQueryModel()
@@ -34,6 +34,7 @@ JobQueryModel *JobQueryModel::buildFromLlqQuery(const QJsonObject &data, QObject
     {
         QList<QStandardItem*> row = JobQueryItem::buildFromQueryRecord(a_job.toObject());
         JobQueryItem *item = new JobQueryItem(QString::number(i));
+        item->setItemType(JobQueryItem::ItemType::NumberItem);
         row.push_front(item);
         job_query_model->invisibleRootItem()->appendRow(row);
         i++;

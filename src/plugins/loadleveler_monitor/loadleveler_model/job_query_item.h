@@ -16,20 +16,25 @@ public:
 
     JobQueryItem(const JobQueryItem& other);
 
+    enum Role{
+        SortRole = Qt::UserRole + 110
+    };
+
     enum ItemType{
-        NormalItem,
+        NormalItem = 11,
         NumberItem,
         DateTimeItem
     };
 
     ~JobQueryItem();
 
+    QVariant data(int role = Qt::UserRole + 1) const;
+
     static QList<QStandardItem *> buildFromQueryRecord(const QJsonObject &data);
 
     void setItemType(const ItemType &item_type);
 
     JobQueryItem &operator = (const JobQueryItem &right);
-    bool operator < (const JobQueryItem &right) const;
 
 private:
     ItemType item_type_;

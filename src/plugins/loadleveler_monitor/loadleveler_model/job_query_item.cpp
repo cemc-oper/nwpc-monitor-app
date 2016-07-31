@@ -30,6 +30,18 @@ JobQueryItem::~JobQueryItem()
 
 }
 
+QVariant JobQueryItem::data(int role) const
+{
+    if ( role == Role::SortRole )
+    {
+        if(item_type_ == ItemType::NumberItem)
+            return text().toInt();
+        else
+            return QStandardItem::data(Qt::DisplayRole);
+    }
+    return QStandardItem::data(role);
+}
+
 QList<QStandardItem *> JobQueryItem::buildFromQueryRecord(const QJsonObject &data)
 {
     QList<QStandardItem *> row;
@@ -71,12 +83,4 @@ JobQueryItem &JobQueryItem::operator =(const JobQueryItem &other)
     QStandardItem::operator=(other);
     item_type_ = other.item_type_;
     return *this;
-}
-
-bool JobQueryItem::operator <(const JobQueryItem &right) const
-{
-    if(item_type_ == ItemType::NumberItem)
-        return text().toInt() < right.text().toInt();
-    else
-        return QStandardItem::operator <(right);
 }
