@@ -7,6 +7,66 @@ from paramiko import SSHClient, AutoAddPolicy
 
 
 def llq_handler(args):
+    """
+    使用llq命令查询
+    :param args:
+    :return:
+        正常输出
+        {
+            'app': 'nwpc_loadleveler',
+            'type': 'loadleveler_command',
+            'data': {
+                'command': {
+                    'command': 'llq',
+                    'arguments': [
+                        arg1,
+                        arg2,
+                        ...
+                    ]
+                },
+                'result': {
+                    'jobs': [
+                        {
+                            'id': string
+                            'owner': string
+                            'submitted' {
+                                'date': string,
+                                'time': string
+                            }
+                            'st': string
+                            'pri': string
+                            'class': string
+                            'running_on': string
+                        },
+                        ...
+                    ],
+                    'summary': {
+                        'in_queue': number,
+                        'waiting': number,
+                        'pending': number,
+                        'running': number,
+                        'held': number,
+                        'preempted': number
+                    }
+                }
+            }
+        }
+
+        错误输出示例
+        {
+            'app': 'nwpc_loadleveler',
+            'type': 'loadleveler_command',
+            'error': 'command_result_parser_error',
+            'data': {
+                'command': {
+                    'command': 'llq',
+                    'arguments': []
+                },
+                'error_message': 'can not parse result.'
+            }
+        }
+
+    """
     host = args.host
     port = args.port
     user = args.user
@@ -22,6 +82,7 @@ def llq_handler(args):
     )
 
     std_out_string = stdout.read().decode('UTF-8')
+    std_error_string = stderr.read().decode('UTF-8')
 
     std_out_lines = std_out_string.split("\n")
 
@@ -31,7 +92,7 @@ def llq_handler(args):
             'type': 'loadleveler_command',
             'data': {
                 'command': {
-                    'command': 'llq',
+                    'command': command,
                     'arguments': []
                 },
                 'result': {
@@ -51,10 +112,12 @@ def llq_handler(args):
             'error': 'command_result_parser_error',
             'data': {
                 'command': {
-                    'command': 'llq',
+                    'command': command,
                     'arguments': []
                 },
-                'error_message': 'can not parse result.'
+                'error_message': 'can not parse result.',
+                'output':std_out_string,
+                'error_output': std_error_string
             }
         }
         print(json.dumps(result))
