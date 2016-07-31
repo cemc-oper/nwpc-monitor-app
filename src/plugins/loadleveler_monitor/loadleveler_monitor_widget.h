@@ -27,6 +27,8 @@ private slots:
     void on_query_button_clicked();
 
 private:
+    void changeAllItemsCheckState(Qt::CheckState check_state);
+
     Ui::LoadLevelerMonitorWidget *ui;
 
     QPointer<LoadLevelerModel::JobQueryModel> job_query_model_;

@@ -19,6 +19,17 @@ LoadLevelerMonitorWidget::LoadLevelerMonitorWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    connect(ui->check_all_button, &QPushButton::clicked,
+            [=](){
+                changeAllItemsCheckState(Qt::Checked);
+            }
+    );
+
+    connect(ui->uncheck_all_button, &QPushButton::clicked,
+            [=](){
+                changeAllItemsCheckState(Qt::Unchecked);
+            }
+    );
 
 }
 
@@ -54,4 +65,15 @@ void LoadLevelerMonitorWidget::on_query_button_clicked()
         args["command"] += " "+arg_string;
 
     LoadLevelerMonitorPlugin::client()->runLlqCommand(args);
+}
+
+void LoadLevelerMonitorWidget::changeAllItemsCheckState(Qt::CheckState check_state)
+{
+    QStandardItem * root_item = job_query_model_->invisibleRootItem();
+    int row_count = root_item->rowCount();
+    for(int i=0; i<row_count; i++)
+    {
+        root_item->child(i, 0)->setCheckState(check_state);
+    }
+
 }
