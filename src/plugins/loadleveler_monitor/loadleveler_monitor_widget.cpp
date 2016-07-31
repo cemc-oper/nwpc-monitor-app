@@ -50,6 +50,7 @@ void LoadLevelerMonitorWidget::setJobQueryModel(QPointer<JobQueryModel> job_quer
     }
     job_query_model_ = job_query_model;
     ui->llq_table_view->setModel(job_query_model_);
+    ui->llq_table_view->horizontalHeader()->setStretchLastSection(true);
 }
 
 void LoadLevelerMonitorWidget::on_query_button_clicked()
