@@ -98,6 +98,9 @@ def llq_handler(args):
                 'result': {
                     'jobs': [],
                     'summary': None
+                },
+                'message': {
+                    'output': 'llq: There is currently no job status to report.'
                 }
             }
         }
@@ -115,9 +118,11 @@ def llq_handler(args):
                     'command': command,
                     'arguments': []
                 },
-                'error_message': 'can not parse result.',
-                'output':std_out_string,
-                'error_output': std_error_string
+                'message': {
+                    'error_message': 'can not parse result.',
+                    'output': std_out_string,
+                    'error_output': std_error_string
+                }
             }
         }
         print(json.dumps(result))
