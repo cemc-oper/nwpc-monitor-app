@@ -68,8 +68,8 @@ LoadLevelerClient *LoadLevelerMonitorPlugin::client()
 
 void LoadLevelerMonitorPlugin::receiveLlqQueryStdOut(const QString &out)
 {
-    qDebug()<<"[SmsMonitorPlugin::receiveLlqQueryStdOut] start";
+    qDebug()<<"[LoadLevelerMonitorPlugin::receiveLlqQueryStdOut] start";
     QString result_str = out;
-    qDebug()<<result_str;
-    qDebug()<<"[SmsMonitorPlugin::receiveLlqQueryStdOut] end";
+    qDebug()<<"llq query std out:"<<result_str;
+    qDebug()<<"[LoadLevelerMonitorPlugin::receiveLlqQueryStdOut] end";
 }

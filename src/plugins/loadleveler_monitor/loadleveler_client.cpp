@@ -21,7 +21,7 @@ LoadLevelerClient::~LoadLevelerClient()
 
 }
 
-void LoadLevelerClient::runLlqCommand()
+void LoadLevelerClient::runLlqCommand(QMap<QString, QString> args)
 {
     qDebug()<<"[LoadLevelerClient::runLlqCommand] start";
     QStringList arguments;
@@ -31,27 +31,30 @@ void LoadLevelerClient::runLlqCommand()
 
     connect(command, &PythonCommand::signalStdErrString,
             [=](const QString &string){
-        qDebug()<<string;
+        qDebug()<<"[LoadLevelerClient::runLlqCommand] error out:"<<string;
     });
 
     connect(command, &PythonCommand::signalFinished,
             [=](int exit_code, QProcess::ExitStatus status)
             {
-                qDebug()<<exit_code;
-                qDebug()<<status;
+                qDebug()<<"[LoadLevelerClient::runLlqCommand] exit code:"<<exit_code;
+                qDebug()<<"[LoadLevelerClient::runLlqCommand] exit status:"<<status;
             }
     );
 
     arguments<<"llq";
-    arguments<<"--host=uranus.hpc.nmic.cn";
-    arguments<<"--user=wangdp";
-    arguments<<"--password=perilla";
-    arguments<<"--command=llq";
+    arguments<<"--host=" + args["host"];
+    arguments<<"--port=" + args["port"];
+    arguments<<"--user=" + args["user"];
+    arguments<<"--password=" + args["password"];
+    arguments<<"--command=" + args["command"];
+
+    qDebug()<<arguments;
 
     executePythonScript(
         command,
         "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app\\src\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
         arguments
     );
-    qDebug()<<"[LoadLevelerClient::updateStatus] end";
+    qDebug()<<"[LoadLevelerClient::runLlqCommand] end";
 }
