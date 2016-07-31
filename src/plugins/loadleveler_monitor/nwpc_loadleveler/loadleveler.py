@@ -201,6 +201,45 @@ def llclass_handler(args):
     return
 
 
+def run_handler(args):
+    host = args.host
+    port = args.port
+    user = args.user
+    password = args.password
+    command = args.command
+
+    client = SSHClient()
+    client.set_missing_host_key_policy(AutoAddPolicy())
+    client.connect(host, port, user, password)
+
+    stdin, stdout, stderr = client.exec_command(
+        command
+    )
+
+    std_out_string = stdout.read().decode('UTF-8')
+
+    std_error_out_string = stderr.read().decode('UTF-8')
+
+    result = {
+        'app': 'nwpc_loadleveler',
+        'type': 'loadleveler_command',
+        'data': {
+            'command': {
+                'command': command,
+                'arguments': []
+            },
+            'result': {
+                'message': {
+                    'output': std_out_string,
+                    'error_output': std_error_out_string
+                }
+            }
+        }
+    }
+    print(json.dumps(result))
+    return
+
+
 def loadleveler_main():
     parser = argparse.ArgumentParser(prog="hpc-loadleveler")
     parser.add_argument('--foo', action='store_true', help='foo help')
@@ -220,6 +259,10 @@ def loadleveler_main():
     parser_llclass = subparsers.add_parser('llclass', help='use llclass command', parents=[login_parser])
     parser_llclass.add_argument('-c', '--command', type=str, help='llq command', required=True)
     parser_llclass.set_defaults(func=llclass_handler)
+
+    parser_run = subparsers.add_parser('run', help='run command', parents=[login_parser])
+    parser_run.add_argument('-c', '--command', type=str, help='command', required=True)
+    parser_run.set_defaults(func=run_handler)
 
     args = parser.parse_args()
 

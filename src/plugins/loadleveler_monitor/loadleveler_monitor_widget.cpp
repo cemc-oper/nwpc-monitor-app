@@ -4,6 +4,8 @@
 #include "loadleveler_monitor_plugin.h"
 #include "loadleveler_client.h"
 
+#include "client_command_widget.h"
+
 #include "loadleveler_model/job_query_model.h"
 #include "loadleveler_model/job_query_item.h"
 
@@ -70,19 +72,31 @@ void LoadLevelerMonitorWidget::slotLlqQueryRecordContextMenuRequest(const QPoint
         QMenu *context_menu = new QMenu{};
         QAction *detail_action = new QAction{tr("详情")};
 
-        connect(detail_action, &QAction::triggered,
-                [=](bool flag){
+        context_menu->addAction(detail_action);
+        QAction *action = context_menu->exec(ui->llq_table_view->mapToGlobal(pos));
+
+        if(action == detail_action)
+        {
             QModelIndex id_index = index.sibling(index.row(), 1);
             if(index.isValid())
             {
                 QStandardItem *id_item = job_query_model_->itemFromIndex(id_index);
                 QString id = id_item->text();
                 qDebug()<<"[LoadLevelerMonitorWidget::slotLlqQueryRecordContextMenuRequest]"<<id;
-            }
-        });
+                QMap<QString, QString> args;
+                args["host"] = ui->host_edit->text();
+                args["port"] = ui->port_edit->text();
+                args["user"] = ui->user_edit->text();
+                args["password"] = ui->password_edit->text();
+                args["command"] = "llq -l "+id;
 
-        context_menu->addAction(detail_action);
-        context_menu->exec(ui->llq_table_view->mapToGlobal(pos));
+                //TODO: 创建一个弹出窗口，接收命令执行结果，将窗口传递给 client。
+                ClientCommandWidget *command_widget = new ClientCommandWidget();
+                command_widget->show();
+
+                LoadLevelerMonitorPlugin::client()->runCommand(args, command_widget);
+            }
+        }
         delete context_menu;
         delete detail_action;
     }
