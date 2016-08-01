@@ -15,7 +15,14 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="session_layout">
+     <item>
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>会话：</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
@@ -78,6 +85,13 @@
        </property>
        <property name="echoMode">
         <enum>QLineEdit::Password</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="test_session_button">
+       <property name="text">
+        <string>测试</string>
        </property>
       </widget>
      </item>

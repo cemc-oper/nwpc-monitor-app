@@ -74,7 +74,7 @@ void LoadLevelerMonitorPlugin::receiveLlqQueryStdOut(const QString &out)
 {
     qDebug()<<"[LoadLevelerMonitorPlugin::receiveLlqQueryStdOut] start";
     QString result_str = out;
-    qDebug()<<"[LoadLevelerMonitorPlugin::receiveLlqQueryStdOut] llq query std out:"<<result_str;
+    //qDebug()<<"[LoadLevelerMonitorPlugin::receiveLlqQueryStdOut] llq query std out:"<<result_str;
 
     QJsonDocument doc = QJsonDocument::fromJson(result_str.toUtf8());
     if(!doc.isObject())
