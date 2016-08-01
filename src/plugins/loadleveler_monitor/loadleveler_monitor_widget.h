@@ -26,7 +26,7 @@ public:
 private slots:
     void slotLlqQueryRecordContextMenuRequest(const QPoint& pos);
 
-    void on_query_button_clicked();
+    void slotRequestQuery();
 
 private:
     void changeAllItemsCheckState(Qt::CheckState check_state);

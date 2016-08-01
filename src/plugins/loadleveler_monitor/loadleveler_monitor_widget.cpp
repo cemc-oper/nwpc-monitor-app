@@ -35,6 +35,12 @@ LoadLevelerMonitorWidget::LoadLevelerMonitorWidget(QWidget *parent) :
             }
     );
 
+    connect(ui->query_button, &QPushButton::clicked,
+            this, &LoadLevelerMonitorWidget::slotRequestQuery);
+
+    connect(ui->argument_edit, &QLineEdit::editingFinished,
+            this, &LoadLevelerMonitorWidget::slotRequestQuery);
+
 }
 
 LoadLevelerMonitorWidget::~LoadLevelerMonitorWidget()
@@ -103,7 +109,7 @@ void LoadLevelerMonitorWidget::slotLlqQueryRecordContextMenuRequest(const QPoint
 
 }
 
-void LoadLevelerMonitorWidget::on_query_button_clicked()
+void LoadLevelerMonitorWidget::slotRequestQuery()
 {
     QMap<QString, QString> args;
     args["host"] = ui->host_edit->text();
