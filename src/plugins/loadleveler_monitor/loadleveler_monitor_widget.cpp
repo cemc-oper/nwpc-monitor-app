@@ -35,10 +35,10 @@ LoadLevelerMonitorWidget::LoadLevelerMonitorWidget(QWidget *parent) :
             }
     );
 
-    connect(ui->query_button, &QPushButton::clicked,
+    connect(ui->llq_query_button, &QPushButton::clicked,
             this, &LoadLevelerMonitorWidget::slotRequestQuery);
 
-    connect(ui->argument_edit, &QLineEdit::editingFinished,
+    connect(ui->llq_argument_edit, &QLineEdit::editingFinished,
             this, &LoadLevelerMonitorWidget::slotRequestQuery);
 
 }
@@ -117,7 +117,7 @@ void LoadLevelerMonitorWidget::slotRequestQuery()
     args["user"] = ui->user_edit->text();
     args["password"] = ui->password_edit->text();
     args["command"] = "llq";
-    QString arg_string = ui->argument_edit->text();
+    QString arg_string = ui->llq_argument_edit->text();
     if(!arg_string.isEmpty())
         args["command"] += " "+arg_string;
 
