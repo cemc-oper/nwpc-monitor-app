@@ -201,6 +201,28 @@ def llclass_handler(args):
     return
 
 
+def llsubmit_handler(args):
+    host = args.host
+    port = args.port
+    user = args.user
+    password = args.password
+    command = args.command
+
+    client = SSHClient()
+    client.set_missing_host_key_policy(AutoAddPolicy())
+    client.connect(host, port, user, password)
+
+    stdin, stdout, stderr = client.exec_command(
+        command
+    )
+
+    std_out_string = stdout.read().decode('UTF-8')
+
+    print(std_out_string)
+
+    return
+
+
 def run_handler(args):
     host = args.host
     port = args.port
@@ -263,6 +285,10 @@ def loadleveler_main():
     parser_run = subparsers.add_parser('run', help='run command', parents=[login_parser])
     parser_run.add_argument('-c', '--command', type=str, help='command', required=True)
     parser_run.set_defaults(func=run_handler)
+
+    parser_llsubmit = subparsers.add_parser('llsubmit', help='use llsubmit command', parents=[login_parser])
+    parser_llsubmit.add_argument('-c', '--command', type=str, help='llq command', required=True)
+    parser_llsubmit.set_defaults(func=llsubmit_handler)
 
     args = parser.parse_args()
 
