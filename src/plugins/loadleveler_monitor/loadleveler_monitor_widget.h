@@ -3,6 +3,10 @@
 #include <QWidget>
 #include <QPointer>
 
+QT_BEGIN_NAMESPACE
+class QButtonGroup;
+QT_END_NAMESPACE
+
 namespace LoadLevelerMonitor{
 
 namespace LoadLevelerModel{
@@ -34,6 +38,8 @@ private:
     Ui::LoadLevelerMonitorWidget *ui;
 
     QPointer<LoadLevelerModel::JobQueryModel> job_query_model_;
+
+    QPointer<QButtonGroup> panel_button_group_;
 };
 
 }

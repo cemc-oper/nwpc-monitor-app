@@ -9,6 +9,7 @@
 #include "loadleveler_model/job_query_model.h"
 #include "loadleveler_model/job_query_item.h"
 
+#include <QButtonGroup>
 #include <QMap>
 #include <QMenu>
 #include <QtDebug>
@@ -19,7 +20,8 @@ using namespace LoadLevelerMonitor::LoadLevelerModel;
 LoadLevelerMonitorWidget::LoadLevelerMonitorWidget(QWidget *parent) :
     QWidget{parent},
     ui{new Ui::LoadLevelerMonitorWidget},
-    job_query_model_{nullptr}
+    job_query_model_{nullptr},
+    panel_button_group_{new QButtonGroup{this}}
 {
     ui->setupUi(this);
 
@@ -41,6 +43,20 @@ LoadLevelerMonitorWidget::LoadLevelerMonitorWidget(QWidget *parent) :
     connect(ui->llq_argument_edit, &QLineEdit::editingFinished,
             this, &LoadLevelerMonitorWidget::slotRequestQuery);
 
+
+    connect(panel_button_group_, static_cast<void(QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled),
+            [=](int id, bool checked){
+        if(checked){
+            ui->panel_stacked_widget->setCurrentIndex(id);
+        }
+    });
+
+    panel_button_group_->addButton(ui->llq_panel_button, 0);
+    panel_button_group_->addButton(ui->llclass_panel_button, 1);
+    panel_button_group_->addButton(ui->llsubmit_panel_button, 2);
+
+    ui->llq_panel_button->setChecked(Qt::Checked);
+
 }
 
 LoadLevelerMonitorWidget::~LoadLevelerMonitorWidget()
@@ -48,6 +64,9 @@ LoadLevelerMonitorWidget::~LoadLevelerMonitorWidget()
     delete ui;
     if(job_query_model_){
         job_query_model_->deleteLater();
+    }
+    if(panel_button_group_){
+        panel_button_group_->deleteLater();
     }
 }
 

@@ -131,6 +131,9 @@
        <property name="text">
         <string>llsubmit</string>
        </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
      <item>
@@ -149,7 +152,7 @@
     </layout>
    </item>
    <item row="2" column="0">
-    <widget class="QStackedWidget" name="stackedWidget">
+    <widget class="QStackedWidget" name="panel_stacked_widget">
      <widget class="QWidget" name="llq_panel">
       <layout class="QGridLayout" name="gridLayout_2">
        <property name="leftMargin">
