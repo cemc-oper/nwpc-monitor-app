@@ -27,7 +27,7 @@ protected:
     bool canBeAddedToMenu() const override;
 
 private:
-    QPointer<QMenu> menu_;
+    QMenu *menu_;
 };
 
 }

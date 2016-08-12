@@ -11,6 +11,7 @@ class MenuBarActionContainer : public ActionContainer
     Q_OBJECT
 public:
     explicit MenuBarActionContainer(QString id, QObject *parent = 0);
+    ~MenuBarActionContainer();
 
     void setMenuBar(QMenuBar *menuBar);
     QMenuBar *menuBar() const;

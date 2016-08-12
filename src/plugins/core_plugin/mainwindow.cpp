@@ -9,6 +9,7 @@
 #include <plugin_manager/plugin_manager.h>
 
 #include <QToolBar>
+#include <QMenuBar>
 #include <QAction>
 #include <QActionGroup>
 #include <QSignalMapper>
@@ -32,6 +33,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     registerMainActionContainers();
     registerMainActions();
+
+    qDebug()<<"[MainWindow::MainWindow] menu bar"<<menuBar();
+
 }
 
 MainWindow::~MainWindow()
@@ -151,14 +155,24 @@ int MainWindow::perspectiveIndex(QString id)
 
 void MainWindow::registerMainActionContainers()
 {
-    ActionContainer *menu_bar_container = ActionManager::registerMenuBar(ui->main_menu_bar, Constrants::MenuBar::MENU_BAR);
+    QMenu *menu = nullptr;
+    ActionContainer *menu_bar_container = ActionManager::createMenuBar(Constrants::MenuBar::MENU_BAR);
 
-    //setMenuBar(menu_bar_container->menuBar());
+    qDebug()<<"[MainWindow::registerMainActionContainers] menu bar"<<menu_bar_container->menuBar();
+    setMenuBar(menu_bar_container->menuBar());
 
     ActionContainer *file_menu = ActionManager::createMenu(Constrants::Menu::MENU_FILE);
+    menu = file_menu->menu();
+    menu->setTitle(tr("&File"));
+    menu->setEnabled(true);
+
     menu_bar_container->addMenu(file_menu);
 
     ActionContainer *help_menu = ActionManager::createMenu(Constrants::Menu::MENU_HELP);
+    menu = help_menu->menu();
+    menu->setTitle(tr("&Help"));
+    menu->setEnabled(true);
+
     menu_bar_container->addMenu(help_menu);
 
 }

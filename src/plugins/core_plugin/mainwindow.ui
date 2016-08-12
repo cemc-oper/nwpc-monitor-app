@@ -36,16 +36,6 @@
    </layout>
   </widget>
   <widget class="QStatusBar" name="main_status_bar"/>
-  <widget class="QMenuBar" name="main_menu_bar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1099</width>
-     <height>23</height>
-    </rect>
-   </property>
-  </widget>
   <action name="actionEdit">
    <property name="text">
     <string>Edit</string>

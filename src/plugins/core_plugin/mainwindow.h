@@ -3,7 +3,6 @@
 #include "iperspective.h"
 
 #include <QMainWindow>
-#include <QPointer>
 #include <QVector>
 #include <QMap>
 
@@ -55,8 +54,8 @@ private:
     QActionGroup* perspective_action_group_;
     QSignalMapper* perspective_signal_mapper_;
 
-    QPointer<QAction> exit_action;
-    QPointer<QAction> about_action;
+    QAction *exit_action;
+    QAction *about_action;
 };
 
 }

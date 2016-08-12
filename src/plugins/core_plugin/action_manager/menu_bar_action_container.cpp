@@ -1,6 +1,7 @@
 #include "menu_bar_action_container.h"
 
 #include <QMenuBar>
+#include <QtDebug>
 
 using namespace Core;
 
@@ -9,6 +10,11 @@ MenuBarActionContainer::MenuBarActionContainer(QString id, QObject *parent) :
     menu_bar_{0}
 {
 
+}
+
+MenuBarActionContainer::~MenuBarActionContainer()
+{
+    qDebug()<<"[MenuBarActionContainer::~MenuBarActionContainer]";
 }
 
 void MenuBarActionContainer::setMenuBar(QMenuBar *menu_bar)
