@@ -28,6 +28,7 @@ public:
     static ActionContainer *createGroupAction(QString id);
 
     static Action *registerAction(QAction *action, QString id);
+    static void unregisterAction(QString id);
 
     static Action *action(QString id);
     static ActionContainer *actionContainer(QString id);

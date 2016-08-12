@@ -3,6 +3,7 @@
 
 #include "iperspective.h"
 #include "core_plugin_constants.h"
+#include "action_manager/action.h"
 #include "action_manager/action_manager.h"
 #include "action_manager/action_container.h"
 
@@ -21,9 +22,9 @@ using namespace PluginSystem;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    perspective_tool_bar_(new QToolBar(this)),
-    perspective_action_group_(new QActionGroup(this)),
-    perspective_signal_mapper_(new QSignalMapper(this))
+    perspective_tool_bar_(new QToolBar(this))
+//    perspective_action_group_(new QActionGroup(this)),
+//    perspective_signal_mapper_(new QSignalMapper(this))
 {
     ui->setupUi(this);
 
@@ -53,21 +54,27 @@ void MainWindow::loadPerspectives()
         addPerspective(pers);
     }
 
-    // remove actions
-    foreach(QAction* action, perspective_action_list_)
+    ActionContainer *perspective_container = ActionManager::actionContainer(Core::Constrants::ActionGruop::ACTION_GROUP_PERSPECTIVE);
+
+    // unregister actions
+    QMapIterator<QString, Action*> i(perspective_container->actionMap());
+    while(i.hasNext())
     {
-        perspective_action_group_->removeAction(action);
-        perspective_signal_mapper_->removeMappings(action);
+        i.next();
+        ActionManager::unregisterAction(i.key());
     }
 
-    perspective_id_to_action_map_.clear();
 
-    while(!perspective_action_list_.isEmpty())
-    {
-        QAction* action = perspective_action_list_.first();
-        perspective_action_list_.pop_front();
-        delete action;
-    }
+//    perspective_id_to_action_map_.clear();
+    perspective_container->clear();
+
+    // TODO: remove actions
+//    while(!perspective_action_list_.isEmpty())
+//    {
+//        QAction* action = perspective_action_list_.first();
+//        perspective_action_list_.pop_front();
+//        delete action;
+//    }
 
     // add perspective tool bar
     foreach(IPerspective* pers, perspective_list_)
@@ -75,28 +82,34 @@ void MainWindow::loadPerspectives()
         QAction* action = new QAction(pers->displayName());
         action->setCheckable(true);
         action->setData(QVariant(pers->id()));
-        perspective_action_list_.push_back(action);
-        perspective_id_to_action_map_[pers->id()] = action;
-        perspective_action_group_->addAction(action);
+
+        Action* perspective_action = ActionManager::registerAction(action, Core::Constrants::Action::ACTION_PERSPECTIVE_PREFIX + "." + pers->id());
+
+        perspective_container->addAction(perspective_action);
+
+//        perspective_action_list_.push_back(action);
+//        perspective_id_to_action_map_[pers->id()] = action;
+//        perspective_action_group_->addAction(action);
     }
-    foreach(QAction* action, perspective_action_list_)
+    foreach(Action* action, perspective_container->actionMap())
     {
-        perspective_tool_bar_->addAction(action);
+        perspective_tool_bar_->addAction(action->action());
     }
-    connect(perspective_action_group_, &QActionGroup::triggered, this, &MainWindow::slotPerspectiveActionTriggered);
+    connect(perspective_container->actionGroup(), &QActionGroup::triggered, this, &MainWindow::slotPerspectiveActionTriggered);
 
 }
 
 void MainWindow::activatePerspective(QString id)
 {
-    QAction* active_action;
-    if(!perspective_id_to_action_map_.contains(id))
+    Action *action = ActionManager::action(Core::Constrants::Action::ACTION_PERSPECTIVE_PREFIX + "." + id);
+
+    if(!action)
     {
         qWarning()<<"[MainWindow::activatePerspective] can't find perspective "<<id;
         return;
     }
 
-    active_action = perspective_id_to_action_map_[id];
+    QAction *active_action = action->action();
     active_action->setChecked(true);
 
     //NOTE: action的setChecked不触发QActionGroup的triggered信号，所以强制执行该slot
@@ -164,17 +177,18 @@ void MainWindow::registerMainActionContainers()
     ActionContainer *file_menu = ActionManager::createMenu(Constrants::Menu::MENU_FILE);
     menu = file_menu->menu();
     menu->setTitle(tr("&File"));
-    menu->setEnabled(true);
+    //menu->setEnabled(true);
 
     menu_bar_container->addMenu(file_menu);
 
     ActionContainer *help_menu = ActionManager::createMenu(Constrants::Menu::MENU_HELP);
     menu = help_menu->menu();
     menu->setTitle(tr("&Help"));
-    menu->setEnabled(true);
+    //menu->setEnabled(true);
 
     menu_bar_container->addMenu(help_menu);
 
+    ActionManager::createGroupAction(Constrants::ActionGruop::ACTION_GROUP_PERSPECTIVE);
 }
 
 void MainWindow::registerMainActions()

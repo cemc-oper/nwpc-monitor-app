@@ -1,4 +1,5 @@
 #include "group_action_container.h"
+#include "action.h"
 
 #include <QActionGroup>
 #include <QtDebug>
@@ -17,14 +18,14 @@ QActionGroup *GroupActionContainer::actionGroup() const
     return action_group_;
 }
 
-QList<Action *> GroupActionContainer::actionList() const
+QMap<QString, Action *> GroupActionContainer::actionMap() const
 {
-    return action_list_;
+    return action_map_;
 }
 
 void GroupActionContainer::addAction(Action *action)
 {
-    action_list_.append(action);
+    action_map_[action->id()] = action;
     ActionContainer::addAction(action);
 }
 
@@ -56,8 +57,12 @@ void GroupActionContainer::removeMenu(QMenu *menu)
 
 void GroupActionContainer::clear()
 {
-    action_list_.clear();
-    action_group_.clear();
+    foreach(Action *action, action_map_)
+    {
+        action_group_->removeAction(action->action());
+    }
+    action_map_.clear();
+
     ActionContainer::clear();
 }
 

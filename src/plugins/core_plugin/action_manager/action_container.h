@@ -4,7 +4,7 @@
 
 #include <QObject>
 #include <QString>
-#include <QList>
+#include <QMap>
 
 QT_BEGIN_NAMESPACE
 class QMenu;
@@ -36,7 +36,7 @@ public:
     virtual QMenu *menu() const;
     virtual QMenuBar *menuBar() const;
     virtual QActionGroup *actionGroup() const;
-    virtual QList<Action *> actionList() const;
+    virtual QMap<QString, Action *> actionMap() const;
 
     virtual void addAction(Action *action);
     virtual void addMenu(ActionContainer* menu);

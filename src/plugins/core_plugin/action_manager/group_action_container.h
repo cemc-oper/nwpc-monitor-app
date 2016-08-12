@@ -24,7 +24,7 @@ public:
     GroupActionContainer(QString id, QObject *parent=0);
 
     QActionGroup *actionGroup() const override;
-    QList<Action *> actionList() const override;
+    QMap<QString, Action *> actionMap() const override;
 
     void addAction(Action *action) override;
 
@@ -44,7 +44,7 @@ protected:
     bool canBeAddedToMenu() const override;
 
     QPointer<QActionGroup> action_group_;
-    QList<Action *> action_list_;
+    QMap<QString, Action *> action_map_;
 };
 
 }

@@ -40,9 +40,9 @@ QActionGroup *ActionContainer::actionGroup() const
     return nullptr;
 }
 
-QList<Action *> ActionContainer::actionList() const
+QMap<QString, Action *> ActionContainer::actionMap() const
 {
-    return QList<Action *>();
+    return QMap<QString, Action *>();
 }
 
 void ActionContainer::addAction(Action *action)

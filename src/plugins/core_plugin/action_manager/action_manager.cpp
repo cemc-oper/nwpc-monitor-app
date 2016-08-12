@@ -92,6 +92,11 @@ Action *ActionManager::registerAction(QAction *action, QString id)
     return registing_action;
 }
 
+void ActionManager::unregisterAction(QString id)
+{
+
+}
+
 Action *ActionManager::action(QString id)
 {
     ActionManager *a = action_manager;

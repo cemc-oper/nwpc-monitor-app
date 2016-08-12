@@ -49,10 +49,10 @@ private:
     QVector<IPerspective*> perspective_list_;
 
     QToolBar* perspective_tool_bar_;
-    QVector<QAction*> perspective_action_list_;
-    QMap<QString, QAction*> perspective_id_to_action_map_;
-    QActionGroup* perspective_action_group_;
-    QSignalMapper* perspective_signal_mapper_;
+//    QVector<QAction*> perspective_action_list_;
+    //QMap<QString, QAction*> perspective_id_to_action_map_;
+//    QActionGroup* perspective_action_group_;
+//    QSignalMapper* perspective_signal_mapper_;
 
     QAction *exit_action;
     QAction *about_action;
