@@ -13,6 +13,8 @@ const QString MENU_BAR = "NwpcMonitorApp.MenuBar";
 namespace Menu {
 
 const QString MENU_FILE = "NwpcMonitorApp.Menu.File";
+const QString MENU_WINDOW = "NwpcMonitorApp.Menu.Window";
+const QString MENU_PERSPECTIVE = "NwpcMonitorApp.Menu.Perspective";
 const QString MENU_HELP = "NwpcMonitorApp.Menu.Help";
 
 }

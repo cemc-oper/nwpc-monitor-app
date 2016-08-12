@@ -168,8 +168,17 @@ void MainWindow::registerMainActionContainers()
     ActionContainer *file_menu = ActionManager::createMenu(Constrants::Menu::MENU_FILE);
     menu = file_menu->menu();
     menu->setTitle(tr("&File"));
-
     menu_bar_container->addMenu(file_menu);
+
+    ActionContainer *window_menu = ActionManager::createMenu(Constrants::Menu::MENU_WINDOW);
+    menu = window_menu->menu();
+    menu->setTitle(tr("&Window"));
+    menu_bar_container->addMenu(window_menu);
+
+    ActionContainer *perspective_menu = ActionManager::createMenu(Constrants::Menu::MENU_PERSPECTIVE);
+    menu = perspective_menu->menu();
+    menu->setTitle(tr("Perspective"));
+    window_menu->addMenu(perspective_menu);
 
     ActionContainer *help_menu = ActionManager::createMenu(Constrants::Menu::MENU_HELP);
     menu = help_menu->menu();
