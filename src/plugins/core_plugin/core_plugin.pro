@@ -21,7 +21,8 @@ SOURCES += core_plugin.cpp \
     action_manager/action_container.cpp \
     action_manager/menu_action_container.cpp \
     action_manager/menu_bar_action_container.cpp \
-    action_manager/action.cpp
+    action_manager/action.cpp \
+    action_manager/group_action_container.cpp
 
 HEADERS += core_plugin.h \
     core_plugin_global.h \
@@ -32,7 +33,8 @@ HEADERS += core_plugin.h \
     action_manager/menu_action_container.h \
     action_manager/menu_bar_action_container.h \
     action_manager/action.h \
-    core_plugin_constants.h
+    core_plugin_constants.h \
+    action_manager/group_action_container.h
 
 DISTFILES += core_plugin.json
 

@@ -35,6 +35,16 @@ QMenuBar *ActionContainer::menuBar() const
     return nullptr;
 }
 
+QActionGroup *ActionContainer::actionGroup() const
+{
+    return nullptr;
+}
+
+QList<Action *> ActionContainer::actionList() const
+{
+    return QList<Action *>();
+}
+
 void ActionContainer::addAction(Action *action)
 {
     insertAction(0, action->action());

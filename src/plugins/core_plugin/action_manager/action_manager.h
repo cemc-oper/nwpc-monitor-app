@@ -24,8 +24,8 @@ public:
     static ActionManager *instance();
 
     static ActionContainer *createMenuBar(QString id);
-    static ActionContainer *registerMenuBar(QMenuBar *menu_bar, QString id);
     static ActionContainer *createMenu(QString id);
+    static ActionContainer *createGroupAction(QString id);
 
     static Action *registerAction(QAction *action, QString id);
 

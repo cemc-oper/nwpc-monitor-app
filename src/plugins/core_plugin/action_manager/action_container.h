@@ -10,6 +10,7 @@ QT_BEGIN_NAMESPACE
 class QMenu;
 class QMenuBar;
 class QAction;
+class QActionGroup;
 QT_END_NAMESPACE
 
 namespace Core{
@@ -33,14 +34,13 @@ public:
     virtual QString id() const;
 
     virtual QMenu *menu() const;
-
     virtual QMenuBar *menuBar() const;
-
+    virtual QActionGroup *actionGroup() const;
+    virtual QList<Action *> actionList() const;
 
     virtual void addAction(Action *action);
     virtual void addMenu(ActionContainer* menu);
     virtual Action *addSeparator();
-
 
     virtual void insertAction(QAction *before, QAction *action) = 0;
     virtual void insertMenu(QAction *before, QMenu *menu) = 0;

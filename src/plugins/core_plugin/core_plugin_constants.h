@@ -22,6 +22,12 @@ namespace Action {
 const QString ACTION_EXIT = "NwpcMonitorApp.Action.Exit";
 const QString ACTION_ABOUT = "NwpcMonitorApp.Action.About";
 
+const QString ACTION_PERSPECTIVE_PREFIX = "NwpcMonitorApp.Action.Perspective";
+
+}
+
+namespace ActionGruop {
+const QString ACTION_GROUP_PERSPECTIVE = "NwpcMonitorApp.ActionGroup.Perspective";
 }
 
 }
