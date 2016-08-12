@@ -60,6 +60,7 @@ void GroupActionContainer::clear()
     foreach(Action *action, action_map_)
     {
         action_group_->removeAction(action->action());
+        action->deleteLater();
     }
     action_map_.clear();
 

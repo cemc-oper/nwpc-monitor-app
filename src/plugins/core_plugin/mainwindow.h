@@ -4,13 +4,10 @@
 
 #include <QMainWindow>
 #include <QVector>
-#include <QMap>
 
 QT_BEGIN_NAMESPACE
 class QToolBar;
-class QActionGroup;
 class QAction;
-class QSignalMapper;
 QT_END_NAMESPACE
 
 namespace Core{
@@ -49,13 +46,9 @@ private:
     QVector<IPerspective*> perspective_list_;
 
     QToolBar* perspective_tool_bar_;
-//    QVector<QAction*> perspective_action_list_;
-    //QMap<QString, QAction*> perspective_id_to_action_map_;
-//    QActionGroup* perspective_action_group_;
-//    QSignalMapper* perspective_signal_mapper_;
 
-    QAction *exit_action;
-    QAction *about_action;
+    QAction *exit_action_;
+    QAction *about_action_;
 };
 
 }

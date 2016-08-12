@@ -13,7 +13,6 @@
 #include <QMenuBar>
 #include <QAction>
 #include <QActionGroup>
-#include <QSignalMapper>
 #include <QtDebug>
 
 using namespace Core;
@@ -22,9 +21,7 @@ using namespace PluginSystem;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    perspective_tool_bar_(new QToolBar(this))
-//    perspective_action_group_(new QActionGroup(this)),
-//    perspective_signal_mapper_(new QSignalMapper(this))
+    perspective_tool_bar_(new QToolBar(tr("Perspective"), this))
 {
     ui->setupUi(this);
 
@@ -63,9 +60,7 @@ void MainWindow::loadPerspectives()
         i.next();
         ActionManager::unregisterAction(i.key());
     }
-
-
-//    perspective_id_to_action_map_.clear();
+    // clear GroupActionContainer
     perspective_container->clear();
 
     // TODO: remove actions
@@ -84,13 +79,9 @@ void MainWindow::loadPerspectives()
         action->setData(QVariant(pers->id()));
 
         Action* perspective_action = ActionManager::registerAction(action, Core::Constrants::Action::ACTION_PERSPECTIVE_PREFIX + "." + pers->id());
-
         perspective_container->addAction(perspective_action);
-
-//        perspective_action_list_.push_back(action);
-//        perspective_id_to_action_map_[pers->id()] = action;
-//        perspective_action_group_->addAction(action);
     }
+
     foreach(Action* action, perspective_container->actionMap())
     {
         perspective_tool_bar_->addAction(action->action());
@@ -177,14 +168,12 @@ void MainWindow::registerMainActionContainers()
     ActionContainer *file_menu = ActionManager::createMenu(Constrants::Menu::MENU_FILE);
     menu = file_menu->menu();
     menu->setTitle(tr("&File"));
-    //menu->setEnabled(true);
 
     menu_bar_container->addMenu(file_menu);
 
     ActionContainer *help_menu = ActionManager::createMenu(Constrants::Menu::MENU_HELP);
     menu = help_menu->menu();
     menu->setTitle(tr("&Help"));
-    //menu->setEnabled(true);
 
     menu_bar_container->addMenu(help_menu);
 
@@ -198,12 +187,13 @@ void MainWindow::registerMainActions()
     ActionContainer *file_menu_container = ActionManager::actionContainer(Constrants::Menu::MENU_FILE);
     ActionContainer *help_menu_container = ActionManager::actionContainer(Constrants::Menu::MENU_HELP);
 
-    exit_action = new QAction{tr("Exit"), this};
-    action = ActionManager::registerAction(exit_action, Constrants::Action::ACTION_EXIT);
+    exit_action_ = new QAction{tr("Exit"), this};
+    action = ActionManager::registerAction(exit_action_, Constrants::Action::ACTION_EXIT);
+    connect(exit_action_, &QAction::triggered, this, &QMainWindow::close);
     file_menu_container->addAction(action);
 
-    about_action = new QAction{tr("About"), this};
-    action = ActionManager::registerAction(about_action, Constrants::Action::ACTION_ABOUT);
+    about_action_ = new QAction{tr("About"), this};
+    action = ActionManager::registerAction(about_action_, Constrants::Action::ACTION_ABOUT);
     help_menu_container->addAction(action);
 
 }
