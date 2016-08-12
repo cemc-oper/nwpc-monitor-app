@@ -8,6 +8,7 @@ namespace Core{
 
 class MainWindow;
 class WelcomePerspective;
+class ActionManager;
 
 class CorePlugin : public PluginSystem::IPlugin
 {
@@ -29,6 +30,8 @@ private:
 
     //add for test
     WelcomePerspective *welcome_perspective_;
+
+    ActionManager *action_manager_;
 };
 
 }

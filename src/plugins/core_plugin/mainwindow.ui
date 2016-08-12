@@ -35,7 +35,8 @@
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="mian_menu_bar">
+  <widget class="QStatusBar" name="main_status_bar"/>
+  <widget class="QMenuBar" name="main_menu_bar">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -45,7 +46,11 @@
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="main_status_bar"/>
+  <action name="actionEdit">
+   <property name="text">
+    <string>Edit</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

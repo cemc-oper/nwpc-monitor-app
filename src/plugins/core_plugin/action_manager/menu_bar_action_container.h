@@ -29,7 +29,7 @@ protected:
     bool canBeAddedToMenu() const;
 
 private:
-    QPointer<QMenuBar> menu_bar_;
+    QMenuBar *menu_bar_;
 };
 
 }

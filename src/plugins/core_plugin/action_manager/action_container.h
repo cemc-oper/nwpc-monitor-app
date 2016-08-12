@@ -1,5 +1,7 @@
 #pragma once
 
+#include <core_plugin_global.h>
+
 #include <QObject>
 #include <QString>
 #include <QList>
@@ -12,13 +14,15 @@ QT_END_NAMESPACE
 
 namespace Core{
 
+class Action;
+
 struct ActionGroup{
     ActionGroup(QString id) : id_{id}{}
     QString id_;
     QList<QObject *> items_;
 };
 
-class ActionContainer : public QObject
+class CORE_PLUGIN_EXPORT ActionContainer : public QObject
 {
     Q_OBJECT
 public:
@@ -33,11 +37,9 @@ public:
     virtual QMenuBar *menuBar() const;
 
 
-    virtual void addAction(QAction *action);
-
+    virtual void addAction(Action *action);
     virtual void addMenu(ActionContainer* menu);
-
-    virtual void addSeparator();
+    virtual Action *addSeparator();
 
 
     virtual void insertAction(QAction *before, QAction *action) = 0;
@@ -45,6 +47,8 @@ public:
 
     virtual void removeAction(QAction *action) = 0;
     virtual void removeMenu(QMenu *menu) = 0;
+
+    virtual void clear();
 
 signals:
 

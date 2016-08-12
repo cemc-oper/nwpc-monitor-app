@@ -17,19 +17,22 @@ DESTDIR = $$build_base_dir/plugins
 SOURCES += core_plugin.cpp \
     mainwindow.cpp \
     iperspective.cpp \
-    actionmanager/action_manager.cpp \
-    actionmanager/action_container.cpp \
-    actionmanager/menu_action_container.cpp \
-    actionmanager/menu_bar_action_container.cpp
+    action_manager/action_manager.cpp \
+    action_manager/action_container.cpp \
+    action_manager/menu_action_container.cpp \
+    action_manager/menu_bar_action_container.cpp \
+    action_manager/action.cpp
 
 HEADERS += core_plugin.h \
     core_plugin_global.h \
     mainwindow.h \
     iperspective.h \
-    actionmanager/action_manager.h \
-    actionmanager/action_container.h \
-    actionmanager/menu_action_container.h \
-    actionmanager/menu_bar_action_container.h
+    action_manager/action_manager.h \
+    action_manager/action_container.h \
+    action_manager/menu_action_container.h \
+    action_manager/menu_bar_action_container.h \
+    action_manager/action.h \
+    core_plugin_constants.h
 
 DISTFILES += core_plugin.json
 

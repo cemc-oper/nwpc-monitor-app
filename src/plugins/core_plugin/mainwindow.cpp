@@ -2,6 +2,9 @@
 #include "ui_mainwindow.h"
 
 #include "iperspective.h"
+#include "core_plugin_constants.h"
+#include "action_manager/action_manager.h"
+#include "action_manager/action_container.h"
 
 #include <plugin_manager/plugin_manager.h>
 
@@ -24,6 +27,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     addToolBar(perspective_tool_bar_);
+
+    qDebug()<<"[MainWindow::MainWindow] before register actions.";
+
+    registerMainActionContainers();
+    registerMainActions();
 }
 
 MainWindow::~MainWindow()
@@ -140,3 +148,36 @@ int MainWindow::perspectiveIndex(QString id)
     }
     return -1;
 }
+
+void MainWindow::registerMainActionContainers()
+{
+    ActionContainer *menu_bar_container = ActionManager::registerMenuBar(ui->main_menu_bar, Constrants::MenuBar::MENU_BAR);
+
+    //setMenuBar(menu_bar_container->menuBar());
+
+    ActionContainer *file_menu = ActionManager::createMenu(Constrants::Menu::MENU_FILE);
+    menu_bar_container->addMenu(file_menu);
+
+    ActionContainer *help_menu = ActionManager::createMenu(Constrants::Menu::MENU_HELP);
+    menu_bar_container->addMenu(help_menu);
+
+}
+
+void MainWindow::registerMainActions()
+{
+    Action *action = nullptr;
+
+    ActionContainer *file_menu_container = ActionManager::actionContainer(Constrants::Menu::MENU_FILE);
+    ActionContainer *help_menu_container = ActionManager::actionContainer(Constrants::Menu::MENU_HELP);
+
+    exit_action = new QAction{tr("Exit"), this};
+    action = ActionManager::registerAction(exit_action, Constrants::Action::ACTION_EXIT);
+    file_menu_container->addAction(action);
+
+    about_action = new QAction{tr("About"), this};
+    action = ActionManager::registerAction(about_action, Constrants::Action::ACTION_ABOUT);
+    help_menu_container->addAction(action);
+
+}
+
+

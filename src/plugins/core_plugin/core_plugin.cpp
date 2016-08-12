@@ -1,6 +1,7 @@
 #include "core_plugin.h"
 
 #include "mainwindow.h"
+#include "action_manager/action_manager.h"
 
 #include <plugin_manager/plugin_manager.h>
 
@@ -9,7 +10,8 @@ using namespace PluginSystem;
 
 CorePlugin::CorePlugin(QObject *parent) :
     IPlugin(parent),
-    main_window_(0)
+    main_window_(nullptr),
+    action_manager_{nullptr}
 {
 }
 
@@ -20,6 +22,7 @@ CorePlugin::~CorePlugin()
 
 bool CorePlugin::initialize(const QStringList &arguments, QString *error_string)
 {
+    action_manager_ = new ActionManager(this);
     main_window_ = new MainWindow();
 
     return true;

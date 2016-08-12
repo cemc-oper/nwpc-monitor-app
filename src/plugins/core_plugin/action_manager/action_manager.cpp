@@ -1,8 +1,10 @@
 #include "action_manager.h"
+#include "action.h"
 #include "menu_action_container.h"
 #include "menu_bar_action_container.h"
 
 #include <QMenuBar>
+#include <QAction>
 #include <QtDebug>
 
 using namespace Core;
@@ -17,7 +19,7 @@ ActionManager::ActionManager(QObject *parent) :
 
 ActionManager::~ActionManager()
 {
-
+    action_manager = nullptr;
 }
 
 ActionManager *ActionManager::instance()
@@ -46,6 +48,30 @@ ActionContainer *ActionManager::createMenuBar(QString id)
     return menu_bar_container;
 }
 
+ActionContainer *ActionManager::registerMenuBar(QMenuBar *menu_bar, QString id)
+{
+    const auto it = action_manager->id_to_container_map_.constFind(id);
+    if (it != action_manager->id_to_container_map_.constEnd())
+    {
+        ActionContainer *action_container = it.value();
+        MenuBarActionContainer *menu_bar_container = static_cast<MenuBarActionContainer *>(action_container);
+        menu_bar_container->clear();
+        menu_bar_container->setMenuBar(menu_bar);
+        return action_container;
+    }
+
+    menu_bar->setObjectName(id);
+
+    MenuBarActionContainer *menu_bar_container = new MenuBarActionContainer(id);
+    menu_bar_container->setMenuBar(menu_bar);
+
+    action_manager->id_to_container_map_.insert(id, menu_bar_container);
+    connect(menu_bar_container, &QObject::destroyed,
+            action_manager, &ActionManager::containerDestroyed);
+
+    return menu_bar_container;
+}
+
 ActionContainer *ActionManager::createMenu(QString id)
 {
     const auto it = action_manager->id_to_container_map_.constFind(id);
@@ -60,11 +86,38 @@ ActionContainer *ActionManager::createMenu(QString id)
     return menu_container;
 }
 
+Action *ActionManager::registerAction(QAction *action, QString id)
+{
+    Action *registed_action = action_manager->action(id);
+    if(registed_action)
+    {
+        qWarning()<<"[ActionManager::registerAction] action is registed with id:"<<id;
+        return registed_action;
+    }
+
+    Action *registing_action = new Action(id);
+    registing_action->setAction(action);
+    action_manager->id_to_action_map_.insert(id, registing_action);
+    return registing_action;
+}
+
+Action *ActionManager::action(QString id)
+{
+    ActionManager *a = action_manager;
+    const auto it = action_manager->id_to_action_map_.constFind(id);
+    if(it == action_manager->id_to_action_map_.constEnd())
+    {
+        qWarning()<<"[ActionManager::action] faid to find:"<< id;
+        return 0;
+    }
+    return it.value();
+}
+
 ActionContainer *ActionManager::actionContainer(QString id)
 {
     const auto it = action_manager->id_to_container_map_.constFind(id);
     if (it == action_manager->id_to_container_map_.constEnd()) {
-        qWarning() << "ActionManager::actionContainer(): failed to find :"
+        qWarning() << "[ActionManager::actionContainer] failed to find :"
                    << id;
         return 0;
     }

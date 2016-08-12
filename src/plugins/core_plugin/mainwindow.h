@@ -3,6 +3,7 @@
 #include "iperspective.h"
 
 #include <QMainWindow>
+#include <QPointer>
 #include <QVector>
 #include <QMap>
 
@@ -41,6 +42,9 @@ private:
     void addPerspective(IPerspective* perspective);
     int perspectiveIndex(QString id);
 
+    void registerMainActionContainers();
+    void registerMainActions();
+
     Ui::MainWindow *ui;
 
     QVector<IPerspective*> perspective_list_;
@@ -50,6 +54,9 @@ private:
     QMap<QString, QAction*> perspective_id_to_action_map_;
     QActionGroup* perspective_action_group_;
     QSignalMapper* perspective_signal_mapper_;
+
+    QPointer<QAction> exit_action;
+    QPointer<QAction> about_action;
 };
 
 }
