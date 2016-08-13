@@ -22,7 +22,13 @@ SOURCES += core_plugin.cpp \
     action_manager/menu_action_container.cpp \
     action_manager/menu_bar_action_container.cpp \
     action_manager/action.cpp \
-    action_manager/group_action_container.cpp
+    action_manager/group_action_container.cpp \
+    view_system/view_manager.cpp \
+    view_system/view_spec.cpp \
+    view_system/iview.cpp \
+    view_system/dock_view.cpp \
+    view_system/view_manager_private.cpp \
+    views/output_dock_widget.cpp
 
 HEADERS += core_plugin.h \
     core_plugin_global.h \
@@ -34,7 +40,13 @@ HEADERS += core_plugin.h \
     action_manager/menu_bar_action_container.h \
     action_manager/action.h \
     core_plugin_constants.h \
-    action_manager/group_action_container.h
+    action_manager/group_action_container.h \
+    view_system/view_manager.h \
+    view_system/view_spec.h \
+    view_system/iview.h \
+    view_system/dock_view.h \
+    view_system/view_manager_private.h \
+    views/output_dock_widget.h
 
 DISTFILES += core_plugin.json
 
@@ -44,4 +56,5 @@ unix {
 }
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    views/output_dock_widget.ui

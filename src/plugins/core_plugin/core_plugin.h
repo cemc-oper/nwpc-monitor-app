@@ -10,6 +10,10 @@ class MainWindow;
 class WelcomePerspective;
 class ActionManager;
 
+namespace ViewSystem{
+class ViewManager;
+}
+
 class CorePlugin : public PluginSystem::IPlugin
 {
     Q_OBJECT
@@ -32,6 +36,8 @@ private:
     WelcomePerspective *welcome_perspective_;
 
     ActionManager *action_manager_;
+
+    ViewSystem::ViewManager *view_manager_;
 };
 
 }

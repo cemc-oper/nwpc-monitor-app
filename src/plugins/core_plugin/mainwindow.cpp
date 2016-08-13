@@ -7,6 +7,9 @@
 #include "action_manager/action_manager.h"
 #include "action_manager/action_container.h"
 
+#include "view_system/dock_view.h"
+#include "view_system/view_spec.h"
+
 #include <plugin_manager/plugin_manager.h>
 
 #include <QToolBar>
@@ -17,6 +20,7 @@
 
 using namespace Core;
 using namespace PluginSystem;
+using namespace Core::ViewSystem;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -88,6 +92,16 @@ void MainWindow::loadPerspectives()
     }
     connect(perspective_container->actionGroup(), &QActionGroup::triggered, this, &MainWindow::slotPerspectiveActionTriggered);
 
+}
+
+void MainWindow::loadViews()
+{
+    QList<DockView*> dock_view_list = PluginManager::getObjects<DockView>();
+    foreach(DockView *dock_view, dock_view_list)
+    {
+        qDebug()<<"[MainWindow::loadViews]"<<dock_view->viewSpec()->id();
+        addDockWidget(Qt::BottomDockWidgetArea, dock_view->dockWidget());
+    }
 }
 
 void MainWindow::activatePerspective(QString id)

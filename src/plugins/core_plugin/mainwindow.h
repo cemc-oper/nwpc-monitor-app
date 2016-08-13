@@ -25,6 +25,7 @@ public:
     ~MainWindow();
 
     void loadPerspectives();
+    void loadViews();
 
     void activatePerspective(QString id);
 
