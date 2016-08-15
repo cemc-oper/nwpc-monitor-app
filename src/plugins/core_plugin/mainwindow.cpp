@@ -76,7 +76,8 @@ void MainWindow::loadPerspectives()
 //        delete action;
 //    }
 
-    // add perspective tool bar
+    // add perspective tool bar and menu
+    ActionContainer *perspective_menu = ActionManager::actionContainer(Constrants::Menu::MENU_PERSPECTIVE);
     foreach(IPerspective* pers, perspective_list_)
     {
         QAction* action = new QAction(pers->displayName());
@@ -85,6 +86,8 @@ void MainWindow::loadPerspectives()
 
         Action* perspective_action = ActionManager::registerAction(action, Core::Constrants::Action::ACTION_PERSPECTIVE_PREFIX + "." + pers->id());
         perspective_container->addAction(perspective_action);
+
+        perspective_menu->addAction(perspective_action);
     }
 
     foreach(Action* action, perspective_container->actionMap())
