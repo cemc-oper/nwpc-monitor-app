@@ -16,6 +16,7 @@
 #include <QMenuBar>
 #include <QAction>
 #include <QActionGroup>
+#include <QDockWidget>
 #include <QtDebug>
 
 using namespace Core;
@@ -96,10 +97,21 @@ void MainWindow::loadPerspectives()
 
 void MainWindow::loadViews()
 {
+    ActionContainer *window_view_menu_container = ActionManager::actionContainer(Constrants::Menu::Window::MENU_VIEW);
+
     QList<DockView*> dock_view_list = PluginManager::getObjects<DockView>();
     foreach(DockView *dock_view, dock_view_list)
     {
-        qDebug()<<"[MainWindow::loadViews]"<<dock_view->viewSpec()->id();
+        ViewSpec *view_spec = dock_view->viewSpec();
+        qDebug()<<"[MainWindow::loadViews]"<<view_spec->id();
+
+        QAction *view_action = new QAction{view_spec->name(), this};
+        Action *action_container = ActionManager::registerAction(view_action, Constrants::Action::ACTION_VIEW_PREFIX + "." + view_spec->id());
+        connect(view_action, &QAction::triggered, [=](bool){
+            dock_view->dockWidget()->show();
+        });
+        window_view_menu_container->addAction(action_container);
+
         addDockWidget(Qt::BottomDockWidgetArea, dock_view->dockWidget());
     }
 }
@@ -193,6 +205,11 @@ void MainWindow::registerMainActionContainers()
     menu = perspective_menu->menu();
     menu->setTitle(tr("Perspective"));
     window_menu->addMenu(perspective_menu);
+
+    ActionContainer *window_view_menu = ActionManager::createMenu(Constrants::Menu::Window::MENU_VIEW);
+    menu = window_view_menu->menu();
+    menu->setTitle(tr("Show View"));
+    window_menu->addMenu(window_view_menu);
 
     ActionContainer *help_menu = ActionManager::createMenu(Constrants::Menu::MENU_HELP);
     menu = help_menu->menu();
