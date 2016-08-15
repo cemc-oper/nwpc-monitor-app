@@ -38,6 +38,7 @@ bool CorePlugin::initialize(const QStringList &arguments, QString *error_string)
     output_dock_widget->hide();
     DockView *output_dock_view = new DockView();
     output_dock_view->setDockWidget(output_dock_widget);
+    output_dock_view->setInitDockLocation(Qt::BottomDockWidgetArea);
 
     ViewSpec *output_view_spec = new ViewSpec();
     output_view_spec->setId("NwpcMonitor.CorePlugin.View.OutputDockView");

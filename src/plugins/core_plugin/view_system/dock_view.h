@@ -22,12 +22,17 @@ public:
     QDockWidget *dockWidget() const;
     void setDockWidget(QDockWidget *dock_widget);
 
+    void setInitDockLocation(Qt::DockWidgetArea dock_location);
+    Qt::DockWidgetArea dockLocation() const;
+
 signals:
 
 public slots:
+    void slotSetDockLocation(Qt::DockWidgetArea dock_location);
 
 protected:
     QPointer<QDockWidget> dock_widget_;
+    Qt::DockWidgetArea dock_location_;
 };
 
 }

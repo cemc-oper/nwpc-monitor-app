@@ -115,7 +115,7 @@ void MainWindow::loadViews()
         });
         window_view_menu_container->addAction(action_container);
 
-        addDockWidget(Qt::BottomDockWidgetArea, dock_view->dockWidget());
+        addDockWidget(dock_view->dockLocation(), dock_view->dockWidget());
     }
 }
 
