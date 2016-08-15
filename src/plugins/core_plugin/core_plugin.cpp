@@ -35,6 +35,7 @@ bool CorePlugin::initialize(const QStringList &arguments, QString *error_string)
     main_window_ = new MainWindow();
 
     OutputDockWidget *output_dock_widget = new OutputDockWidget{main_window_};
+    output_dock_widget->hide();
     DockView *output_dock_view = new DockView();
     output_dock_view->setDockWidget(output_dock_widget);
 
