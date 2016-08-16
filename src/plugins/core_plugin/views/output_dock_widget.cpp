@@ -4,7 +4,7 @@
 using namespace Core::Views;
 
 OutputDockWidget::OutputDockWidget(QWidget *parent) :
-    QDockWidget(parent),
+    Core::ViewSystem::DockWidget(parent),
     ui(new Ui::OutputDockWidget)
 {
     ui->setupUi(this);

@@ -28,7 +28,8 @@ SOURCES += core_plugin.cpp \
     view_system/iview.cpp \
     view_system/dock_view.cpp \
     view_system/view_manager_private.cpp \
-    views/output_dock_widget.cpp
+    views/output_dock_widget.cpp \
+    view_system/dock_widget.cpp
 
 HEADERS += core_plugin.h \
     core_plugin_global.h \
@@ -46,7 +47,8 @@ HEADERS += core_plugin.h \
     view_system/iview.h \
     view_system/dock_view.h \
     view_system/view_manager_private.h \
-    views/output_dock_widget.h
+    views/output_dock_widget.h \
+    view_system/dock_widget.h
 
 DISTFILES += core_plugin.json
 

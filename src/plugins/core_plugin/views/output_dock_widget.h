@@ -1,6 +1,7 @@
 #pragma once
 
-#include <QDockWidget>
+#include "view_system/dock_widget.h"
+
 #include <QStringList>
 #include <QString>
 
@@ -12,7 +13,7 @@ namespace Ui {
 class OutputDockWidget;
 }
 
-class OutputDockWidget : public QDockWidget
+class OutputDockWidget : public Core::ViewSystem::DockWidget
 {
     Q_OBJECT
 
@@ -23,11 +24,11 @@ public:
     void appendText(const QString &text);
 
 public:
-    const QString Id = "NwpcMonitor.CorePlugin.View.OutputDockView";
-    const QString Name = "Output";
-    const QStringList PathList = QStringList()<<"General"<<"Output";
+    const QString Id {"NwpcMonitor.CorePlugin.View.OutputDockView"};
+    const QString Name {"Output"};
+    const QStringList PathList {QStringList()<<"General"<<"Output"};
 
-    const Qt::DockWidgetArea DockLocation = Qt::BottomDockWidgetArea;
+    const Qt::DockWidgetArea DockLocation {Qt::BottomDockWidgetArea};
 
 private:
     Ui::OutputDockWidget *ui;
