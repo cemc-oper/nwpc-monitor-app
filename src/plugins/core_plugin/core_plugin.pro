@@ -22,7 +22,6 @@ SOURCES += core_plugin.cpp \
     action_system/menu_action_container.cpp \
     action_system/menu_bar_action_container.cpp \
     action_system/action.cpp \
-    action_system/group_action_container.cpp \
     view_system/view_manager.cpp \
     view_system/view_spec.cpp \
     view_system/iview.cpp \
@@ -38,7 +37,6 @@ HEADERS += core_plugin.h \
     action_system/action_manager.h \
     action_system/action_container.h \
     action_system/menu_action_container.h \
-    action_system/menu_bar_action_container.h \
     action_system/action.h \
     core_plugin_constants.h \
     action_manager/group_action_container.h \

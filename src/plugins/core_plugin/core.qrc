@@ -6,5 +6,6 @@
         <file>images/office-chart-bar.png</file>
         <file>images/office-chart-pie.png</file>
         <file>images/view-list-text-4.png</file>
+        <file>images/scroll-to-end.png</file>
     </qresource>
 </RCC>

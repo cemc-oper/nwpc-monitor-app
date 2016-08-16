@@ -80,6 +80,18 @@
     <string>自动换行</string>
    </property>
   </action>
+  <action name="action_scroll_to_end">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../core.qrc">
+     <normaloff>:/core/images/scroll-to-end.png</normaloff>:/core/images/scroll-to-end.png</iconset>
+   </property>
+   <property name="text">
+    <string>自动滚动</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../core.qrc"/>

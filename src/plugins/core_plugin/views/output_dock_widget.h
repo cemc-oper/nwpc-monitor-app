@@ -27,6 +27,10 @@ public:
 
     void appendText(const QString &text);
 
+private slots:
+    void slotScrollToEnd(bool flag);
+    void slotScroolToEnd();
+
 private:
     void setupActions();
     void setupToolBar();
