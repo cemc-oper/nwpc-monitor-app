@@ -28,7 +28,8 @@ SOURCES += core_plugin.cpp \
     view_system/dock_view.cpp \
     view_system/view_manager_private.cpp \
     views/output_dock_widget.cpp \
-    view_system/dock_widget.cpp
+    view_system/dock_widget.cpp \
+    action_system/group_action_container.cpp
 
 HEADERS += core_plugin.h \
     core_plugin_global.h \
@@ -46,7 +47,9 @@ HEADERS += core_plugin.h \
     view_system/dock_view.h \
     view_system/view_manager_private.h \
     views/output_dock_widget.h \
-    view_system/dock_widget.h
+    view_system/dock_widget.h \
+    action_system/group_action_container.h \
+    action_system/menu_bar_action_container.h
 
 DISTFILES += core_plugin.json
 

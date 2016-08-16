@@ -119,17 +119,7 @@ void MainWindow::loadViews()
         connect(view_action, &QAction::triggered, [=](bool){
             dock_view->dockWidget()->show();
 
-            ViewSpec *output_view_spec = ViewManager::viewSpecFromPath("/General/Output");
-            if(!output_view_spec)
-            {
-                qWarning()<<"[MainWindow::loadViews]QAction::triggered can't find output view ";
-            }
-            else
-            {
-                DockView *output_dock_view = static_cast<DockView*>(output_view_spec->view());
-                OutputDockWidget *output_dock_widget = static_cast<OutputDockWidget*>(output_dock_view->dockWidget());
-                output_dock_widget->appendText("View::action triggerd: "+action_container->id());
-            }
+            OutputDockWidget::info(OutputDockWidget::GeneralPanelId, "View::action triggerd: "+action_container->id());
 
         });
         window_view_menu_container->addAction(action_container);
@@ -187,18 +177,7 @@ void MainWindow::slotActivatePerspective(QString id)
         widget->show();
     }
 
-
-    ViewSpec *output_view_spec = ViewManager::viewSpecFromPath("/General/Output");
-    if(!output_view_spec)
-    {
-        qWarning()<<"[MainWindow::slotActivatePerspective] can't find output view ";
-    }
-    else
-    {
-        DockView *output_dock_view = static_cast<DockView*>(output_view_spec->view());
-        OutputDockWidget *output_dock_widget = static_cast<OutputDockWidget*>(output_dock_view->dockWidget());
-        output_dock_widget->appendText("perspective active: "+pers->id());
-    }
+    OutputDockWidget::info(OutputDockWidget::GeneralPanelId, "perspective active: " + pers->id());
 }
 
 void MainWindow::addPerspective(IPerspective *perspective)
