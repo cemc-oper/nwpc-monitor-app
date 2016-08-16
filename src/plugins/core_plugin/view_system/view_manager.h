@@ -22,6 +22,8 @@ public:
     static bool addView(ViewSpec *view_spec);
     static QHash<QString, ViewSpec *> viewList();
 
+    static ViewSpec *viewSpecFromPath(const QString path);
+
 signals:
 
 public slots:

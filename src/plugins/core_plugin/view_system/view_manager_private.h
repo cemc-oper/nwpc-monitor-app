@@ -2,6 +2,7 @@
 
 #include <QObject>
 #include <QHash>
+#include <QMap>
 
 namespace Core{
 
@@ -24,6 +25,8 @@ public:
 
 private:
     QHash<QString, ViewSpec*> view_spec_list_;
+    QMap<QString, ViewSpec *> path_to_view_spec_map_;
+
     ViewManager *q;
 
     friend class Core::ViewSystem::ViewManager;

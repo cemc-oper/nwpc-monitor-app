@@ -21,3 +21,8 @@ OutputDockWidget::~OutputDockWidget()
 {
     delete ui;
 }
+
+void OutputDockWidget::appendText(const QString &text)
+{
+    ui->output_text->append(text);
+}

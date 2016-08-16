@@ -30,25 +30,7 @@ CorePlugin::~CorePlugin()
 bool CorePlugin::initialize(const QStringList &arguments, QString *error_string)
 {
     action_manager_ = new ActionManager(this);
-    view_manager_ = new ViewSystem::ViewManager(this);
-
-    main_window_ = new MainWindow();
-
-    OutputDockWidget *output_dock_widget = new OutputDockWidget{main_window_};
-    output_dock_widget->hide();
-    DockView *output_dock_view = new DockView();
-    output_dock_view->setDockWidget(output_dock_widget);
-    output_dock_view->setInitDockLocation(Qt::BottomDockWidgetArea);
-
-    ViewSpec *output_view_spec = new ViewSpec();
-    output_view_spec->setId("NwpcMonitor.CorePlugin.View.OutputDockView");
-    output_view_spec->setName("Output");
-    output_view_spec->setPath(QStringList()<<"General"<<"Output");
-    output_view_spec->setPluginSpec(this->pluginSpec());
-    output_view_spec->setView(output_dock_view);
-
-    ViewManager::addView(output_view_spec);
-    PluginManager::addObject(output_dock_view);
+    initViews();
 
     return true;
 }
@@ -66,4 +48,27 @@ void CorePlugin::pluginsInitialized()
 void CorePlugin::aboutToShutDown()
 {
     main_window_->hide();
+}
+
+void CorePlugin::initViews()
+{
+    view_manager_ = new ViewSystem::ViewManager(this);
+
+    main_window_ = new MainWindow();
+
+    OutputDockWidget *output_dock_widget = new OutputDockWidget{main_window_};
+    output_dock_widget->hide();
+    DockView *output_dock_view = new DockView();
+    output_dock_view->setDockWidget(output_dock_widget);
+    output_dock_view->setInitDockLocation(Qt::BottomDockWidgetArea);
+
+    ViewSpec *output_view_spec = new ViewSpec();
+    output_view_spec->setId("NwpcMonitor.CorePlugin.View.OutputDockView");
+    output_view_spec->setName("Output");
+    output_view_spec->setPathList(QStringList()<<"General"<<"Output");
+    output_view_spec->setPluginSpec(this->pluginSpec());
+    output_view_spec->setView(output_dock_view);
+
+    ViewManager::addView(output_view_spec);
+    PluginManager::addObject(output_dock_view);
 }

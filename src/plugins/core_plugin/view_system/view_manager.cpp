@@ -22,6 +22,18 @@ QHash<QString, ViewSpec *> ViewManager::viewList()
     return d->viewList();
 }
 
+ViewSpec *ViewManager::viewSpecFromPath(const QString path)
+{
+    if(d->path_to_view_spec_map_.contains(path))
+    {
+        return d->path_to_view_spec_map_[path];
+    }
+    else
+    {
+        return nullptr;
+    }
+}
+
 ViewManager::ViewManager(QObject *parent) : QObject(parent)
 {
     view_manager_instance = this;

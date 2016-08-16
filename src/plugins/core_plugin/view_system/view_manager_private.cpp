@@ -20,6 +20,7 @@ ViewManagerPrivate::~ViewManagerPrivate()
 bool ViewManagerPrivate::addView(ViewSpec *view_spec)
 {
     view_spec_list_[view_spec->id()] = view_spec;
+    path_to_view_spec_map_[view_spec->path()] = view_spec;
     return true;
 }
 

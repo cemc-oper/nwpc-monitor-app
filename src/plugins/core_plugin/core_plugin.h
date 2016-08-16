@@ -30,6 +30,8 @@ public:
     void aboutToShutDown();
 
 private:
+    void initViews();
+
     MainWindow *main_window_;
 
     //add for test

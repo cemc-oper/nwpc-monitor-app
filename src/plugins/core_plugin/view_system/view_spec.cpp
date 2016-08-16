@@ -46,12 +46,17 @@ void ViewSpec::setName(const QString &name)
     name_ = name;
 }
 
-QStringList ViewSpec::path() const
+QStringList ViewSpec::pathList() const
 {
     return path_list_;
 }
 
-void ViewSpec::setPath(const QStringList &path)
+QString ViewSpec::path() const
+{
+    return '/' + path_list_.join('/');
+}
+
+void ViewSpec::setPathList(const QStringList &path)
 {
     path_list_ = path;
 }

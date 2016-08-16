@@ -9,6 +9,9 @@
 
 #include "view_system/dock_view.h"
 #include "view_system/view_spec.h"
+#include "view_system/view_manager.h"
+
+#include "views/output_dock_widget.h"
 
 #include <plugin_manager/plugin_manager.h>
 
@@ -22,6 +25,8 @@
 using namespace Core;
 using namespace PluginSystem;
 using namespace Core::ViewSystem;
+using namespace Core::Views;
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -109,9 +114,23 @@ void MainWindow::loadViews()
         qDebug()<<"[MainWindow::loadViews]"<<view_spec->id();
 
         QAction *view_action = new QAction{view_spec->name(), this};
+        view_action->setIcon(QIcon(":/core/images/view-list-text-4.png"));
         Action *action_container = ActionManager::registerAction(view_action, Constrants::Action::ACTION_VIEW_PREFIX + "." + view_spec->id());
         connect(view_action, &QAction::triggered, [=](bool){
             dock_view->dockWidget()->show();
+
+            ViewSpec *output_view_spec = ViewManager::viewSpecFromPath("/General/Output");
+            if(!output_view_spec)
+            {
+                qWarning()<<"[MainWindow::loadViews]QAction::triggered can't find output view ";
+            }
+            else
+            {
+                DockView *output_dock_view = static_cast<DockView*>(output_view_spec->view());
+                OutputDockWidget *output_dock_widget = static_cast<OutputDockWidget*>(output_dock_view->dockWidget());
+                output_dock_widget->appendText("View::action triggerd: "+action_container->id());
+            }
+
         });
         window_view_menu_container->addAction(action_container);
 
@@ -166,6 +185,19 @@ void MainWindow::slotActivatePerspective(QString id)
         item->widget()->hide();
         ui->main_grid_layout->replaceWidget(item->widget(), widget);
         widget->show();
+    }
+
+
+    ViewSpec *output_view_spec = ViewManager::viewSpecFromPath("/General/Output");
+    if(!output_view_spec)
+    {
+        qWarning()<<"[MainWindow::slotActivatePerspective] can't find output view ";
+    }
+    else
+    {
+        DockView *output_dock_view = static_cast<DockView*>(output_view_spec->view());
+        OutputDockWidget *output_dock_widget = static_cast<OutputDockWidget*>(output_dock_view->dockWidget());
+        output_dock_widget->appendText("perspective active: "+pers->id());
     }
 }
 

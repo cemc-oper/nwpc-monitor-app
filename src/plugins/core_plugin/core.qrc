@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/core">
+        <file>images/edit-delete-shred.png</file>
+        <file>images/go-jump-locationbar.png</file>
+        <file>images/mail-mark-task.png</file>
+        <file>images/office-chart-bar.png</file>
+        <file>images/office-chart-pie.png</file>
+        <file>images/view-list-text-4.png</file>
+    </qresource>
+</RCC>

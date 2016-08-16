@@ -58,3 +58,6 @@ unix {
 FORMS += \
     mainwindow.ui \
     views/output_dock_widget.ui
+
+RESOURCES += \
+    core.qrc

@@ -27,6 +27,9 @@
     <property name="bottomMargin">
      <number>0</number>
     </property>
+    <property name="spacing">
+     <number>0</number>
+    </property>
     <item row="0" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <property name="spacing">
@@ -47,8 +50,15 @@
       </item>
       <item>
        <widget class="QPushButton" name="warp_line_button">
-        <property name="text">
+        <property name="toolTip">
          <string>自动换行</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../core.qrc">
+          <normaloff>:/core/images/go-jump-locationbar.png</normaloff>:/core/images/go-jump-locationbar.png</iconset>
         </property>
         <property name="checkable">
          <bool>true</bool>
@@ -57,8 +67,15 @@
       </item>
       <item>
        <widget class="QPushButton" name="clear_button">
-        <property name="text">
+        <property name="toolTip">
          <string>清空</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../core.qrc">
+          <normaloff>:/core/images/edit-delete-shred.png</normaloff>:/core/images/edit-delete-shred.png</iconset>
         </property>
        </widget>
       </item>
@@ -74,7 +91,9 @@
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../core.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>clear_button</sender>

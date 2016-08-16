@@ -18,6 +18,8 @@ public:
     explicit OutputDockWidget(QWidget *parent = 0);
     ~OutputDockWidget();
 
+    void appendText(const QString &text);
+
 private:
     Ui::OutputDockWidget *ui;
 };

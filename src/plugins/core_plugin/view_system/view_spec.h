@@ -30,8 +30,9 @@ public:
     QString name() const;
     void setName(const QString &name);
 
-    QStringList path() const;
-    void setPath(const QStringList &path);
+    QStringList pathList() const;
+    QString path() const;
+    void setPathList(const QStringList &pathList);
 
     IView *view();
     void setView(IView *view);
