@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "iperspective.h"
+#include "perspective_system/iperspective.h"
 #include "core_plugin_constants.h"
 #include "action_system/action.h"
 #include "action_system/action_manager.h"
@@ -26,6 +26,7 @@ using namespace Core;
 using namespace PluginSystem;
 using namespace Core::ViewSystem;
 using namespace Core::Views;
+using namespace Core::PerspectiveSystem;
 
 
 MainWindow::MainWindow(QWidget *parent) :

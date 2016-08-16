@@ -1,6 +1,8 @@
 {
     "name" : "welcome",
     "dependencies": [
-        { "name": "core" }
+        { "name": "core" },
+        { "name": "sms_monitor"},
+        { "name": "loadleveler_monitor"}
     ]
 }

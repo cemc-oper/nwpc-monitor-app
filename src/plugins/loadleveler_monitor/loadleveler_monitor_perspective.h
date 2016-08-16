@@ -2,13 +2,13 @@
 
 #include "loadleveler_monitor_global.h"
 
-#include <core_plugin/iperspective.h>
+#include <core_plugin/perspective_system/iperspective.h>
 
 namespace LoadLevelerMonitor{
 
 class LoadLevelerMonitorWidget;
 
-class LOADLEVELER_MONITOR_EXPORT LoadLevelerMonitorPerspective : public Core::IPerspective
+class LOADLEVELER_MONITOR_EXPORT LoadLevelerMonitorPerspective : public Core::PerspectiveSystem::IPerspective
 {
     Q_OBJECT
 public:

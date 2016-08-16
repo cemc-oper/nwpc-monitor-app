@@ -9,6 +9,7 @@ TEMPLATE = lib
 CONFIG += plugin
 
 INCLUDEPATH+=../../libs
+INCLUDEPATH += ../../plugins
 
 LIBS += -L$$build_lib_dir -lplugin_system
 
@@ -16,7 +17,6 @@ DESTDIR = $$build_base_dir/plugins
 
 SOURCES += core_plugin.cpp \
     mainwindow.cpp \
-    iperspective.cpp \
     action_system/action_manager.cpp \
     action_system/action_container.cpp \
     action_system/menu_action_container.cpp \
@@ -29,12 +29,14 @@ SOURCES += core_plugin.cpp \
     view_system/view_manager_private.cpp \
     views/output_dock_widget.cpp \
     view_system/dock_widget.cpp \
-    action_system/group_action_container.cpp
+    action_system/group_action_container.cpp \
+    perspective_system/iperspective.cpp \
+    perspective_system/perspective_manager.cpp \
+    perspective_system/perspective_manager_private.cpp
 
 HEADERS += core_plugin.h \
     core_plugin_global.h \
     mainwindow.h \
-    iperspective.h \
     action_system/action_manager.h \
     action_system/action_container.h \
     action_system/menu_action_container.h \
@@ -49,7 +51,10 @@ HEADERS += core_plugin.h \
     views/output_dock_widget.h \
     view_system/dock_widget.h \
     action_system/group_action_container.h \
-    action_system/menu_bar_action_container.h
+    action_system/menu_bar_action_container.h \
+    perspective_system/iperspective.h \
+    perspective_system/perspective_manager.h \
+    perspective_system/perspective_manager_private.h
 
 DISTFILES += core_plugin.json
 

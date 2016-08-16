@@ -6,6 +6,7 @@
 #include "views/output_dock_widget.h"
 #include "view_system/view_spec.h"
 #include "view_system/dock_view.h"
+#include "perspective_system/perspective_manager.h"
 
 #include <plugin_manager/plugin_manager.h>
 
@@ -13,12 +14,14 @@ using namespace Core;
 using namespace PluginSystem;
 using namespace Core::Views;
 using namespace Core::ViewSystem;
+using namespace Core::PerspectiveSystem;
 
 CorePlugin::CorePlugin(QObject *parent) :
     IPlugin(parent),
     main_window_(nullptr),
     action_manager_{nullptr},
-    view_manager_{nullptr}
+    view_manager_{nullptr},
+    perspective_manager_{nullptr}
 {
 }
 
@@ -29,6 +32,8 @@ CorePlugin::~CorePlugin()
 
 bool CorePlugin::initialize(const QStringList &arguments, QString *error_string)
 {
+    perspective_manager_ = new PerspectiveManager{this};
+
     initActionSystem();
     initMainWindow();
     initViewSystem();

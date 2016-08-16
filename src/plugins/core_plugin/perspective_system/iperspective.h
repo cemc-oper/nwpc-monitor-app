@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core_plugin_global.h"
+#include "../core_plugin_global.h"
 
 #include <QObject>
 #include <QString>
@@ -8,6 +8,8 @@
 #include <QWidget>
 
 namespace Core{
+
+namespace PerspectiveSystem{
 
 /**
  * @brief IPerspective，视图接口类，代表一个 perspective 视图。
@@ -37,5 +39,7 @@ private:
     QPointer<QWidget> widget_;
 
 };
+
+}
 
 }

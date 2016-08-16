@@ -1,6 +1,6 @@
 #include "iperspective.h"
 
-using namespace Core;
+using namespace Core::PerspectiveSystem;
 
 IPerspective::IPerspective(QObject *parent) : QObject(parent)
 {

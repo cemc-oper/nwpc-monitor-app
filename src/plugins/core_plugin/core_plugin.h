@@ -14,6 +14,10 @@ namespace ViewSystem{
 class ViewManager;
 }
 
+namespace PerspectiveSystem{
+class PerspectiveManager;
+}
+
 class CorePlugin : public PluginSystem::IPlugin
 {
     Q_OBJECT
@@ -42,6 +46,8 @@ private:
     ActionManager *action_manager_;
 
     ViewSystem::ViewManager *view_manager_;
+
+    PerspectiveSystem::PerspectiveManager *perspective_manager_;
 };
 
 }

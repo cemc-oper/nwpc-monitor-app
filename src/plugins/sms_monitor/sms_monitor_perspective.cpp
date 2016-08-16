@@ -3,7 +3,7 @@
 #include "sms_monitor_widget.h"
 
 using namespace SmsMonitor;
-using namespace Core;
+using namespace Core::PerspectiveSystem;
 
 SmsMonitorPerspective::SmsMonitorPerspective(QObject *parent):
     IPerspective(parent)

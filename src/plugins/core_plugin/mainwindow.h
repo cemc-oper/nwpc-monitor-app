@@ -1,6 +1,6 @@
 #pragma once
 
-#include "iperspective.h"
+#include "perspective_system/iperspective.h"
 
 #include <QMainWindow>
 #include <QVector>
@@ -15,6 +15,8 @@ namespace Core{
 namespace Ui {
 class MainWindow;
 }
+
+using Core::PerspectiveSystem::IPerspective;
 
 class MainWindow : public QMainWindow
 {

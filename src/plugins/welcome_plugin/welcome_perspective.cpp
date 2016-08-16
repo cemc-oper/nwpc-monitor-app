@@ -3,7 +3,7 @@
 #include "welcome_widget.h"
 
 using namespace Welcome;
-using namespace Core;
+using namespace Core::PerspectiveSystem;
 
 WelcomePerspective::WelcomePerspective(QObject *parent):
     IPerspective(parent)

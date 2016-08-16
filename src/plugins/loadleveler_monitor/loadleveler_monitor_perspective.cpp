@@ -3,7 +3,7 @@
 #include "loadleveler_monitor_widget.h"
 
 using namespace LoadLevelerMonitor;
-using namespace Core;
+using namespace Core::PerspectiveSystem;
 
 LoadLevelerMonitorPerspective::LoadLevelerMonitorPerspective(QObject *parent):
     IPerspective(parent)
