@@ -1,7 +1,7 @@
 #include "core_plugin.h"
 
 #include "mainwindow.h"
-#include "action_manager/action_manager.h"
+#include "action_system/action_manager.h"
 #include "view_system/view_manager.h"
 #include "views/output_dock_widget.h"
 #include "view_system/view_spec.h"

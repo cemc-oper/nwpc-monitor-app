@@ -3,9 +3,9 @@
 
 #include "iperspective.h"
 #include "core_plugin_constants.h"
-#include "action_manager/action.h"
-#include "action_manager/action_manager.h"
-#include "action_manager/action_container.h"
+#include "action_system/action.h"
+#include "action_system/action_manager.h"
+#include "action_system/action_container.h"
 
 #include "view_system/dock_view.h"
 #include "view_system/view_spec.h"
