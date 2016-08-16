@@ -30,6 +30,9 @@ CorePlugin::~CorePlugin()
 bool CorePlugin::initialize(const QStringList &arguments, QString *error_string)
 {
     action_manager_ = new ActionManager(this);
+    view_manager_ = new ViewSystem::ViewManager(this);
+    main_window_ = new MainWindow();
+
     initViews();
 
     return true;
@@ -52,20 +55,16 @@ void CorePlugin::aboutToShutDown()
 
 void CorePlugin::initViews()
 {
-    view_manager_ = new ViewSystem::ViewManager(this);
-
-    main_window_ = new MainWindow();
-
     OutputDockWidget *output_dock_widget = new OutputDockWidget{main_window_};
     output_dock_widget->hide();
     DockView *output_dock_view = new DockView();
     output_dock_view->setDockWidget(output_dock_widget);
-    output_dock_view->setInitDockLocation(Qt::BottomDockWidgetArea);
+    output_dock_view->setInitDockLocation(output_dock_widget->DockLocation);
 
     ViewSpec *output_view_spec = new ViewSpec();
-    output_view_spec->setId("NwpcMonitor.CorePlugin.View.OutputDockView");
-    output_view_spec->setName("Output");
-    output_view_spec->setPathList(QStringList()<<"General"<<"Output");
+    output_view_spec->setId(output_dock_widget->Id);
+    output_view_spec->setName(output_dock_widget->Name);
+    output_view_spec->setPathList(output_dock_widget->PathList);
     output_view_spec->setPluginSpec(this->pluginSpec());
     output_view_spec->setView(output_dock_view);
 

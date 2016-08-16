@@ -1,6 +1,8 @@
 #pragma once
 
 #include <QDockWidget>
+#include <QStringList>
+#include <QString>
 
 namespace Core{
 
@@ -19,6 +21,13 @@ public:
     ~OutputDockWidget();
 
     void appendText(const QString &text);
+
+public:
+    const QString Id = "NwpcMonitor.CorePlugin.View.OutputDockView";
+    const QString Name = "Output";
+    const QStringList PathList = QStringList()<<"General"<<"Output";
+
+    const Qt::DockWidgetArea DockLocation = Qt::BottomDockWidgetArea;
 
 private:
     Ui::OutputDockWidget *ui;
