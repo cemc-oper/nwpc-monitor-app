@@ -29,18 +29,16 @@ CorePlugin::~CorePlugin()
 
 bool CorePlugin::initialize(const QStringList &arguments, QString *error_string)
 {
-    action_manager_ = new ActionManager(this);
-    view_manager_ = new ViewSystem::ViewManager(this);
-    main_window_ = new MainWindow();
-
-    initViews();
-
+    initActionSystem();
+    initMainWindow();
+    initViewSystem();
     return true;
 }
 
 void CorePlugin::pluginsInitialized()
 {
     main_window_->loadPerspectives();
+
     main_window_->loadViews();
 
     main_window_->activatePerspective("welcome");
@@ -53,8 +51,20 @@ void CorePlugin::aboutToShutDown()
     main_window_->hide();
 }
 
-void CorePlugin::initViews()
+void CorePlugin::initActionSystem()
 {
+    action_manager_ = new ActionManager(this);
+}
+
+void CorePlugin::initMainWindow()
+{
+    main_window_ = new MainWindow();
+}
+
+void CorePlugin::initViewSystem()
+{
+    view_manager_ = new ViewSystem::ViewManager{this};
+
     OutputDockWidget *output_dock_widget = new OutputDockWidget{main_window_};
     output_dock_widget->hide();
     DockView *output_dock_view = new DockView();

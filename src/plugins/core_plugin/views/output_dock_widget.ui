@@ -30,8 +30,15 @@
     <property name="spacing">
      <number>0</number>
     </property>
+    <item row="1" column="0">
+     <widget class="QTextBrowser" name="output_text">
+      <property name="lineWrapMode">
+       <enum>QTextEdit::NoWrap</enum>
+      </property>
+     </widget>
+    </item>
     <item row="0" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QHBoxLayout" name="tool_bar_layout">
       <property name="spacing">
        <number>0</number>
       </property>
@@ -48,68 +55,34 @@
         </property>
        </spacer>
       </item>
-      <item>
-       <widget class="QPushButton" name="warp_line_button">
-        <property name="toolTip">
-         <string>自动换行</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../core.qrc">
-          <normaloff>:/core/images/go-jump-locationbar.png</normaloff>:/core/images/go-jump-locationbar.png</iconset>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="clear_button">
-        <property name="toolTip">
-         <string>清空</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../core.qrc">
-          <normaloff>:/core/images/edit-delete-shred.png</normaloff>:/core/images/edit-delete-shred.png</iconset>
-        </property>
-       </widget>
-      </item>
      </layout>
-    </item>
-    <item row="1" column="0">
-     <widget class="QTextBrowser" name="output_text">
-      <property name="lineWrapMode">
-       <enum>QTextEdit::NoWrap</enum>
-      </property>
-     </widget>
     </item>
    </layout>
   </widget>
+  <action name="action_clear">
+   <property name="icon">
+    <iconset resource="../core.qrc">
+     <normaloff>:/core/images/edit-delete-shred.png</normaloff>:/core/images/edit-delete-shred.png</iconset>
+   </property>
+   <property name="text">
+    <string>清除</string>
+   </property>
+  </action>
+  <action name="action_warp_line">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../core.qrc">
+     <normaloff>:/core/images/go-jump-locationbar.png</normaloff>:/core/images/go-jump-locationbar.png</iconset>
+   </property>
+   <property name="text">
+    <string>自动换行</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../core.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>clear_button</sender>
-   <signal>clicked()</signal>
-   <receiver>output_text</receiver>
-   <slot>clear()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>541</x>
-     <y>32</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>536</x>
-     <y>54</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

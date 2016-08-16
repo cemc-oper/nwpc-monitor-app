@@ -30,7 +30,9 @@ public:
     void aboutToShutDown();
 
 private:
-    void initViews();
+    void initActionSystem();
+    void initMainWindow();
+    void initViewSystem();
 
     MainWindow *main_window_;
 

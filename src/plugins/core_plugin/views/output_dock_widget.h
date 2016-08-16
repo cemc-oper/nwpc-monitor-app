@@ -5,6 +5,10 @@
 #include <QStringList>
 #include <QString>
 
+QT_BEGIN_NAMESPACE
+class QToolBar;
+QT_END_NAMESPACE
+
 namespace Core{
 
 namespace Views{
@@ -23,15 +27,21 @@ public:
 
     void appendText(const QString &text);
 
+private:
+    void setupActions();
+    void setupToolBar();
+
+    Ui::OutputDockWidget *ui;
+    QToolBar *tool_bar_;
+
+
 public:
     const QString Id {"NwpcMonitor.CorePlugin.View.OutputDockView"};
     const QString Name {"Output"};
     const QStringList PathList {QStringList()<<"General"<<"Output"};
 
-    const Qt::DockWidgetArea DockLocation {Qt::BottomDockWidgetArea};
+    const Qt::DockWidgetArea DockLocation{Qt::BottomDockWidgetArea};
 
-private:
-    Ui::OutputDockWidget *ui;
 };
 
 }
