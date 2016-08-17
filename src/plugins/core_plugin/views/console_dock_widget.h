@@ -14,18 +14,18 @@ namespace Core{
 namespace Views{
 
 namespace Ui {
-class OutputDockWidget;
+class ConsoleDockWidget;
 }
 
 const QString GeneralPanelId {"General"};
 
-class OutputDockWidget : public Core::ViewSystem::DockWidget
+class ConsoleDockWidget : public Core::ViewSystem::DockWidget
 {
     Q_OBJECT
 
 public:    
-    explicit OutputDockWidget(QWidget *parent = 0);
-    ~OutputDockWidget();
+    explicit ConsoleDockWidget(QWidget *parent = 0);
+    ~ConsoleDockWidget();
 
     void appendText(const QString &text);
 
@@ -37,7 +37,7 @@ public:
     static void warning(const QString &output_id, const QString &text);
     static void error(const QString &output_id, const QString &text);
 
-    static OutputDockWidget *outputDockWidget(const QString &output_panel_id = OutputDockWidget::GeneralPanelId);
+    static ConsoleDockWidget *outputDockWidget(const QString &output_panel_id = ConsoleDockWidget::GeneralPanelId);
 
 private slots:
     void slotScrollToEnd(bool flag);
@@ -47,16 +47,16 @@ private:
     void setupActions();
     void setupToolBar();
 
-    Ui::OutputDockWidget *ui;
+    Ui::ConsoleDockWidget *ui;
     QToolBar *tool_bar_;
 
 
 public:
     static const QString GeneralPanelId;
 
-    const QString Id {"NwpcMonitor.CorePlugin.View.OutputDockView"};
-    const QString Name {"Output"};
-    const QStringList PathList {QStringList()<<"General"<<"Output"};
+    const QString Id {"NwpcMonitor.CorePlugin.View.ConsoleDockView"};
+    const QString Name {tr("Console")};
+    const QStringList PathList {QStringList()<<"General"<<"Console"};
 
     const Qt::DockWidgetArea DockLocation{Qt::BottomDockWidgetArea};
 

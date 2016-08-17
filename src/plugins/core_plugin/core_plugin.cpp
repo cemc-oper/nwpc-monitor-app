@@ -3,7 +3,7 @@
 #include "mainwindow.h"
 #include "action_system/action_manager.h"
 #include "view_system/view_manager.h"
-#include "views/output_dock_widget.h"
+#include "views/console_dock_widget.h"
 #include "view_system/view_spec.h"
 #include "view_system/dock_view.h"
 #include "perspective_system/perspective_manager.h"
@@ -70,7 +70,7 @@ void CorePlugin::initViewSystem()
 {
     view_manager_ = new ViewSystem::ViewManager{this};
 
-    OutputDockWidget *output_dock_widget = new OutputDockWidget{main_window_};
+    ConsoleDockWidget *output_dock_widget = new ConsoleDockWidget{main_window_};
     output_dock_widget->hide();
     DockView *output_dock_view = new DockView();
     output_dock_view->setDockWidget(output_dock_widget);

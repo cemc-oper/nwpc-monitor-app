@@ -11,7 +11,7 @@
 #include "view_system/view_spec.h"
 #include "view_system/view_manager.h"
 
-#include "views/output_dock_widget.h"
+#include "views/console_dock_widget.h"
 
 #include <plugin_manager/plugin_manager.h>
 
@@ -120,7 +120,7 @@ void MainWindow::loadViews()
         connect(view_action, &QAction::triggered, [=](bool){
             dock_view->dockWidget()->show();
 
-            OutputDockWidget::info(OutputDockWidget::GeneralPanelId, "View::action triggerd: "+action_container->id());
+            ConsoleDockWidget::info(ConsoleDockWidget::GeneralPanelId, "View::action triggerd: "+action_container->id());
 
         });
         window_view_menu_container->addAction(action_container);
@@ -178,7 +178,7 @@ void MainWindow::slotActivatePerspective(QString id)
         widget->show();
     }
 
-    OutputDockWidget::info(OutputDockWidget::GeneralPanelId, "perspective active: " + pers->id());
+    ConsoleDockWidget::info(ConsoleDockWidget::GeneralPanelId, "perspective active: " + pers->id());
 }
 
 void MainWindow::addPerspective(IPerspective *perspective)

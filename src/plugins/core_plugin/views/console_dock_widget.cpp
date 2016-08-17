@@ -1,5 +1,5 @@
-#include "output_dock_widget.h"
-#include "ui_output_dock_widget.h"
+#include "console_dock_widget.h"
+#include "ui_console_dock_widget.h"
 
 #include <view_system/view_spec.h>
 #include <view_system/view_manager.h>
@@ -13,11 +13,11 @@
 using namespace Core::Views;
 using namespace Core::ViewSystem;
 
-const QString OutputDockWidget::GeneralPanelId{"General"};
+const QString ConsoleDockWidget::GeneralPanelId{"General"};
 
-OutputDockWidget::OutputDockWidget(QWidget *parent) :
+ConsoleDockWidget::ConsoleDockWidget(QWidget *parent) :
     Core::ViewSystem::DockWidget(parent),
-    ui(new Ui::OutputDockWidget),
+    ui(new Ui::ConsoleDockWidget),
     tool_bar_{new QToolBar{this}}
 {
     ui->setupUi(this);
@@ -26,96 +26,96 @@ OutputDockWidget::OutputDockWidget(QWidget *parent) :
     setupToolBar();
 }
 
-OutputDockWidget::~OutputDockWidget()
+ConsoleDockWidget::~ConsoleDockWidget()
 {
     delete ui;
 }
 
-void OutputDockWidget::appendText(const QString &text)
+void ConsoleDockWidget::appendText(const QString &text)
 {
     ui->output_text->append(text);
     //ui->output_text->insertHtml("<p><b>" + text + "</b></p>");
     //qDebug()<<ui->output_text->toHtml();
 }
 
-void OutputDockWidget::appendInfo(const QString &text)
+void ConsoleDockWidget::appendInfo(const QString &text)
 {
     ui->output_text->append(QTime::currentTime().toString("hh:mm:ss") + " INFO " + text);
 }
 
-void OutputDockWidget::appendWarning(const QString &text)
+void ConsoleDockWidget::appendWarning(const QString &text)
 {
     ui->output_text->append(QTime::currentTime().toString("hh:mm:ss") + " WARNING " + text);
 }
 
-void OutputDockWidget::appendError(const QString &text)
+void ConsoleDockWidget::appendError(const QString &text)
 {
     ui->output_text->append(QTime::currentTime().toString("hh:mm:ss") + " ERROR " + text);
 }
 
-void OutputDockWidget::info(const QString &output_id, const QString &text)
+void ConsoleDockWidget::info(const QString &output_id, const QString &text)
 {
 
-    OutputDockWidget *output_dock_widget = OutputDockWidget::outputDockWidget();
+    ConsoleDockWidget *output_dock_widget = ConsoleDockWidget::outputDockWidget();
     if(output_dock_widget)
     {
         output_dock_widget->appendInfo(text);
     }
 }
 
-void OutputDockWidget::warning(const QString &output_id, const QString &text)
+void ConsoleDockWidget::warning(const QString &output_id, const QString &text)
 {
-    OutputDockWidget *output_dock_widget = OutputDockWidget::outputDockWidget();
+    ConsoleDockWidget *output_dock_widget = ConsoleDockWidget::outputDockWidget();
     if(output_dock_widget)
     {
         output_dock_widget->appendWarning(text);
     }
 }
 
-void OutputDockWidget::error(const QString &output_id, const QString &text)
+void ConsoleDockWidget::error(const QString &output_id, const QString &text)
 {
-    OutputDockWidget *output_dock_widget = OutputDockWidget::outputDockWidget();
+    ConsoleDockWidget *output_dock_widget = ConsoleDockWidget::outputDockWidget();
     if(output_dock_widget)
     {
         output_dock_widget->appendError(text);
     }
 }
 
-OutputDockWidget *OutputDockWidget::outputDockWidget(const QString &output_panel_id)
+ConsoleDockWidget *ConsoleDockWidget::outputDockWidget(const QString &output_panel_id)
 {
-    ViewSpec *output_view_spec = ViewManager::viewSpecFromPath("/General/Output");
+    ViewSpec *output_view_spec = ViewManager::viewSpecFromPath("/General/Console");
     if(!output_view_spec)
     {
-        qWarning()<<"[OutputDockWidget::outputDockWidget] can't find output view ";
+        qWarning()<<"[ConsoleDockWidget::outputDockWidget] can't find output view ";
         return nullptr;
     }
     else
     {
         DockView *output_dock_view = static_cast<DockView*>(output_view_spec->view());
-        OutputDockWidget *output_dock_widget = static_cast<OutputDockWidget*>(output_dock_view->dockWidget());
+        ConsoleDockWidget *output_dock_widget = static_cast<ConsoleDockWidget*>(output_dock_view->dockWidget());
         return output_dock_widget;
     }
 }
 
-void OutputDockWidget::slotScrollToEnd(bool flag)
+void ConsoleDockWidget::slotScrollToEnd(bool flag)
 {
     if(flag)
     {
         slotScroolToEnd();
-        connect(ui->output_text, &QTextBrowser::textChanged, this, &OutputDockWidget::slotScroolToEnd);
+        connect(ui->output_text, &QTextBrowser::textChanged, this, &ConsoleDockWidget::slotScroolToEnd);
     }
     else
     {
-        disconnect(ui->output_text, &QTextBrowser::textChanged, this, &OutputDockWidget::slotScroolToEnd);
+        disconnect(ui->output_text, &QTextBrowser::textChanged, this, &ConsoleDockWidget::slotScroolToEnd);
     }
 }
 
-void OutputDockWidget::slotScroolToEnd()
+void ConsoleDockWidget::slotScroolToEnd()
 {
     ui->output_text->verticalScrollBar()->setValue(ui->output_text->verticalScrollBar()->maximum());
 }
 
-void OutputDockWidget::setupActions()
+void ConsoleDockWidget::setupActions()
 {
     connect(ui->action_warp_line, &QAction::toggled, [=](bool flag){
         if(flag)
@@ -125,15 +125,15 @@ void OutputDockWidget::setupActions()
     });
 
     connect(ui->action_clear, &QAction::triggered, [=](bool flag){
-        qDebug()<<"[OutputDockWidget] clear output text.";
+        qDebug()<<"[ConsoleDockWidget] clear output text.";
         ui->output_text->clear();
     });
 
-    connect(ui->action_scroll_to_end, &QAction::toggled, this, &OutputDockWidget::slotScrollToEnd);
+    connect(ui->action_scroll_to_end, &QAction::toggled, this, &ConsoleDockWidget::slotScrollToEnd);
     ui->action_scroll_to_end->setChecked(true);
 }
 
-void OutputDockWidget::setupToolBar()
+void ConsoleDockWidget::setupToolBar()
 {
     ui->tool_bar_layout->addWidget(tool_bar_);
     tool_bar_->addAction(ui->action_scroll_to_end);
