@@ -23,7 +23,8 @@ SOURCES += loadleveler_monitor_plugin.cpp \
     loadleveler_client.cpp \
     loadleveler_model/job_query_model.cpp \
     loadleveler_model/job_query_item.cpp \
-    client_command_widget.cpp
+    client_command_widget.cpp \
+    panels/llq_panel.cpp
 
 HEADERS += loadleveler_monitor_plugin.h \
     loadleveler_monitor_global.h \
@@ -32,7 +33,8 @@ HEADERS += loadleveler_monitor_plugin.h \
     loadleveler_client.h \
     loadleveler_model/job_query_model.h \
     loadleveler_model/job_query_item.h \
-    client_command_widget.h
+    client_command_widget.h \
+    panels/llq_panel.h
 
 DISTFILES += loadleveler_monitor.json \
     nwpc_loadleveler/loadleveler.py
@@ -44,4 +46,5 @@ unix {
 
 FORMS += \
     loadleveler_monitor_widget.ui \
-    client_command_widget.ui
+    client_command_widget.ui \
+    panels/llq_panel.ui
