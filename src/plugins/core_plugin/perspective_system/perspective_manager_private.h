@@ -19,6 +19,10 @@ public:
     ~PerspectiveManagerPrivate();
 
     QVector<IPerspective *> perspectiveList();
+    int perspectiveIndex(QString id);
+    IPerspective *perspective(QString id);
+
+    void loadPerspectives();
 
     void addPerspective(IPerspective *persp);
 

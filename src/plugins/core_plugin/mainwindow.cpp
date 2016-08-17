@@ -11,6 +11,8 @@
 #include "view_system/view_spec.h"
 #include "view_system/view_manager.h"
 
+#include "perspective_system/perspective_manager.h"
+
 #include "views/console_dock_widget.h"
 
 #include <plugin_manager/plugin_manager.h>
@@ -38,13 +40,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     addToolBar(perspective_tool_bar_);
 
-    qDebug()<<"[MainWindow::MainWindow] before register actions.";
-
     registerMainActionContainers();
     registerMainActions();
-
-    qDebug()<<"[MainWindow::MainWindow] menu bar"<<menuBar();
-
 }
 
 MainWindow::~MainWindow()
@@ -54,13 +51,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::loadPerspectives()
 {
-    QList<IPerspective*> perspectives = PluginManager::getObjects<IPerspective>();
-
-    foreach(IPerspective* pers, perspectives)
-    {
-        qDebug()<<pers->displayName();
-        addPerspective(pers);
-    }
+    PerspectiveManager::loadPerspectives();
 
     ActionContainer *perspective_container = ActionManager::actionContainer(Core::Constrants::ActionGruop::ACTION_GROUP_PERSPECTIVE);
 
@@ -84,7 +75,7 @@ void MainWindow::loadPerspectives()
 
     // add perspective tool bar and menu
     ActionContainer *perspective_menu = ActionManager::actionContainer(Constrants::Menu::MENU_PERSPECTIVE);
-    foreach(IPerspective* pers, perspective_list_)
+    foreach(IPerspective* pers, PerspectiveManager::perspectiveList())
     {
         QAction* action = new QAction(pers->displayName());
         action->setCheckable(true);
@@ -157,15 +148,14 @@ void MainWindow::slotPerspectiveActionTriggered(QAction *action)
 
 void MainWindow::slotActivatePerspective(QString id)
 {
-    int index = perspectiveIndex(id);
-    if(index < 0)
+    IPerspective* pers = PerspectiveManager::perspective(id);
+    if(pers == nullptr)
     {
         qWarning()<<"[MainWindow::activatePerspective] can't find perspective "<<id;
         return;
     }
-    IPerspective* pers = perspective_list_[index];
-    QWidget* widget = pers->widget();
 
+    QWidget* widget = pers->widget();
     QLayoutItem *item = ui->main_grid_layout->itemAtPosition(0,0);
     if(item==0)
     {
@@ -181,29 +171,11 @@ void MainWindow::slotActivatePerspective(QString id)
     ConsoleDockWidget::info(ConsoleDockWidget::GeneralPanelId, "perspective active: " + pers->id());
 }
 
-void MainWindow::addPerspective(IPerspective *perspective)
-{
-    perspective_list_.append(perspective);
-}
-
-int MainWindow::perspectiveIndex(QString id)
-{
-    for(int i=0; i<perspective_list_.length(); i++)
-    {
-        if(perspective_list_[i]->id() == id)
-        {
-            return i;
-        }
-    }
-    return -1;
-}
-
 void MainWindow::registerMainActionContainers()
 {
     QMenu *menu = nullptr;
     ActionContainer *menu_bar_container = ActionManager::createMenuBar(Constrants::MenuBar::MENU_BAR);
 
-    qDebug()<<"[MainWindow::registerMainActionContainers] menu bar"<<menu_bar_container->menuBar();
     setMenuBar(menu_bar_container->menuBar());
 
     ActionContainer *file_menu = ActionManager::createMenu(Constrants::Menu::MENU_FILE);
@@ -218,12 +190,12 @@ void MainWindow::registerMainActionContainers()
 
     ActionContainer *perspective_menu = ActionManager::createMenu(Constrants::Menu::MENU_PERSPECTIVE);
     menu = perspective_menu->menu();
-    menu->setTitle(tr("Perspective"));
+    menu->setTitle(tr("&Perspectives"));
     window_menu->addMenu(perspective_menu);
 
     ActionContainer *window_view_menu = ActionManager::createMenu(Constrants::Menu::Window::MENU_VIEW);
     menu = window_view_menu->menu();
-    menu->setTitle(tr("Show View"));
+    menu->setTitle(tr("Show view"));
     window_menu->addMenu(window_view_menu);
 
     ActionContainer *help_menu = ActionManager::createMenu(Constrants::Menu::MENU_HELP);
@@ -242,7 +214,7 @@ void MainWindow::registerMainActions()
     ActionContainer *file_menu_container = ActionManager::actionContainer(Constrants::Menu::MENU_FILE);
     ActionContainer *help_menu_container = ActionManager::actionContainer(Constrants::Menu::MENU_HELP);
 
-    exit_action_ = new QAction{tr("Exit"), this};
+    exit_action_ = new QAction{tr("Quit"), this};
     action = ActionManager::registerAction(exit_action_, Constrants::Action::ACTION_EXIT);
     connect(exit_action_, &QAction::triggered, this, &QMainWindow::close);
     file_menu_container->addAction(action);

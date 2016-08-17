@@ -42,7 +42,6 @@ HEADERS += core_plugin.h \
     action_system/menu_action_container.h \
     action_system/action.h \
     core_plugin_constants.h \
-    action_manager/group_action_container.h \
     view_system/view_manager.h \
     view_system/view_spec.h \
     view_system/iview.h \

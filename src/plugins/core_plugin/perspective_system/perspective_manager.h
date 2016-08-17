@@ -20,8 +20,12 @@ public:
     static PerspectiveManager *instance();
 
     static QVector<IPerspective *> perspectiveList();
+    static int perspectiveIndex(QString id);
+    static IPerspective *perspective(QString id);
 
-    static void addPerspective(IPerspective *persp);
+    static void loadPerspectives();
+
+    static void addPerspective(IPerspective *persp);    
 
 signals:
 

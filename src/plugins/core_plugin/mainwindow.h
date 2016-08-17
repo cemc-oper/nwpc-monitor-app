@@ -38,15 +38,10 @@ private slots:
     void slotActivatePerspective(QString id);
 
 private:
-    void addPerspective(IPerspective* perspective);
-    int perspectiveIndex(QString id);
-
     void registerMainActionContainers();
     void registerMainActions();
 
     Ui::MainWindow *ui;
-
-    QVector<IPerspective*> perspective_list_;
 
     QToolBar* perspective_tool_bar_;
 

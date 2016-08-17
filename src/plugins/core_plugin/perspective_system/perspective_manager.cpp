@@ -16,6 +16,21 @@ QVector<IPerspective *> PerspectiveManager::perspectiveList()
     return d->perspectiveList();
 }
 
+int PerspectiveManager::perspectiveIndex(QString id)
+{
+    return d->perspectiveIndex(id);
+}
+
+IPerspective *PerspectiveManager::perspective(QString id)
+{
+    return d->perspective(id);
+}
+
+void PerspectiveManager::loadPerspectives()
+{
+    d->loadPerspectives();
+}
+
 void PerspectiveManager::addPerspective(IPerspective *persp)
 {
     d->addPerspective(persp);
