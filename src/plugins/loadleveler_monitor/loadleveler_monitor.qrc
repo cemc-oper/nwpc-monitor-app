@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/loadleveler_monitor">
+        <file>images/chart-style.png</file>
+        <file>images/table-style.png</file>
+        <file>images/text-style.png</file>
+        <file>images/clock.png</file>
+        <file>images/repo.png</file>
+    </qresource>
+</RCC>

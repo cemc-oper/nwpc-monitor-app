@@ -48,3 +48,6 @@ FORMS += \
     loadleveler_monitor_widget.ui \
     client_command_widget.ui \
     panels/llq_panel.ui
+
+RESOURCES += \
+    loadleveler_monitor.qrc

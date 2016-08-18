@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>744</width>
-    <height>404</height>
+    <width>789</width>
+    <height>428</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
+  <layout class="QGridLayout" name="gridLayout_4">
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -30,7 +30,7 @@
     <number>0</number>
    </property>
    <item row="0" column="0">
-    <layout class="QGridLayout" name="gridLayout">
+    <layout class="QGridLayout" name="query_layout">
      <item row="0" column="0">
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
@@ -41,12 +41,12 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="llq_argument_edit"/>
+        <widget class="QLineEdit" name="argument_edit"/>
        </item>
       </layout>
      </item>
      <item row="0" column="1" rowspan="2">
-      <widget class="QPushButton" name="llq_query_button">
+      <widget class="QPushButton" name="query_button">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -59,7 +59,7 @@
       </widget>
      </item>
      <item row="1" column="0">
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
         <widget class="QLabel" name="label_9">
          <property name="text">
@@ -68,34 +68,56 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="llq_default_template_button">
-         <property name="text">
-          <string>默认</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="llq_llqn_template_button">
-         <property name="text">
-          <string>llqn</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="llq_more_template_button">
-         <property name="text">
-          <string>更多...</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="template_layout">
+         <item>
+          <widget class="QToolButton" name="default_template_button">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>默认</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="llqn_template_button">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>llqn</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="more_template_button">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>更多</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
         <spacer name="horizontalSpacer_2">
@@ -115,26 +137,167 @@
     </layout>
    </item>
    <item row="1" column="0">
-    <widget class="QTableView" name="llq_table_view">
-     <property name="sizeAdjustPolicy">
-      <enum>QAbstractScrollArea::AdjustToContents</enum>
-     </property>
-     <property name="editTriggers">
-      <set>QAbstractItemView::NoEditTriggers</set>
-     </property>
-     <property name="alternatingRowColors">
-      <bool>true</bool>
-     </property>
-     <property name="sortingEnabled">
-      <bool>true</bool>
-     </property>
-     <attribute name="verticalHeaderVisible">
-      <bool>false</bool>
-     </attribute>
-    </widget>
+    <layout class="QHBoxLayout" name="view_top_layout">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QToolButton" name="table_style_button">
+       <property name="toolTip">
+        <string>表格</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../loadleveler_monitor.qrc">
+         <normaloff>:/loadleveler_monitor/images/table-style.png</normaloff>:/loadleveler_monitor/images/table-style.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="chart_style_button">
+       <property name="toolTip">
+        <string>图形</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../loadleveler_monitor.qrc">
+         <normaloff>:/loadleveler_monitor/images/chart-style.png</normaloff>:/loadleveler_monitor/images/chart-style.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="text_style_button">
+       <property name="toolTip">
+        <string>文本</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../loadleveler_monitor.qrc">
+         <normaloff>:/loadleveler_monitor/images/text-style.png</normaloff>:/loadleveler_monitor/images/text-style.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item row="2" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <widget class="QStackedWidget" name="view_area_stacked_widget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="table_style_page">
+      <layout class="QGridLayout" name="gridLayout">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QTableView" name="table_view">
+         <property name="sizeAdjustPolicy">
+          <enum>QAbstractScrollArea::AdjustToContents</enum>
+         </property>
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="sortingEnabled">
+          <bool>true</bool>
+         </property>
+         <attribute name="verticalHeaderVisible">
+          <bool>false</bool>
+         </attribute>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="chart_style_page">
+      <layout class="QGridLayout" name="gridLayout_2">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QGraphicsView" name="chart_view"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="text_sytel_page">
+      <layout class="QGridLayout" name="gridLayout_3">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QTextBrowser" name="text_view"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <layout class="QHBoxLayout" name="buttom_layout">
      <item>
       <widget class="QPushButton" name="check_all_button">
        <property name="text">
@@ -186,7 +349,54 @@
     </layout>
    </item>
   </layout>
+  <action name="action_table_style">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../loadleveler_monitor.qrc">
+     <normaloff>:/loadleveler_monitor/images/table-style.png</normaloff>:/loadleveler_monitor/images/table-style.png</iconset>
+   </property>
+   <property name="text">
+    <string>Table Style</string>
+   </property>
+   <property name="toolTip">
+    <string>Table Style</string>
+   </property>
+  </action>
+  <action name="action_chart_style">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../loadleveler_monitor.qrc">
+     <normaloff>:/loadleveler_monitor/images/chart-style.png</normaloff>:/loadleveler_monitor/images/chart-style.png</iconset>
+   </property>
+   <property name="text">
+    <string>Chart Style</string>
+   </property>
+   <property name="toolTip">
+    <string>Chart Style</string>
+   </property>
+  </action>
+  <action name="action_text_style">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../loadleveler_monitor.qrc">
+     <normaloff>:/loadleveler_monitor/images/text-style.png</normaloff>:/loadleveler_monitor/images/text-style.png</iconset>
+   </property>
+   <property name="text">
+    <string>Text Style</string>
+   </property>
+   <property name="toolTip">
+    <string>Text Style</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../loadleveler_monitor.qrc"/>
+ </resources>
  <connections/>
 </ui>
