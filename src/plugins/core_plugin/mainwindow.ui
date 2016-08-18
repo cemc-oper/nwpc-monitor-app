@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>NWPC Monitor App</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="core.qrc">
+    <normaloff>:/core/images/logo.png</normaloff>:/core/images/logo.png</iconset>
+  </property>
   <widget class="QWidget" name="main_central_widget">
    <layout class="QGridLayout" name="main_central_grid_layout">
     <property name="leftMargin">
@@ -42,6 +46,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="core.qrc"/>
+ </resources>
  <connections/>
 </ui>

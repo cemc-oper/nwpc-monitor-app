@@ -13,3 +13,5 @@ LIBS += -L$$build_lib_dir -lplugin_system
 
 SOURCES += \
     main.cpp
+
+RC_ICONS = logo.ico
