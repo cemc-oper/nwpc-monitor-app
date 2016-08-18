@@ -76,6 +76,16 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>响应</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="0">
+        <widget class="QTextEdit" name="response_edit"/>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>

@@ -70,7 +70,7 @@ void LoadLevelerClient::runCommand(QMap<QString, QString> args, QPointer<ClientC
             [=](const QString &string){
         qDebug()<<"[LoadLevelerClient::runCommand] signalStdOutString received";
         if(!command_widget.isNull())
-            command_widget->setOutputText(string);
+            command_widget->receiveResponse(string);
         else
         {
             qDebug()<<"[LoadLevelerClient::runCommand] signalStdOutString received, but command widget has been deleted";
@@ -109,5 +109,8 @@ void LoadLevelerClient::runCommand(QMap<QString, QString> args, QPointer<ClientC
         "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app\\src\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
         arguments
     );
+
+    command_widget->setCommandText("loadleveler.py " + arguments.join(" "));
+
     qDebug()<<"[LoadLevelerClient::runCommand] end";
 }

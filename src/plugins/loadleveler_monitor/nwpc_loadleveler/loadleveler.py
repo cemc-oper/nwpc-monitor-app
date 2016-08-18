@@ -258,7 +258,7 @@ def run_handler(args):
             }
         }
     }
-    print(json.dumps(result))
+    print(json.dumps(result, indent=4))
     return
 
 

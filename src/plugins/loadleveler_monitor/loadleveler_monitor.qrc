@@ -3,7 +3,9 @@
         <file>images/chart-style.png</file>
         <file>images/table-style.png</file>
         <file>images/text-style.png</file>
-        <file>images/clock.png</file>
-        <file>images/repo.png</file>
+        <file>images/clock_128.png</file>
+        <file>images/repo_128.png</file>
+        <file>images/clock_16.png</file>
+        <file>images/repo_16.png</file>
     </qresource>
 </RCC>

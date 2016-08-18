@@ -27,6 +27,8 @@ LlqPanel::LlqPanel(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    //ui->query_time_widget->hide();
+
     connect(ui->check_all_button, &QPushButton::clicked,
             [=](){
                 changeAllItemsCheckState(Qt::Checked);
