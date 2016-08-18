@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include <QPointer>
+#include <QMap>
 
 QT_BEGIN_NAMESPACE
 class QButtonGroup;
@@ -27,17 +28,12 @@ public:
 
     void setJobQueryModel(QPointer<LoadLevelerModel::JobQueryModel> job_query_model);
 
-private slots:
-    void slotLlqQueryRecordContextMenuRequest(const QPoint& pos);
+    QMap<QString, QString> getSessionArguments();
 
-    void slotRequestQuery();
+private slots:
 
 private:
-    void changeAllItemsCheckState(Qt::CheckState check_state);
-
     Ui::LoadLevelerMonitorWidget *ui;
-
-    QPointer<LoadLevelerModel::JobQueryModel> job_query_model_;
 
     QPointer<QButtonGroup> panel_button_group_;
 };

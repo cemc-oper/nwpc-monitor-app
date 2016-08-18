@@ -26,9 +26,6 @@
    <property name="bottomMargin">
     <number>0</number>
    </property>
-   <property name="spacing">
-    <number>0</number>
-   </property>
    <item row="0" column="0">
     <layout class="QGridLayout" name="query_layout">
      <item row="0" column="0">
@@ -392,6 +389,36 @@
    </property>
    <property name="toolTip">
     <string>Text Style</string>
+   </property>
+  </action>
+  <action name="action_default_template">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>默认</string>
+   </property>
+   <property name="toolTip">
+    <string>default template</string>
+   </property>
+  </action>
+  <action name="action_llqn_template">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>llqn</string>
+   </property>
+   <property name="toolTip">
+    <string>llqn template</string>
+   </property>
+  </action>
+  <action name="action_more_template">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>更多</string>
    </property>
   </action>
  </widget>
