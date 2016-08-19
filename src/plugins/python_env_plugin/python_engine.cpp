@@ -76,7 +76,8 @@ void PythonEngine::executePythonScript(PythonCommand *command, const QString &sc
         process_arg_list<<str;
 
     command->addCommandStep(python_executable_program_path_, process_arg_list);
-    command->run();
+    //command->run();
+    command->execute();
 
     qDebug()<<"[PythonEngine::executePythonScript] end";
     return;

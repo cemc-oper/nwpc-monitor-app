@@ -1,6 +1,9 @@
 #include "shell_command.h"
 
+#include "async_job.h"
+
 #include <QProcess>
+#include <QThreadPool>
 #include <QtDebug>
 
 using namespace ProgressUtil;
@@ -23,6 +26,14 @@ void ShellCommand::addCommandStep(const QString &program, const QStringList &arg
 {
     CommandStep step{program, argument_list};
     command_steps_.append(step);
+}
+
+void ShellCommand::execute()
+{
+    if(command_steps_.isEmpty())
+        return;
+    QFuture<void> future = AsyncJob::runJob(this);
+    watcher_.setFuture(future);
 }
 
 void ShellCommand::run()
@@ -66,3 +77,16 @@ SynchronousJobResponse ShellCommand::runCommandStep(const CommandStep &step)
 
     return response;
 }
+
+void ShellCommand::asyncRun(QFutureInterface<void> &future_interface)
+{
+    int command_step_size = command_steps_.length();
+    for(int i=0;i<command_step_size;i++)
+    {
+        CommandStep command_step = command_steps_.at(i);
+        runCommandStep(command_step);
+    }
+    this->deleteLater();
+}
+
+
