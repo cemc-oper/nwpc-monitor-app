@@ -19,9 +19,11 @@ unix {
 
 
 SOURCES += progress_util.cpp \
-    synchronous_job.cpp
+    synchronous_job.cpp \
+    shell_command.cpp
 
 HEADERS += progress_util.h\
         progress_util_global.h \
-    synchronous_job.h
+    synchronous_job.h \
+    shell_command.h
 

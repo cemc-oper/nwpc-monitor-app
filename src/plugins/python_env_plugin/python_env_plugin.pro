@@ -11,7 +11,7 @@ CONFIG += plugin
 INCLUDEPATH += ../../libs
 INCLUDEPATH += ../../plugins
 
-LIBS += -L$$build_lib_dir -lplugin_system \
+LIBS += -L$$build_lib_dir -lplugin_system -lprogress_util \
         -L$$build_lib_dir -lutil \
         -L$$build_plugins_dir -lcore_plugin
 

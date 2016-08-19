@@ -1,20 +1,20 @@
 #pragma once
 
-#include "util_global.h"
+#include "progress_util_global.h"
 
-#include <progress_util/synchronous_job.h>
+#include "synchronous_job.h"
 
 #include <QObject>
 
-namespace Util{
+namespace ProgressUtil{
 
-struct UTILSHARED_EXPORT CommandStep{
+struct PROGRESS_UTIL_SHARED_EXPORT CommandStep{
     explicit CommandStep(const QString &program, const QStringList &arguments);
     QString program_;
     QStringList arguments_;
 };
 
-class UTILSHARED_EXPORT ShellCommand : public QObject
+class PROGRESS_UTIL_SHARED_EXPORT ShellCommand : public QObject
 {
     Q_OBJECT
 public:

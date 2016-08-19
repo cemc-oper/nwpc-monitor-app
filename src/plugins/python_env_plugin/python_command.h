@@ -2,11 +2,11 @@
 
 #include "python_env_global.h"
 
-#include <util/shell_command.h>
+#include <progress_util/shell_command.h>
 
 namespace PythonEnv{
 
-class PYTHON_ENV_EXPORT PythonCommand : public Util::ShellCommand
+class PYTHON_ENV_EXPORT PythonCommand : public ProgressUtil::ShellCommand
 {
     Q_OBJECT
 public:

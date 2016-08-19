@@ -3,7 +3,6 @@
 #include <QProcess>
 #include <QtDebug>
 
-using namespace Util;
 using namespace ProgressUtil;
 
 CommandStep::CommandStep(const QString &program, const QStringList &arguments):
