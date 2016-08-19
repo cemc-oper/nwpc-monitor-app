@@ -82,3 +82,20 @@ void PythonEngine::executePythonScript(PythonCommand *command, const QString &sc
     qDebug()<<"[PythonEngine::executePythonScript] end";
     return;
 }
+
+void PythonEngine::runPythonScript(PythonCommand *command, const QString &script_path, const QStringList &argument_list)
+{
+    qDebug()<<"[PythonEngine::runPythonScript] start";
+
+    QStringList process_arg_list;
+    process_arg_list<<script_path;
+    foreach(QString str, argument_list)
+        process_arg_list<<str;
+
+    command->addCommandStep(python_executable_program_path_, process_arg_list);
+    command->run();
+//    command->execute();
+
+    qDebug()<<"[PythonEngine::runPythonScript] end";
+    return;
+}

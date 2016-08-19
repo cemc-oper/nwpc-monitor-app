@@ -26,6 +26,8 @@ public:
     PythonCommand *createPythonCommand();
     void executePythonScript(PythonCommand *command, const QString &script_path, const QStringList &argument_list);
 
+    void runPythonScript(PythonCommand *command, const QString &script_path, const QStringList &argument_list);
+
 signals:
 
 public slots:
