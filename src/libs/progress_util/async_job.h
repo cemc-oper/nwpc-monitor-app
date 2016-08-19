@@ -17,6 +17,8 @@ class AsyncJob : public QRunnable
 public:
     AsyncJob(ShellCommand *command);
 
+    ~AsyncJob();
+
     void setPool(QThreadPool *pool);
 
     void run() override;

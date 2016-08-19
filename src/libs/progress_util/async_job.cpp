@@ -14,6 +14,11 @@ AsyncJob::AsyncJob(ShellCommand *command):
     future_interface_.setThreadPool(QThreadPool::globalInstance());
 }
 
+AsyncJob::~AsyncJob()
+{
+    future_interface_.reportFinished();
+}
+
 
 void AsyncJob::setPool(QThreadPool *pool)
 {
