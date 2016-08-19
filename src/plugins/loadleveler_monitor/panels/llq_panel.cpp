@@ -78,6 +78,8 @@ void LlqPanel::setJobQueryModel(QPointer<JobQueryModel> job_query_model)
     ui->table_view->setColumnWidth(1, 200);
     ui->table_view->setColumnWidth(3, 150);
 
+    ui->table_view->sortByColumn(0, Qt::AscendingOrder);
+
     disconnect(ui->table_view, &QTableView::customContextMenuRequested, 0, 0);
     ui->table_view->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->table_view, &QTableView::customContextMenuRequested,
