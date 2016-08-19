@@ -2,4 +2,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     plugin_manager \
-    util
+    util \
+    progress_util

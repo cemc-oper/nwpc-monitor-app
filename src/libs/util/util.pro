@@ -8,6 +8,10 @@ TARGET = util
 TEMPLATE = lib
 CONFIG += shared dll
 
+INCLUDEPATH += ..
+
+LIBS += -L$$build_lib_dir -lprogress_util
+
 win32{
     DESTDIR = $$build_base_dir/lib
 }
