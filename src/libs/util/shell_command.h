@@ -2,8 +2,9 @@
 
 #include "util_global.h"
 
+#include <progress_util/synchronous_job.h>
+
 #include <QObject>
-#include <QProcess>
 
 namespace Util{
 
@@ -23,7 +24,7 @@ public:
 
     void run();
 
-    void runCommandStep(const CommandStep &step);
+    ProgressUtil::SynchronousJobResponse runCommandStep(const CommandStep &step);
 
 signals:
     void signalStdOutString(const QString &out);
@@ -31,12 +32,8 @@ signals:
     void signalFinished(int exit_code, QProcess::ExitStatus exitStatus);
     void signalSuccess();
 
-private slots:
-    void slotProcessFinished(int exit_code, QProcess::ExitStatus exit_status);
-
 protected:
     QList<CommandStep> command_steps_;
-    QProcess* process_;
 };
 
 }

@@ -20,6 +20,7 @@ struct PROGRESS_UTIL_SHARED_EXPORT SynchronousJobResponse
     void clear();
 
     ResponseStatus status_;
+    QProcess::ExitStatus exit_status_;
     int exit_code_;
     QString std_out_;
     QString std_err_;

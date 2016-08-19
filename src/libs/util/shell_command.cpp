@@ -4,6 +4,7 @@
 #include <QtDebug>
 
 using namespace Util;
+using namespace ProgressUtil;
 
 CommandStep::CommandStep(const QString &program, const QStringList &arguments):
     program_{program},
@@ -14,12 +15,9 @@ CommandStep::CommandStep(const QString &program, const QStringList &arguments):
 
 
 ShellCommand::ShellCommand(QObject *parent) :
-    QObject(parent),
-    process_{new QProcess(this)}
+    QObject(parent)
 {
-    connect(process_, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-        this, &ShellCommand::slotProcessFinished
-    );
+
 }
 
 void ShellCommand::addCommandStep(const QString &program, const QStringList &argument_list)
@@ -37,39 +35,35 @@ void ShellCommand::run()
         runCommandStep(command_step);
     }
 
-    //this->deleteLater();
+    this->deleteLater();
 }
 
-void ShellCommand::runCommandStep(const CommandStep &step)
+SynchronousJobResponse ShellCommand::runCommandStep(const CommandStep &step)
 {
-    if(process_->state() != QProcess::NotRunning)
+    SynchronousJobResponse response;
+
+    SynchronousJob job;
+
+    response = job.run(step.program_, step.arguments_);
+
+    qDebug()<<"[ShellCommand::runCommandStep] SynchronousJob success";
+
+    emit signalStdOutString(response.std_out_);
+    if(!response.std_err_.isEmpty())
     {
-        qDebug()<<"[PythonCommand::runCommandStep] process not completed.";
-        return;
-    }
-    process_->start(step.program_, step.arguments_);
-}
-
-void ShellCommand::slotProcessFinished(int exit_code, QProcess::ExitStatus exit_status)
-{
-//    qDebug()<<exit_code;
-//    qDebug()<<exit_status;
-
-    QString std_out(process_->readAllStandardOutput());
-    QString std_err(process_->readAllStandardError());
-
-    emit signalStdOutString(std_out);
-    if(!std_err.isEmpty())
-    {
-        emit signalStdErrString(std_err);
+        emit signalStdErrString(response.std_err_);
     }
 
-    emit signalFinished(exit_code, exit_status);
+    emit signalFinished(response.exit_code_, response.exit_status_);
 
-    if(exit_code == 0 && exit_status == QProcess::NormalExit)
+    if(response.exit_code_ == 0 && response.exit_status_ == QProcess::NormalExit)
     {
         emit signalSuccess();
     }
+    else
+    {
+        qDebug()<<"[ShellCommand::runCommandStep] SynchronousJob failed";
+    }
 
-    this->deleteLater();
+    return response;
 }

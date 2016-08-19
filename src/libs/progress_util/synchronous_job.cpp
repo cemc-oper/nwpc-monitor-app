@@ -14,7 +14,8 @@ static bool isGuiThread(){
 
 SynchronousJobResponse::SynchronousJobResponse():
     exit_code_{-1},
-    status_{FailedToStart}
+    status_{FailedToStart},
+    exit_status_{QProcess::CrashExit}
 {
 
 }
@@ -22,6 +23,7 @@ SynchronousJobResponse::SynchronousJobResponse():
 void SynchronousJobResponse::clear()
 {
     status_ = FailedToStart;
+    exit_status_ = QProcess::CrashExit;
     exit_code_ = -1;
     std_out_.clear();
     std_err_.clear();
@@ -90,6 +92,7 @@ void SynchronousJob::finished(int exit_code, QProcess::ExitStatus exit_status)
         response_.status_ = SynchronousJobResponse::ErrorFinished;
         break;
     }
+    response_.exit_status_ = exit_status;
     event_loop_.quit();
 //    emit signalFinished(exit_code, exit_status);
 }
