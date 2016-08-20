@@ -20,8 +20,6 @@ public:
     explicit ClientCommandWidget(QWidget *parent = 0);
     ~ClientCommandWidget();
 
-    void runPythonCommand(QMap<QString, QString> args);
-
     void setCommandText(const QString &command);
 
 public slots:

@@ -67,33 +67,18 @@ void LoadLevelerClient::runCommand(QMap<QString, QString> args, QPointer<ClientC
     QStringList arguments;
     PythonCommand* command = createPythonCommand();
     connect(command, &PythonCommand::signalStdOutString,
-            [=](const QString &string){
-        qDebug()<<"[LoadLevelerClient::runCommand] signalStdOutString received";
-        if(!command_widget.isNull())
-            command_widget->receiveResponse(string);
-        else
-        {
-            qDebug()<<"[LoadLevelerClient::runCommand] signalStdOutString received, but command widget has been deleted";
-        }
-    });
+            command_widget, &ClientCommandWidget::receiveResponse);
 
     connect(command, &PythonCommand::signalStdErrString,
-            [=](const QString &string){
-        if(!command_widget.isNull())
-            command_widget->setErrorOutputText(string);
-        else
-        {
+            command_widget, &ClientCommandWidget::setErrorOutputText);
 
-        }
-    });
-
-    connect(command, &PythonCommand::signalFinished,
-            [=](int exit_code, QProcess::ExitStatus status)
-            {
-                qDebug()<<"[LoadLevelerClient::runCommand] exit code:"<<exit_code;
-                qDebug()<<"[LoadLevelerClient::runCommand] exit status:"<<status;
-            }
-    );
+//    connect(command, &PythonCommand::signalFinished,
+//            [=](int exit_code, QProcess::ExitStatus status)
+//            {
+//                qDebug()<<"[LoadLevelerClient::runCommand] exit code:"<<exit_code;
+//                qDebug()<<"[LoadLevelerClient::runCommand] exit status:"<<status;
+//            }
+//    );
 
     arguments<<"run";
     arguments<<"--host=" + args["host"];

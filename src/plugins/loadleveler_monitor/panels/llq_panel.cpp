@@ -146,10 +146,10 @@ void LlqPanel::slotQueryRecordContextMenuRequest(const QPoint &pos)
                 //TODO: 创建一个弹出窗口，接收命令执行结果，将窗口传递给 client。
                 ClientCommandWidget *command_widget = new ClientCommandWidget();
 
-                command_widget->runPythonCommand(args);
+//                command_widget->runPythonCommand(args);
                 command_widget->show();
 
-//                LoadLevelerMonitorPlugin::client()->runCommand(args, command_widget);
+                LoadLevelerMonitorPlugin::client()->runCommand(args, command_widget);
             }
         }
         delete context_menu;
