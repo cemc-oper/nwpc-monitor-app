@@ -1,6 +1,7 @@
 #include "python_engine.h"
 #include "python_command.h"
 
+#include <QMetaType>
 #include <QtDebug>
 
 using namespace PythonEnv;
@@ -8,7 +9,7 @@ using namespace PythonEnv;
 PythonEngine::PythonEngine(QObject *parent) :
     QObject(parent)
 {
-
+    qRegisterMetaType<ProgressUtil::ShellCommandResponse>("ShellCommandResponse");
 }
 
 PythonEngine::~PythonEngine()

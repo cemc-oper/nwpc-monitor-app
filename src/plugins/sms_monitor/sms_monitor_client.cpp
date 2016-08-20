@@ -32,13 +32,13 @@ void SmsMonitorClient::updateStatus()
 //    connect(command, &PythonCommand::signalStdErrString,
 //            SmsMonitorPlugin::instance(), &SmsMonitorPlugin::receiveUpdateStatusStdOut);
 
-    connect(command, &PythonCommand::signalFinished,
-            [=](int exit_code, QProcess::ExitStatus status)
-            {
-                qDebug()<<exit_code;
-                qDebug()<<status;
-            }
-    );
+//    connect(command, &PythonCommand::signalFinished,
+//            [=](int exit_code, QProcess::ExitStatus status)
+//            {
+//                qDebug()<<exit_code;
+//                qDebug()<<status;
+//            }
+//    );
 
     executePythonScript(
         command,

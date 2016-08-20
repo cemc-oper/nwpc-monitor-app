@@ -1,5 +1,7 @@
 #pragma once
 
+#include <progress_util/shell_command.h>
+
 #include <QWidget>
 #include <QPointer>
 #include <QVector>
@@ -35,8 +37,9 @@ public:
 
     void setJobQueryModel(QPointer<LoadLevelerMonitor::LoadLevelerModel::JobQueryModel> job_query_model);
 
-public:
+public slots:
     void slotReciveResponseStdOut(const QString &out);
+    void slotReciveCommandResponse(const ProgressUtil::ShellCommandResponse &command_response);
 
 private slots:
     void slotStyleActionTriggered(QAction *action);
@@ -51,6 +54,8 @@ private:
     void setupStyle();
 
     void changeAllItemsCheckState(Qt::CheckState check_state);
+
+    void setCommandTime(const QDateTime &request_time, const QDateTime &finish_time);
 
     Ui::LlqPanel *ui;
     QPointer<QActionGroup> style_action_group_;

@@ -56,7 +56,7 @@ void ActionContainer::addMenu(ActionContainer *menu)
         return;
     MenuActionContainer *container = static_cast<MenuActionContainer *>(menu);
     QMenu *m = container->menu();
-    qDebug()<<"[ActionContainer::addMenu] menu:"<<m;
+    //qDebug()<<"[ActionContainer::addMenu] menu:"<<m;
     insertMenu(0, m);
 }
 

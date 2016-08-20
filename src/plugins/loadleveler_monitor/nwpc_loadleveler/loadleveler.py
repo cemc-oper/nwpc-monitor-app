@@ -16,13 +16,15 @@ def llq_handler(args):
             'app': 'nwpc_loadleveler',
             'type': 'loadleveler_command',
             'data': {
-                'command': {
+                'request': {
                     'command': 'llq',
                     'arguments': [
                         arg1,
                         arg2,
                         ...
-                    ]
+                    ],
+                    'time': 'YYYY-MM-DD HH:mm:SS'
+
                 },
                 'result': {
                     'jobs': [
@@ -58,15 +60,19 @@ def llq_handler(args):
             'type': 'loadleveler_command',
             'error': 'command_result_parser_error',
             'data': {
-                'command': {
+                'request': {
                     'command': 'llq',
-                    'arguments': []
+                    'arguments': [],
+                    'time': 'YYYY-MM-DD HH:mm:SS'
                 },
                 'error_message': 'can not parse result.'
             }
         }
 
     """
+    request_date_time = datetime.datetime.now()
+    request_time_string = request_date_time.strftime("%Y-%m-%d %H:%M:%S")
+
     host = args.host
     port = args.port
     user = args.user
@@ -91,9 +97,10 @@ def llq_handler(args):
             'app': 'nwpc_loadleveler',
             'type': 'loadleveler_command',
             'data': {
-                'command': {
+                'request': {
                     'command': command,
-                    'arguments': []
+                    'arguments': [],
+                    'time': request_time_string
                 },
                 'result': {
                     'jobs': [],
@@ -114,9 +121,10 @@ def llq_handler(args):
             'type': 'loadleveler_command',
             'error': 'command_result_parser_error',
             'data': {
-                'command': {
+                'request': {
                     'command': command,
-                    'arguments': []
+                    'arguments': [],
+                    'time': request_time_string
                 },
                 'message': {
                     'error_message': 'can not parse result.',
@@ -162,9 +170,10 @@ def llq_handler(args):
         'app': 'nwpc_loadleveler',
         'type': 'loadleveler_command',
         'data': {
-            'command': {
+            'request': {
                 'command': 'llq',
-                'arguments': []
+                'arguments': [],
+                'time': request_time_string
             },
             'result': {
                 'jobs': loadleveler_jobs,

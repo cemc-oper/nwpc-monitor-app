@@ -17,15 +17,31 @@ CommandStep::CommandStep(const QString &program, const QStringList &arguments):
 
 
 ShellCommand::ShellCommand(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    request_date_time_{QDateTime::currentDateTime()}
 {
 
+}
+
+ShellCommand::~ShellCommand()
+{
+    qDebug()<<"[ShellCommand::~ShellCommand] delete";
 }
 
 void ShellCommand::addCommandStep(const QString &program, const QStringList &argument_list)
 {
     CommandStep step{program, argument_list};
     command_steps_.append(step);
+}
+
+void ShellCommand::setRequestTime(const QDateTime &request_date_time)
+{
+    request_date_time_ = request_date_time;
+}
+
+QDateTime ShellCommand::requestTime() const
+{
+    return request_date_time_;
 }
 
 void ShellCommand::execute()
@@ -64,7 +80,14 @@ SynchronousJobResponse ShellCommand::runCommandStep(const CommandStep &step)
         emit signalStdErrString(response.std_err_);
     }
 
-    emit signalFinished(response.exit_code_, response.exit_status_);
+    ShellCommandResponse shell_command_response;
+    shell_command_response.exit_code_ = response.exit_code_;
+    shell_command_response.exit_status_ = response.exit_status_;
+    shell_command_response.std_out_ = response.std_out_;
+    shell_command_response.std_err_ = response.std_err_;
+    shell_command_response.request_date_time_ = this->request_date_time_;
+
+    emit signalFinished(shell_command_response);
 
     if(response.exit_code_ == 0 && response.exit_status_ == QProcess::NormalExit)
     {

@@ -15,6 +15,9 @@
 #include <QMenu>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonValue>
+#include <QDateTime>
 #include <QtDebug>
 
 using namespace LoadLevelerMonitor;
@@ -29,7 +32,8 @@ LlqPanel::LlqPanel(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    //ui->query_time_widget->hide();
+    ui->query_command_frame->hide();
+    ui->query_time_frame->hide();
 
     connect(ui->check_all_button, &QPushButton::clicked,
             [=](){
@@ -88,6 +92,13 @@ void LlqPanel::setJobQueryModel(QPointer<JobQueryModel> job_query_model)
             this, &LlqPanel::slotQueryRecordContextMenuRequest);
 }
 
+void LlqPanel::setCommandTime(const QDateTime &request_time, const QDateTime &finish_time)
+{
+    qint64 interval_seconds = request_time.msecsTo(finish_time);
+    ui->query_time_label->setText(QString::number(interval_seconds/1000.0) + " seconds");
+    ui->query_time_frame->show();
+}
+
 void LlqPanel::slotReciveResponseStdOut(const QString &out)
 {
     qDebug()<<"[LlqPanel::slotReciveResponseStdOut] start";
@@ -103,8 +114,9 @@ void LlqPanel::slotReciveResponseStdOut(const QString &out)
 
     if( result_object.contains("error"))
     {
-        QString cdp_error_message = result_object["data"].toObject()["message"].toObject()["error_message"].toString();
-        qDebug()<<"[LlqPanel::slotReciveResponseStdOut] ERROR:"<<cdp_error_message;
+        QString error_message = result_object["data"].toObject()["message"].toObject()["error_message"].toString();
+        qDebug()<<"[LlqPanel::slotReciveResponseStdOut] ERROR:"<<error_message;
+        setJobQueryModel(nullptr);
         return;
     }
 
@@ -116,7 +128,41 @@ void LlqPanel::slotReciveResponseStdOut(const QString &out)
     JobQueryModel* model = JobQueryModel::buildFromLlqQuery(data);
     setJobQueryModel(model);
 
+    QJsonObject request = data["request"].toObject();
+    QString command = request["command"].toString();
+//    QString request_date_time_string = request["time"].toString();
+    QJsonArray arguments = request["arguments"].toArray();
+    QStringList arg_list;
+    foreach(QJsonValue an_argument, arguments)
+    {
+        arg_list.append(an_argument.toString());
+    }
+
+    ui->query_command_label->setText(command + " " + arg_list.join(" "));
+    ui->query_command_frame->show();
+
+//    QDateTime request_date_time = QDateTime::fromString(request_date_time_string, "yyyy-MM-dd HH:mm:ss");
+//    if(request_date_time.isValid())
+//    {
+//        QDateTime now = QDateTime::currentDateTime();
+//        qint64 interval_seconds = request_date_time.secsTo(now);
+//        ui->query_time_label->setText(QString::number(interval_seconds) + " seconds");
+//        ui->query_time_frame->show();
+//    }
+//    else
+//    {
+//        qWarning()<<"[LlqPanel::slotReciveResponseStdOut] request is not valid:"<<request_date_time_string;
+//    }
+
     qDebug()<<"[LlqPanel::slotReciveResponseStdOut] end";
+}
+
+void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandResponse &command_response)
+{
+    QDateTime finish_date_time = QDateTime::currentDateTime();
+    setCommandTime(command_response.request_date_time_, finish_date_time);
+//    qDebug()<<"[LlqPanel::slotReciveCommandResponse] exit code:"<<command_response.exit_code_;
+//    qDebug()<<"[LlqPanel::slotReciveCommandResponse] exit status:"<<command_response.exit_status_;
 }
 
 void LlqPanel::slotStyleActionTriggered(QAction *action)

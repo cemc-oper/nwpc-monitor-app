@@ -4,6 +4,7 @@
 
 #include "synchronous_job.h"
 
+#include <QDateTime>
 #include <QFutureWatcher>
 #include <QObject>
 
@@ -17,13 +18,29 @@ struct PROGRESS_UTIL_SHARED_EXPORT CommandStep{
     QStringList arguments_;
 };
 
+// TODO: 与 SynchronousJobResponse 的关系
+
+struct PROGRESS_UTIL_SHARED_EXPORT ShellCommandResponse{
+    QDateTime request_date_time_;
+    int exit_code_;
+    QProcess::ExitStatus exit_status_;
+    QString std_out_;
+    QString std_err_;
+};
+
+//Q_DECLARE_METATYPE(ProgressUtil::ShellCommandResponse)
+
 class PROGRESS_UTIL_SHARED_EXPORT ShellCommand : public QObject
 {
     Q_OBJECT
 public:
     explicit ShellCommand(QObject *parent = 0);
+    ~ShellCommand();
 
     void addCommandStep(const QString& program, const QStringList& argument_list);
+
+    void setRequestTime(const QDateTime &request_date_time);
+    QDateTime requestTime() const;
 
     // 使用异步进程运行
     void execute();
@@ -36,11 +53,13 @@ public:
 signals:
     void signalStdOutString(const QString &out);
     void signalStdErrString(const QString &err);
-    void signalFinished(int exit_code, QProcess::ExitStatus exitStatus);
+    void signalFinished(const ShellCommandResponse &shell_command_response);
     void signalSuccess();
 
 protected:
     void asyncRun(QFutureInterface<void> &future_interface);
+
+    QDateTime request_date_time_;
 
     QList<CommandStep> command_steps_;
 
@@ -50,3 +69,5 @@ protected:
 };
 
 }
+
+

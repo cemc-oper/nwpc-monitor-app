@@ -6,6 +6,7 @@
 #include <python_env_plugin/python_command.h>
 
 #include <QProcess>
+#include <QDateTime>
 #include <QtDebug>
 
 using namespace LoadLevelerMonitor;
@@ -25,6 +26,7 @@ LoadLevelerClient::~LoadLevelerClient()
 void LoadLevelerClient::runLlqCommand(QMap<QString, QString> args, QPointer<Panels::LlqPanel> llq_panel)
 {
     qDebug()<<"[LoadLevelerClient::runLlqCommand] start";
+    QDateTime request_date_time = QDateTime::currentDateTime();
     QStringList arguments;
     PythonCommand* command = createPythonCommand();
 
@@ -39,13 +41,11 @@ void LoadLevelerClient::runLlqCommand(QMap<QString, QString> args, QPointer<Pane
         qDebug()<<"[LoadLevelerClient::runLlqCommand] error out:"<<string;
     });
 
-    connect(command, &PythonCommand::signalFinished,
-            [=](int exit_code, QProcess::ExitStatus status)
-            {
-                qDebug()<<"[LoadLevelerClient::runLlqCommand] exit code:"<<exit_code;
-                qDebug()<<"[LoadLevelerClient::runLlqCommand] exit status:"<<status;
-            }
-    );
+    if(!llq_panel.isNull())
+    {
+        connect(command, &PythonCommand::signalFinished,
+                llq_panel, &Panels::LlqPanel::slotReciveCommandResponse);
+    }
 
     arguments<<"llq";
     arguments<<"--host=" + args["host"];
