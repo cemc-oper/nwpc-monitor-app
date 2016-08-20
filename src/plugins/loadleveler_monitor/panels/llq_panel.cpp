@@ -130,7 +130,6 @@ void LlqPanel::slotReciveResponseStdOut(const QString &out)
 
     QJsonObject request = data["request"].toObject();
     QString command = request["command"].toString();
-//    QString request_date_time_string = request["time"].toString();
     QJsonArray arguments = request["arguments"].toArray();
     QStringList arg_list;
     foreach(QJsonValue an_argument, arguments)
@@ -141,18 +140,11 @@ void LlqPanel::slotReciveResponseStdOut(const QString &out)
     ui->query_command_label->setText(command + " " + arg_list.join(" "));
     ui->query_command_frame->show();
 
-//    QDateTime request_date_time = QDateTime::fromString(request_date_time_string, "yyyy-MM-dd HH:mm:ss");
-//    if(request_date_time.isValid())
-//    {
-//        QDateTime now = QDateTime::currentDateTime();
-//        qint64 interval_seconds = request_date_time.secsTo(now);
-//        ui->query_time_label->setText(QString::number(interval_seconds) + " seconds");
-//        ui->query_time_frame->show();
-//    }
-//    else
-//    {
-//        qWarning()<<"[LlqPanel::slotReciveResponseStdOut] request is not valid:"<<request_date_time_string;
-//    }
+    // new output parse
+    QJsonObject message = data["message"].toObject();
+    QString output_message = message["output"].toString();
+    qDebug()<<output_message;
+
 
     qDebug()<<"[LlqPanel::slotReciveResponseStdOut] end";
 }

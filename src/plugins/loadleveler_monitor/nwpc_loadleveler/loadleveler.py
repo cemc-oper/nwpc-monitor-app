@@ -50,6 +50,10 @@ def llq_handler(args):
                         'held': number,
                         'preempted': number
                     }
+                },
+                'message': {
+                    'output': std_out_string,
+                    'error_output': std_error_string
                 }
             }
         }
@@ -65,7 +69,11 @@ def llq_handler(args):
                     'arguments': [],
                     'time': 'YYYY-MM-DD HH:mm:SS'
                 },
-                'error_message': 'can not parse result.'
+                'error_message': 'can not parse result.',
+                'message': {
+                    'output': std_out_string,
+                    'error_output': std_error_string
+                }
             }
         }
 
@@ -107,7 +115,8 @@ def llq_handler(args):
                     'summary': None
                 },
                 'message': {
-                    'output': 'llq: There is currently no job status to report.'
+                    'output': std_out_string,
+                    'error_output': std_error_string
                 }
             }
         }
@@ -178,6 +187,10 @@ def llq_handler(args):
             'result': {
                 'jobs': loadleveler_jobs,
                 'summary': llq_summary
+            },
+            'message': {
+                'output': std_out_string,
+                'error_output': std_error_string
             }
         }
     }
