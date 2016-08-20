@@ -50,7 +50,7 @@ LlqPanel::LlqPanel(QWidget *parent) :
     connect(ui->query_button, &QPushButton::clicked,
             this, &LlqPanel::slotRequestQuery);
 
-    connect(ui->argument_edit, &QLineEdit::editingFinished,
+    connect(ui->argument_edit, &QLineEdit::returnPressed,
             this, &LlqPanel::slotRequestQuery);
 
     setupTemplate();
