@@ -35,6 +35,9 @@ public:
 
     void setJobQueryModel(QPointer<LoadLevelerMonitor::LoadLevelerModel::JobQueryModel> job_query_model);
 
+public:
+    void slotReciveResponseStdOut(const QString &out);
+
 private slots:
     void slotStyleActionTriggered(QAction *action);
     void slotTemplateActionTriggered(QAction *action);

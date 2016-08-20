@@ -1,8 +1,7 @@
 #include "loadleveler_client.h"
-
 #include "loadleveler_monitor_plugin.h"
-
 #include "client_command_widget.h"
+#include "panels/llq_panel.h"
 
 #include <python_env_plugin/python_command.h>
 
@@ -23,13 +22,17 @@ LoadLevelerClient::~LoadLevelerClient()
 
 }
 
-void LoadLevelerClient::runLlqCommand(QMap<QString, QString> args)
+void LoadLevelerClient::runLlqCommand(QMap<QString, QString> args, QPointer<Panels::LlqPanel> llq_panel)
 {
     qDebug()<<"[LoadLevelerClient::runLlqCommand] start";
     QStringList arguments;
     PythonCommand* command = createPythonCommand();
-    connect(command, &PythonCommand::signalStdOutString,
-            LoadLevelerMonitorPlugin::instance(), &LoadLevelerMonitorPlugin::receiveLlqQueryStdOut);
+
+    if(!llq_panel.isNull())
+    {
+        connect(command, &PythonCommand::signalStdOutString,
+                llq_panel, &Panels::LlqPanel::slotReciveResponseStdOut);
+    }
 
     connect(command, &PythonCommand::signalStdErrString,
             [=](const QString &string){
@@ -66,11 +69,15 @@ void LoadLevelerClient::runCommand(QMap<QString, QString> args, QPointer<ClientC
     qDebug()<<"[LoadLevelerClient::runCommand] start";
     QStringList arguments;
     PythonCommand* command = createPythonCommand();
-    connect(command, &PythonCommand::signalStdOutString,
-            command_widget, &ClientCommandWidget::receiveResponse);
 
-    connect(command, &PythonCommand::signalStdErrString,
-            command_widget, &ClientCommandWidget::setErrorOutputText);
+    if(!command_widget.isNull())
+    {
+        connect(command, &PythonCommand::signalStdOutString,
+                command_widget, &ClientCommandWidget::receiveResponse);
+
+        connect(command, &PythonCommand::signalStdErrString,
+                command_widget, &ClientCommandWidget::setErrorOutputText);
+    }
 
 //    connect(command, &PythonCommand::signalFinished,
 //            [=](int exit_code, QProcess::ExitStatus status)

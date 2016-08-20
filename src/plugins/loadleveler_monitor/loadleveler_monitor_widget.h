@@ -26,8 +26,6 @@ public:
     explicit LoadLevelerMonitorWidget(QWidget *parent = 0);
     ~LoadLevelerMonitorWidget();
 
-    void setJobQueryModel(QPointer<LoadLevelerModel::JobQueryModel> job_query_model);
-
     QMap<QString, QString> getSessionArguments();
 
 private slots:

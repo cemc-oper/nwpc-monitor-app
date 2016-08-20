@@ -69,34 +69,3 @@ LoadLevelerClient *LoadLevelerMonitorPlugin::client()
 {
     return loadleveler_monitor_plugin_instance->loadleveler_client_;
 }
-
-void LoadLevelerMonitorPlugin::receiveLlqQueryStdOut(const QString &out)
-{
-    qDebug()<<"[LoadLevelerMonitorPlugin::receiveLlqQueryStdOut] start";
-    QString result_str = out;
-    //qDebug()<<"[LoadLevelerMonitorPlugin::receiveLlqQueryStdOut] llq query std out:"<<result_str;
-
-    QJsonDocument doc = QJsonDocument::fromJson(result_str.toUtf8());
-    if(!doc.isObject())
-    {
-        qDebug()<<"[LoadLevelerMonitorPlugin::receiveLlqQueryStdOut] result is not a json string.";
-    }
-    QJsonObject result_object = doc.object();
-
-    if( result_object.contains("error"))
-    {
-        QString cdp_error_message = result_object["data"].toObject()["message"].toObject()["error_message"].toString();
-        qDebug()<<"[LoadLevelerMonitorPlugin::receiveLlqQueryStdOut] ERROR:"<<cdp_error_message;
-        return;
-    }
-
-    QString app = result_object["app"].toString();
-    QString type = result_object["type"].toString();
-
-    QJsonObject data = result_object["data"].toObject();
-
-    JobQueryModel* model = JobQueryModel::buildFromLlqQuery(data);
-    loadleveler_monitor_perspective_->widget()->setJobQueryModel(model);
-
-    qDebug()<<"[LoadLevelerMonitorPlugin::receiveLlqQueryStdOut] end";
-}

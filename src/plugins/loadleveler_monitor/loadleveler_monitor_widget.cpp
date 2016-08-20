@@ -46,11 +46,6 @@ LoadLevelerMonitorWidget::~LoadLevelerMonitorWidget()
     }
 }
 
-void LoadLevelerMonitorWidget::setJobQueryModel(QPointer<JobQueryModel> job_query_model)
-{
-    ui->llq_panel->setJobQueryModel(job_query_model);
-}
-
 QMap<QString, QString> LoadLevelerMonitorWidget::getSessionArguments()
 {
     QMap<QString, QString> args;

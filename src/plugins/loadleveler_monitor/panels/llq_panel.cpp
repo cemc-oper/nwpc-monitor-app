@@ -13,6 +13,8 @@
 #include <QActionGroup>
 #include <QMap>
 #include <QMenu>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QtDebug>
 
 using namespace LoadLevelerMonitor;
@@ -86,6 +88,37 @@ void LlqPanel::setJobQueryModel(QPointer<JobQueryModel> job_query_model)
             this, &LlqPanel::slotQueryRecordContextMenuRequest);
 }
 
+void LlqPanel::slotReciveResponseStdOut(const QString &out)
+{
+    qDebug()<<"[LlqPanel::slotReciveResponseStdOut] start";
+    QString result_str = out;
+    //qDebug()<<"[LlqPanel::slotReciveResponseStdOut] llq query std out:"<<result_str;
+
+    QJsonDocument doc = QJsonDocument::fromJson(result_str.toUtf8());
+    if(!doc.isObject())
+    {
+        qDebug()<<"[LlqPanel::slotReciveResponseStdOut] result is not a json string.";
+    }
+    QJsonObject result_object = doc.object();
+
+    if( result_object.contains("error"))
+    {
+        QString cdp_error_message = result_object["data"].toObject()["message"].toObject()["error_message"].toString();
+        qDebug()<<"[LlqPanel::slotReciveResponseStdOut] ERROR:"<<cdp_error_message;
+        return;
+    }
+
+    QString app = result_object["app"].toString();
+    QString type = result_object["type"].toString();
+
+    QJsonObject data = result_object["data"].toObject();
+
+    JobQueryModel* model = JobQueryModel::buildFromLlqQuery(data);
+    setJobQueryModel(model);
+
+    qDebug()<<"[LlqPanel::slotReciveResponseStdOut] end";
+}
+
 void LlqPanel::slotStyleActionTriggered(QAction *action)
 {
     int index = style_action_list_.indexOf(action);
@@ -118,7 +151,7 @@ void LlqPanel::slotRequestQuery()
     if(!arg_string.isEmpty())
         args["command"] += " "+arg_string;
 
-    LoadLevelerMonitorPlugin::client()->runLlqCommand(args);
+    LoadLevelerMonitorPlugin::client()->runLlqCommand(args, this);
 }
 
 void LlqPanel::slotQueryRecordContextMenuRequest(const QPoint &pos)

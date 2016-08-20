@@ -30,7 +30,6 @@ public:
     static LoadLevelerClient *client();
 
 public slots:
-    void receiveLlqQueryStdOut(const QString &out);
 
 private:
     LoadLevelerMonitorPerspective* loadleveler_monitor_perspective_;
