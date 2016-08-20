@@ -3,6 +3,7 @@
 #include "loadleveler_client.h"
 #include "loadleveler_monitor_widget.h"
 #include "loadleveler_model/job_query_model.h"
+#include "loadleveler_model/llq_command_manager.h"
 
 #include <plugin_manager/plugin_manager.h>
 
@@ -18,7 +19,8 @@ LoadLevelerMonitorPlugin* loadleveler_monitor_plugin_instance = nullptr;
 
 LoadLevelerMonitorPlugin::LoadLevelerMonitorPlugin(QObject *parent) :
     IPlugin{parent},
-    loadleveler_monitor_perspective_{0}
+    loadleveler_monitor_perspective_{0},
+    llq_command_manager_{0}
 {
     loadleveler_monitor_plugin_instance = this;
 }
@@ -29,6 +31,8 @@ LoadLevelerMonitorPlugin::~LoadLevelerMonitorPlugin()
         loadleveler_monitor_perspective_->deleteLater();
     if(loadleveler_client_)
         loadleveler_client_->deleteLater();
+    if(llq_command_manager_)
+        llq_command_manager_->deleteLater();
     loadleveler_monitor_plugin_instance = nullptr;
 }
 
@@ -47,6 +51,10 @@ bool LoadLevelerMonitorPlugin::initialize(const QStringList &arguments, QString 
     loadleveler_client_->setPythonExecutableProgramPath(
         "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app-playground\\python\\python35\\python.exe"
     );
+
+    llq_command_manager_ = new LlqCommandManager{this};
+    LlqCommandManager::initialize();
+
     return true;
 }
 

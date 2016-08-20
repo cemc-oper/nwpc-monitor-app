@@ -2,12 +2,18 @@
 
 #include "loadleveler_monitor_global.h"
 
+
+
 #include <plugin_manager/iplugin.h>
 
 namespace LoadLevelerMonitor{
 
 class LoadLevelerMonitorPerspective;
 class LoadLevelerClient;
+
+namespace LoadLevelerModel{
+class LlqCommandManager;
+}
 
 class LOADLEVELER_MONITOR_EXPORT LoadLevelerMonitorPlugin : public PluginSystem::IPlugin
 {
@@ -34,6 +40,8 @@ public slots:
 private:
     LoadLevelerMonitorPerspective* loadleveler_monitor_perspective_;
     LoadLevelerClient *loadleveler_client_;
+    LoadLevelerModel::LlqCommandManager *llq_command_manager_;
+
 };
 
 }
