@@ -123,21 +123,23 @@ JobQueryModel *JobQueryModel::buildFromLlqResponseLines(const QStringList &lines
         }
     }
 
-    LlqCategory no_category = LlqCommandManager::findCategory("No.");
+    LlqCategory row_num_category = LlqCommandManager::findCategory("No.");
 
     JobQueryModel *job_query_model = new JobQueryModel(parent);
-    for(int i=2; i < lines.size() - 2; i++ )
+    for(int i=2; i < lines.size() - 3; i++ )
     {
         QList<QStandardItem*> row = JobQueryItem::buildFromOutputLine(lines[i], category_list);
         JobQueryItem *item = new JobQueryItem(QString::number(i-1));
         item->setItemType(JobQueryItem::ItemType::NumberItem);
-        item->setCategory(no_category);
+        item->setCategory(row_num_category);
         item->setCheckable(true);
         item->setCheckState(Qt::Unchecked);
         row.push_front(item);
         job_query_model->invisibleRootItem()->appendRow(row);
     }
 
+    // insert no category
+    category_list.insert(0, row_num_category);
     // set header titles
     QStringList header_labels;
     foreach(LlqCategory c, category_list)

@@ -102,10 +102,12 @@ JobQueryModel *LlqCommandManagerPrivate::buildLlqQueryModel(const QString &outpu
     Q_ASSERT(!output.isEmpty());
 
     QStringList lines = output.split('\n');
-    std::transform(lines.begin(), lines.end(),
-                   lines.begin(), [=](QString str){
-        return str.trimmed();
-    });
+
+    // 不能直接对每行使用trimmed，因为第一项和最后一项都可能为空，trimmed将破坏数据。
+//    std::transform(lines.begin(), lines.end(),
+//                   lines.begin(), [=](QString str){
+//        return str.trimmed();
+//    });
 
     return JobQueryModel::buildFromLlqResponseLines(lines);
 }

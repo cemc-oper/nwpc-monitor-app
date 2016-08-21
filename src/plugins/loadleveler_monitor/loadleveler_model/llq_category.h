@@ -37,13 +37,17 @@ public:
 
 static const QVector<QStringList> LLQ_CATEGARY_LIST = {
     // id,              display_name_,      command_line_,  result_title_,  result_type
-    {"id",              "Id",               "",             "Id",           TYPE_STRING},
+
+    // used in default llq output
+    {"id",              "Id",               "",             "Id",           TYPE_STRING},   // cma20n04.2681148.0
+    {"submitted",       "Submitted",        "",             "Submitted",    TYPE_DATE},     // same as Queue Date, use in standard llq.
+
+    // used in llq's -f arguemnt.
     {"class",           "Class",            "%c",           "Class",        TYPE_STRING},   // normal|operation
     {"dispatch_date",   "Dispatch Date",    "%dd",          "Disp. Date",   TYPE_DATE},     // 08/20 12:37
     {"queue_date",      "Queue Date",       "%dq",          "Queue Date",   TYPE_DATE},     // 08/20 12:37
-    {"submitted",       "Submitted",        "",             "Submitted",    TYPE_DATE},     // same as Queue Date, use in standard llq.
     {"unix_group",      "UNIX Group",       "%gu",          "Unix Group",   TYPE_STRING},   // eps
-    {"host_name",       "Host Name",        "%h",           "Running On",   TYPE_STRING},   // cma19n06
+    {"host_name",       "Running On",       "%h",           "Running On",   TYPE_STRING},   // cma19n06
     {"step_id",         "Step Id",          "%id",          "Step Id",      TYPE_STRING},   // cma20n04.2681148.0
     {"image_size",      "Virtual Image Size",   "%is",      "Im.Size",      TYPE_NUMBER},   // 13
     {"job_name",        "Job Name",         "%jn",          "Job Name",     TYPE_STRING},   // cma20n04.2681148
@@ -53,8 +57,9 @@ static const QVector<QStringList> LLQ_CATEGARY_LIST = {
     {"priority",        "User Priority",    "%p",           "PRI",          TYPE_NUMBER},   // 50
     {"step_name",       "Step Name",        "%sn",          "Step Name",    TYPE_STRING},   // 0
     {"status",          "Status",           "%st",          "ST",           TYPE_STRING},   // R
+
     // additional categories not used in command argument.
-    {"no",              "No",               "",             "No.",             TYPE_NUMBER}    // row number in result records
+    {"no",              "No.",              "",             "No.",             TYPE_NUMBER}    // row number in result records
 };
 
 }
