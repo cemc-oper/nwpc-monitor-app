@@ -5,7 +5,8 @@ using namespace LoadLevelerMonitor::LoadLevelerModel;
 const QString LlqCategory::VALID_ID{".valid_id"};
 
 LlqCategory::LlqCategory():
-    id_{VALID_ID}
+    id_{VALID_ID},
+    token_length_{-1}
 {
 
 }

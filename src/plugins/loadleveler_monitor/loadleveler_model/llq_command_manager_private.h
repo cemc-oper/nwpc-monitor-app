@@ -10,6 +10,7 @@ namespace LoadLevelerMonitor{
 namespace LoadLevelerModel{
 
 class LlqCommandManager;
+class JobQueryModel;
 
 class LlqCommandManagerPrivate : public QObject
 {
@@ -20,8 +21,10 @@ public:
     void initLlqCategoryList();
 
     QVector<LlqCategory> llqCategoryList();
-
     LlqCategory findCategory(const QString result_title);
+
+    JobQueryModel *buildLlqQueryModelFromResponse(const QString &response_str);
+    JobQueryModel *buildLlqQueryModel(const QString &output);
 
 signals:
 

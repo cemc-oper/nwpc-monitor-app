@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../loadleveler_monitor_global.h"
+
 #include "llq_category.h"
 #include <QVector>
 #include <QObject>
@@ -10,9 +12,11 @@ class LoadLevelerMonitorPlugin;
 
 namespace LoadLevelerModel{
 
+class JobQueryModel;
+
 class LlqCommandManagerPrivate;
 
-class LlqCommandManager : public QObject
+class LOADLEVELER_MONITOR_EXPORT LlqCommandManager : public QObject
 {
     Q_OBJECT
 public:
@@ -24,11 +28,13 @@ public:
 
     static LlqCategory findCategory(const QString result_title);
 
+    static JobQueryModel *buildLlqQueryModelFromResponse(const QString &response);
+
 signals:
 
 public slots:
 
-private:
+public:
     explicit LlqCommandManager(QObject *parent = 0);
 
     friend class LoadLevelerMonitorPlugin;

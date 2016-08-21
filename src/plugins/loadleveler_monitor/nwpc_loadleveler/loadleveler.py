@@ -26,7 +26,7 @@ def llq_handler(args):
                     'time': 'YYYY-MM-DD HH:mm:SS'
 
                 },
-                'result': {
+                'response': {
                     'jobs': [
                         {
                             'id': string
@@ -49,12 +49,13 @@ def llq_handler(args):
                         'running': number,
                         'held': number,
                         'preempted': number
+                    },
+                    'message': {
+                        'output': std_out_string,
+                        'error_output': std_error_string
                     }
                 },
-                'message': {
-                    'output': std_out_string,
-                    'error_output': std_error_string
-                }
+
             }
         }
 
@@ -70,9 +71,11 @@ def llq_handler(args):
                     'time': 'YYYY-MM-DD HH:mm:SS'
                 },
                 'error_message': 'can not parse result.',
-                'message': {
-                    'output': std_out_string,
-                    'error_output': std_error_string
+                response:{
+                    'message': {
+                        'output': std_out_string,
+                        'error_output': std_error_string
+                    }
                 }
             }
         }
@@ -110,14 +113,15 @@ def llq_handler(args):
                     'arguments': [],
                     'time': request_time_string
                 },
-                'result': {
+                'response': {
                     'jobs': [],
-                    'summary': None
+                    'summary': None,
+                    'message': {
+                        'output': std_out_string,
+                        'error_output': std_error_string
+                    }
                 },
-                'message': {
-                    'output': std_out_string,
-                    'error_output': std_error_string
-                }
+
             }
         }
         print(json.dumps(result))
@@ -135,10 +139,12 @@ def llq_handler(args):
                     'arguments': [],
                     'time': request_time_string
                 },
-                'message': {
-                    'error_message': 'can not parse result.',
-                    'output': std_out_string,
-                    'error_output': std_error_string
+                'response':{
+                    'message': {
+                        'error_message': 'can not parse result.',
+                        'output': std_out_string,
+                        'error_output': std_error_string
+                    }
                 }
             }
         }
@@ -184,14 +190,15 @@ def llq_handler(args):
                 'arguments': [],
                 'time': request_time_string
             },
-            'result': {
+            'response': {
                 'jobs': loadleveler_jobs,
-                'summary': llq_summary
+                'summary': llq_summary,
+                'message': {
+                    'output': std_out_string,
+                    'error_output': std_error_string
+                }
             },
-            'message': {
-                'output': std_out_string,
-                'error_output': std_error_string
-            }
+
         }
     }
 
@@ -272,7 +279,7 @@ def run_handler(args):
                 'command': command,
                 'arguments': []
             },
-            'result': {
+            'response': {
                 'message': {
                     'output': std_out_string,
                     'error_output': std_error_out_string

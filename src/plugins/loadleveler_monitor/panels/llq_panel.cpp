@@ -128,9 +128,9 @@ void LlqPanel::slotReciveResponseStdOut(const QString &out)
     JobQueryModel* model = JobQueryModel::buildFromLlqQuery(data);
     setJobQueryModel(model);
 
-    QJsonObject request = data["request"].toObject();
-    QString command = request["command"].toString();
-    QJsonArray arguments = request["arguments"].toArray();
+    QJsonObject response_object = data["response"].toObject();
+    QString command = response_object["command"].toString();
+    QJsonArray arguments = response_object["arguments"].toArray();
     QStringList arg_list;
     foreach(QJsonValue an_argument, arguments)
     {
@@ -141,7 +141,7 @@ void LlqPanel::slotReciveResponseStdOut(const QString &out)
     ui->query_command_frame->show();
 
     // new output parse
-    QJsonObject message = data["message"].toObject();
+    QJsonObject message = response_object["message"].toObject();
     QString output_message = message["output"].toString();
     qDebug()<<output_message;
 

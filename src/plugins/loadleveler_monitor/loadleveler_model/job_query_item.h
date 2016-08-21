@@ -1,8 +1,11 @@
 #pragma once
 
+#include "llq_category.h"
+
 #include <QStandardItem>
 #include <QJsonObject>
 #include <QList>
+#include <QVector>
 
 namespace LoadLevelerMonitor{
 
@@ -21,23 +24,27 @@ public:
     };
 
     enum ItemType{
-        NormalItem = 11,
+        UnknownItem = 10,
+        NormalItem,
         NumberItem,
         DateTimeItem
     };
 
     ~JobQueryItem();
 
-    QVariant data(int role = Qt::UserRole + 1) const;
-
-    static QList<QStandardItem *> buildFromQueryRecord(const QJsonObject &data);
-
     void setItemType(const ItemType &item_type);
+    void setCategory(const LlqCategory &category);
 
     JobQueryItem &operator = (const JobQueryItem &right);
 
+    QVariant data(int role = Qt::UserRole + 1) const;
+
+    static QList<QStandardItem *> buildFromQueryRecord(const QJsonObject &data);
+    static QList<QStandardItem *> buildFromOutputLine(const QString &line, const QVector<LlqCategory> &category_list);
+
 private:
     ItemType item_type_;
+    LlqCategory category_;
 };
 
 }

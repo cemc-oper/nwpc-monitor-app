@@ -47,10 +47,10 @@ void ClientCommandWidget::receiveResponse(const QString &response)
 
     QJsonObject result_object = doc.object();
 
-    QString error_message = result_object["data"].toObject()["result"].toObject()["message"].toObject()["error_output"].toString();
+    QString error_message = result_object["data"].toObject()["response"].toObject()["message"].toObject()["error_output"].toString();
     setErrorOutputText(error_message);
 
-    QString output_message = result_object["data"].toObject()["result"].toObject()["message"].toObject()["output"].toString();
+    QString output_message = result_object["data"].toObject()["response"].toObject()["message"].toObject()["output"].toString();
     setOutputText(output_message);
 }
 
