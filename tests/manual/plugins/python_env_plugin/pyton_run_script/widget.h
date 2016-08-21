@@ -1,6 +1,7 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
+#include <python_env_plugin/python_command.h>
 #include <QWidget>
 
 namespace PythonEnv{
@@ -25,6 +26,8 @@ private slots:
     void on_btn_run_nonexist_python_script_clicked();
 
     void on_btn_run_nonexist_python_exe_clicked();
+
+    void slotCommandFinished(const ProgressUtil::ShellCommandResponse &response);
 
 private:
     Ui::Widget *ui;
