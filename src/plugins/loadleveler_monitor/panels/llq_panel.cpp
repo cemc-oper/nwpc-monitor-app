@@ -3,6 +3,7 @@
 
 #include "../loadleveler_model/job_query_model.h"
 #include "../loadleveler_model/job_query_item.h"
+#include "../loadleveler_model/llq_command_manager.h"
 
 #include "../loadleveler_monitor_plugin.h"
 #include "../loadleveler_client.h"
@@ -99,19 +100,21 @@ void LlqPanel::setCommandTime(const QDateTime &request_time, const QDateTime &fi
     ui->query_time_frame->show();
 }
 
-void LlqPanel::slotReciveResponseStdOut(const QString &out)
+void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandResponse &command_response)
 {
     qDebug()<<"[LlqPanel::slotReciveResponseStdOut] start";
-    QString result_str = out;
-    //qDebug()<<"[LlqPanel::slotReciveResponseStdOut] llq query std out:"<<result_str;
 
-    QJsonDocument doc = QJsonDocument::fromJson(result_str.toUtf8());
+    QDateTime finish_date_time = QDateTime::currentDateTime();
+    setCommandTime(command_response.request_date_time_, finish_date_time);
+
+    QJsonDocument doc = QJsonDocument::fromJson(command_response.std_out_.toUtf8());
     if(!doc.isObject())
     {
         qDebug()<<"[LlqPanel::slotReciveResponseStdOut] result is not a json string.";
+        return;
     }
-    QJsonObject result_object = doc.object();
 
+    QJsonObject result_object = doc.object();
     if( result_object.contains("error"))
     {
         QString error_message = result_object["data"].toObject()["message"].toObject()["error_message"].toString();
@@ -122,39 +125,24 @@ void LlqPanel::slotReciveResponseStdOut(const QString &out)
 
     QString app = result_object["app"].toString();
     QString type = result_object["type"].toString();
-
     QJsonObject data = result_object["data"].toObject();
 
-    JobQueryModel* model = JobQueryModel::buildFromLlqQuery(data);
-    setJobQueryModel(model);
-
-    QJsonObject response_object = data["response"].toObject();
-    QString command = response_object["command"].toString();
-    QJsonArray arguments = response_object["arguments"].toArray();
+    QJsonObject request_object = data["request"].toObject();
+    QString command = request_object["command"].toString();
+    QJsonArray arguments = request_object["arguments"].toArray();
     QStringList arg_list;
     foreach(QJsonValue an_argument, arguments)
     {
         arg_list.append(an_argument.toString());
     }
-
     ui->query_command_label->setText(command + " " + arg_list.join(" "));
     ui->query_command_frame->show();
 
-    // new output parse
+    QJsonObject response_object = data["response"].toObject();
     QJsonObject message = response_object["message"].toObject();
     QString output_message = message["output"].toString();
-    qDebug()<<output_message;
-
-
-    qDebug()<<"[LlqPanel::slotReciveResponseStdOut] end";
-}
-
-void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandResponse &command_response)
-{
-    QDateTime finish_date_time = QDateTime::currentDateTime();
-    setCommandTime(command_response.request_date_time_, finish_date_time);
-//    qDebug()<<"[LlqPanel::slotReciveCommandResponse] exit code:"<<command_response.exit_code_;
-//    qDebug()<<"[LlqPanel::slotReciveCommandResponse] exit status:"<<command_response.exit_status_;
+    JobQueryModel *model = LlqCommandManager::buildLlqQueryModel(output_message);
+    setJobQueryModel(model);
 }
 
 void LlqPanel::slotStyleActionTriggered(QAction *action)

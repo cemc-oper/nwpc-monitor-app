@@ -30,6 +30,8 @@ public:
 
     static JobQueryModel *buildLlqQueryModelFromResponse(const QString &response);
 
+    static JobQueryModel *buildLlqQueryModel(const QString &output_message);
+
 signals:
 
 public slots:

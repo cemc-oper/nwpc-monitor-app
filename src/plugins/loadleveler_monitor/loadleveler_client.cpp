@@ -30,16 +30,16 @@ void LoadLevelerClient::runLlqCommand(QMap<QString, QString> args, QPointer<Pane
     QStringList arguments;
     PythonCommand* command = createPythonCommand();
 
-    if(!llq_panel.isNull())
-    {
-        connect(command, &PythonCommand::signalStdOutString,
-                llq_panel, &Panels::LlqPanel::slotReciveResponseStdOut);
-    }
+//    if(!llq_panel.isNull())
+//    {
+//        connect(command, &PythonCommand::signalStdOutString,
+//                llq_panel, &Panels::LlqPanel::slotReciveResponseStdOut);
+//    }
 
-    connect(command, &PythonCommand::signalStdErrString,
-            [=](const QString &string){
-        qDebug()<<"[LoadLevelerClient::runLlqCommand] error out:"<<string;
-    });
+//    connect(command, &PythonCommand::signalStdErrString,
+//            [=](const QString &string){
+//        qDebug()<<"[LoadLevelerClient::runLlqCommand] error out:"<<string;
+//    });
 
     if(!llq_panel.isNull())
     {
@@ -47,7 +47,7 @@ void LoadLevelerClient::runLlqCommand(QMap<QString, QString> args, QPointer<Pane
                 llq_panel, &Panels::LlqPanel::slotReciveCommandResponse);
     }
 
-    arguments<<"llq";
+    arguments<<"run";
     arguments<<"--host=" + args["host"];
     arguments<<"--port=" + args["port"];
     arguments<<"--user=" + args["user"];

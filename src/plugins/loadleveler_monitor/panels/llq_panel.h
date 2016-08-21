@@ -34,11 +34,9 @@ public:
     ~LlqPanel();
 
     void setMonitorWidget(LoadLevelerMonitor::LoadLevelerMonitorWidget *widget);
-
     void setJobQueryModel(QPointer<LoadLevelerMonitor::LoadLevelerModel::JobQueryModel> job_query_model);
 
 public slots:
-    void slotReciveResponseStdOut(const QString &out);
     void slotReciveCommandResponse(const ProgressUtil::ShellCommandResponse &command_response);
 
 private slots:
@@ -53,9 +51,9 @@ private:
     void setupTemplate();
     void setupStyle();
 
-    void changeAllItemsCheckState(Qt::CheckState check_state);
-
     void setCommandTime(const QDateTime &request_time, const QDateTime &finish_time);
+
+    void changeAllItemsCheckState(Qt::CheckState check_state);
 
     Ui::LlqPanel *ui;
     QPointer<QActionGroup> style_action_group_;
@@ -65,7 +63,6 @@ private:
     QVector<QAction *> template_action_list_;
 
     QPointer<LoadLevelerMonitor::LoadLevelerMonitorWidget> monitor_widget_;
-
     QPointer<LoadLevelerMonitor::LoadLevelerModel::JobQueryModel> job_query_model_;
 };
 

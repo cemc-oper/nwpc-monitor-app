@@ -33,6 +33,11 @@ JobQueryModel *LlqCommandManager::buildLlqQueryModelFromResponse(const QString &
     return d->buildLlqQueryModelFromResponse(response);
 }
 
+JobQueryModel *LlqCommandManager::buildLlqQueryModel(const QString &output_message)
+{
+    return d->buildLlqQueryModel(output_message);
+}
+
 LlqCommandManager::LlqCommandManager(QObject *parent) : QObject(parent)
 {
     llq_command_manager_instance = this;

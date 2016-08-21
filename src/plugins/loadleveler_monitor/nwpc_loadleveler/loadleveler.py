@@ -275,7 +275,7 @@ def run_handler(args):
         'app': 'nwpc_loadleveler',
         'type': 'loadleveler_command',
         'data': {
-            'command': {
+            'request': {
                 'command': command,
                 'arguments': []
             },
