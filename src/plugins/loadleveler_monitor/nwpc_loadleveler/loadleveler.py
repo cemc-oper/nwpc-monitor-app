@@ -7,42 +7,7 @@ from paramiko import SSHClient, AutoAddPolicy
 
 
 def llq_handler(args):
-    host = args.host
-    port = args.port
-    user = args.user
-    password = args.password
-    command = args.command
-
-    client = SSHClient()
-    client.set_missing_host_key_policy(AutoAddPolicy())
-    client.connect(host, port, user, password)
-
-    stdin, stdout, stderr = client.exec_command(
-        command
-    )
-
-    std_out_string = stdout.read().decode('UTF-8')
-
-    std_error_out_string = stderr.read().decode('UTF-8')
-
-    result = {
-        'app': 'nwpc_loadleveler',
-        'type': 'loadleveler_command',
-        'data': {
-            'request': {
-                'command': command,
-                'arguments': []
-            },
-            'response': {
-                'message': {
-                    'output': std_out_string,
-                    'error_output': std_error_out_string
-                }
-            }
-        }
-    }
-    print(json.dumps(result, indent=4))
-    return
+    run_handler(args)
 
 
 def llq_object_handler(args):
@@ -248,26 +213,8 @@ def llq_object_handler(args):
 
 
 def llclass_handler(args):
-    host = args.host
-    port = args.port
-    user = args.user
-    password = args.password
-    command = args.command
-
-    client = SSHClient()
-    client.set_missing_host_key_policy(AutoAddPolicy())
-    client.connect(host, port, user, password)
-
-    stdin, stdout, stderr = client.exec_command(
-        command
-    )
-
-    std_out_string = stdout.read().decode('UTF-8')
-
-    print(std_out_string)
-
-    return
-
+    run_handler(args)
+    
 
 def llsubmit_handler(args):
     host = args.host
