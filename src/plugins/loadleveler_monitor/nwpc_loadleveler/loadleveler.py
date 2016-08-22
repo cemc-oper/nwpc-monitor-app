@@ -7,6 +7,45 @@ from paramiko import SSHClient, AutoAddPolicy
 
 
 def llq_handler(args):
+    host = args.host
+    port = args.port
+    user = args.user
+    password = args.password
+    command = args.command
+
+    client = SSHClient()
+    client.set_missing_host_key_policy(AutoAddPolicy())
+    client.connect(host, port, user, password)
+
+    stdin, stdout, stderr = client.exec_command(
+        command
+    )
+
+    std_out_string = stdout.read().decode('UTF-8')
+
+    std_error_out_string = stderr.read().decode('UTF-8')
+
+    result = {
+        'app': 'nwpc_loadleveler',
+        'type': 'loadleveler_command',
+        'data': {
+            'request': {
+                'command': command,
+                'arguments': []
+            },
+            'response': {
+                'message': {
+                    'output': std_out_string,
+                    'error_output': std_error_out_string
+                }
+            }
+        }
+    }
+    print(json.dumps(result, indent=4))
+    return
+
+
+def llq_object_handler(args):
     """
     使用llq命令查询
     :param args:
@@ -306,6 +345,10 @@ def loadleveler_main():
     parser_llq = subparsers.add_parser('llq', help='use llq command', parents=[login_parser])
     parser_llq.add_argument('-c', '--command', type=str, help='llq command', required=True)
     parser_llq.set_defaults(func=llq_handler)
+
+    parser_llq_object = subparsers.add_parser('llq-object', help='use llq command with parsing', parents=[login_parser])
+    parser_llq_object.add_argument('-c', '--command', type=str, help='llq command', required=True)
+    parser_llq_object.set_defaults(func=llq_object_handler)
 
     parser_llclass = subparsers.add_parser('llclass', help='use llclass command', parents=[login_parser])
     parser_llclass.add_argument('-c', '--command', type=str, help='llq command', required=True)
