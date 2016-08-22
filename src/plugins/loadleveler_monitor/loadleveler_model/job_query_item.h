@@ -27,7 +27,7 @@ public:
         UnknownItem = 10,
         NormalItem,
         NumberItem,
-        DateTimeItem
+        DateItem
     };
 
     ~JobQueryItem();
@@ -42,6 +42,11 @@ public:
 
     static QList<QStandardItem *> buildFromQueryRecord(const QJsonObject &data);
     static QList<QStandardItem *> buildFromOutputLine(const QString &line, const QVector<LlqQueryCategory> &category_list);
+
+    static QList<QStandardItem *> buildDetailQueryRecord(
+            const QStringList &lines,
+            const QVector<LlqDetailQueryCategory> &category_list,
+            const QHash<QString, LlqDetailQueryCategory> &category_hash = QHash<QString, LlqDetailQueryCategory>());
 
 private:
     ItemType item_type_;

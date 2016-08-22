@@ -23,9 +23,29 @@ QVector<LlqQueryCategory> LlqCommandManager::llqCategoryList()
     return d->llqCategoryList();
 }
 
+QVector<LlqDetailQueryCategory> LlqCommandManager::llqSerialJobDetailQueryCategoryList()
+{
+    return d->llq_serial_job_detail_category_list_;
+}
+
+QVector<LlqDetailQueryCategory> LlqCommandManager::llqParellelJobDetailQueryCategoryList()
+{
+    return d->llq_parallel_job_detail_category_list_;
+}
+
+LlqDetailQueryCategory LlqCommandManager::findLlqSerialJobDetailQueryCategory(const QString &result_label) const
+{
+    return d->findLlqSerialJobDetailQueryCategory(result_label);
+}
+
+LlqDetailQueryCategory LlqCommandManager::findLlqParellelJobDetailQueryCategory(const QString &result_label) const
+{
+    return d->findLlqParellelJobDetailQueryCategory(result_label);
+}
+
 LlqQueryCategory LlqCommandManager::findCategory(const QString result_title)
 {
-    return d->findCategory(result_title);
+    return d->findLlqQueryCategory(result_title);
 }
 
 JobQueryModel *LlqCommandManager::buildLlqQueryModelFromResponse(const QString &response)

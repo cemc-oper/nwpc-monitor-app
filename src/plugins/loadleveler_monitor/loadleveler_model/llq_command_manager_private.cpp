@@ -25,24 +25,40 @@ LlqCommandManagerPrivate::LlqCommandManagerPrivate(LlqCommandManager *parent) :
 
 void LlqCommandManagerPrivate::initLlqCategoryList()
 {
-    llq_category_list_.clear();
+    llq_query_category_list_.clear();
     foreach(QStringList record, LLQ_QUERY_CATEGARY_LIST)
     {
-        llq_category_list_.append(LlqQueryCategory::createFromStringList(record));
+        llq_query_category_list_.append(LlqQueryCategory::createFromStringList(record));
+    }
+
+    llq_serial_job_detail_category_list_.clear();
+    foreach(QStringList record, kLlqDetailQuerySerialJobCategoryList)
+    {
+        LlqDetailQueryCategory c = LlqDetailQueryCategory::createFromStringList(record);
+        llq_serial_job_detail_category_list_.append(c);
+        llq_serial_job_detail_category_hash_[c.result_label_] = c;
+    }
+
+    llq_parallel_job_detail_category_list_.clear();
+    foreach(QStringList record, kLlqDetailQueryParallelCategoryList)
+    {
+        LlqDetailQueryCategory c = LlqDetailQueryCategory::createFromStringList(record);
+        llq_parallel_job_detail_category_list_.append(c);
+        llq_parallel_job_detail_category_hash_[c.result_label_] = c;
     }
 }
 
 QVector<LlqQueryCategory> LlqCommandManagerPrivate::llqCategoryList()
 {
-    return llq_category_list_;
+    return llq_query_category_list_;
 }
 
-LlqQueryCategory LlqCommandManagerPrivate::findCategory(const QString result_title)
+LlqQueryCategory LlqCommandManagerPrivate::findLlqQueryCategory(const QString result_title)
 {
     LlqQueryCategory result_category;
-    for(int i=0; i<llq_category_list_.length(); i++)
+    for(int i=0; i<llq_query_category_list_.length(); i++)
     {
-        LlqQueryCategory category = llq_category_list_[i];
+        LlqQueryCategory category = llq_query_category_list_[i];
         if( category.result_title_ == result_title )
         {
             result_category = category;
@@ -50,6 +66,22 @@ LlqQueryCategory LlqCommandManagerPrivate::findCategory(const QString result_tit
         }
     }
     return result_category;
+}
+
+LlqDetailQueryCategory LlqCommandManagerPrivate::findLlqSerialJobDetailQueryCategory(const QString &result_label) const
+{
+    if(llq_serial_job_detail_category_hash_.contains(result_label))
+        return llq_serial_job_detail_category_hash_[result_label];
+    else
+        return LlqDetailQueryCategory();
+}
+
+LlqDetailQueryCategory LlqCommandManagerPrivate::findLlqParellelJobDetailQueryCategory(const QString &result_label) const
+{
+    if(llq_parallel_job_detail_category_hash_.contains(result_label))
+        return llq_parallel_job_detail_category_hash_[result_label];
+    else
+        return LlqDetailQueryCategory();
 }
 
 JobQueryModel *LlqCommandManagerPrivate::buildLlqQueryModelFromResponse(const QString &response_str)

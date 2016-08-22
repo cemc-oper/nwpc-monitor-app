@@ -13,6 +13,7 @@ namespace LoadLevelerModel{
 const QString TYPE_STRING{"string"};
 const QString TYPE_NUMBER{"number"};
 const QString TYPE_DATE{"date"};    // 'MM/DD HH:MM'
+const QString TYPE_FULL_DATE{"full_date"}; // Mon Aug 22 02:25:09 2016
 
 struct LOADLEVELER_MONITOR_EXPORT LlqQueryCategory
 {
@@ -80,6 +81,30 @@ public:
     QString result_label_;
     QString result_type_;
 };
+
+static const QVector<QStringList> kLlqDetailQuerySerialJobCategoryList = {
+    //id,               display name,       label,              type
+    {"id",              "Id",               "Job Step Id",      TYPE_STRING},
+    {"owner",           "Owner",            "Owner",            TYPE_STRING},
+    {"submitted",       "Submitted",        "Queue Date",       TYPE_FULL_DATE},
+    {"status",          "Status",           "Status",           TYPE_STRING},
+    {"class",           "Class",            "Class",            TYPE_STRING},
+    //{"step_type",       "Step Type",        "Step Type",        TYPE_STRING},       // Serial | General Parallel
+    {"job_script",      "Job Script",       "Cmd",              TYPE_STRING}
+};
+
+static const QVector<QStringList> kLlqDetailQueryParallelCategoryList = {
+    //id,               display name,       label,              type
+    {"id",              "Id",               "Job Step Id",      TYPE_STRING},
+    {"owner",           "Owner",            "Owner",            TYPE_STRING},
+    {"submitted",       "Submitted",        "Queue Date",       TYPE_FULL_DATE},
+    {"status",          "Status",           "Status",           TYPE_STRING},
+    {"class",           "Class",            "Class",            TYPE_STRING},
+    //{"step_type",       "Step Type",        "Step Type",        TYPE_STRING},       // Serial | General Parallel
+    {"job_script",      "Job Script",       "Executable",       TYPE_STRING},
+    {"num_task_inst",   "Num Task Inst",    "Num Task Inst",    TYPE_NUMBER},
+};
+
 
 }
 

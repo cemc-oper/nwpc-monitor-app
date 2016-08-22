@@ -145,12 +145,47 @@ JobQueryModel *JobQueryModel::buildFromLlqDetailQueryResponse(const QStringList 
         if(lines[i].startsWith("====="))
             record_start_line_no_list.push_back(i);
     }
+    record_start_line_no_list.push_back(lines.length() -2);
 
-    int cur_line = 0;
-    for(int record_no = 0; record_no < record_start_line_no_list.size(); record_no++)
+    for(int record_no = 0; record_no < record_start_line_no_list.size() - 1; record_no++)
     {
+        int begin_line_no = record_start_line_no_list[record_no];
+        int end_line_no = record_start_line_no_list[record_no+1];
+        //qDebug()<<record_start_line_no_list[record_no];
+        QStringList record_lines = lines.mid(begin_line_no, end_line_no - begin_line_no);
 
+        // find job step type
+        QString job_step_type;
+        for(int i=0; i<record_lines.length(); i++)
+        {
+            QString line = record_lines[i].trimmed() ;
+            if(line.startsWith("Step Type: "))
+            {
+                job_step_type = line.mid(11);
+                //qDebug()<<job_step_type;
+                break;
+            }
+        }
+
+        QVector<LlqDetailQueryCategory> category_list;
+        if(job_step_type == "Serial")
+        {
+            category_list = LlqCommandManager::llqSerialJobDetailQueryCategoryList();
+        }
+        else
+        {
+            category_list = LlqCommandManager::llqParellelJobDetailQueryCategoryList();
+        }
+
+        QList<QStandardItem*> row = JobQueryItem::buildDetailQueryRecord(record_lines, category_list);
+        JobQueryItem *item = new JobQueryItem(QString::number(record_no+1));
+        item->setItemType(JobQueryItem::ItemType::NumberItem);
+        //item->setCategory(row_num_category);
+        item->setCheckable(true);
+        item->setCheckState(Qt::Unchecked);
+        row.push_front(item);
+        job_query_model->invisibleRootItem()->appendRow(row);
     }
 
-    return nullptr;
+    return job_query_model;
 }

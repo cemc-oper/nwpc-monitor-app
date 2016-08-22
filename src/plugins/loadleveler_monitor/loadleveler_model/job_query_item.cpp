@@ -99,7 +99,7 @@ QList<QStandardItem *> JobQueryItem::buildFromOutputLine(const QString &line, co
         {
             QDateTime date_time = QDateTime::fromString(item_string.trimmed(), "M/d HH:mm");
             item->setText(date_time.toString("MM/dd HH:mm"));
-            item->setItemType(JobQueryItem::ItemType::DateTimeItem);
+            item->setItemType(JobQueryItem::ItemType::DateItem);
         }
         else
         {
@@ -110,6 +110,59 @@ QList<QStandardItem *> JobQueryItem::buildFromOutputLine(const QString &line, co
         row<<item;
 
         pos += c.token_length_ + 1;
+    }
+
+    return row;
+}
+
+QList<QStandardItem *> JobQueryItem::buildDetailQueryRecord(
+        const QStringList &lines,
+        const QVector<LlqDetailQueryCategory> &category_list,
+        const QHash<QString, LlqDetailQueryCategory> &category_hash)
+{
+    QList<QStandardItem *> row;
+
+    //TODO: 使用更高效的方法，当前多次遍历lines，需要改为只遍历一次lines
+    foreach(LlqDetailQueryCategory c, category_list)
+    {
+        foreach(QString line, lines)
+        {
+            int index = line.indexOf(": ");
+            if (index == -1)
+                continue;
+            QString label = line.left(index).trimmed();
+            if(label != c.result_label_)
+            {
+                continue;
+            }
+            QString value = line.mid(index + 2).trimmed();
+            JobQueryItem *item = new JobQueryItem{};
+            //item->category_ = c;
+            if(c.result_type_ == TYPE_STRING)
+            {
+                item->setText(value);
+                item->setItemType(JobQueryItem::ItemType::NormalItem);
+            }
+            else if(c.result_type_ == TYPE_NUMBER)
+            {
+                item->setText(value);
+                item->setItemType(JobQueryItem::ItemType::NumberItem);
+            }
+            else if(c.result_type_ == TYPE_DATE)
+            {
+                QDateTime date_time = QDateTime::fromString(value, "M/d HH:mm");
+                item->setText(date_time.toString("MM/dd HH:mm"));
+                item->setItemType(JobQueryItem::ItemType::DateItem);
+            }
+            else
+            {
+                qWarning()<<"[JobQueryItem::buildDetailQueryRecord] result type not supported:"<<c.result_type_;
+                item->setText(value);
+                item->setItemType(ItemType::UnknownItem);
+            }
+            row<<item;
+            break;
+        }
     }
 
     return row;
