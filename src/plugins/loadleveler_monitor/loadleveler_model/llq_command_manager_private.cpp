@@ -26,23 +26,23 @@ LlqCommandManagerPrivate::LlqCommandManagerPrivate(LlqCommandManager *parent) :
 void LlqCommandManagerPrivate::initLlqCategoryList()
 {
     llq_category_list_.clear();
-    foreach(QStringList record, LLQ_CATEGARY_LIST)
+    foreach(QStringList record, LLQ_QUERY_CATEGARY_LIST)
     {
-        llq_category_list_.append(LlqCategory::createFromStringList(record));
+        llq_category_list_.append(LlqQueryCategory::createFromStringList(record));
     }
 }
 
-QVector<LlqCategory> LlqCommandManagerPrivate::llqCategoryList()
+QVector<LlqQueryCategory> LlqCommandManagerPrivate::llqCategoryList()
 {
     return llq_category_list_;
 }
 
-LlqCategory LlqCommandManagerPrivate::findCategory(const QString result_title)
+LlqQueryCategory LlqCommandManagerPrivate::findCategory(const QString result_title)
 {
-    LlqCategory result_category;
+    LlqQueryCategory result_category;
     for(int i=0; i<llq_category_list_.length(); i++)
     {
-        LlqCategory category = llq_category_list_[i];
+        LlqQueryCategory category = llq_category_list_[i];
         if( category.result_title_ == result_title )
         {
             result_category = category;
@@ -63,7 +63,12 @@ JobQueryModel *LlqCommandManagerPrivate::buildLlqQueryModelFromResponse(const QS
         return nullptr;
     }
 
-    QJsonObject result_object = doc.object();
+    return buildLlqQueryModelFromResponse(doc);
+}
+
+JobQueryModel *LlqCommandManagerPrivate::buildLlqQueryModelFromResponse(const QJsonDocument &response_json_document)
+{
+    QJsonObject result_object = response_json_document.object();
 
     if( result_object.contains("error"))
     {
@@ -88,10 +93,15 @@ JobQueryModel *LlqCommandManagerPrivate::buildLlqQueryModelFromResponse(const QS
     QJsonObject message = data["response"].toObject()["message"].toObject();
     QString output_message = message["output"].toString();
 
-    //qDebug()<<"[LlqCommandManagerPrivate::buildLlqQueryModelFromResponse]"<<output_message;
-
-    JobQueryModel *model = buildLlqQueryModel(output_message);
-
+    JobQueryModel *model = nullptr;
+    if(isLlqDetailQuery(command, arg_list))
+    {
+        model = buildLlqDetailQueryModel(output_message);
+    }
+    else
+    {
+        model = buildLlqQueryModel(output_message);
+    }
 
     qDebug()<<"[LlqCommandManagerPrivate::buildLlqQueryModelFromResponse] end";
     return model;
@@ -109,5 +119,23 @@ JobQueryModel *LlqCommandManagerPrivate::buildLlqQueryModel(const QString &outpu
 //        return str.trimmed();
 //    });
 
-    return JobQueryModel::buildFromLlqResponseLines(lines);
+    return JobQueryModel::buildFromLlqQueryResponse(lines);
+}
+
+JobQueryModel *LlqCommandManagerPrivate::buildLlqDetailQueryModel(const QString &output)
+{
+    Q_ASSERT(!output.isEmpty());
+
+    QStringList lines = output.split('\n');
+
+    return JobQueryModel::buildFromLlqDetailQueryResponse(lines);
+}
+
+bool LlqCommandManagerPrivate::isLlqDetailQuery(const QString &command, const QStringList &arguments) const
+{
+    Q_UNUSED(arguments);
+    if(command.indexOf("-l") == -1)
+        return false;
+    else
+        return true;
 }

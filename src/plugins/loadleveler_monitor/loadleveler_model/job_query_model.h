@@ -17,17 +17,17 @@ public:
     JobQueryModel(QObject *parent=0);
     ~JobQueryModel();
 
-    void setCategoryList(const QVector<LlqCategory> &category_list);
+    void setCategoryList(const QVector<LlqQueryCategory> &category_list);
 
-    static JobQueryModel *buildFromLlqQuery(const QJsonObject& data, QObject *parent = Q_NULLPTR);
-    static JobQueryModel *buildFromLlqResponseLines(const QStringList& lines, QObject *parent = Q_NULLPTR);
+    static JobQueryModel *buildFromLlqQueryResponse(const QStringList& lines, QObject *parent = Q_NULLPTR);
+    static JobQueryModel *buildFromLlqDetailQueryResponse(const QStringList& lines, QObject *parent = Q_NULLPTR);
 
 signals:
 
 public slots:
 
 private:
-    QVector<LlqCategory> category_list_;
+    QVector<LlqQueryCategory> category_list_;
 
 };
 

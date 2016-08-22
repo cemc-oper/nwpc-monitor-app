@@ -74,13 +74,13 @@ QList<QStandardItem *> JobQueryItem::buildFromQueryRecord(const QJsonObject &dat
     return row;
 }
 
-QList<QStandardItem *> JobQueryItem::buildFromOutputLine(const QString &line, const QVector<LlqCategory> &category_list)
+QList<QStandardItem *> JobQueryItem::buildFromOutputLine(const QString &line, const QVector<LlqQueryCategory> &category_list)
 {
     QList<QStandardItem *> row;
     int pos = 0;
     for(int i = 0; i < category_list.size(); i++)
     {
-        LlqCategory c = category_list[i];
+        LlqQueryCategory c = category_list[i];
         QString item_string = line.mid(pos, c.token_length_);
 
         JobQueryItem *item = new JobQueryItem{};
@@ -120,12 +120,12 @@ void JobQueryItem::setItemType(const ItemType &item_type)
     item_type_ = item_type;
 }
 
-void JobQueryItem::setCategory(const LlqCategory &category)
+void JobQueryItem::setCategory(const LlqQueryCategory &category)
 {
     category_ = category;
 }
 
-LlqCategory JobQueryItem::category() const
+LlqQueryCategory JobQueryItem::category() const
 {
     return category_;
 }

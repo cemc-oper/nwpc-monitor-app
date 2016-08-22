@@ -33,19 +33,19 @@ public:
     ~JobQueryItem();
 
     void setItemType(const ItemType &item_type);
-    void setCategory(const LlqCategory &category);
-    LlqCategory category() const;
+    void setCategory(const LlqQueryCategory &category);
+    LlqQueryCategory category() const;
 
     JobQueryItem &operator = (const JobQueryItem &right);
 
     QVariant data(int role = Qt::UserRole + 1) const;
 
     static QList<QStandardItem *> buildFromQueryRecord(const QJsonObject &data);
-    static QList<QStandardItem *> buildFromOutputLine(const QString &line, const QVector<LlqCategory> &category_list);
+    static QList<QStandardItem *> buildFromOutputLine(const QString &line, const QVector<LlqQueryCategory> &category_list);
 
 private:
     ItemType item_type_;
-    LlqCategory category_;
+    LlqQueryCategory category_;
 };
 
 }

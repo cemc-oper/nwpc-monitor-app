@@ -14,17 +14,17 @@ const QString TYPE_STRING{"string"};
 const QString TYPE_NUMBER{"number"};
 const QString TYPE_DATE{"date"};    // 'MM/DD HH:MM'
 
-struct LOADLEVELER_MONITOR_EXPORT LlqCategory
+struct LOADLEVELER_MONITOR_EXPORT LlqQueryCategory
 {
 public:
     static const QString VALID_ID;
 
-    LlqCategory();
+    LlqQueryCategory();
 
     bool isValid();
-    bool operator ==(const LlqCategory &other);
+    bool operator ==(const LlqQueryCategory &other);
 
-    static LlqCategory createFromStringList(QStringList record);
+    static LlqQueryCategory createFromStringList(QStringList record);
 
     QString id_;
     QString display_name_; // step id
@@ -35,7 +35,7 @@ public:
     int token_length_; // length in output line
 };
 
-static const QVector<QStringList> LLQ_CATEGARY_LIST = {
+static const QVector<QStringList> LLQ_QUERY_CATEGARY_LIST = {
     // id,              display_name_,      command_line_,  result_title_,  result_type
 
     // used in default llq output
@@ -60,6 +60,25 @@ static const QVector<QStringList> LLQ_CATEGARY_LIST = {
 
     // additional categories not used in command argument.
     {"no",              "No.",              "",             "No.",             TYPE_NUMBER}    // row number in result records
+};
+
+
+struct LOADLEVELER_MONITOR_EXPORT LlqDetailQueryCategory
+{
+public:
+    static const QString VALID_ID;
+
+    LlqDetailQueryCategory();
+
+    bool isValid();
+    bool operator ==(const LlqDetailQueryCategory &other);
+
+    static LlqDetailQueryCategory createFromStringList(QStringList record);
+
+    QString id_;
+    QString display_name_;
+    QString result_label_;
+    QString result_type_;
 };
 
 }

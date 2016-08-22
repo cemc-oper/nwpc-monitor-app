@@ -5,6 +5,7 @@
 #include "llq_category.h"
 #include <QVector>
 #include <QObject>
+#include <QJsonDocument>
 
 namespace LoadLevelerMonitor{
 
@@ -24,13 +25,12 @@ public:
 
     static void initialize();
 
-    static QVector<LlqCategory> llqCategoryList();
+    static QVector<LlqQueryCategory> llqCategoryList();
 
-    static LlqCategory findCategory(const QString result_title);
+    static LlqQueryCategory findCategory(const QString result_title);
 
     static JobQueryModel *buildLlqQueryModelFromResponse(const QString &response);
-
-    static JobQueryModel *buildLlqQueryModel(const QString &output_message);
+    static JobQueryModel *buildLlqQueryModelFromResponse(const QJsonDocument &response);
 
 signals:
 

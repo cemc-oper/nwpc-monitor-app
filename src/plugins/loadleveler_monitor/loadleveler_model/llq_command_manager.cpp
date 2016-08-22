@@ -18,12 +18,12 @@ void LlqCommandManager::initialize()
     d->initLlqCategoryList();
 }
 
-QVector<LlqCategory> LlqCommandManager::llqCategoryList()
+QVector<LlqQueryCategory> LlqCommandManager::llqCategoryList()
 {
     return d->llqCategoryList();
 }
 
-LlqCategory LlqCommandManager::findCategory(const QString result_title)
+LlqQueryCategory LlqCommandManager::findCategory(const QString result_title)
 {
     return d->findCategory(result_title);
 }
@@ -33,9 +33,9 @@ JobQueryModel *LlqCommandManager::buildLlqQueryModelFromResponse(const QString &
     return d->buildLlqQueryModelFromResponse(response);
 }
 
-JobQueryModel *LlqCommandManager::buildLlqQueryModel(const QString &output_message)
+JobQueryModel *LlqCommandManager::buildLlqQueryModelFromResponse(const QJsonDocument &response)
 {
-    return d->buildLlqQueryModel(output_message);
+    return d->buildLlqQueryModelFromResponse(response);
 }
 
 LlqCommandManager::LlqCommandManager(QObject *parent) : QObject(parent)

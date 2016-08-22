@@ -85,18 +85,18 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
         return;
     }
 
-    QJsonObject result_object = doc.object();
-    if( result_object.contains("error"))
+    QJsonObject content_object = doc.object();
+    if( content_object.contains("error"))
     {
-        QString error_message = result_object["data"].toObject()["message"].toObject()["error_message"].toString();
+        QString error_message = content_object["data"].toObject()["message"].toObject()["error_message"].toString();
         qDebug()<<"[LlqPanel::slotReciveResponseStdOut] ERROR:"<<error_message;
         setJobQueryModel(nullptr);
         return;
     }
 
-    QString app = result_object["app"].toString();
-    QString type = result_object["type"].toString();
-    QJsonObject data = result_object["data"].toObject();
+    QString app = content_object["app"].toString();
+    QString type = content_object["type"].toString();
+    QJsonObject data = content_object["data"].toObject();
 
     QJsonObject request_object = data["request"].toObject();
     QString command = request_object["command"].toString();
@@ -122,10 +122,8 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
     // table style
     setTableStyleVisibility(true);
     ui->action_table_style->activate(QAction::Trigger);
-    QJsonObject response_object = data["response"].toObject();
-    QJsonObject message = response_object["message"].toObject();
-    QString output_message = message["output"].toString();
-    JobQueryModel *model = LlqCommandManager::buildLlqQueryModel(output_message);
+
+    JobQueryModel *model = LlqCommandManager::buildLlqQueryModelFromResponse(doc);
     setJobQueryModel(model);
 
     // chart style
@@ -133,6 +131,9 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
 
     // text style
     setTextStyleVisibility(true);
+    QJsonObject response_object = data["response"].toObject();
+    QJsonObject message = response_object["message"].toObject();
+    QString output_message = message["output"].toString();
     updateTextStylePage(output_message);
 }
 
@@ -177,7 +178,7 @@ void LlqPanel::slotQueryRecordContextMenuRequest(const QPoint &pos)
     QModelIndex index = ui->table_view->indexAt(pos);
     if (index.isValid()) {
         JobQueryItem *cur_item = static_cast<JobQueryItem*>(job_query_model_->itemFromIndex(index));
-        LlqCategory c = cur_item->category();
+        LlqQueryCategory c = cur_item->category();
 
         QMenu *context_menu = new QMenu{};
         QAction *title_action = new QAction{c.display_name_ + ": " + cur_item->text()};
@@ -266,10 +267,7 @@ void LlqPanel::setupTemplate()
 
 void LlqPanel::setupStyle()
 {
-    ui->table_style_button->setDefaultAction(ui->action_table_style);
-    ui->chart_style_button->setDefaultAction(ui->action_chart_style);
-    ui->text_style_button->setDefaultAction(ui->action_text_style);
-
+    // style action
     style_action_list_.clear();
     style_action_list_.append(ui->action_table_style);
     style_action_list_.append(ui->action_chart_style);
@@ -283,6 +281,11 @@ void LlqPanel::setupStyle()
     connect(style_action_group_, &QActionGroup::triggered, this, &LlqPanel::slotStyleActionTriggered);
 
     ui->action_table_style->activate(QAction::Trigger);
+
+    // style button
+    ui->table_style_button->setDefaultAction(ui->action_table_style);
+    ui->chart_style_button->setDefaultAction(ui->action_chart_style);
+    ui->text_style_button->setDefaultAction(ui->action_text_style);
 }
 
 void LlqPanel::setTableStyleVisibility(bool is_visible)

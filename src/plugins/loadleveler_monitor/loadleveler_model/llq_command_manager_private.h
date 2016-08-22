@@ -20,20 +20,25 @@ public:
 
     void initLlqCategoryList();
 
-    QVector<LlqCategory> llqCategoryList();
-    LlqCategory findCategory(const QString result_title);
+    QVector<LlqQueryCategory> llqCategoryList();
+    LlqQueryCategory findCategory(const QString result_title);
 
     JobQueryModel *buildLlqQueryModelFromResponse(const QString &response_str);
-    JobQueryModel *buildLlqQueryModel(const QString &output);
+    JobQueryModel *buildLlqQueryModelFromResponse(const QJsonDocument &response_json_document);
 
 signals:
 
 public slots:
 
 private:
+    JobQueryModel *buildLlqQueryModel(const QString &output);
+    JobQueryModel *buildLlqDetailQueryModel(const QString &output);
+
+    bool isLlqDetailQuery(const QString &command, const QStringList &arguments) const;
+
     LlqCommandManager *p;
 
-    QVector<LlqCategory> llq_category_list_;
+    QVector<LlqQueryCategory> llq_category_list_;
 
     friend class LlqCommandManager;
 };

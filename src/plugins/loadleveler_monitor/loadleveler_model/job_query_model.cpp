@@ -18,53 +18,12 @@ JobQueryModel::~JobQueryModel()
 
 }
 
-void JobQueryModel::setCategoryList(const QVector<LlqCategory> &category_list)
+void JobQueryModel::setCategoryList(const QVector<LlqQueryCategory> &category_list)
 {
     category_list_ = category_list;
 }
 
-JobQueryModel *JobQueryModel::buildFromLlqQuery(const QJsonObject &data, QObject *parent)
-{
-    JobQueryModel *job_query_model = new JobQueryModel(parent);
-
-    QJsonObject command_object = data["command"].toObject();
-    QString command = command_object["command"].toString();
-
-    QJsonObject response_object = data["response"].toObject();
-
-    QJsonArray jobs = response_object["jobs"].toArray();
-
-    QJsonObject summary_object = response_object["summary"].toObject();
-
-    int i=1;
-    foreach(QJsonValue a_job, jobs)
-    {
-        QList<QStandardItem*> row = JobQueryItem::buildFromQueryRecord(a_job.toObject());
-        JobQueryItem *item = new JobQueryItem(QString::number(i));
-        item->setItemType(JobQueryItem::ItemType::NumberItem);
-        item->setCheckable(true);
-        item->setCheckState(Qt::Unchecked);
-        row.push_front(item);
-        job_query_model->invisibleRootItem()->appendRow(row);
-        i++;
-    }
-
-    job_query_model->setHorizontalHeaderLabels(
-        QStringList()
-                <<"no"
-                <<"id"
-                <<"owner"
-                <<"submitted time"
-                <<"status"
-                <<"pri"
-                <<"class"
-                <<"running on"
-    );
-
-    return job_query_model;
-}
-
-JobQueryModel *JobQueryModel::buildFromLlqResponseLines(const QStringList &lines, QObject *parent)
+JobQueryModel *JobQueryModel::buildFromLlqQueryResponse(const QStringList &lines, QObject *parent)
 {
     // check whether llq query is success.
     if(lines[0].startsWith("llq:"))
@@ -112,7 +71,7 @@ JobQueryModel *JobQueryModel::buildFromLlqResponseLines(const QStringList &lines
     });
 
     // get category list
-    QVector<LlqCategory> category_list(category_title_list.size());
+    QVector<LlqQueryCategory> category_list(category_title_list.size());
     for(int i=0;i<category_title_list.size(); i++)
     {
         category_list[i] = LlqCommandManager::findCategory(category_title_list[i]);
@@ -123,7 +82,7 @@ JobQueryModel *JobQueryModel::buildFromLlqResponseLines(const QStringList &lines
         }
     }
 
-    LlqCategory row_num_category = LlqCommandManager::findCategory("No.");
+    LlqQueryCategory row_num_category = LlqCommandManager::findCategory("No.");
 
     JobQueryModel *job_query_model = new JobQueryModel(parent);
     for(int i=2; i < lines.size() - 3; i++ )
@@ -142,11 +101,56 @@ JobQueryModel *JobQueryModel::buildFromLlqResponseLines(const QStringList &lines
     category_list.insert(0, row_num_category);
     // set header titles
     QStringList header_labels;
-    foreach(LlqCategory c, category_list)
+    foreach(LlqQueryCategory c, category_list)
     {
         header_labels.append(c.display_name_);
     }
     job_query_model->setHorizontalHeaderLabels(header_labels);
 
     return job_query_model;
+}
+
+JobQueryModel *JobQueryModel::buildFromLlqDetailQueryResponse(const QStringList &lines, QObject *parent)
+{
+    // check whether llq query is success.
+    if(lines[0].startsWith("llq:"))
+    {
+        if(lines[0].startsWith("llq: There is currently no job status to report."))
+        {
+            // TODO: 没有job
+            JobQueryModel *job_model = new JobQueryModel();
+            return job_model;
+        }
+        else
+        {
+            qDebug()<<"[JobQueryModel::buildFromLlqDetailQueryResponse] failure detected:"<<lines[0];
+            return nullptr;
+        }
+    }
+
+    if( lines.length() < 3 )
+    {
+        qWarning()<<"[JobQueryModel::buildFromLlqDetailQueryResponse] unsupported output:"<<lines;
+        return nullptr;
+    }
+
+    JobQueryModel *job_query_model = new JobQueryModel(parent);
+
+    // last two lines is a summary
+    QString summary_line = lines[lines.length()-2];
+
+    QVector<int> record_start_line_no_list;
+    for(int i=0; i < lines.length() - 3; i++)
+    {
+        if(lines[i].startsWith("====="))
+            record_start_line_no_list.push_back(i);
+    }
+
+    int cur_line = 0;
+    for(int record_no = 0; record_no < record_start_line_no_list.size(); record_no++)
+    {
+
+    }
+
+    return nullptr;
 }
