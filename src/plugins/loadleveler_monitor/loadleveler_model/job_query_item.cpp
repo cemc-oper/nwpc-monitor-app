@@ -125,6 +125,11 @@ void JobQueryItem::setCategory(const LlqCategory &category)
     category_ = category;
 }
 
+LlqCategory JobQueryItem::category() const
+{
+    return category_;
+}
+
 JobQueryItem &JobQueryItem::operator =(const JobQueryItem &other)
 {
     QStandardItem::operator=(other);

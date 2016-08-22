@@ -34,6 +34,7 @@ public:
 
     void setItemType(const ItemType &item_type);
     void setCategory(const LlqCategory &category);
+    LlqCategory category() const;
 
     JobQueryItem &operator = (const JobQueryItem &right);
 

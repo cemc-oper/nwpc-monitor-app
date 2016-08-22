@@ -185,12 +185,20 @@ void LlqPanel::slotQueryRecordContextMenuRequest(const QPoint &pos)
     //qDebug()<<"[LoadLevelerMonitorWidget::slotLlqQueryRecordContextMenuRequest]";
     QModelIndex index = ui->table_view->indexAt(pos);
     if (index.isValid()) {
+        JobQueryItem *cur_item = static_cast<JobQueryItem*>(job_query_model_->itemFromIndex(index));
+        LlqCategory c = cur_item->category();
+
         QMenu *context_menu = new QMenu{};
+        QAction *title_action = new QAction{c.display_name_ + ": " + cur_item->text()};
+        context_menu->addAction(title_action);
+        context_menu->addSeparator();
+
+        // add actions acording to category
         QAction *detail_action = new QAction{tr("详情")};
-
         context_menu->addAction(detail_action);
-        QAction *action = context_menu->exec(ui->table_view->mapToGlobal(pos));
 
+        // show menu
+        QAction *action = context_menu->exec(ui->table_view->mapToGlobal(pos));
         if(action == detail_action)
         {
             QModelIndex id_index = index.sibling(index.row(), 1);
@@ -212,6 +220,7 @@ void LlqPanel::slotQueryRecordContextMenuRequest(const QPoint &pos)
             }
         }
         delete context_menu;
+        delete title_action;
         delete detail_action;
     }
 }
