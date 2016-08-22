@@ -34,7 +34,6 @@ public:
     ~LlqPanel();
 
     void setMonitorWidget(LoadLevelerMonitor::LoadLevelerMonitorWidget *widget);
-    void setJobQueryModel(QPointer<LoadLevelerMonitor::LoadLevelerModel::JobQueryModel> job_query_model);
 
 public slots:
     void slotReciveCommandResponse(const ProgressUtil::ShellCommandResponse &command_response);
@@ -51,8 +50,16 @@ private:
     void setupTemplate();
     void setupStyle();
 
+    void setTableStyleVisibility(bool is_visible);
+    void setChartStyleVisibility(bool is_visible);
+    void setTextStyleVisibility(bool is_visible);
+
+    void setJobQueryModel(QPointer<LoadLevelerMonitor::LoadLevelerModel::JobQueryModel> job_query_model);
     void setCommandTime(const QDateTime &request_time, const QDateTime &finish_time);
 
+    void updateTextStylePage(const QString &str);
+
+    // table style
     void changeAllItemsCheckState(Qt::CheckState check_state);
 
     Ui::LlqPanel *ui;

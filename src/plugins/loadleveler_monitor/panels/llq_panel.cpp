@@ -71,38 +71,9 @@ void LlqPanel::setMonitorWidget(LoadLevelerMonitorWidget *widget)
     monitor_widget_ = widget;
 }
 
-void LlqPanel::setJobQueryModel(QPointer<JobQueryModel> job_query_model)
-{
-    if(job_query_model_)
-    {
-        ui->table_view->setModel(0);
-        job_query_model_->deleteLater();
-    }
-    job_query_model_ = job_query_model;
-
-    ui->table_view->setModel(job_query_model_);
-    ui->table_view->horizontalHeader()->setStretchLastSection(true);
-    ui->table_view->setColumnWidth(1, 200);
-    ui->table_view->setColumnWidth(3, 150);
-
-    ui->table_view->sortByColumn(0, Qt::AscendingOrder);
-
-    disconnect(ui->table_view, &QTableView::customContextMenuRequested, 0, 0);
-    ui->table_view->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->table_view, &QTableView::customContextMenuRequested,
-            this, &LlqPanel::slotQueryRecordContextMenuRequest);
-}
-
-void LlqPanel::setCommandTime(const QDateTime &request_time, const QDateTime &finish_time)
-{
-    qint64 interval_seconds = request_time.msecsTo(finish_time);
-    ui->query_time_label->setText(QString::number(interval_seconds/1000.0) + " seconds");
-    ui->query_time_frame->show();
-}
-
 void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandResponse &command_response)
 {
-    qDebug()<<"[LlqPanel::slotReciveResponseStdOut] start";
+    qDebug()<<"[LlqPanel::slotReciveResponseStdOut] start";    
 
     QDateTime finish_date_time = QDateTime::currentDateTime();
     setCommandTime(command_response.request_date_time_, finish_date_time);
@@ -138,11 +109,31 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
     ui->query_command_label->setText(command + " " + arg_list.join(" "));
     ui->query_command_frame->show();
 
+    // update styles
+    setTableStyleVisibility(false);
+    ui->table_view->setModel(nullptr);
+
+    setChartStyleVisibility(false);
+    ui->chart_view->setScene(nullptr);
+
+    setTextStyleVisibility(false);
+    ui->text_view->clear();
+
+    // table style
+    setTableStyleVisibility(true);
+    ui->action_table_style->activate(QAction::Trigger);
     QJsonObject response_object = data["response"].toObject();
     QJsonObject message = response_object["message"].toObject();
     QString output_message = message["output"].toString();
     JobQueryModel *model = LlqCommandManager::buildLlqQueryModel(output_message);
     setJobQueryModel(model);
+
+    // chart style
+    setChartStyleVisibility(true);
+
+    // text style
+    setTextStyleVisibility(true);
+    updateTextStylePage(output_message);
 }
 
 void LlqPanel::slotStyleActionTriggered(QAction *action)
@@ -161,7 +152,7 @@ void LlqPanel::slotTemplateActionTriggered(QAction *action)
     int index = template_action_list_.indexOf(action);
     if(index != -1)
     {
-
+        ui->argument_edit->setText(action->data().toString());
     }
     else
     {
@@ -227,23 +218,50 @@ void LlqPanel::slotQueryRecordContextMenuRequest(const QPoint &pos)
 
 void LlqPanel::setupTemplate()
 {
-    ui->default_template_button->setDefaultAction(ui->action_default_template);
-    ui->llqn_template_button->setDefaultAction(ui->action_llqn_template);
-    ui->more_template_button->setDefaultAction(ui->action_more_template);
+    // template action
+    //      text: 显示的文本
+    //      data: llq的参数，例如 -l/-u nwp 等
 
+    // template action
     template_action_list_.clear();
     template_action_list_.append(ui->action_default_template);
+    ui->action_default_template->setData("");
     template_action_list_.append(ui->action_llqn_template);
+    ui->action_llqn_template->setData("-l");
     template_action_list_.append(ui->action_more_template);
+    ui->action_more_template->setData("");
 
+    // tempalte action group
     foreach(QAction *action, template_action_list_)
     {
         template_action_group_->addAction(action);
     }
-
     connect(template_action_group_, &QActionGroup::triggered, this, &LlqPanel::slotTemplateActionTriggered);
 
-    ui->action_default_template->setChecked(Qt::Checked);
+    // more template action
+    QMenu *more_template_menu = new QMenu{this};
+    QAction *action = nullptr;
+    action = new QAction(tr("llq -u nwp"));
+    action->setData("-u nwp");
+    more_template_menu->addAction(action);
+    action = new QAction(tr("llq -u nwp_qu"));
+    action->setData("-u nwp_qu");
+    more_template_menu->addAction(action);
+
+    connect(more_template_menu, &QMenu::triggered, [=](QAction *a){
+        ui->action_more_template->setText(a->text());
+        ui->action_more_template->setData(a->data());
+        ui->action_more_template->activate(QAction::Trigger);
+    });
+    ui->action_more_template->setMenu(more_template_menu);
+
+    // template tool button
+    ui->default_template_button->setDefaultAction(ui->action_default_template);
+    ui->llqn_template_button->setDefaultAction(ui->action_llqn_template);
+    ui->more_template_button->setDefaultAction(ui->action_more_template);
+
+    // default state
+    ui->action_default_template->setChecked(true);
 }
 
 void LlqPanel::setupStyle()
@@ -264,8 +282,56 @@ void LlqPanel::setupStyle()
 
     connect(style_action_group_, &QActionGroup::triggered, this, &LlqPanel::slotStyleActionTriggered);
 
-    ui->action_table_style->setChecked(Qt::Checked);
-    ui->view_area_stacked_widget->setCurrentIndex(0);
+    ui->action_table_style->activate(QAction::Trigger);
+}
+
+void LlqPanel::setTableStyleVisibility(bool is_visible)
+{
+    ui->table_style_button->setHidden(!is_visible);
+}
+
+void LlqPanel::setChartStyleVisibility(bool is_visible)
+{
+    ui->chart_style_button->setHidden(!is_visible);
+}
+
+void LlqPanel::setTextStyleVisibility(bool is_visible)
+{
+    ui->text_style_button->setHidden(!is_visible);
+}
+
+void LlqPanel::setJobQueryModel(QPointer<JobQueryModel> job_query_model)
+{
+    if(job_query_model_)
+    {
+        ui->table_view->setModel(0);
+        job_query_model_->deleteLater();
+    }
+    job_query_model_ = job_query_model;
+
+    ui->table_view->setModel(job_query_model_);
+    ui->table_view->horizontalHeader()->setStretchLastSection(true);
+    ui->table_view->setColumnWidth(1, 200);
+    ui->table_view->setColumnWidth(3, 150);
+
+    ui->table_view->sortByColumn(0, Qt::AscendingOrder);
+
+    disconnect(ui->table_view, &QTableView::customContextMenuRequested, 0, 0);
+    ui->table_view->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->table_view, &QTableView::customContextMenuRequested,
+            this, &LlqPanel::slotQueryRecordContextMenuRequest);
+}
+
+void LlqPanel::setCommandTime(const QDateTime &request_time, const QDateTime &finish_time)
+{
+    qint64 interval_seconds = request_time.msecsTo(finish_time);
+    ui->query_time_label->setText(QString::number(interval_seconds/1000.0) + " seconds");
+    ui->query_time_frame->show();
+}
+
+void LlqPanel::updateTextStylePage(const QString &str)
+{
+    ui->text_view->setText(str);
 }
 
 void LlqPanel::changeAllItemsCheckState(Qt::CheckState check_state)

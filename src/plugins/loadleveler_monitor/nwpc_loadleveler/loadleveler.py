@@ -214,7 +214,7 @@ def llq_object_handler(args):
 
 def llclass_handler(args):
     run_handler(args)
-    
+
 
 def llsubmit_handler(args):
     host = args.host
