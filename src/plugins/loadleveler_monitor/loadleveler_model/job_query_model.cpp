@@ -87,7 +87,7 @@ JobQueryModel *JobQueryModel::buildFromLlqQueryResponse(const QStringList &lines
     JobQueryModel *job_query_model = new JobQueryModel(parent);
     for(int i=2; i < lines.size() - 3; i++ )
     {
-        QList<QStandardItem*> row = JobQueryItem::buildFromOutputLine(lines[i], category_list);
+        QList<QStandardItem*> row = JobQueryItem::buildFromQueryRecord(lines[i], category_list);
         JobQueryItem *item = new JobQueryItem(QString::number(i-1));
         item->setItemType(JobQueryItem::ItemType::NumberItem);
         item->setCategory(row_num_category);
@@ -147,6 +147,9 @@ JobQueryModel *JobQueryModel::buildFromLlqDetailQueryResponse(const QStringList 
     }
     record_start_line_no_list.push_back(lines.length() -2);
 
+    QVector<LlqQueryCategory> category_list;
+    LlqQueryCategory row_num_category = LlqCommandManager::findCategory("No.");
+
     for(int record_no = 0; record_no < record_start_line_no_list.size() - 1; record_no++)
     {
         int begin_line_no = record_start_line_no_list[record_no];
@@ -167,7 +170,6 @@ JobQueryModel *JobQueryModel::buildFromLlqDetailQueryResponse(const QStringList 
             }
         }
 
-        QVector<LlqDetailQueryCategory> category_list;
         if(job_step_type == "Serial")
         {
             category_list = LlqCommandManager::llqSerialJobDetailQueryCategoryList();
@@ -177,7 +179,7 @@ JobQueryModel *JobQueryModel::buildFromLlqDetailQueryResponse(const QStringList 
             category_list = LlqCommandManager::llqParellelJobDetailQueryCategoryList();
         }
 
-        QList<QStandardItem*> row = JobQueryItem::buildDetailQueryRecord(record_lines, category_list);
+        QList<QStandardItem*> row = JobQueryItem::buildFromDetailQueryRecord(record_lines, category_list);
         JobQueryItem *item = new JobQueryItem(QString::number(record_no+1));
         item->setItemType(JobQueryItem::ItemType::NumberItem);
         //item->setCategory(row_num_category);
@@ -186,6 +188,16 @@ JobQueryModel *JobQueryModel::buildFromLlqDetailQueryResponse(const QStringList 
         row.push_front(item);
         job_query_model->invisibleRootItem()->appendRow(row);
     }
+
+    // insert no category
+    category_list.insert(0, row_num_category);
+    // set header titles
+    QStringList header_labels;
+    foreach(LlqQueryCategory c, category_list)
+    {
+        header_labels.append(c.display_name_);
+    }
+    job_query_model->setHorizontalHeaderLabels(header_labels);
 
     return job_query_model;
 }

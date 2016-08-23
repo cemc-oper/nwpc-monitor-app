@@ -26,11 +26,11 @@ public:
     static void initialize();
 
     static QVector<LlqQueryCategory> llqCategoryList();
-    static QVector<LlqDetailQueryCategory> llqSerialJobDetailQueryCategoryList();
-    static QVector<LlqDetailQueryCategory> llqParellelJobDetailQueryCategoryList();
+    static QVector<LlqQueryCategory> llqSerialJobDetailQueryCategoryList();
+    static QVector<LlqQueryCategory> llqParellelJobDetailQueryCategoryList();
 
-    LlqDetailQueryCategory findLlqSerialJobDetailQueryCategory(const QString &result_label) const;
-    LlqDetailQueryCategory findLlqParellelJobDetailQueryCategory(const QString &result_label) const;
+    LlqQueryCategory findLlqSerialJobDetailQueryCategory(const QString &result_label) const;
+    LlqQueryCategory findLlqParellelJobDetailQueryCategory(const QString &result_label) const;
 
     static LlqQueryCategory findCategory(const QString result_title);
 

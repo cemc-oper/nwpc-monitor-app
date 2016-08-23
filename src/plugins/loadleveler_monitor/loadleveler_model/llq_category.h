@@ -18,6 +18,19 @@ const QString TYPE_FULL_DATE{"full_date"}; // Mon Aug 22 02:25:09 2016
 struct LOADLEVELER_MONITOR_EXPORT LlqQueryCategory
 {
 public:
+    enum class CategoryType{
+        NormalQuery,
+        DetailQuery
+    };
+
+    enum class ValueType {
+        Unknown,
+        String,
+        Number,
+        Date,
+        FullDate
+    };
+
     static const QString VALID_ID;
 
     LlqQueryCategory();
@@ -29,58 +42,43 @@ public:
 
     QString id_;
     QString display_name_; // step id
-    QString command_line_; // %id
-    QString result_title_; // Step Id
-    QString result_type_; // string or number,
+    QString label_; // Step Id
+    QString value_type_; // string or number,
 
+    CategoryType category_type_;
+
+    // llq query
+    QString command_line_; // %id
     int token_length_; // length in output line
 };
 
 static const QVector<QStringList> LLQ_QUERY_CATEGARY_LIST = {
-    // id,              display_name_,      command_line_,  result_title_,  result_type
+    // id,              display_name_,      label,          type            command_line_,
 
     // used in default llq output
-    {"id",              "Id",               "",             "Id",           TYPE_STRING},   // cma20n04.2681148.0
-    {"submitted",       "Submitted",        "",             "Submitted",    TYPE_DATE},     // same as Queue Date, use in standard llq.
+    {"id",              "Id",               "Id",           TYPE_STRING,    ""              },// cma20n04.2681148.0
+    {"submitted",       "Submitted",        "Submitted",    TYPE_DATE,      "",             },// same as Queue Date, use in standard llq.
 
     // used in llq's -f arguemnt.
-    {"class",           "Class",            "%c",           "Class",        TYPE_STRING},   // normal|operation
-    {"dispatch_date",   "Dispatch Date",    "%dd",          "Disp. Date",   TYPE_DATE},     // 08/20 12:37
-    {"queue_date",      "Queue Date",       "%dq",          "Queue Date",   TYPE_DATE},     // 08/20 12:37
-    {"unix_group",      "UNIX Group",       "%gu",          "Unix Group",   TYPE_STRING},   // eps
-    {"host_name",       "Running On",       "%h",           "Running On",   TYPE_STRING},   // cma19n06
-    {"step_id",         "Step Id",          "%id",          "Step Id",      TYPE_STRING},   // cma20n04.2681148.0
-    {"image_size",      "Virtual Image Size",   "%is",      "Im.Size",      TYPE_NUMBER},   // 13
-    {"job_name",        "Job Name",         "%jn",          "Job Name",     TYPE_STRING},   // cma20n04.2681148
-    {"job_type",        "Job Type",         "%jt",          "Type",         TYPE_STRING},   // SER|PAR
-    {"host_count",      "Number of Hosts",  "%nh",          "NM",           TYPE_NUMBER},   // 16
-    {"owner",           "Job Owner",        "%o",           "Owner",        TYPE_STRING},   // nwp_qu
-    {"priority",        "User Priority",    "%p",           "PRI",          TYPE_NUMBER},   // 50
-    {"step_name",       "Step Name",        "%sn",          "Step Name",    TYPE_STRING},   // 0
-    {"status",          "Status",           "%st",          "ST",           TYPE_STRING},   // R
+    {"class",           "Class",            "Class",        TYPE_STRING,    "%c",           },// normal|operation
+    {"dispatch_date",   "Dispatch Date",    "Disp. Date",   TYPE_DATE,      "%dd",          },// 08/20 12:37
+    {"queue_date",      "Queue Date",       "Queue Date",   TYPE_DATE,      "%dq",          },// 08/20 12:37
+    {"unix_group",      "UNIX Group",       "Unix Group",   TYPE_STRING,    "%gu",          },// eps
+    {"host_name",       "Running On",       "Running On",   TYPE_STRING,    "%h",           },// cma19n06
+    {"step_id",         "Step Id",          "Step Id",      TYPE_STRING,    "%id",          },// cma20n04.2681148.0
+    {"image_size",      "Virtual Image Size""Im.Size",      TYPE_NUMBER,    "%is",          },// 13
+    {"job_name",        "Job Name",         "Job Name",     TYPE_STRING,    "%jn",          },// cma20n04.2681148
+    {"job_type",        "Job Type",         "Type",         TYPE_STRING,    "%jt",          },// SER|PAR
+    {"host_count",      "Number of Hosts",  "NM",           TYPE_NUMBER,    "%nh",          },// 16
+    {"owner",           "Job Owner",        "Owner",        TYPE_STRING,    "%o",           },// nwp_qu
+    {"priority",        "User Priority",    "PRI",          TYPE_NUMBER,    "%p",           },// 50
+    {"step_name",       "Step Name",        "Step Name",    TYPE_STRING,    "%sn",          },// 0
+    {"status",          "Status",           "ST",           TYPE_STRING,    "%st",          },// R
 
     // additional categories not used in command argument.
-    {"no",              "No.",              "",             "No.",             TYPE_NUMBER}    // row number in result records
+    {"no",              "No.",              "No.",          TYPE_NUMBER,    "",             }    // row number in result records
 };
 
-
-struct LOADLEVELER_MONITOR_EXPORT LlqDetailQueryCategory
-{
-public:
-    static const QString VALID_ID;
-
-    LlqDetailQueryCategory();
-
-    bool isValid();
-    bool operator ==(const LlqDetailQueryCategory &other);
-
-    static LlqDetailQueryCategory createFromStringList(QStringList record);
-
-    QString id_;
-    QString display_name_;
-    QString result_label_;
-    QString result_type_;
-};
 
 static const QVector<QStringList> kLlqDetailQuerySerialJobCategoryList = {
     //id,               display name,       label,              type

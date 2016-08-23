@@ -34,17 +34,17 @@ void LlqCommandManagerPrivate::initLlqCategoryList()
     llq_serial_job_detail_category_list_.clear();
     foreach(QStringList record, kLlqDetailQuerySerialJobCategoryList)
     {
-        LlqDetailQueryCategory c = LlqDetailQueryCategory::createFromStringList(record);
+        LlqQueryCategory c = LlqQueryCategory::createFromStringList(record);
         llq_serial_job_detail_category_list_.append(c);
-        llq_serial_job_detail_category_hash_[c.result_label_] = c;
+        llq_serial_job_detail_category_hash_[c.label_] = c;
     }
 
     llq_parallel_job_detail_category_list_.clear();
     foreach(QStringList record, kLlqDetailQueryParallelCategoryList)
     {
-        LlqDetailQueryCategory c = LlqDetailQueryCategory::createFromStringList(record);
+        LlqQueryCategory c = LlqQueryCategory::createFromStringList(record);
         llq_parallel_job_detail_category_list_.append(c);
-        llq_parallel_job_detail_category_hash_[c.result_label_] = c;
+        llq_parallel_job_detail_category_hash_[c.label_] = c;
     }
 }
 
@@ -59,7 +59,7 @@ LlqQueryCategory LlqCommandManagerPrivate::findLlqQueryCategory(const QString re
     for(int i=0; i<llq_query_category_list_.length(); i++)
     {
         LlqQueryCategory category = llq_query_category_list_[i];
-        if( category.result_title_ == result_title )
+        if( category.label_ == result_title )
         {
             result_category = category;
             break;
@@ -68,20 +68,20 @@ LlqQueryCategory LlqCommandManagerPrivate::findLlqQueryCategory(const QString re
     return result_category;
 }
 
-LlqDetailQueryCategory LlqCommandManagerPrivate::findLlqSerialJobDetailQueryCategory(const QString &result_label) const
+LlqQueryCategory LlqCommandManagerPrivate::findLlqSerialJobDetailQueryCategory(const QString &result_label) const
 {
     if(llq_serial_job_detail_category_hash_.contains(result_label))
         return llq_serial_job_detail_category_hash_[result_label];
     else
-        return LlqDetailQueryCategory();
+        return LlqQueryCategory();
 }
 
-LlqDetailQueryCategory LlqCommandManagerPrivate::findLlqParellelJobDetailQueryCategory(const QString &result_label) const
+LlqQueryCategory LlqCommandManagerPrivate::findLlqParellelJobDetailQueryCategory(const QString &result_label) const
 {
     if(llq_parallel_job_detail_category_hash_.contains(result_label))
         return llq_parallel_job_detail_category_hash_[result_label];
     else
-        return LlqDetailQueryCategory();
+        return LlqQueryCategory();
 }
 
 JobQueryModel *LlqCommandManagerPrivate::buildLlqQueryModelFromResponse(const QString &response_str)

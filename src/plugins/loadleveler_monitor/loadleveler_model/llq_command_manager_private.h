@@ -24,8 +24,8 @@ public:
     QVector<LlqQueryCategory> llqCategoryList();
     LlqQueryCategory findLlqQueryCategory(const QString result_title);
 
-    LlqDetailQueryCategory findLlqSerialJobDetailQueryCategory(const QString &result_label) const;
-    LlqDetailQueryCategory findLlqParellelJobDetailQueryCategory(const QString &result_label) const;
+    LlqQueryCategory findLlqSerialJobDetailQueryCategory(const QString &result_label) const;
+    LlqQueryCategory findLlqParellelJobDetailQueryCategory(const QString &result_label) const;
 
     JobQueryModel *buildLlqQueryModelFromResponse(const QString &response_str);
     JobQueryModel *buildLlqQueryModelFromResponse(const QJsonDocument &response_json_document);
@@ -43,10 +43,10 @@ private:
     LlqCommandManager *p;
 
     QVector<LlqQueryCategory> llq_query_category_list_;
-    QVector<LlqDetailQueryCategory> llq_serial_job_detail_category_list_;
-    QHash<QString, LlqDetailQueryCategory> llq_serial_job_detail_category_hash_;
-    QVector<LlqDetailQueryCategory> llq_parallel_job_detail_category_list_;
-    QHash<QString, LlqDetailQueryCategory> llq_parallel_job_detail_category_hash_;
+    QVector<LlqQueryCategory> llq_serial_job_detail_category_list_;
+    QHash<QString, LlqQueryCategory> llq_serial_job_detail_category_hash_;
+    QVector<LlqQueryCategory> llq_parallel_job_detail_category_list_;
+    QHash<QString, LlqQueryCategory> llq_parallel_job_detail_category_hash_;
 
     friend class LlqCommandManager;
 };

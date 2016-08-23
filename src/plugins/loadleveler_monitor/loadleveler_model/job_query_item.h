@@ -27,7 +27,8 @@ public:
         UnknownItem = 10,
         NormalItem,
         NumberItem,
-        DateItem
+        DateItem,
+        FullDateItem
     };
 
     ~JobQueryItem();
@@ -40,13 +41,15 @@ public:
 
     QVariant data(int role = Qt::UserRole + 1) const;
 
-    static QList<QStandardItem *> buildFromQueryRecord(const QJsonObject &data);
-    static QList<QStandardItem *> buildFromOutputLine(const QString &line, const QVector<LlqQueryCategory> &category_list);
+    static QList<QStandardItem *> buildFromQueryRecord(
+            const QString &line,
+            const QVector<LlqQueryCategory> &category_list,
+            const QHash<QString, LlqQueryCategory> &category_hash = QHash<QString, LlqQueryCategory>());
 
-    static QList<QStandardItem *> buildDetailQueryRecord(
+    static QList<QStandardItem *> buildFromDetailQueryRecord(
             const QStringList &lines,
-            const QVector<LlqDetailQueryCategory> &category_list,
-            const QHash<QString, LlqDetailQueryCategory> &category_hash = QHash<QString, LlqDetailQueryCategory>());
+            const QVector<LlqQueryCategory> &category_list,
+            const QHash<QString, LlqQueryCategory> &category_hash = QHash<QString, LlqQueryCategory>());
 
 private:
     ItemType item_type_;
