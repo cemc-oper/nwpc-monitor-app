@@ -151,7 +151,7 @@ JobQueryModel *LlqCommandManagerPrivate::buildLlqQueryModel(const QString &outpu
 //        return str.trimmed();
 //    });
 
-    return JobQueryModel::buildFromLlqQueryResponse(lines);
+    return JobQueryModel::buildFromLlqDefaultQueryResponse(lines);
 }
 
 JobQueryModel *LlqCommandManagerPrivate::buildLlqDetailQueryModel(const QString &output)

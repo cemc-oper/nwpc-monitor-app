@@ -4,6 +4,12 @@ using namespace LoadLevelerMonitor::LoadLevelerModel;
 
 const QString LlqQueryCategory::VALID_ID{".valid_id"};
 
+const QString LlqQueryCategory::ValueType::Unknown{"unknown"};
+const QString LlqQueryCategory::ValueType::String{"string"};
+const QString LlqQueryCategory::ValueType::Number{"number"};
+const QString LlqQueryCategory::ValueType::Date{"date"};            // 'MM/DD HH:MM'
+const QString LlqQueryCategory::ValueType::FullDate{"full_date"};   // Mon Aug 22 02:25:09 2016
+
 LlqQueryCategory::LlqQueryCategory():
     id_{VALID_ID},
     token_length_{-1},

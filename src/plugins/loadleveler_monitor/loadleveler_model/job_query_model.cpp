@@ -8,7 +8,8 @@
 using namespace LoadLevelerMonitor::LoadLevelerModel;
 
 JobQueryModel::JobQueryModel(QObject *parent):
-    QStandardItemModel{parent}
+    QStandardItemModel{parent},
+    query_type_{QueryType::UnknownQuery}
 {
     setSortRole(JobQueryItem::SortRole);
 }
@@ -23,7 +24,17 @@ void JobQueryModel::setCategoryList(const QVector<LlqQueryCategory> &category_li
     category_list_ = category_list;
 }
 
-JobQueryModel *JobQueryModel::buildFromLlqQueryResponse(const QStringList &lines, QObject *parent)
+JobQueryModel::QueryType JobQueryModel::queryType() const
+{
+    return query_type_;
+}
+
+void JobQueryModel::setQueryType(JobQueryModel::QueryType query_type)
+{
+    query_type_ = query_type;
+}
+
+JobQueryModel *JobQueryModel::buildFromLlqDefaultQueryResponse(const QStringList &lines, QObject *parent)
 {
     // check whether llq query is success.
     if(lines[0].startsWith("llq:"))
@@ -85,6 +96,8 @@ JobQueryModel *JobQueryModel::buildFromLlqQueryResponse(const QStringList &lines
     LlqQueryCategory row_num_category = LlqCommandManager::findCategory("No.");
 
     JobQueryModel *job_query_model = new JobQueryModel(parent);
+    job_query_model->setQueryType(QueryType::LlqDefaultQuery);
+
     for(int i=2; i < lines.size() - 3; i++ )
     {
         QList<QStandardItem*> row = JobQueryItem::buildFromQueryRecord(lines[i], category_list);
@@ -135,6 +148,7 @@ JobQueryModel *JobQueryModel::buildFromLlqDetailQueryResponse(const QStringList 
     }
 
     JobQueryModel *job_query_model = new JobQueryModel(parent);
+    job_query_model->setQueryType(QueryType::LlqDetailQuery);
 
     // last two lines is a summary
     QString summary_line = lines[lines.length()-2];

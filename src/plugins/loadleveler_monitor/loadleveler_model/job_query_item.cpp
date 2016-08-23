@@ -57,17 +57,17 @@ QList<QStandardItem *> JobQueryItem::buildFromQueryRecord(
 
         JobQueryItem *item = new JobQueryItem{};
         item->category_ = c;
-        if(c.value_type_ == TYPE_STRING)
+        if(c.value_type_ == LlqQueryCategory::ValueType::String)
         {
             item->setText(item_string.trimmed());
             item->setItemType(JobQueryItem::ItemType::NormalItem);
         }
-        else if(c.value_type_ == TYPE_NUMBER)
+        else if(c.value_type_ == LlqQueryCategory::ValueType::Number)
         {
             item->setText(item_string.trimmed());
             item->setItemType(JobQueryItem::ItemType::NumberItem);
         }
-        else if(c.value_type_ == TYPE_DATE)
+        else if(c.value_type_ == LlqQueryCategory::ValueType::Date)
         {
             QDateTime date_time = QDateTime::fromString(item_string.trimmed(), "M/d HH:mm");
             item->setText(date_time.toString("MM/dd HH:mm"));
@@ -110,23 +110,23 @@ QList<QStandardItem *> JobQueryItem::buildFromDetailQueryRecord(
             QString value = line.mid(index + 2).trimmed();
             JobQueryItem *item = new JobQueryItem{};
             item->category_ = c;
-            if(c.value_type_ == TYPE_STRING)
+            if(c.value_type_ == LlqQueryCategory::ValueType::String)
             {
                 item->setText(value);
                 item->setItemType(JobQueryItem::ItemType::NormalItem);
             }
-            else if(c.value_type_ == TYPE_NUMBER)
+            else if(c.value_type_ == LlqQueryCategory::ValueType::Number)
             {
                 item->setText(value);
                 item->setItemType(JobQueryItem::ItemType::NumberItem);
             }
-            else if(c.value_type_ == TYPE_DATE)
+            else if(c.value_type_ == LlqQueryCategory::ValueType::Date)
             {
                 QDateTime date_time = QDateTime::fromString(value, "M/d HH:mm");
                 item->setText(date_time.toString("MM/dd HH:mm"));
                 item->setItemType(JobQueryItem::ItemType::DateItem);
             }
-            else if(c.value_type_ == TYPE_FULL_DATE)
+            else if(c.value_type_ == LlqQueryCategory::ValueType::FullDate)
             {
                 // TODO：本地系统为中文，无法使用 ddd MMM 解析英文系统的日期
                 //QDateTime date_time = QDateTime::fromString(value, "ddd MMM d hh:mm:ss yyyy"); // Tue Aug 23 01:54:30 2016
