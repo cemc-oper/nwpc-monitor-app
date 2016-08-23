@@ -103,7 +103,7 @@ Action *ActionManager::action(QString id)
     const auto it = action_manager->id_to_action_map_.constFind(id);
     if(it == action_manager->id_to_action_map_.constEnd())
     {
-        qWarning()<<"[ActionManager::action] faid to find:"<< id;
+        //qWarning()<<"[ActionManager::action] faid to find:"<< id;
         return 0;
     }
     return it.value();

@@ -2,10 +2,10 @@
 
 using namespace LoadLevelerMonitor::LoadLevelerModel;
 
-const QString QueryCategory::VALID_ID{".valid_id"};
+const QString QueryCategory::kValidId{".valid_id"};
 
 QueryCategory::QueryCategory():
-    id_{VALID_ID},
+    id_{kValidId},
     token_length_{-1},
     category_type_{QueryType::UnknownQuery}
 {
@@ -14,7 +14,7 @@ QueryCategory::QueryCategory():
 
 bool QueryCategory::isValid()
 {
-    return id_ != VALID_ID;
+    return id_ != kValidId;
 }
 
 bool QueryCategory::operator ==(const QueryCategory &other)

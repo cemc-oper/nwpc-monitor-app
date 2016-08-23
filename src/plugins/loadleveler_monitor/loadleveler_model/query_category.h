@@ -19,17 +19,17 @@ enum class QueryType{
 };
 
 namespace QueryValueType{
-    static const QString Unknown{"unknown"};
-    static const QString String{"string"};
-    static const QString Number{"number"};
-    static const QString Date{"date"};            // 'MM/DD HH:MM'
-    static const QString FullDate{"full_date"};   // Mon Aug 22 02:25:09 2016
+    static const QString Unknown    {"unknown"};
+    static const QString String     {"string"};
+    static const QString Number     {"number"};
+    static const QString Date       {"date"};            // 'MM/DD HH:MM'
+    static const QString FullDate   {"full_date"};   // Mon Aug 22 02:25:09 2016
 }
 
 struct LOADLEVELER_MONITOR_EXPORT QueryCategory
 {
 public:
-    static const QString VALID_ID;
+    static const QString kValidId;
 
     QueryCategory();
 

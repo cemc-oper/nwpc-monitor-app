@@ -8,9 +8,9 @@
 using namespace LoadLevelerMonitor::LoadLevelerModel;
 
 QueryModel::QueryModel(QObject *parent):
-    QStandardItemModel{parent},
-    query_type_{QueryType::UnknownQuery}
+    QStandardItemModel{parent}
 {
+    query_type_ = QueryType::UnknownQuery;
     setSortRole(QueryItem::SortRole);
 }
 
@@ -32,6 +32,11 @@ QueryType QueryModel::queryType() const
 void QueryModel::setQueryType(QueryType query_type)
 {
     query_type_ = query_type;
+}
+
+bool QueryModel::isEmpty() const
+{
+    return rowCount() == 0;
 }
 
 QueryModel *QueryModel::buildFromLlqDefaultQueryResponse(const QStringList &lines, QObject *parent)

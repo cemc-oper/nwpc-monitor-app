@@ -119,15 +119,9 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
     setTextStyleVisibility(false);
     ui->text_view->clear();
 
-    // table style
-    setTableStyleVisibility(true);
-    ui->action_table_style->activate(QAction::Trigger);
-
+    // build model
     QueryModel *model = LlqCommandManager::buildQueryModelFromResponse(doc);
     setJobQueryModel(model);
-
-    // chart style
-    setChartStyleVisibility(true);
 
     // text style
     setTextStyleVisibility(true);
@@ -135,6 +129,27 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
     QJsonObject message = response_object["message"].toObject();
     QString output_message = message["output"].toString();
     updateTextStylePage(output_message);
+
+    // table style
+    if(!model)
+    {
+        ui->action_text_style->activate(QAction::Trigger);
+        return;
+    }
+
+    setTableStyleVisibility(true);
+    ui->action_table_style->activate(QAction::Trigger);
+
+    // chart style
+    if(model->isEmpty())
+    {
+        return;
+    }
+
+    setChartStyleVisibility(true);
+
+
+
 }
 
 void LlqPanel::slotStyleActionTriggered(QAction *action)
@@ -314,6 +329,11 @@ void LlqPanel::setJobQueryModel(QPointer<QueryModel> job_query_model)
 
     ui->table_view->setModel(job_query_model_);
     ui->table_view->horizontalHeader()->setStretchLastSection(true);
+
+    if(!job_query_model_)
+    {
+        return;
+    }
 
     switch(job_query_model_->queryType())
     {

@@ -22,6 +22,8 @@ public:
     QueryType queryType() const;
     void setQueryType(QueryType query_type);
 
+    bool isEmpty() const;
+
     static QueryModel *buildFromLlqDefaultQueryResponse(const QStringList& lines, QObject *parent = Q_NULLPTR);
     static QueryModel *buildFromLlqDetailQueryResponse(const QStringList& lines, QObject *parent = Q_NULLPTR);
 
