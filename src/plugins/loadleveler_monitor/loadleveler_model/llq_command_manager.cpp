@@ -1,7 +1,7 @@
 #include "llq_command_manager.h"
 #include "llq_command_manager_private.h"
 
-#include "job_query_model.h"
+#include "query_model.h"
 
 using namespace LoadLevelerMonitor::LoadLevelerModel;
 
@@ -18,42 +18,42 @@ void LlqCommandManager::initialize()
     d->initLlqCategoryList();
 }
 
-QVector<LlqQueryCategory> LlqCommandManager::llqCategoryList()
+QVector<QueryCategory> LlqCommandManager::llqCategoryList()
 {
     return d->llqCategoryList();
 }
 
-QVector<LlqQueryCategory> LlqCommandManager::llqSerialJobDetailQueryCategoryList()
+QVector<QueryCategory> LlqCommandManager::llqSerialJobDetailQueryCategoryList()
 {
     return d->llq_serial_job_detail_category_list_;
 }
 
-QVector<LlqQueryCategory> LlqCommandManager::llqParellelJobDetailQueryCategoryList()
+QVector<QueryCategory> LlqCommandManager::llqParellelJobDetailQueryCategoryList()
 {
     return d->llq_parallel_job_detail_category_list_;
 }
 
-LlqQueryCategory LlqCommandManager::findLlqSerialJobDetailQueryCategory(const QString &result_label) const
-{
-    return d->findLlqSerialJobDetailQueryCategory(result_label);
-}
-
-LlqQueryCategory LlqCommandManager::findLlqParellelJobDetailQueryCategory(const QString &result_label) const
-{
-    return d->findLlqParellelJobDetailQueryCategory(result_label);
-}
-
-LlqQueryCategory LlqCommandManager::findCategory(const QString result_title)
+QueryCategory LlqCommandManager::findLlqDefaultQueryCategory(const QString result_title)
 {
     return d->findLlqQueryCategory(result_title);
 }
 
-JobQueryModel *LlqCommandManager::buildLlqQueryModelFromResponse(const QString &response)
+QueryCategory LlqCommandManager::findLlqSerialJobDetailQueryCategory(const QString &result_label)
+{
+    return d->findLlqSerialJobDetailQueryCategory(result_label);
+}
+
+QueryCategory LlqCommandManager::findLlqParellelJobDetailQueryCategory(const QString &result_label)
+{
+    return d->findLlqParellelJobDetailQueryCategory(result_label);
+}
+
+QueryModel *LlqCommandManager::buildLlqQueryModelFromResponse(const QString &response)
 {
     return d->buildLlqQueryModelFromResponse(response);
 }
 
-JobQueryModel *LlqCommandManager::buildLlqQueryModelFromResponse(const QJsonDocument &response)
+QueryModel *LlqCommandManager::buildLlqQueryModelFromResponse(const QJsonDocument &response)
 {
     return d->buildLlqQueryModelFromResponse(response);
 }

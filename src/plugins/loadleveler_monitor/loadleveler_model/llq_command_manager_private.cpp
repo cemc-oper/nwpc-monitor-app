@@ -1,8 +1,8 @@
 #include "llq_command_manager_private.h"
 
 #include "llq_command_manager.h"
-#include "job_query_item.h"
-#include "job_query_model.h"
+#include "query_item.h"
+#include "query_model.h"
 
 #include <QString>
 #include <QStringList>
@@ -26,15 +26,15 @@ LlqCommandManagerPrivate::LlqCommandManagerPrivate(LlqCommandManager *parent) :
 void LlqCommandManagerPrivate::initLlqCategoryList()
 {
     llq_query_category_list_.clear();
-    foreach(QStringList record, LLQ_QUERY_CATEGARY_LIST)
+    foreach(QStringList record, kLlqDefaultQueryCategoryList)
     {
-        llq_query_category_list_.append(LlqQueryCategory::createFromStringList(record));
+        llq_query_category_list_.append(QueryCategory::createFromStringList(record));
     }
 
     llq_serial_job_detail_category_list_.clear();
     foreach(QStringList record, kLlqDetailQuerySerialJobCategoryList)
     {
-        LlqQueryCategory c = LlqQueryCategory::createFromStringList(record);
+        QueryCategory c = QueryCategory::createFromStringList(record);
         llq_serial_job_detail_category_list_.append(c);
         llq_serial_job_detail_category_hash_[c.label_] = c;
     }
@@ -42,23 +42,23 @@ void LlqCommandManagerPrivate::initLlqCategoryList()
     llq_parallel_job_detail_category_list_.clear();
     foreach(QStringList record, kLlqDetailQueryParallelCategoryList)
     {
-        LlqQueryCategory c = LlqQueryCategory::createFromStringList(record);
+        QueryCategory c = QueryCategory::createFromStringList(record);
         llq_parallel_job_detail_category_list_.append(c);
         llq_parallel_job_detail_category_hash_[c.label_] = c;
     }
 }
 
-QVector<LlqQueryCategory> LlqCommandManagerPrivate::llqCategoryList()
+QVector<QueryCategory> LlqCommandManagerPrivate::llqCategoryList()
 {
     return llq_query_category_list_;
 }
 
-LlqQueryCategory LlqCommandManagerPrivate::findLlqQueryCategory(const QString result_title)
+QueryCategory LlqCommandManagerPrivate::findLlqQueryCategory(const QString result_title)
 {
-    LlqQueryCategory result_category;
+    QueryCategory result_category;
     for(int i=0; i<llq_query_category_list_.length(); i++)
     {
-        LlqQueryCategory category = llq_query_category_list_[i];
+        QueryCategory category = llq_query_category_list_[i];
         if( category.label_ == result_title )
         {
             result_category = category;
@@ -68,23 +68,23 @@ LlqQueryCategory LlqCommandManagerPrivate::findLlqQueryCategory(const QString re
     return result_category;
 }
 
-LlqQueryCategory LlqCommandManagerPrivate::findLlqSerialJobDetailQueryCategory(const QString &result_label) const
+QueryCategory LlqCommandManagerPrivate::findLlqSerialJobDetailQueryCategory(const QString &result_label) const
 {
     if(llq_serial_job_detail_category_hash_.contains(result_label))
         return llq_serial_job_detail_category_hash_[result_label];
     else
-        return LlqQueryCategory();
+        return QueryCategory();
 }
 
-LlqQueryCategory LlqCommandManagerPrivate::findLlqParellelJobDetailQueryCategory(const QString &result_label) const
+QueryCategory LlqCommandManagerPrivate::findLlqParellelJobDetailQueryCategory(const QString &result_label) const
 {
     if(llq_parallel_job_detail_category_hash_.contains(result_label))
         return llq_parallel_job_detail_category_hash_[result_label];
     else
-        return LlqQueryCategory();
+        return QueryCategory();
 }
 
-JobQueryModel *LlqCommandManagerPrivate::buildLlqQueryModelFromResponse(const QString &response_str)
+QueryModel *LlqCommandManagerPrivate::buildLlqQueryModelFromResponse(const QString &response_str)
 {
     qDebug()<<"[LlqCommandManagerPrivate::buildLlqQueryModelFromResponse] begin";
 
@@ -98,7 +98,7 @@ JobQueryModel *LlqCommandManagerPrivate::buildLlqQueryModelFromResponse(const QS
     return buildLlqQueryModelFromResponse(doc);
 }
 
-JobQueryModel *LlqCommandManagerPrivate::buildLlqQueryModelFromResponse(const QJsonDocument &response_json_document)
+QueryModel *LlqCommandManagerPrivate::buildLlqQueryModelFromResponse(const QJsonDocument &response_json_document)
 {
     QJsonObject result_object = response_json_document.object();
 
@@ -125,7 +125,7 @@ JobQueryModel *LlqCommandManagerPrivate::buildLlqQueryModelFromResponse(const QJ
     QJsonObject message = data["response"].toObject()["message"].toObject();
     QString output_message = message["output"].toString();
 
-    JobQueryModel *model = nullptr;
+    QueryModel *model = nullptr;
     if(isLlqDetailQuery(command, arg_list))
     {
         model = buildLlqDetailQueryModel(output_message);
@@ -139,7 +139,7 @@ JobQueryModel *LlqCommandManagerPrivate::buildLlqQueryModelFromResponse(const QJ
     return model;
 }
 
-JobQueryModel *LlqCommandManagerPrivate::buildLlqQueryModel(const QString &output)
+QueryModel *LlqCommandManagerPrivate::buildLlqQueryModel(const QString &output)
 {
     Q_ASSERT(!output.isEmpty());
 
@@ -151,16 +151,16 @@ JobQueryModel *LlqCommandManagerPrivate::buildLlqQueryModel(const QString &outpu
 //        return str.trimmed();
 //    });
 
-    return JobQueryModel::buildFromLlqDefaultQueryResponse(lines);
+    return QueryModel::buildFromLlqDefaultQueryResponse(lines);
 }
 
-JobQueryModel *LlqCommandManagerPrivate::buildLlqDetailQueryModel(const QString &output)
+QueryModel *LlqCommandManagerPrivate::buildLlqDetailQueryModel(const QString &output)
 {
     Q_ASSERT(!output.isEmpty());
 
     QStringList lines = output.split('\n');
 
-    return JobQueryModel::buildFromLlqDetailQueryResponse(lines);
+    return QueryModel::buildFromLlqDetailQueryResponse(lines);
 }
 
 bool LlqCommandManagerPrivate::isLlqDetailQuery(const QString &command, const QStringList &arguments) const

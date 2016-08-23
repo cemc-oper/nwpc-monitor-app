@@ -2,7 +2,7 @@
 #include "loadleveler_monitor_perspective.h"
 #include "loadleveler_client.h"
 #include "loadleveler_monitor_widget.h"
-#include "loadleveler_model/job_query_model.h"
+#include "loadleveler_model/query_model.h"
 #include "loadleveler_model/llq_command_manager.h"
 
 #include <plugin_manager/plugin_manager.h>

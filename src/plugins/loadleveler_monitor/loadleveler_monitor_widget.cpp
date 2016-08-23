@@ -3,8 +3,8 @@
 
 #include "client_command_widget.h"
 
-#include "loadleveler_model/job_query_model.h"
-#include "loadleveler_model/job_query_item.h"
+#include "loadleveler_model/query_model.h"
+#include "loadleveler_model/query_item.h"
 
 #include <QButtonGroup>
 #include <QMap>

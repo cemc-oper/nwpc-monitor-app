@@ -2,7 +2,7 @@
 
 #include "../loadleveler_monitor_global.h"
 
-#include "llq_category.h"
+#include "query_category.h"
 #include <QVector>
 #include <QObject>
 #include <QJsonDocument>
@@ -13,8 +13,7 @@ class LoadLevelerMonitorPlugin;
 
 namespace LoadLevelerModel{
 
-class JobQueryModel;
-
+class QueryModel;
 class LlqCommandManagerPrivate;
 
 class LOADLEVELER_MONITOR_EXPORT LlqCommandManager : public QObject
@@ -25,17 +24,16 @@ public:
 
     static void initialize();
 
-    static QVector<LlqQueryCategory> llqCategoryList();
-    static QVector<LlqQueryCategory> llqSerialJobDetailQueryCategoryList();
-    static QVector<LlqQueryCategory> llqParellelJobDetailQueryCategoryList();
+    static QVector<QueryCategory> llqCategoryList();
+    static QVector<QueryCategory> llqSerialJobDetailQueryCategoryList();
+    static QVector<QueryCategory> llqParellelJobDetailQueryCategoryList();
 
-    LlqQueryCategory findLlqSerialJobDetailQueryCategory(const QString &result_label) const;
-    LlqQueryCategory findLlqParellelJobDetailQueryCategory(const QString &result_label) const;
+    static QueryCategory findLlqDefaultQueryCategory(const QString result_title);
+    static QueryCategory findLlqSerialJobDetailQueryCategory(const QString &result_label);
+    static QueryCategory findLlqParellelJobDetailQueryCategory(const QString &result_label);
 
-    static LlqQueryCategory findCategory(const QString result_title);
-
-    static JobQueryModel *buildLlqQueryModelFromResponse(const QString &response);
-    static JobQueryModel *buildLlqQueryModelFromResponse(const QJsonDocument &response);
+    static QueryModel *buildLlqQueryModelFromResponse(const QString &response);
+    static QueryModel *buildLlqQueryModelFromResponse(const QJsonDocument &response);
 
 signals:
 

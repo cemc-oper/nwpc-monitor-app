@@ -1,5 +1,5 @@
-#include "job_query_model.h"
-#include "job_query_item.h"
+#include "query_model.h"
+#include "query_item.h"
 #include "llq_command_manager.h"
 
 #include <QJsonArray>
@@ -7,34 +7,34 @@
 
 using namespace LoadLevelerMonitor::LoadLevelerModel;
 
-JobQueryModel::JobQueryModel(QObject *parent):
+QueryModel::QueryModel(QObject *parent):
     QStandardItemModel{parent},
     query_type_{QueryType::UnknownQuery}
 {
-    setSortRole(JobQueryItem::SortRole);
+    setSortRole(QueryItem::SortRole);
 }
 
-JobQueryModel::~JobQueryModel()
+QueryModel::~QueryModel()
 {
 
 }
 
-void JobQueryModel::setCategoryList(const QVector<LlqQueryCategory> &category_list)
+void QueryModel::setCategoryList(const QVector<QueryCategory> &category_list)
 {
     category_list_ = category_list;
 }
 
-JobQueryModel::QueryType JobQueryModel::queryType() const
+QueryType QueryModel::queryType() const
 {
     return query_type_;
 }
 
-void JobQueryModel::setQueryType(JobQueryModel::QueryType query_type)
+void QueryModel::setQueryType(QueryType query_type)
 {
     query_type_ = query_type;
 }
 
-JobQueryModel *JobQueryModel::buildFromLlqDefaultQueryResponse(const QStringList &lines, QObject *parent)
+QueryModel *QueryModel::buildFromLlqDefaultQueryResponse(const QStringList &lines, QObject *parent)
 {
     // check whether llq query is success.
     if(lines[0].startsWith("llq:"))
@@ -42,7 +42,7 @@ JobQueryModel *JobQueryModel::buildFromLlqDefaultQueryResponse(const QStringList
         if(lines[0].startsWith("llq: There is currently no job status to report."))
         {
             // TODO: 没有job
-            JobQueryModel *job_model = new JobQueryModel();
+            QueryModel *job_model = new QueryModel();
             return job_model;
         }
         else
@@ -82,10 +82,10 @@ JobQueryModel *JobQueryModel::buildFromLlqDefaultQueryResponse(const QStringList
     });
 
     // get category list
-    QVector<LlqQueryCategory> category_list(category_title_list.size());
+    QVector<QueryCategory> category_list(category_title_list.size());
     for(int i=0;i<category_title_list.size(); i++)
     {
-        category_list[i] = LlqCommandManager::findCategory(category_title_list[i]);
+        category_list[i] = LlqCommandManager::findLlqDefaultQueryCategory(category_title_list[i]);
         category_list[i].token_length_ = category_column_width[i];
         if(!category_list[i].isValid())
         {
@@ -93,16 +93,16 @@ JobQueryModel *JobQueryModel::buildFromLlqDefaultQueryResponse(const QStringList
         }
     }
 
-    LlqQueryCategory row_num_category = LlqCommandManager::findCategory("No.");
+    QueryCategory row_num_category = LlqCommandManager::findLlqDefaultQueryCategory("No.");
 
-    JobQueryModel *job_query_model = new JobQueryModel(parent);
+    QueryModel *job_query_model = new QueryModel(parent);
     job_query_model->setQueryType(QueryType::LlqDefaultQuery);
 
     for(int i=2; i < lines.size() - 3; i++ )
     {
-        QList<QStandardItem*> row = JobQueryItem::buildFromQueryRecord(lines[i], category_list);
-        JobQueryItem *item = new JobQueryItem(QString::number(i-1));
-        item->setItemType(JobQueryItem::ItemType::NumberItem);
+        QList<QStandardItem*> row = QueryItem::buildFromQueryRecord(lines[i], category_list);
+        QueryItem *item = new QueryItem(QString::number(i-1));
+        item->setItemType(QueryItem::ItemType::NumberItem);
         item->setCategory(row_num_category);
         item->setCheckable(true);
         item->setCheckState(Qt::Unchecked);
@@ -114,7 +114,7 @@ JobQueryModel *JobQueryModel::buildFromLlqDefaultQueryResponse(const QStringList
     category_list.insert(0, row_num_category);
     // set header titles
     QStringList header_labels;
-    foreach(LlqQueryCategory c, category_list)
+    foreach(QueryCategory c, category_list)
     {
         header_labels.append(c.display_name_);
     }
@@ -123,7 +123,7 @@ JobQueryModel *JobQueryModel::buildFromLlqDefaultQueryResponse(const QStringList
     return job_query_model;
 }
 
-JobQueryModel *JobQueryModel::buildFromLlqDetailQueryResponse(const QStringList &lines, QObject *parent)
+QueryModel *QueryModel::buildFromLlqDetailQueryResponse(const QStringList &lines, QObject *parent)
 {
     // check whether llq query is success.
     if(lines[0].startsWith("llq:"))
@@ -131,7 +131,7 @@ JobQueryModel *JobQueryModel::buildFromLlqDetailQueryResponse(const QStringList 
         if(lines[0].startsWith("llq: There is currently no job status to report."))
         {
             // TODO: 没有job
-            JobQueryModel *job_model = new JobQueryModel();
+            QueryModel *job_model = new QueryModel();
             return job_model;
         }
         else
@@ -147,7 +147,7 @@ JobQueryModel *JobQueryModel::buildFromLlqDetailQueryResponse(const QStringList 
         return nullptr;
     }
 
-    JobQueryModel *job_query_model = new JobQueryModel(parent);
+    QueryModel *job_query_model = new QueryModel(parent);
     job_query_model->setQueryType(QueryType::LlqDetailQuery);
 
     // last two lines is a summary
@@ -161,8 +161,8 @@ JobQueryModel *JobQueryModel::buildFromLlqDetailQueryResponse(const QStringList 
     }
     record_start_line_no_list.push_back(lines.length() -2);
 
-    QVector<LlqQueryCategory> category_list;
-    LlqQueryCategory row_num_category = LlqCommandManager::findCategory("No.");
+    QVector<QueryCategory> category_list;
+    QueryCategory row_num_category = LlqCommandManager::findLlqDefaultQueryCategory("No.");
 
     for(int record_no = 0; record_no < record_start_line_no_list.size() - 1; record_no++)
     {
@@ -193,9 +193,9 @@ JobQueryModel *JobQueryModel::buildFromLlqDetailQueryResponse(const QStringList 
             category_list = LlqCommandManager::llqParellelJobDetailQueryCategoryList();
         }
 
-        QList<QStandardItem*> row = JobQueryItem::buildFromDetailQueryRecord(record_lines, category_list);
-        JobQueryItem *item = new JobQueryItem(QString::number(record_no+1));
-        item->setItemType(JobQueryItem::ItemType::NumberItem);
+        QList<QStandardItem*> row = QueryItem::buildFromDetailQueryRecord(record_lines, category_list);
+        QueryItem *item = new QueryItem(QString::number(record_no+1));
+        item->setItemType(QueryItem::ItemType::NumberItem);
         //item->setCategory(row_num_category);
         item->setCheckable(true);
         item->setCheckState(Qt::Unchecked);
@@ -207,7 +207,7 @@ JobQueryModel *JobQueryModel::buildFromLlqDetailQueryResponse(const QStringList 
     category_list.insert(0, row_num_category);
     // set header titles
     QStringList header_labels;
-    foreach(LlqQueryCategory c, category_list)
+    foreach(QueryCategory c, category_list)
     {
         header_labels.append(c.display_name_);
     }

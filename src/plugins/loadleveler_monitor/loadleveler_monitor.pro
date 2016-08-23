@@ -21,26 +21,26 @@ SOURCES += loadleveler_monitor_plugin.cpp \
     loadleveler_monitor_perspective.cpp \
     loadleveler_monitor_widget.cpp \
     loadleveler_client.cpp \
-    loadleveler_model/job_query_model.cpp \
-    loadleveler_model/job_query_item.cpp \
     client_command_widget.cpp \
     panels/llq_panel.cpp \
-    loadleveler_model/llq_category.cpp \
     loadleveler_model/llq_command_manager.cpp \
-    loadleveler_model/llq_command_manager_private.cpp
+    loadleveler_model/llq_command_manager_private.cpp \
+    loadleveler_model/query_category.cpp \
+    loadleveler_model/query_item.cpp \
+    loadleveler_model/query_model.cpp
 
 HEADERS += loadleveler_monitor_plugin.h \
     loadleveler_monitor_global.h \
     loadleveler_monitor_perspective.h \
     loadleveler_monitor_widget.h \
     loadleveler_client.h \
-    loadleveler_model/job_query_model.h \
-    loadleveler_model/job_query_item.h \
     client_command_widget.h \
     panels/llq_panel.h \
-    loadleveler_model/llq_category.h \
     loadleveler_model/llq_command_manager.h \
-    loadleveler_model/llq_command_manager_private.h
+    loadleveler_model/llq_command_manager_private.h \
+    loadleveler_model/query_category.h \
+    loadleveler_model/query_item.h \
+    loadleveler_model/query_model.h
 
 DISTFILES += loadleveler_monitor.json \
     nwpc_loadleveler/loadleveler.py

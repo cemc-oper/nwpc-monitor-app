@@ -11,7 +11,7 @@ QT_END_NAMESPACE
 namespace LoadLevelerMonitor{
 
 namespace LoadLevelerModel{
-class JobQueryModel;
+class QueryModel;
 }
 
 namespace Ui {

@@ -4,7 +4,7 @@
 #include <python_env_plugin/python_engine.h>
 #include <python_env_plugin/python_command.h>
 
-#include <loadleveler_monitor/loadleveler_model/job_query_model.h>
+#include <loadleveler_monitor/loadleveler_model/query_model.h>
 
 #include <QtDebug>
 
@@ -83,6 +83,6 @@ void Widget::on_btn_run_nonexist_python_exe_clicked()
 void Widget::slotCommandFinished(const ProgressUtil::ShellCommandResponse &response)
 {
     qDebug()<<response.std_out_;
-    JobQueryModel *model = LlqCommandManager::buildLlqQueryModelFromResponse(response.std_out_);
+    QueryModel *model = LlqCommandManager::buildLlqQueryModelFromResponse(response.std_out_);
     ui->view->setModel(model);
 }

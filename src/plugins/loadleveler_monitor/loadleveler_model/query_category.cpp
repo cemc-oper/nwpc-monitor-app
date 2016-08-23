@@ -1,34 +1,34 @@
-#include "llq_category.h"
+#include "query_category.h"
 
 using namespace LoadLevelerMonitor::LoadLevelerModel;
 
-const QString LlqQueryCategory::VALID_ID{".valid_id"};
+const QString QueryCategory::VALID_ID{".valid_id"};
 
-const QString LlqQueryCategory::ValueType::Unknown{"unknown"};
-const QString LlqQueryCategory::ValueType::String{"string"};
-const QString LlqQueryCategory::ValueType::Number{"number"};
-const QString LlqQueryCategory::ValueType::Date{"date"};            // 'MM/DD HH:MM'
-const QString LlqQueryCategory::ValueType::FullDate{"full_date"};   // Mon Aug 22 02:25:09 2016
+const QString QueryCategory::ValueType::Unknown{"unknown"};
+const QString QueryCategory::ValueType::String{"string"};
+const QString QueryCategory::ValueType::Number{"number"};
+const QString QueryCategory::ValueType::Date{"date"};            // 'MM/DD HH:MM'
+const QString QueryCategory::ValueType::FullDate{"full_date"};   // Mon Aug 22 02:25:09 2016
 
-LlqQueryCategory::LlqQueryCategory():
+QueryCategory::QueryCategory():
     id_{VALID_ID},
     token_length_{-1},
-    category_type_{CategoryType::NormalQuery}
+    category_type_{QueryType::UnknownQuery}
 {
 
 }
 
-bool LlqQueryCategory::isValid()
+bool QueryCategory::isValid()
 {
     return id_ != VALID_ID;
 }
 
-bool LlqQueryCategory::operator ==(const LlqQueryCategory &other)
+bool QueryCategory::operator ==(const QueryCategory &other)
 {
     return id_ == other.id_;
 }
 
-LlqQueryCategory LlqQueryCategory::createFromStringList(QStringList record)
+QueryCategory QueryCategory::createFromStringList(QStringList record)
 {
     if(record.length() == 5)
     {
@@ -37,13 +37,13 @@ LlqQueryCategory LlqQueryCategory::createFromStringList(QStringList record)
         QString label= record[2];
         QString type = record[3];
         QString comand_line = record[4];
-        LlqQueryCategory category;
+        QueryCategory category;
         category.id_ = id;
         category.display_name_ = display_name;
         category.label_ = label;
         category.value_type_ = type;
         category.command_line_ = comand_line;
-        category.category_type_ = CategoryType::NormalQuery;
+        category.category_type_ = QueryType::LlqDefaultQuery;
         return category;
     }
     else if(record.length()==4)
@@ -52,16 +52,16 @@ LlqQueryCategory LlqQueryCategory::createFromStringList(QStringList record)
         QString display_name = record[1];
         QString label = record[2];
         QString type = record[3];
-        LlqQueryCategory category;
+        QueryCategory category;
         category.id_ = id;
         category.display_name_ = display_name;
         category.label_ = label;
         category.value_type_ = type;
-        category.category_type_ = CategoryType::DetailQuery;
+        category.category_type_ = QueryType::LlqDetailQuery;
         return category;
     }
     else
     {
-        return LlqQueryCategory();
+        return QueryCategory();
     }
 }

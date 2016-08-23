@@ -1,8 +1,8 @@
 #include "llq_panel.h"
 #include "ui_llq_panel.h"
 
-#include "../loadleveler_model/job_query_model.h"
-#include "../loadleveler_model/job_query_item.h"
+#include "../loadleveler_model/query_model.h"
+#include "../loadleveler_model/query_item.h"
 #include "../loadleveler_model/llq_command_manager.h"
 
 #include "../loadleveler_monitor_plugin.h"
@@ -123,7 +123,7 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
     setTableStyleVisibility(true);
     ui->action_table_style->activate(QAction::Trigger);
 
-    JobQueryModel *model = LlqCommandManager::buildLlqQueryModelFromResponse(doc);
+    QueryModel *model = LlqCommandManager::buildLlqQueryModelFromResponse(doc);
     setJobQueryModel(model);
 
     // chart style
@@ -177,8 +177,8 @@ void LlqPanel::slotQueryRecordContextMenuRequest(const QPoint &pos)
     //qDebug()<<"[LoadLevelerMonitorWidget::slotLlqQueryRecordContextMenuRequest]";
     QModelIndex index = ui->table_view->indexAt(pos);
     if (index.isValid()) {
-        JobQueryItem *cur_item = static_cast<JobQueryItem*>(job_query_model_->itemFromIndex(index));
-        LlqQueryCategory c = cur_item->category();
+        QueryItem *cur_item = static_cast<QueryItem*>(job_query_model_->itemFromIndex(index));
+        QueryCategory c = cur_item->category();
 
         QMenu *context_menu = new QMenu{};
         QAction *title_action = new QAction{c.display_name_ + ": " + cur_item->text()};
@@ -303,7 +303,7 @@ void LlqPanel::setTextStyleVisibility(bool is_visible)
     ui->text_style_button->setHidden(!is_visible);
 }
 
-void LlqPanel::setJobQueryModel(QPointer<JobQueryModel> job_query_model)
+void LlqPanel::setJobQueryModel(QPointer<QueryModel> job_query_model)
 {
     if(job_query_model_)
     {
