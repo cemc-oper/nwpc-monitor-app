@@ -18,44 +18,44 @@ void LlqCommandManager::initialize()
     d->initLlqCategoryList();
 }
 
-QVector<QueryCategory> LlqCommandManager::llqDefaultCategoryList()
+QVector<QueryCategory> LlqCommandManager::defaultCategoryList()
 {
-    return d->llqCategoryList();
+    return d->categoryList();
 }
 
-QVector<QueryCategory> LlqCommandManager::llqSerialJobDetailQueryCategoryList()
+QVector<QueryCategory> LlqCommandManager::serialJobDetailQueryCategoryList()
 {
-    return d->llq_serial_job_detail_category_list_;
+    return d->serial_job_detail_category_list_;
 }
 
-QVector<QueryCategory> LlqCommandManager::llqParellelJobDetailQueryCategoryList()
+QVector<QueryCategory> LlqCommandManager::parellelJobDetailQueryCategoryList()
 {
-    return d->llq_parallel_job_detail_category_list_;
+    return d->parallel_job_detail_category_list_;
 }
 
-QueryCategory LlqCommandManager::findLlqDefaultQueryCategory(const QString result_title)
+QueryCategory LlqCommandManager::findDefaultQueryCategory(const QString &label)
 {
-    return d->findLlqQueryCategory(result_title);
+    return d->findQueryCategory(label);
 }
 
-QueryCategory LlqCommandManager::findLlqSerialJobDetailQueryCategory(const QString &result_label)
+QueryCategory LlqCommandManager::findSerialJobDetailQueryCategory(const QString &label)
 {
-    return d->findLlqSerialJobDetailQueryCategory(result_label);
+    return d->findSerialJobDetailQueryCategory(label);
 }
 
-QueryCategory LlqCommandManager::findLlqParellelJobDetailQueryCategory(const QString &result_label)
+QueryCategory LlqCommandManager::findParellelJobDetailQueryCategory(const QString &label)
 {
-    return d->findLlqParellelJobDetailQueryCategory(result_label);
+    return d->findParellelJobDetailQueryCategory(label);
 }
 
-QueryModel *LlqCommandManager::buildLlqQueryModelFromResponse(const QString &response)
+QueryModel *LlqCommandManager::buildQueryModelFromResponse(const QString &response_str)
 {
-    return d->buildLlqQueryModelFromResponse(response);
+    return d->buildQueryModelFromResponse(response_str);
 }
 
-QueryModel *LlqCommandManager::buildLlqQueryModelFromResponse(const QJsonDocument &response)
+QueryModel *LlqCommandManager::buildQueryModelFromResponse(const QJsonDocument &response_doc)
 {
-    return d->buildLlqQueryModelFromResponse(response);
+    return d->buildQueryModelFromResponse(response_doc);
 }
 
 LlqCommandManager::LlqCommandManager(QObject *parent) : QObject(parent)

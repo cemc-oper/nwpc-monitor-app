@@ -85,7 +85,7 @@ QueryModel *QueryModel::buildFromLlqDefaultQueryResponse(const QStringList &line
     QVector<QueryCategory> category_list(category_title_list.size());
     for(int i=0;i<category_title_list.size(); i++)
     {
-        category_list[i] = LlqCommandManager::findLlqDefaultQueryCategory(category_title_list[i]);
+        category_list[i] = LlqCommandManager::findDefaultQueryCategory(category_title_list[i]);
         category_list[i].token_length_ = category_column_width[i];
         if(!category_list[i].isValid())
         {
@@ -93,7 +93,7 @@ QueryModel *QueryModel::buildFromLlqDefaultQueryResponse(const QStringList &line
         }
     }
 
-    QueryCategory row_num_category = LlqCommandManager::findLlqDefaultQueryCategory("No.");
+    QueryCategory row_num_category = LlqCommandManager::findDefaultQueryCategory("No.");
 
     QueryModel *job_query_model = new QueryModel(parent);
     job_query_model->setQueryType(QueryType::LlqDefaultQuery);
@@ -162,7 +162,7 @@ QueryModel *QueryModel::buildFromLlqDetailQueryResponse(const QStringList &lines
     record_start_line_no_list.push_back(lines.length() -2);
 
     QVector<QueryCategory> category_list;
-    QueryCategory row_num_category = LlqCommandManager::findLlqDefaultQueryCategory("No.");
+    QueryCategory row_num_category = LlqCommandManager::findDefaultQueryCategory("No.");
 
     for(int record_no = 0; record_no < record_start_line_no_list.size() - 1; record_no++)
     {
@@ -186,11 +186,11 @@ QueryModel *QueryModel::buildFromLlqDetailQueryResponse(const QStringList &lines
 
         if(job_step_type == "Serial")
         {
-            category_list = LlqCommandManager::llqSerialJobDetailQueryCategoryList();
+            category_list = LlqCommandManager::serialJobDetailQueryCategoryList();
         }
         else
         {
-            category_list = LlqCommandManager::llqParellelJobDetailQueryCategoryList();
+            category_list = LlqCommandManager::parellelJobDetailQueryCategoryList();
         }
 
         QList<QStandardItem*> row = QueryItem::buildFromDetailQueryRecord(record_lines, category_list);

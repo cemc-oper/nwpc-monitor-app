@@ -24,16 +24,16 @@ public:
 
     static void initialize();
 
-    static QVector<QueryCategory> llqDefaultCategoryList();
-    static QVector<QueryCategory> llqSerialJobDetailQueryCategoryList();
-    static QVector<QueryCategory> llqParellelJobDetailQueryCategoryList();
+    static QVector<QueryCategory> defaultCategoryList();
+    static QVector<QueryCategory> serialJobDetailQueryCategoryList();
+    static QVector<QueryCategory> parellelJobDetailQueryCategoryList();
 
-    static QueryCategory findLlqDefaultQueryCategory(const QString result_title);
-    static QueryCategory findLlqSerialJobDetailQueryCategory(const QString &result_label);
-    static QueryCategory findLlqParellelJobDetailQueryCategory(const QString &result_label);
+    static QueryCategory findDefaultQueryCategory(const QString &label);
+    static QueryCategory findSerialJobDetailQueryCategory(const QString &label);
+    static QueryCategory findParellelJobDetailQueryCategory(const QString &label);
 
-    static QueryModel *buildLlqQueryModelFromResponse(const QString &response);
-    static QueryModel *buildLlqQueryModelFromResponse(const QJsonDocument &response);
+    static QueryModel *buildQueryModelFromResponse(const QString &response_str);
+    static QueryModel *buildQueryModelFromResponse(const QJsonDocument &response_doc);
 
 signals:
 

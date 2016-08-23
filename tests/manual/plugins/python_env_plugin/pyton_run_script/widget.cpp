@@ -83,6 +83,6 @@ void Widget::on_btn_run_nonexist_python_exe_clicked()
 void Widget::slotCommandFinished(const ProgressUtil::ShellCommandResponse &response)
 {
     qDebug()<<response.std_out_;
-    QueryModel *model = LlqCommandManager::buildLlqQueryModelFromResponse(response.std_out_);
+    QueryModel *model = LlqCommandManager::buildQueryModelFromResponse(response.std_out_);
     ui->view->setModel(model);
 }

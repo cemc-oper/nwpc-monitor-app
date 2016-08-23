@@ -21,32 +21,32 @@ public:
 
     void initLlqCategoryList();
 
-    QVector<QueryCategory> llqCategoryList();
-    QueryCategory findLlqQueryCategory(const QString result_title);
+    QVector<QueryCategory> categoryList();
+    QueryCategory findQueryCategory(const QString result_title);
 
-    QueryCategory findLlqSerialJobDetailQueryCategory(const QString &result_label) const;
-    QueryCategory findLlqParellelJobDetailQueryCategory(const QString &result_label) const;
+    QueryCategory findSerialJobDetailQueryCategory(const QString &result_label) const;
+    QueryCategory findParellelJobDetailQueryCategory(const QString &result_label) const;
 
-    QueryModel *buildLlqQueryModelFromResponse(const QString &response_str);
-    QueryModel *buildLlqQueryModelFromResponse(const QJsonDocument &response_json_document);
+    QueryModel *buildQueryModelFromResponse(const QString &response_str);
+    QueryModel *buildQueryModelFromResponse(const QJsonDocument &response_json_document);
 
 signals:
 
 public slots:
 
 private:
-    QueryModel *buildLlqQueryModel(const QString &output);
-    QueryModel *buildLlqDetailQueryModel(const QString &output);
+    QueryModel *buildDefaultQueryModel(const QString &output);
+    QueryModel *buildDetailQueryModel(const QString &output);
 
-    bool isLlqDetailQuery(const QString &command, const QStringList &arguments) const;
+    bool isDetailQuery(const QString &command, const QStringList &arguments) const;
 
     LlqCommandManager *p;
 
-    QVector<QueryCategory> llq_default_query_category_list_;
-    QVector<QueryCategory> llq_serial_job_detail_category_list_;
-    QHash<QString, QueryCategory> llq_serial_job_detail_category_hash_;
-    QVector<QueryCategory> llq_parallel_job_detail_category_list_;
-    QHash<QString, QueryCategory> llq_parallel_job_detail_category_hash_;
+    QVector<QueryCategory> default_query_category_list_;
+    QVector<QueryCategory> serial_job_detail_category_list_;
+    QHash<QString, QueryCategory> serial_job_detail_category_hash_;
+    QVector<QueryCategory> parallel_job_detail_category_list_;
+    QHash<QString, QueryCategory> parallel_job_detail_category_hash_;
 
     friend class LlqCommandManager;
 };

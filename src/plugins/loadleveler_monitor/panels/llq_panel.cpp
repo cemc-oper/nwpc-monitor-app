@@ -123,7 +123,7 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
     setTableStyleVisibility(true);
     ui->action_table_style->activate(QAction::Trigger);
 
-    QueryModel *model = LlqCommandManager::buildLlqQueryModelFromResponse(doc);
+    QueryModel *model = LlqCommandManager::buildQueryModelFromResponse(doc);
     setJobQueryModel(model);
 
     // chart style
