@@ -25,10 +25,10 @@ LlqCommandManagerPrivate::LlqCommandManagerPrivate(LlqCommandManager *parent) :
 
 void LlqCommandManagerPrivate::initLlqCategoryList()
 {
-    llq_query_category_list_.clear();
+    llq_default_query_category_list_.clear();
     foreach(QStringList record, kLlqDefaultQueryCategoryList)
     {
-        llq_query_category_list_.append(QueryCategory::createFromStringList(record));
+        llq_default_query_category_list_.append(QueryCategory::createFromStringList(record));
     }
 
     llq_serial_job_detail_category_list_.clear();
@@ -50,15 +50,15 @@ void LlqCommandManagerPrivate::initLlqCategoryList()
 
 QVector<QueryCategory> LlqCommandManagerPrivate::llqCategoryList()
 {
-    return llq_query_category_list_;
+    return llq_default_query_category_list_;
 }
 
 QueryCategory LlqCommandManagerPrivate::findLlqQueryCategory(const QString result_title)
 {
     QueryCategory result_category;
-    for(int i=0; i<llq_query_category_list_.length(); i++)
+    for(int i=0; i<llq_default_query_category_list_.length(); i++)
     {
-        QueryCategory category = llq_query_category_list_[i];
+        QueryCategory category = llq_default_query_category_list_[i];
         if( category.label_ == result_title )
         {
             result_category = category;

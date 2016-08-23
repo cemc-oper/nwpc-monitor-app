@@ -82,22 +82,24 @@ static const QVector<QStringList> kLlqDetailQuerySerialJobCategoryList = {
     //id,               display name,       label,              type
     {"id",              "Id",               "Job Step Id",      QueryValueType::String},
     {"owner",           "Owner",            "Owner",            QueryValueType::String},
-    {"queue_full_date", "Queue Date",       "Queue Date",       QueryValueType::FullDate},
-    {"status",          "Status",           "Status",           QueryValueType::String},
+
     {"class",           "Class",            "Class",            QueryValueType::String},
     //{"step_type",       "Step Type",        "Step Type",        QueryValueType::String},       // Serial | General Parallel
-    {"job_script",      "Job Script",       "Cmd",              QueryValueType::String}
+    {"job_script",      "Job Script",       "Cmd",              QueryValueType::String},
+    {"status",          "Status",           "Status",           QueryValueType::String},
+    {"queue_full_date", "Queue Date",       "Queue Date",       QueryValueType::FullDate},
+
 };
 
 static const QVector<QStringList> kLlqDetailQueryParallelCategoryList = {
     //id,               display name,       label,              type
     {"id",              "Id",               "Job Step Id",      QueryValueType::String},
     {"owner",           "Owner",            "Owner",            QueryValueType::String},
-    {"queue_full_date", "Queue Date",       "Queue Date",       QueryValueType::FullDate},
-    {"status",          "Status",           "Status",           QueryValueType::String},
     {"class",           "Class",            "Class",            QueryValueType::String},
     //{"step_type",       "Step Type",        "Step Type",        QueryValueType::String},       // Serial | General Parallel
     {"job_script",      "Job Script",       "Executable",       QueryValueType::String},
+    {"status",          "Status",           "Status",           QueryValueType::String},
+    {"queue_full_date", "Queue Date",       "Queue Date",       QueryValueType::FullDate},
     {"num_task_inst",   "Num Task Inst",    "Num Task Inst",    QueryValueType::Number},
 };
 

@@ -42,7 +42,7 @@ private:
 
     LlqCommandManager *p;
 
-    QVector<QueryCategory> llq_query_category_list_;
+    QVector<QueryCategory> llq_default_query_category_list_;
     QVector<QueryCategory> llq_serial_job_detail_category_list_;
     QHash<QString, QueryCategory> llq_serial_job_detail_category_hash_;
     QVector<QueryCategory> llq_parallel_job_detail_category_list_;

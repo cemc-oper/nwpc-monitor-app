@@ -314,8 +314,22 @@ void LlqPanel::setJobQueryModel(QPointer<QueryModel> job_query_model)
 
     ui->table_view->setModel(job_query_model_);
     ui->table_view->horizontalHeader()->setStretchLastSection(true);
-    ui->table_view->setColumnWidth(1, 200);
-    ui->table_view->setColumnWidth(3, 150);
+
+    switch(job_query_model_->queryType())
+    {
+    case QueryType::LlqDefaultQuery:
+        ui->table_view->setColumnWidth(1, 200); // id
+        ui->table_view->setColumnWidth(3, 150); //
+        break;
+    case QueryType::LlqDetailQuery:
+        // TODO: 目前无法保留调整过的列宽，每次都恢复到初始状态
+        ui->table_view->setColumnWidth(1, 160); // id
+        ui->table_view->setColumnWidth(2, 80);
+        ui->table_view->setColumnWidth(4, 400);
+        break;
+    default:
+        break;
+    }
 
     ui->table_view->sortByColumn(0, Qt::AscendingOrder);
 

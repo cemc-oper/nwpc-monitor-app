@@ -24,7 +24,7 @@ public:
 
     static void initialize();
 
-    static QVector<QueryCategory> llqCategoryList();
+    static QVector<QueryCategory> llqDefaultCategoryList();
     static QVector<QueryCategory> llqSerialJobDetailQueryCategoryList();
     static QVector<QueryCategory> llqParellelJobDetailQueryCategoryList();
 

@@ -18,7 +18,7 @@ void LlqCommandManager::initialize()
     d->initLlqCategoryList();
 }
 
-QVector<QueryCategory> LlqCommandManager::llqCategoryList()
+QVector<QueryCategory> LlqCommandManager::llqDefaultCategoryList()
 {
     return d->llqCategoryList();
 }
