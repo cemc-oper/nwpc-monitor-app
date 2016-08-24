@@ -1,7 +1,7 @@
 #include "model_data_processor.h"
 
-#include "../loadleveler_model/query_model.h"
-#include "../loadleveler_model/query_item.h"
+#include "../model/query_model.h"
+#include "../model/query_item.h"
 
 #include <QtCharts/QChart>
 #include <QtCharts/QBarSeries>

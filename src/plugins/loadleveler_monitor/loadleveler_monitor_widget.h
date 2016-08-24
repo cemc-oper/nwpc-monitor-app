@@ -10,10 +10,6 @@ QT_END_NAMESPACE
 
 namespace LoadLevelerMonitor{
 
-namespace Model{
-class QueryModel;
-}
-
 namespace Ui {
 class LoadLevelerMonitorWidget;
 }

@@ -23,12 +23,12 @@ SOURCES += loadleveler_monitor_plugin.cpp \
     loadleveler_client.cpp \
     client_command_widget.cpp \
     panels/llq_panel.cpp \
-    loadleveler_model/llq_command_manager.cpp \
-    loadleveler_model/llq_command_manager_private.cpp \
-    loadleveler_model/query_category.cpp \
-    loadleveler_model/query_item.cpp \
-    loadleveler_model/query_model.cpp \
-    loadleveler_model/query_category_list.cpp \
+    model/llq_command_manager.cpp \
+    model/llq_command_manager_private.cpp \
+    model/query_category.cpp \
+    model/query_item.cpp \
+    model/query_model.cpp \
+    model/query_category_list.cpp \
     chart/model_data_processor.cpp
 
 HEADERS += loadleveler_monitor_plugin.h \
@@ -38,12 +38,12 @@ HEADERS += loadleveler_monitor_plugin.h \
     loadleveler_client.h \
     client_command_widget.h \
     panels/llq_panel.h \
-    loadleveler_model/llq_command_manager.h \
-    loadleveler_model/llq_command_manager_private.h \
-    loadleveler_model/query_category.h \
-    loadleveler_model/query_item.h \
-    loadleveler_model/query_model.h \
-    loadleveler_model/query_category_list.h \
+    model/llq_command_manager.h \
+    model/llq_command_manager_private.h \
+    model/query_category.h \
+    model/query_item.h \
+    model/query_model.h \
+    model/query_category_list.h \
     chart/model_data_processor.h
 
 DISTFILES += loadleveler_monitor.json \

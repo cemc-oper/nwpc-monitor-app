@@ -4,7 +4,7 @@
 #include <python_env_plugin/python_engine.h>
 #include <python_env_plugin/python_command.h>
 
-#include <loadleveler_monitor/loadleveler_model/query_model.h>
+#include <loadleveler_monitor/model/query_model.h>
 
 #include <QtDebug>
 

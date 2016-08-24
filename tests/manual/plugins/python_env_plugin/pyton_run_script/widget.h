@@ -1,7 +1,7 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
-#include <loadleveler_monitor/loadleveler_model/llq_command_manager.h>
+#include <loadleveler_monitor/model/llq_command_manager.h>
 #include <python_env_plugin/python_command.h>
 #include <QWidget>
 

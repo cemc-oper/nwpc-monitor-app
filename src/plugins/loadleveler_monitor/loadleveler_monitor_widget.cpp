@@ -1,11 +1,6 @@
 #include "loadleveler_monitor_widget.h"
 #include "ui_loadleveler_monitor_widget.h"
 
-#include "client_command_widget.h"
-
-#include "loadleveler_model/query_model.h"
-#include "loadleveler_model/query_item.h"
-
 #include <QButtonGroup>
 #include <QMap>
 #include <QMenu>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../loadleveler_model/query_category.h"
+#include "../model/query_category.h"
 
 #include <QObject>
 #include <QPointer>

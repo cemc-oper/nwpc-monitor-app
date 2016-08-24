@@ -1,12 +1,12 @@
 #include "llq_panel.h"
 #include "ui_llq_panel.h"
 
-#include "../loadleveler_model/query_model.h"
-#include "../loadleveler_model/query_item.h"
-#include "../loadleveler_model/llq_command_manager.h"
+#include "../model/query_model.h"
+#include "../model/query_item.h"
+#include "../model/llq_command_manager.h"
 
 #include "../chart/model_data_processor.h"
-#include "../loadleveler_model/query_category_list.h"
+#include "../model/query_category_list.h"
 
 #include "../loadleveler_monitor_plugin.h"
 #include "../loadleveler_client.h"
