@@ -103,6 +103,7 @@ QueryModel *QueryModel::buildFromLlqDefaultQueryResponse(const QStringList &line
     QueryModel *job_query_model = new QueryModel(parent);
     job_query_model->setQueryType(QueryType::LlqDefaultQuery);
 
+
     for(int i=2; i < lines.size() - 3; i++ )
     {
         QList<QStandardItem*> row = QueryItem::buildFromQueryRecord(lines[i], category_list);
@@ -117,6 +118,8 @@ QueryModel *QueryModel::buildFromLlqDefaultQueryResponse(const QStringList &line
 
     // insert no category
     category_list.insert(0, row_num_category);
+    job_query_model->setCategoryList(category_list);
+
     // set header titles
     QStringList header_labels;
     foreach(QueryCategory c, category_list)
@@ -210,6 +213,8 @@ QueryModel *QueryModel::buildFromLlqDetailQueryResponse(const QStringList &lines
 
     // insert no category
     category_list.insert(0, row_num_category);
+    job_query_model->setCategoryList(category_list);
+
     // set header titles
     QStringList header_labels;
     foreach(QueryCategory c, category_list)

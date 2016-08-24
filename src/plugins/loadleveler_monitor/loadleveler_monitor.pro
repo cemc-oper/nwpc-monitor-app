@@ -27,7 +27,8 @@ SOURCES += loadleveler_monitor_plugin.cpp \
     loadleveler_model/llq_command_manager_private.cpp \
     loadleveler_model/query_category.cpp \
     loadleveler_model/query_item.cpp \
-    loadleveler_model/query_model.cpp
+    loadleveler_model/query_model.cpp \
+    loadleveler_model/query_category_list.cpp
 
 HEADERS += loadleveler_monitor_plugin.h \
     loadleveler_monitor_global.h \
@@ -40,7 +41,8 @@ HEADERS += loadleveler_monitor_plugin.h \
     loadleveler_model/llq_command_manager_private.h \
     loadleveler_model/query_category.h \
     loadleveler_model/query_item.h \
-    loadleveler_model/query_model.h
+    loadleveler_model/query_model.h \
+    loadleveler_model/query_category_list.h
 
 DISTFILES += loadleveler_monitor.json \
     nwpc_loadleveler/loadleveler.py
