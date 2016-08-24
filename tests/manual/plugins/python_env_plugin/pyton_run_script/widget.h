@@ -35,7 +35,7 @@ private:
 
     PythonEnv::PythonEngine* python_engine_;
 
-    LoadLevelerMonitor::LoadLevelerModel::LlqCommandManager *ll_manager_;
+    LoadLevelerMonitor::Model::LlqCommandManager *ll_manager_;
 };
 
 #endif // WIDGET_H

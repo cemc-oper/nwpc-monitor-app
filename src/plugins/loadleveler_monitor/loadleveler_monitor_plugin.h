@@ -11,7 +11,7 @@ namespace LoadLevelerMonitor{
 class LoadLevelerMonitorPerspective;
 class LoadLevelerClient;
 
-namespace LoadLevelerModel{
+namespace Model{
 class LlqCommandManager;
 }
 
@@ -40,7 +40,7 @@ public slots:
 private:
     LoadLevelerMonitorPerspective* loadleveler_monitor_perspective_;
     LoadLevelerClient *loadleveler_client_;
-    LoadLevelerModel::LlqCommandManager *llq_command_manager_;
+    Model::LlqCommandManager *llq_command_manager_;
 
 };
 

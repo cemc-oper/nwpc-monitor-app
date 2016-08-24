@@ -2,7 +2,7 @@ DEFINES += LOADLEVELER_MONITOR_LIBRARY
 
 include(../../../nwpc-monitor-app.pri)
 
-QT       += core gui widgets
+QT       += core gui widgets charts
 
 TARGET = loadleveler_monitor
 TEMPLATE = lib
@@ -28,7 +28,8 @@ SOURCES += loadleveler_monitor_plugin.cpp \
     loadleveler_model/query_category.cpp \
     loadleveler_model/query_item.cpp \
     loadleveler_model/query_model.cpp \
-    loadleveler_model/query_category_list.cpp
+    loadleveler_model/query_category_list.cpp \
+    chart/model_data_processor.cpp
 
 HEADERS += loadleveler_monitor_plugin.h \
     loadleveler_monitor_global.h \
@@ -42,7 +43,8 @@ HEADERS += loadleveler_monitor_plugin.h \
     loadleveler_model/query_category.h \
     loadleveler_model/query_item.h \
     loadleveler_model/query_model.h \
-    loadleveler_model/query_category_list.h
+    loadleveler_model/query_category_list.h \
+    chart/model_data_processor.h
 
 DISTFILES += loadleveler_monitor.json \
     nwpc_loadleveler/loadleveler.py

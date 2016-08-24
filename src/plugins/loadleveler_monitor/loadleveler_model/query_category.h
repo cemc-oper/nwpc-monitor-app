@@ -8,7 +8,7 @@
 
 namespace LoadLevelerMonitor{
 
-namespace LoadLevelerModel{
+namespace Model{
 
 enum class QueryType{
     UnknownQuery,

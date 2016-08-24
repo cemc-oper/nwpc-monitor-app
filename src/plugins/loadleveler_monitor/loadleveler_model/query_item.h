@@ -10,7 +10,7 @@
 
 namespace LoadLevelerMonitor{
 
-namespace LoadLevelerModel{
+namespace Model{
 
 class QueryItem : public QStandardItem
 {

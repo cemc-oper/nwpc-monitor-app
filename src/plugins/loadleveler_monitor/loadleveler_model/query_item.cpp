@@ -3,7 +3,7 @@
 #include <QDateTime>
 #include <QtDebug>
 
-using namespace LoadLevelerMonitor::LoadLevelerModel;
+using namespace LoadLevelerMonitor::Model;
 
 QueryItem::QueryItem():
     QStandardItem{},

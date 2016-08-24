@@ -7,7 +7,7 @@
 
 namespace LoadLevelerMonitor{
 
-namespace LoadLevelerModel{
+namespace Model{
 
 class QueryCategoryList
 {

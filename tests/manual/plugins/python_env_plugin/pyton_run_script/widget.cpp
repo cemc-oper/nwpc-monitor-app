@@ -9,7 +9,7 @@
 #include <QtDebug>
 
 using namespace PythonEnv;
-using namespace LoadLevelerMonitor::LoadLevelerModel;
+using namespace LoadLevelerMonitor::Model;
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),

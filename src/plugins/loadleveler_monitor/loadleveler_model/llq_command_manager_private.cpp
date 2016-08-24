@@ -4,6 +4,8 @@
 #include "query_item.h"
 #include "query_model.h"
 
+#include "../chart/model_data_processor.h"
+
 #include <QString>
 #include <QStringList>
 #include <QJsonDocument>
@@ -14,11 +16,13 @@
 
 #include <algorithm>
 
-using namespace LoadLevelerMonitor::LoadLevelerModel;
+using namespace LoadLevelerMonitor::Model;
+using namespace LoadLevelerMonitor::Chart;
 
 LlqCommandManagerPrivate::LlqCommandManagerPrivate(LlqCommandManager *parent) :
     QObject{parent},
-    p{parent}
+    p{parent},
+    model_data_processor_{nullptr}
 {
 
 }
@@ -79,8 +83,6 @@ QueryCategory LlqCommandManagerPrivate::findParellelJobDetailQueryCategory(const
 
 QueryModel *LlqCommandManagerPrivate::buildQueryModelFromResponse(const QString &response_str)
 {
-    qDebug()<<"[LlqCommandManagerPrivate::buildLlqQueryModelFromResponse] begin";
-
     QJsonDocument doc = QJsonDocument::fromJson(response_str.toUtf8());
     if(!doc.isObject())
     {
@@ -93,6 +95,7 @@ QueryModel *LlqCommandManagerPrivate::buildQueryModelFromResponse(const QString 
 
 QueryModel *LlqCommandManagerPrivate::buildQueryModelFromResponse(const QJsonDocument &response_json_document)
 {
+    qDebug()<<"[LlqCommandManagerPrivate::buildLlqQueryModelFromResponse] start";
     QJsonObject result_object = response_json_document.object();
 
     if( result_object.contains("error"))
@@ -130,6 +133,16 @@ QueryModel *LlqCommandManagerPrivate::buildQueryModelFromResponse(const QJsonDoc
 
     qDebug()<<"[LlqCommandManagerPrivate::buildLlqQueryModelFromResponse] end";
     return model;
+}
+
+void LlqCommandManagerPrivate::initModelDataProcessor()
+{
+    model_data_processor_ = new ModelDataProcessor{this};
+}
+
+ModelDataProcessor *LlqCommandManagerPrivate::modelDataProcessor()
+{
+    return model_data_processor_;
 }
 
 QueryModel *LlqCommandManagerPrivate::buildDefaultQueryModel(const QString &output)

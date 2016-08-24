@@ -10,9 +10,13 @@
 
 namespace LoadLevelerMonitor{
 
+namespace Chart{
+class ModelDataProcessor;
+}
+
 class LoadLevelerMonitorPlugin;
 
-namespace LoadLevelerModel{
+namespace Model{
 
 class QueryModel;
 class LlqCommandManagerPrivate;
@@ -35,6 +39,8 @@ public:
 
     static QueryModel *buildQueryModelFromResponse(const QString &response_str);
     static QueryModel *buildQueryModelFromResponse(const QJsonDocument &response_doc);
+
+    static Chart::ModelDataProcessor *modelDataProcessor();
 
 signals:
 

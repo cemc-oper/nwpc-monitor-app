@@ -339,7 +339,7 @@
    <item row="2" column="0">
     <widget class="QStackedWidget" name="view_area_stacked_widget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="table_style_page">
       <layout class="QGridLayout" name="gridLayout">
@@ -442,11 +442,8 @@
        <property name="bottomMargin">
         <number>0</number>
        </property>
-       <property name="spacing">
-        <number>0</number>
-       </property>
        <item row="0" column="0">
-        <widget class="QGraphicsView" name="chart_view"/>
+        <widget class="QtCharts::QChartView" name="chart_view"/>
        </item>
       </layout>
      </widget>
@@ -551,6 +548,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QtCharts::QChartView</class>
+   <extends>QGraphicsView</extends>
+   <header location="global">QChartView</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../loadleveler_monitor.qrc"/>
  </resources>

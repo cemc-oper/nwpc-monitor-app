@@ -3,7 +3,7 @@
 #include <QtDebug>
 #include <algorithm>
 
-using namespace LoadLevelerMonitor::LoadLevelerModel;
+using namespace LoadLevelerMonitor::Model;
 
 QueryCategoryList::QueryCategoryList()
 {
@@ -22,7 +22,7 @@ void QueryCategoryList::clear()
     label_to_category_map_.clear();
 }
 
-void QueryCategoryList::append(const LoadLevelerMonitor::LoadLevelerModel::QueryCategory &category)
+void QueryCategoryList::append(const LoadLevelerMonitor::Model::QueryCategory &category)
 {
     list_.append(category);
     registerCategory(list_.length()-1);

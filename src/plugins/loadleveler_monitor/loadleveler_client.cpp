@@ -54,7 +54,7 @@ void LoadLevelerClient::runLlqCommand(QMap<QString, QString> args, QPointer<Pane
     arguments<<"--password=" + args["password"];
     arguments<<"--command=" + args["command"];
 
-    qDebug()<<arguments;
+    qDebug()<<"[LoadLevelerClient::runLlqCommand] args:"<<arguments;
 
     executePythonScript(
         command,

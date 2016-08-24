@@ -12,7 +12,7 @@
 #include <QtDebug>
 
 using namespace LoadLevelerMonitor;
-using namespace LoadLevelerMonitor::LoadLevelerModel;
+using namespace LoadLevelerMonitor::Model;
 
 LoadLevelerMonitorWidget::LoadLevelerMonitorWidget(QWidget *parent) :
     QWidget{parent},

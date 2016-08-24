@@ -5,6 +5,9 @@
 #include "../loadleveler_model/query_item.h"
 #include "../loadleveler_model/llq_command_manager.h"
 
+#include "../chart/model_data_processor.h"
+#include "../loadleveler_model/query_category_list.h"
+
 #include "../loadleveler_monitor_plugin.h"
 #include "../loadleveler_client.h"
 
@@ -19,11 +22,14 @@
 #include <QJsonArray>
 #include <QJsonValue>
 #include <QDateTime>
+#include <QtCharts>
 #include <QtDebug>
 
 using namespace LoadLevelerMonitor;
 using namespace LoadLevelerMonitor::Panels;
-using namespace LoadLevelerMonitor::LoadLevelerModel;
+using namespace LoadLevelerMonitor::Model;
+using namespace LoadLevelerMonitor::Chart;
+using namespace QtCharts;
 
 LlqPanel::LlqPanel(QWidget *parent) :
     QWidget(parent),
@@ -109,12 +115,13 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
     ui->query_command_label->setText(command + " " + arg_list.join(" "));
     ui->query_command_frame->show();
 
-    // update styles
+    // clear styles
     setTableStyleVisibility(false);
     ui->table_view->setModel(nullptr);
 
     setChartStyleVisibility(false);
-    ui->chart_view->setScene(nullptr);
+    //TODO: clear chart
+    //ui->chart_view->setChart(nullptr);
 
     setTextStyleVisibility(false);
     ui->text_view->clear();
@@ -145,11 +152,42 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
     {
         return;
     }
-
+    qDebug()<<"[LlqPanel::slotReciveResponseStdOut] chart style start";
     setChartStyleVisibility(true);
 
+    ModelDataProcessor *data_processor = LlqCommandManager::modelDataProcessor();
+    data_processor->setQueryModel(model);
+    QueryCategory c;
+    switch(model->queryType())
+    {
+    case QueryType::LlqDefaultQuery:
+        c = model->categoryList().categoryFromId("owner");
+        break;
+    case QueryType::LlqDetailQuery:
+        c = model->categoryList().categoryFromId("owner");
+    }
+    if(!c.isValid())
+    {
+        qWarning()<<"[LlqPanel::slotReciveResponseStdOut] chart category is not valid";
+        return;
+    }
+    data_processor->setQueryModel(model);
+    data_processor->setQueryCategory(c);
 
+    QChart *query_chart = data_processor->generateChart(this);
+    if(!query_chart)
+    {
+        qWarning()<<"[LlqPanel::slotReciveResponseStdOut] chart is null";
+        return;
+    }
+    QChart *old_chart = ui->chart_view->chart();
+    if(old_chart)
+        old_chart->deleteLater();
+    ui->chart_view->setChart(query_chart);
 
+    qDebug()<<"[LlqPanel::slotReciveResponseStdOut] chart style end";
+
+    qDebug()<<"[LlqPanel::slotReciveResponseStdOut] end";
 }
 
 void LlqPanel::slotStyleActionTriggered(QAction *action)

@@ -13,7 +13,7 @@ QT_END_NAMESPACE
 
 namespace LoadLevelerMonitor{
 
-namespace LoadLevelerModel{
+namespace Model{
 class QueryModel;
 }
 
@@ -54,7 +54,7 @@ private:
     void setChartStyleVisibility(bool is_visible);
     void setTextStyleVisibility(bool is_visible);
 
-    void setJobQueryModel(QPointer<LoadLevelerMonitor::LoadLevelerModel::QueryModel> job_query_model);
+    void setJobQueryModel(QPointer<LoadLevelerMonitor::Model::QueryModel> job_query_model);
     void setCommandTime(const QDateTime &request_time, const QDateTime &finish_time);
 
     void updateTextStylePage(const QString &str);
@@ -70,7 +70,7 @@ private:
     QVector<QAction *> template_action_list_;
 
     QPointer<LoadLevelerMonitor::LoadLevelerMonitorWidget> monitor_widget_;
-    QPointer<LoadLevelerMonitor::LoadLevelerModel::QueryModel> job_query_model_;
+    QPointer<LoadLevelerMonitor::Model::QueryModel> job_query_model_;
 };
 
 }

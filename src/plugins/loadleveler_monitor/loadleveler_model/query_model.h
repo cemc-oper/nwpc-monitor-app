@@ -9,7 +9,7 @@
 
 namespace LoadLevelerMonitor{
 
-namespace LoadLevelerModel{
+namespace Model{
 
 class QueryModel : public QStandardItemModel
 {
@@ -19,6 +19,7 @@ public:
     ~QueryModel();
 
     void setCategoryList(const QueryCategoryList &category_list);
+    const QueryCategoryList &categoryList() const;
 
     QueryType queryType() const;
     void setQueryType(QueryType query_type);

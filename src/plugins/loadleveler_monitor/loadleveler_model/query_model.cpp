@@ -5,7 +5,7 @@
 #include <QJsonArray>
 #include <QtDebug>
 
-using namespace LoadLevelerMonitor::LoadLevelerModel;
+using namespace LoadLevelerMonitor::Model;
 
 QueryModel::QueryModel(QObject *parent):
     QStandardItemModel{parent}
@@ -22,6 +22,11 @@ QueryModel::~QueryModel()
 void QueryModel::setCategoryList(const QueryCategoryList &category_list)
 {
     category_list_ = category_list;
+}
+
+const QueryCategoryList &QueryModel::categoryList() const
+{
+    return category_list_;
 }
 
 QueryType QueryModel::queryType() const

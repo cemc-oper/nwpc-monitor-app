@@ -1,6 +1,6 @@
 #include "query_category.h"
 
-using namespace LoadLevelerMonitor::LoadLevelerModel;
+using namespace LoadLevelerMonitor::Model;
 
 const QString QueryCategory::kValidId{".valid_id"};
 

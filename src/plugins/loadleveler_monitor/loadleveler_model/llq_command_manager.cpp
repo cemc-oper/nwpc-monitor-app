@@ -3,7 +3,10 @@
 
 #include "query_model.h"
 
-using namespace LoadLevelerMonitor::LoadLevelerModel;
+#include "../chart/model_data_processor.h"
+
+using namespace LoadLevelerMonitor::Model;
+using namespace LoadLevelerMonitor::Chart;
 
 static LlqCommandManager *llq_command_manager_instance = nullptr;
 static LlqCommandManagerPrivate *d = nullptr;
@@ -16,6 +19,7 @@ LlqCommandManager *LlqCommandManager::instance()
 void LlqCommandManager::initialize()
 {
     d->initLlqCategoryList();
+    d->initModelDataProcessor();
 }
 
 QueryCategoryList LlqCommandManager::defaultCategoryList()
@@ -56,6 +60,11 @@ QueryModel *LlqCommandManager::buildQueryModelFromResponse(const QString &respon
 QueryModel *LlqCommandManager::buildQueryModelFromResponse(const QJsonDocument &response_doc)
 {
     return d->buildQueryModelFromResponse(response_doc);
+}
+
+ModelDataProcessor *LlqCommandManager::modelDataProcessor()
+{
+    return d->modelDataProcessor();
 }
 
 LlqCommandManager::LlqCommandManager(QObject *parent) : QObject(parent)

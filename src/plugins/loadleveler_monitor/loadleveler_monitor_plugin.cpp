@@ -12,7 +12,7 @@
 #include <QtDebug>
 
 using namespace LoadLevelerMonitor;
-using namespace LoadLevelerMonitor::LoadLevelerModel;
+using namespace LoadLevelerMonitor::Model;
 using namespace PluginSystem;
 
 LoadLevelerMonitorPlugin* loadleveler_monitor_plugin_instance = nullptr;

@@ -8,7 +8,11 @@
 
 namespace LoadLevelerMonitor{
 
-namespace LoadLevelerModel{
+namespace Chart{
+class ModelDataProcessor;
+}
+
+namespace Model{
 
 class LlqCommandManager;
 class QueryModel;
@@ -28,6 +32,9 @@ public:
     QueryModel *buildQueryModelFromResponse(const QString &response_str);
     QueryModel *buildQueryModelFromResponse(const QJsonDocument &response_json_document);
 
+    void initModelDataProcessor();
+    Chart::ModelDataProcessor *modelDataProcessor();
+
 signals:
 
 public slots:
@@ -43,6 +50,8 @@ private:
     QueryCategoryList default_query_category_list_;
     QueryCategoryList serial_job_detail_category_list_;
     QueryCategoryList parallel_job_detail_category_list_;
+
+    Chart::ModelDataProcessor *model_data_processor_;
 
     friend class LlqCommandManager;
 };
