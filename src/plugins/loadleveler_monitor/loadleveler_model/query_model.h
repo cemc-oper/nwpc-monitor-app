@@ -1,6 +1,7 @@
 #pragma once
 
 #include "query_category.h"
+#include "query_category_list.h"
 
 #include <QStandardItemModel>
 #include <QJsonObject>
@@ -17,7 +18,7 @@ public:
     QueryModel(QObject *parent=0);
     ~QueryModel();
 
-    void setCategoryList(const QVector<QueryCategory> &category_list);
+    void setCategoryList(const QueryCategoryList &category_list);
 
     QueryType queryType() const;
     void setQueryType(QueryType query_type);
@@ -32,7 +33,7 @@ signals:
 public slots:
 
 private:
-    QVector<QueryCategory> category_list_;
+    QueryCategoryList category_list_;
     QueryType query_type_;
 };
 

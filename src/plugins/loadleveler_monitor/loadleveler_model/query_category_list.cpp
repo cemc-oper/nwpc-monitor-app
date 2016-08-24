@@ -10,6 +10,18 @@ QueryCategoryList::QueryCategoryList()
 
 }
 
+const QVector<QueryCategory> &QueryCategoryList::categoryList() const
+{
+    return list_;
+}
+
+void QueryCategoryList::clear()
+{
+    list_.clear();
+    id_to_category_map_.clear();
+    label_to_category_map_.clear();
+}
+
 void QueryCategoryList::append(const LoadLevelerMonitor::LoadLevelerModel::QueryCategory &category)
 {
     list_.append(category);
@@ -22,6 +34,60 @@ void QueryCategoryList::insert(int pos, const QueryCategory &category)
     registerCategory(0);
 }
 
+QueryCategory &QueryCategoryList::operator[](int i)
+{
+    return list_[i];
+}
+
+const QueryCategory &QueryCategoryList::operator[](int i) const
+{
+    return list_[i];
+}
+
+int QueryCategoryList::indexFromId(const QString &id) const
+{
+    if(containsId(id))
+        return id_to_category_map_[id];
+    else
+        return -1;
+}
+
+bool QueryCategoryList::containsId(const QString &id) const
+{
+    return id_to_category_map_.contains(id);
+}
+
+const QueryCategory &QueryCategoryList::categoryFromId(const QString &id) const
+{
+    int index = indexFromId(id);
+    if(index != -1)
+        return list_[index];
+    else
+        return QueryCategory();
+}
+
+int QueryCategoryList::indexFromLabel(const QString &label) const
+{
+    if(containsLabel(label))
+        return label_to_category_map_[label];
+    else
+        return -1;
+}
+
+bool QueryCategoryList::containsLabel(const QString &label) const
+{
+    return label_to_category_map_.contains(label);
+}
+
+const QueryCategory &QueryCategoryList::categoryFromLabel(const QString &label) const
+{
+    int index = indexFromLabel(label);
+    if(index != -1)
+        return list_[index];
+    else
+        return QueryCategory();
+}
+
 void QueryCategoryList::registerCategory(int index)
 {
     if(id_to_category_map_.contains(list_[index].id_))
@@ -31,8 +97,7 @@ void QueryCategoryList::registerCategory(int index)
     if(index == 0)
     {
         std::transform(id_to_category_map_.begin(), id_to_category_map_.end(), id_to_category_map_.begin(),
-                       [=](int i){ return i+1; }
-        );
+                       [=](int i){ return i+1; });
         id_to_category_map_[list_[index].id_] = index;
     }
     else if(index == list_.length()-1)
@@ -54,8 +119,7 @@ void QueryCategoryList::registerCategory(int index)
     if(index == 0)
     {
         std::transform(label_to_category_map_.begin(), label_to_category_map_.end(), label_to_category_map_.begin(),
-                       [=](int i){ return i+1; }
-        );
+                       [=](int i){ return i+1; });
         label_to_category_map_[list_[index].label_] = index;
     }
     else if(index == list_.length()-1)

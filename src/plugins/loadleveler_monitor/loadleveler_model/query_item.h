@@ -1,6 +1,7 @@
 #pragma once
 
 #include "query_category.h"
+#include "query_category_list.h"
 
 #include <QStandardItem>
 #include <QJsonObject>
@@ -41,15 +42,11 @@ public:
 
     QVariant data(int role = Qt::UserRole + 1) const;
 
-    static QList<QStandardItem *> buildFromQueryRecord(
-            const QString &line,
-            const QVector<QueryCategory> &category_list,
-            const QHash<QString, QueryCategory> &category_hash = QHash<QString, QueryCategory>());
+    static QList<QStandardItem *> buildFromQueryRecord(const QString &line,
+            const QueryCategoryList &category_list);
 
-    static QList<QStandardItem *> buildFromDetailQueryRecord(
-            const QStringList &lines,
-            const QVector<QueryCategory> &category_list,
-            const QHash<QString, QueryCategory> &category_hash = QHash<QString, QueryCategory>());
+    static QList<QStandardItem *> buildFromDetailQueryRecord(const QStringList &lines,
+            const QueryCategoryList &category_list);
 
 private:
     ItemType item_type_;

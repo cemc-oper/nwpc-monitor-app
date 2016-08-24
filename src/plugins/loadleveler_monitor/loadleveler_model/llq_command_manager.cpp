@@ -18,17 +18,17 @@ void LlqCommandManager::initialize()
     d->initLlqCategoryList();
 }
 
-QVector<QueryCategory> LlqCommandManager::defaultCategoryList()
+QueryCategoryList LlqCommandManager::defaultCategoryList()
 {
-    return d->categoryList();
+    return d->default_query_category_list_;
 }
 
-QVector<QueryCategory> LlqCommandManager::serialJobDetailQueryCategoryList()
+QueryCategoryList LlqCommandManager::serialJobDetailQueryCategoryList()
 {
     return d->serial_job_detail_category_list_;
 }
 
-QVector<QueryCategory> LlqCommandManager::parellelJobDetailQueryCategoryList()
+QueryCategoryList LlqCommandManager::parellelJobDetailQueryCategoryList()
 {
     return d->parallel_job_detail_category_list_;
 }

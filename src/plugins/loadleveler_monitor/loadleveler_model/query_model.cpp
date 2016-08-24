@@ -19,7 +19,7 @@ QueryModel::~QueryModel()
 
 }
 
-void QueryModel::setCategoryList(const QVector<QueryCategory> &category_list)
+void QueryModel::setCategoryList(const QueryCategoryList &category_list)
 {
     category_list_ = category_list;
 }
@@ -87,10 +87,10 @@ QueryModel *QueryModel::buildFromLlqDefaultQueryResponse(const QStringList &line
     });
 
     // get category list
-    QVector<QueryCategory> category_list(category_title_list.size());
+    QueryCategoryList category_list;
     for(int i=0;i<category_title_list.size(); i++)
     {
-        category_list[i] = LlqCommandManager::findDefaultQueryCategory(category_title_list[i]);
+        category_list.append(LlqCommandManager::findDefaultQueryCategory(category_title_list[i]));
         category_list[i].token_length_ = category_column_width[i];
         if(!category_list[i].isValid())
         {
@@ -122,7 +122,7 @@ QueryModel *QueryModel::buildFromLlqDefaultQueryResponse(const QStringList &line
 
     // set header titles
     QStringList header_labels;
-    foreach(QueryCategory c, category_list)
+    foreach(QueryCategory c, category_list.categoryList())
     {
         header_labels.append(c.display_name_);
     }
@@ -169,7 +169,7 @@ QueryModel *QueryModel::buildFromLlqDetailQueryResponse(const QStringList &lines
     }
     record_start_line_no_list.push_back(lines.length() -2);
 
-    QVector<QueryCategory> category_list;
+    QueryCategoryList category_list;
     QueryCategory row_num_category = LlqCommandManager::findDefaultQueryCategory("No.");
 
     for(int record_no = 0; record_no < record_start_line_no_list.size() - 1; record_no++)
@@ -217,7 +217,7 @@ QueryModel *QueryModel::buildFromLlqDetailQueryResponse(const QStringList &lines
 
     // set header titles
     QStringList header_labels;
-    foreach(QueryCategory c, category_list)
+    foreach(QueryCategory c, category_list.categoryList())
     {
         header_labels.append(c.display_name_);
     }

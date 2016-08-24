@@ -3,7 +3,8 @@
 #include "../loadleveler_monitor_global.h"
 
 #include "query_category.h"
-#include <QVector>
+#include "query_category_list.h"
+
 #include <QObject>
 #include <QJsonDocument>
 
@@ -24,9 +25,9 @@ public:
 
     static void initialize();
 
-    static QVector<QueryCategory> defaultCategoryList();
-    static QVector<QueryCategory> serialJobDetailQueryCategoryList();
-    static QVector<QueryCategory> parellelJobDetailQueryCategoryList();
+    static QueryCategoryList defaultCategoryList();
+    static QueryCategoryList serialJobDetailQueryCategoryList();
+    static QueryCategoryList parellelJobDetailQueryCategoryList();
 
     static QueryCategory findDefaultQueryCategory(const QString &label);
     static QueryCategory findSerialJobDetailQueryCategory(const QString &label);

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "query_category.h"
+#include "query_category_list.h"
 
-#include <QVector>
 #include <QHash>
 #include <QObject>
 
@@ -21,11 +21,9 @@ public:
 
     void initLlqCategoryList();
 
-    QVector<QueryCategory> categoryList();
     QueryCategory findQueryCategory(const QString result_title);
-
-    QueryCategory findSerialJobDetailQueryCategory(const QString &result_label) const;
-    QueryCategory findParellelJobDetailQueryCategory(const QString &result_label) const;
+    QueryCategory findSerialJobDetailQueryCategory(const QString &label) const;
+    QueryCategory findParellelJobDetailQueryCategory(const QString &label) const;
 
     QueryModel *buildQueryModelFromResponse(const QString &response_str);
     QueryModel *buildQueryModelFromResponse(const QJsonDocument &response_json_document);
@@ -42,11 +40,9 @@ private:
 
     LlqCommandManager *p;
 
-    QVector<QueryCategory> default_query_category_list_;
-    QVector<QueryCategory> serial_job_detail_category_list_;
-    QHash<QString, QueryCategory> serial_job_detail_category_hash_;
-    QVector<QueryCategory> parallel_job_detail_category_list_;
-    QHash<QString, QueryCategory> parallel_job_detail_category_hash_;
+    QueryCategoryList default_query_category_list_;
+    QueryCategoryList serial_job_detail_category_list_;
+    QueryCategoryList parallel_job_detail_category_list_;
 
     friend class LlqCommandManager;
 };
