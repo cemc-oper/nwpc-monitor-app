@@ -5,7 +5,7 @@
 #include "../model/query_item.h"
 #include "../model/llq_command_manager.h"
 
-#include "../chart/model_data_processor.h"
+#include "../chart/model_category_processor.h"
 #include "../model/query_category_list.h"
 
 #include "../loadleveler_monitor_plugin.h"
@@ -155,7 +155,7 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
     qDebug()<<"[LlqPanel::slotReciveResponseStdOut] chart style start";
     setChartStyleVisibility(true);
 
-    ModelDataProcessor *data_processor = LlqCommandManager::modelDataProcessor();
+    ModelCategoryProcessor *data_processor = LlqCommandManager::modelDataProcessor();
     data_processor->setQueryModel(model);
     QueryCategory c;
     switch(model->queryType())
@@ -172,9 +172,11 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
         return;
     }
     data_processor->setQueryModel(model);
-    data_processor->setQueryCategory(c);
+    QueryCategoryList category_list;
+    category_list.append(c);
+    data_processor->setQueryCategoryList(category_list);
 
-    QChart *query_chart = data_processor->generateChart(this);
+    QChart *query_chart = data_processor->generateChart();
     if(!query_chart)
     {
         qWarning()<<"[LlqPanel::slotReciveResponseStdOut] chart is null";

@@ -9,7 +9,7 @@
 namespace LoadLevelerMonitor{
 
 namespace Chart{
-class ModelDataProcessor;
+class ModelCategoryProcessor;
 }
 
 namespace Model{
@@ -33,7 +33,7 @@ public:
     QueryModel *buildQueryModelFromResponse(const QJsonDocument &response_json_document);
 
     void initModelDataProcessor();
-    Chart::ModelDataProcessor *modelDataProcessor();
+    Chart::ModelCategoryProcessor *modelDataProcessor();
 
 signals:
 
@@ -51,7 +51,7 @@ private:
     QueryCategoryList serial_job_detail_category_list_;
     QueryCategoryList parallel_job_detail_category_list_;
 
-    Chart::ModelDataProcessor *model_data_processor_;
+    Chart::ModelCategoryProcessor *model_data_processor_;
 
     friend class LlqCommandManager;
 };

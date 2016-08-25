@@ -21,16 +21,15 @@ class QueryModel;
 
 namespace Chart{
 
-class ModelDataProcessor : public QObject
+class ModelProcessor : public QObject
 {
     Q_OBJECT
 public:
-    explicit ModelDataProcessor(QObject *parent = nullptr);
+    explicit ModelProcessor(QObject *parent = nullptr);
 
     void setQueryModel(Model::QueryModel *query_model);
-    void setQueryCategory(const Model::QueryCategory &category);
 
-    QtCharts::QChart *generateChart(QObject *parent = nullptr);
+    virtual QtCharts::QChart *generateChart() = 0;
 
 signals:
 
@@ -38,12 +37,10 @@ public slots:
 
 private slots:
 
-private:
+protected:
     QPointer<Model::QueryModel> query_model_;
-    Model::QueryCategory category_;
 
     friend class LoadLevelerMonitorPlugin;
-
 };
 
 }

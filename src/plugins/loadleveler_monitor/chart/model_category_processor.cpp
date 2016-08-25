@@ -1,4 +1,4 @@
-#include "model_data_processor.h"
+#include "model_category_processor.h"
 
 #include "../model/query_model.h"
 #include "../model/query_item.h"
@@ -14,33 +14,62 @@ using namespace LoadLevelerMonitor::Chart;
 using namespace LoadLevelerMonitor::Model;
 using namespace QtCharts;
 
-ModelDataProcessor::ModelDataProcessor(QObject *parent) :
-    QObject{parent}
+/**
+ * CategoryProcessorCondition
+ */
+
+CategoryProcessorCondition::CategoryProcessorCondition(const QueryCategoryList &category_list):
+    ProcessorCondition{},
+    category_list_{category_list}
 {
 
 }
 
-void ModelDataProcessor::setQueryModel(QueryModel *query_model)
+CategoryProcessorCondition::~CategoryProcessorCondition()
 {
-    query_model_ = query_model;
+
 }
 
-void ModelDataProcessor::setQueryCategory(const QueryCategory &category)
+bool CategoryProcessorCondition::isMatch(QueryModel *query_model)
 {
-    category_ = category;
+    QueryCategoryList model_category_list = query_model->categoryList();
+    for(int i=0; i<category_list_.size();i++)
+    {
+        if(!model_category_list.containsId(category_list_[i].id_))
+            return false;
+    }
+    return true;
 }
 
-QChart *ModelDataProcessor::generateChart(QObject *parent)
+
+/**
+ * ModelCategoryProcessor
+ */
+
+ModelCategoryProcessor::ModelCategoryProcessor(QObject *parent) :
+    ModelProcessor{parent}
+{
+
+}
+
+void ModelCategoryProcessor::setQueryCategoryList(const QueryCategoryList &category_list)
+{
+    category_list_ = category_list;
+}
+
+QChart *ModelCategoryProcessor::generateChart()
 {
     Q_ASSERT(query_model_);
-    Q_ASSERT(category_.isValid());
-    Q_ASSERT(query_model_->categoryList().containsId(category_.id_));
+    Q_ASSERT(category_list_.length() > 0);
+
+    QueryCategory category = category_list_[0];
+    Q_ASSERT(query_model_->categoryList().containsId(category.id_));
 
     QChart *chart = new QChart();
 
-    QBarSet *set = new QBarSet(category_.display_name_);
+    QBarSet *set = new QBarSet(category.display_name_);
 
-    int col_index = query_model_->categoryList().indexFromId(category_.id_);
+    int col_index = query_model_->categoryList().indexFromId(category.id_);
     int row_count = query_model_->rowCount();
 
     QMap<QString, int> map;
@@ -65,7 +94,7 @@ QChart *ModelDataProcessor::generateChart(QObject *parent)
     series->append(set);
 
     chart->addSeries(series);
-    chart->setTitle(category_.display_name_);
+    chart->setTitle(category.display_name_);
     chart->setAnimationOptions(QChart::SeriesAnimations);
 
     QBarCategoryAxis *axis = new QBarCategoryAxis();

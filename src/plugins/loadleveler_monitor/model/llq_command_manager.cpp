@@ -3,7 +3,7 @@
 
 #include "query_model.h"
 
-#include "../chart/model_data_processor.h"
+#include "../chart/model_category_processor.h"
 
 using namespace LoadLevelerMonitor::Model;
 using namespace LoadLevelerMonitor::Chart;
@@ -62,7 +62,7 @@ QueryModel *LlqCommandManager::buildQueryModelFromResponse(const QJsonDocument &
     return d->buildQueryModelFromResponse(response_doc);
 }
 
-ModelDataProcessor *LlqCommandManager::modelDataProcessor()
+ModelCategoryProcessor *LlqCommandManager::modelDataProcessor()
 {
     return d->modelDataProcessor();
 }
