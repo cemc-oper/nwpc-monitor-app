@@ -64,6 +64,7 @@ class SingleCategorCountProcessor : public CategoryModelProcessor
     Q_OBJECT
 public:
     explicit SingleCategorCountProcessor(QObject *parent = nullptr);
+    explicit SingleCategorCountProcessor(const Model::QueryCategoryList &category_list, QObject *parent = nullptr);
 
     QtCharts::QChart *generateChart();
 

@@ -12,6 +12,8 @@ namespace LoadLevelerMonitor{
 
 namespace Chart{
 class CategoryModelProcessor;
+class ProcessorCondition;
+class ModelProcessor;
 }
 
 class LoadLevelerMonitorPlugin;
@@ -41,6 +43,8 @@ public:
     static QueryModel *buildQueryModelFromResponse(const QJsonDocument &response_doc);
 
     static Chart::CategoryModelProcessor *modelDataProcessor();
+    static QSet<Chart::ModelProcessor*> &processorList();
+    static QMultiMap<Chart::ProcessorCondition*, Chart::ModelProcessor*> &processorMap();
 
 signals:
 

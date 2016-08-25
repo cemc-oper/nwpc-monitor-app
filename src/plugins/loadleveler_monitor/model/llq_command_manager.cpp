@@ -18,8 +18,8 @@ LlqCommandManager *LlqCommandManager::instance()
 
 void LlqCommandManager::initialize()
 {
-    d->initLlqCategoryList();
-    d->initModelDataProcessor();
+    d->initCategoryList();
+    d->initModelProcessor();
 }
 
 QueryCategoryList LlqCommandManager::defaultCategoryList()
@@ -65,6 +65,16 @@ QueryModel *LlqCommandManager::buildQueryModelFromResponse(const QJsonDocument &
 CategoryModelProcessor *LlqCommandManager::modelDataProcessor()
 {
     return d->modelDataProcessor();
+}
+
+QSet<ModelProcessor *> &LlqCommandManager::processorList()
+{
+    return d->processorList();
+}
+
+QMultiMap<ProcessorCondition *, ModelProcessor *> &LlqCommandManager::processorMap()
+{
+    return d->processorMap();
 }
 
 LlqCommandManager::LlqCommandManager(QObject *parent) : QObject(parent)

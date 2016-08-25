@@ -5,6 +5,8 @@
 #include "query_model.h"
 
 #include "../chart/category_model_processor.h"
+#include "../chart/processor_condition.h"
+#include "../chart/model_processor.h"
 
 #include <QString>
 #include <QStringList>
@@ -27,7 +29,16 @@ LlqCommandManagerPrivate::LlqCommandManagerPrivate(LlqCommandManager *parent) :
 
 }
 
-void LlqCommandManagerPrivate::initLlqCategoryList()
+LlqCommandManagerPrivate::~LlqCommandManagerPrivate()
+{
+    if(model_data_processor_)
+    {
+        model_data_processor_->deleteLater();
+        model_data_processor_ = nullptr;
+    }
+}
+
+void LlqCommandManagerPrivate::initCategoryList()
 {
     default_query_category_list_.clear();
     foreach(QStringList record, kLlqDefaultQueryCategoryList)
@@ -135,9 +146,15 @@ QueryModel *LlqCommandManagerPrivate::buildQueryModelFromResponse(const QJsonDoc
     return model;
 }
 
-void LlqCommandManagerPrivate::initModelDataProcessor()
+void LlqCommandManagerPrivate::initModelProcessor()
 {
     model_data_processor_ = new SingleCategorCountProcessor{this};
+
+    // condition -> processor
+    // register single category count processor
+    registerSingleCategoryCountProcessorMap("owner");
+    registerSingleCategoryCountProcessorMap("status");
+    registerSingleCategoryCountProcessorMap("class");
 }
 
 CategoryModelProcessor *LlqCommandManagerPrivate::modelDataProcessor()
@@ -176,4 +193,23 @@ bool LlqCommandManagerPrivate::isDetailQuery(const QString &command, const QStri
         return false;
     else
         return true;
+}
+
+void LlqCommandManagerPrivate::registerSingleCategoryCountProcessorMap(const QString &category_id)
+{
+    QueryCategory category = default_query_category_list_.categoryFromId(category_id);
+    Q_ASSERT(category.isValid());
+    QueryCategoryList category_list;
+    category_list.append(category);
+
+    CategoryProcessorCondition *condition = new CategoryProcessorCondition{category_list};
+    SingleCategorCountProcessor *processor = new SingleCategorCountProcessor{category_list};
+    registerProcessorMap(condition, processor);
+}
+
+void LlqCommandManagerPrivate::registerProcessorMap(ProcessorCondition *condition, ModelProcessor *processor)
+{
+    processor_list_.insert(processor);
+    processor_condition_list_.insert(condition);
+    processor_map_.insert(condition, processor);
 }

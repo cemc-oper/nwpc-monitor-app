@@ -67,6 +67,12 @@ SingleCategorCountProcessor::SingleCategorCountProcessor(QObject *parent):
 
 }
 
+SingleCategorCountProcessor::SingleCategorCountProcessor(const QueryCategoryList &category_list, QObject *parent):
+    SingleCategorCountProcessor{parent}
+{
+    setQueryCategoryList(category_list);
+}
+
 QChart *SingleCategorCountProcessor::generateChart()
 {
     Q_ASSERT(query_model_);
