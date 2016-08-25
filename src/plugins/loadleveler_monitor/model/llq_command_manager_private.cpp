@@ -4,7 +4,7 @@
 #include "query_item.h"
 #include "query_model.h"
 
-#include "../chart/model_category_processor.h"
+#include "../chart/category_model_processor.h"
 
 #include <QString>
 #include <QStringList>
@@ -137,10 +137,10 @@ QueryModel *LlqCommandManagerPrivate::buildQueryModelFromResponse(const QJsonDoc
 
 void LlqCommandManagerPrivate::initModelDataProcessor()
 {
-    model_data_processor_ = new ModelCategoryProcessor{this};
+    model_data_processor_ = new SingleCategorCountProcessor{this};
 }
 
-ModelCategoryProcessor *LlqCommandManagerPrivate::modelDataProcessor()
+CategoryModelProcessor *LlqCommandManagerPrivate::modelDataProcessor()
 {
     return model_data_processor_;
 }

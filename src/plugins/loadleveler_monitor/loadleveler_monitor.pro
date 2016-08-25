@@ -31,7 +31,7 @@ SOURCES += loadleveler_monitor_plugin.cpp \
     model/query_category_list.cpp \
     chart/processor_condition.cpp \
     chart/model_processor.cpp \
-    chart/model_category_processor.cpp
+    chart/category_model_processor.cpp
 
 HEADERS += loadleveler_monitor_plugin.h \
     loadleveler_monitor_global.h \
@@ -48,7 +48,7 @@ HEADERS += loadleveler_monitor_plugin.h \
     model/query_category_list.h \
     chart/processor_condition.h \
     chart/model_processor.h \
-    chart/model_category_processor.h
+    chart/category_model_processor.h
 
 DISTFILES += loadleveler_monitor.json \
     nwpc_loadleveler/loadleveler.py

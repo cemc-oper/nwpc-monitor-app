@@ -5,7 +5,7 @@
 #include "../model/query_item.h"
 #include "../model/llq_command_manager.h"
 
-#include "../chart/model_category_processor.h"
+#include "../chart/category_model_processor.h"
 #include "../model/query_category_list.h"
 
 #include "../loadleveler_monitor_plugin.h"
@@ -155,7 +155,7 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
     qDebug()<<"[LlqPanel::slotReciveResponseStdOut] chart style start";
     setChartStyleVisibility(true);
 
-    ModelCategoryProcessor *data_processor = LlqCommandManager::modelDataProcessor();
+    CategoryModelProcessor *data_processor = LlqCommandManager::modelDataProcessor();
     data_processor->setQueryModel(model);
     QueryCategory c;
     switch(model->queryType())

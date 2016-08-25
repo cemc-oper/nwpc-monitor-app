@@ -38,13 +38,32 @@ private:
 };
 
 
-class ModelCategoryProcessor : public ModelProcessor
+class CategoryModelProcessor : public ModelProcessor
 {
     Q_OBJECT
 public:
-    explicit ModelCategoryProcessor(QObject *parent = nullptr);
+    explicit CategoryModelProcessor(QObject *parent = nullptr);
 
     void setQueryCategoryList(const Model::QueryCategoryList &category_list);
+
+    QtCharts::QChart *generateChart() = 0;
+
+signals:
+
+public slots:
+
+private slots:
+
+protected:
+    Model::QueryCategoryList category_list_;
+};
+
+
+class SingleCategorCountProcessor : public CategoryModelProcessor
+{
+    Q_OBJECT
+public:
+    explicit SingleCategorCountProcessor(QObject *parent = nullptr);
 
     QtCharts::QChart *generateChart();
 
@@ -55,7 +74,7 @@ public slots:
 private slots:
 
 protected:
-    Model::QueryCategoryList category_list_;
+
 };
 
 }

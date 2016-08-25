@@ -1,4 +1,4 @@
-#include "model_category_processor.h"
+#include "category_model_processor.h"
 
 #include "../model/query_model.h"
 #include "../model/query_item.h"
@@ -46,18 +46,28 @@ bool CategoryProcessorCondition::isMatch(QueryModel *query_model)
  * ModelCategoryProcessor
  */
 
-ModelCategoryProcessor::ModelCategoryProcessor(QObject *parent) :
+CategoryModelProcessor::CategoryModelProcessor(QObject *parent) :
     ModelProcessor{parent}
 {
 
 }
 
-void ModelCategoryProcessor::setQueryCategoryList(const QueryCategoryList &category_list)
+void CategoryModelProcessor::setQueryCategoryList(const QueryCategoryList &category_list)
 {
     category_list_ = category_list;
 }
 
-QChart *ModelCategoryProcessor::generateChart()
+/**
+ * CategoryModelProcessor
+ */
+
+SingleCategorCountProcessor::SingleCategorCountProcessor(QObject *parent):
+    CategoryModelProcessor{parent}
+{
+
+}
+
+QChart *SingleCategorCountProcessor::generateChart()
 {
     Q_ASSERT(query_model_);
     Q_ASSERT(category_list_.length() > 0);
