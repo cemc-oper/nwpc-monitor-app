@@ -25,8 +25,6 @@
 #include <QJsonValue>
 #include <QDateTime>
 #include <QtCharts/QChart>
-#include <QToolButton>
-#include <QSpacerItem>
 #include <QtDebug>
 
 using namespace LoadLevelerMonitor;
@@ -46,18 +44,6 @@ LlqPanel::LlqPanel(QWidget *parent) :
 
     ui->query_command_frame->hide();
     ui->query_time_frame->hide();
-
-    connect(ui->check_all_button, &QPushButton::clicked,
-            [=](){
-                Util::ModelView::changeAllItemsCheckState(query_model_, Qt::Checked);
-            }
-    );
-
-    connect(ui->uncheck_all_button, &QPushButton::clicked,
-            [=](){
-                Util::ModelView::changeAllItemsCheckState(query_model_, Qt::Unchecked);
-            }
-    );
 
     connect(ui->query_button, &QPushButton::clicked,
             this, &LlqPanel::slotRequestQuery);
@@ -114,7 +100,7 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
 
     // clear styles
     setTableStyleVisibility(false);
-    ui->table_view->setModel(nullptr);
+    ui->table_style_page->clear();
 
     //TODO: clear chart
     setChartStyleVisibility(false);
@@ -187,10 +173,9 @@ void LlqPanel::slotRequestQuery()
     LoadLevelerMonitorPlugin::client()->runLlqCommand(args, this);
 }
 
-void LlqPanel::slotQueryRecordContextMenuRequest(const QPoint &pos)
+void LlqPanel::slotQueryModelContextMenuRequest(const QPoint &global_point, const QModelIndex &index)
 {
     //qDebug()<<"[LoadLevelerMonitorWidget::slotLlqQueryRecordContextMenuRequest]";
-    QModelIndex index = ui->table_view->indexAt(pos);
     if (index.isValid()) {
         QueryItem *cur_item = static_cast<QueryItem*>(query_model_->itemFromIndex(index));
         QueryCategory c = cur_item->category();
@@ -205,7 +190,7 @@ void LlqPanel::slotQueryRecordContextMenuRequest(const QPoint &pos)
         context_menu->addAction(detail_action);
 
         // show menu
-        QAction *action = context_menu->exec(ui->table_view->mapToGlobal(pos));
+        QAction *action = context_menu->exec(global_point);
         if(action == detail_action)
         {
             QModelIndex id_index = index.sibling(index.row(), 1);
@@ -301,6 +286,9 @@ void LlqPanel::setupStyle()
     ui->table_style_button->setDefaultAction(ui->action_table_style);
     ui->chart_style_button->setDefaultAction(ui->action_chart_style);
     ui->text_style_button->setDefaultAction(ui->action_text_style);
+
+    connect(ui->table_style_page, &TableStylePage::signalQueryModelContextMenuRequest,
+            this, &LlqPanel::slotQueryModelContextMenuRequest);
 }
 
 void LlqPanel::setTableStyleVisibility(bool is_visible)
@@ -316,6 +304,26 @@ void LlqPanel::setChartStyleVisibility(bool is_visible)
 void LlqPanel::setTextStyleVisibility(bool is_visible)
 {
     ui->text_style_button->setHidden(!is_visible);
+}
+
+void LlqPanel::setRequestCommandLabel(const QJsonObject &request_object)
+{
+    QString command = request_object["command"].toString();
+    QJsonArray arguments = request_object["arguments"].toArray();
+    QStringList arg_list;
+    foreach(QJsonValue an_argument, arguments)
+    {
+        arg_list.append(an_argument.toString());
+    }
+    ui->query_command_label->setText(command + " " + arg_list.join(" "));
+    ui->query_command_frame->show();
+}
+
+void LlqPanel::setRequestTimeLabel(const QDateTime &request_time, const QDateTime &finish_time)
+{
+    qint64 interval_seconds = request_time.msecsTo(finish_time);
+    ui->query_time_label->setText(QString::number(interval_seconds/1000.0) + " seconds");
+    ui->query_time_frame->show();
 }
 
 void LlqPanel::updateChartStylePage()
@@ -393,61 +401,12 @@ void LlqPanel::setQueryModel(QPointer<QueryModel> query_model)
 {
     if(query_model_)
     {
-        ui->table_view->setModel(0);
+        ui->table_style_page->setModel(nullptr);
         query_model_->deleteLater();
     }
     query_model_ = query_model;
 
-    ui->table_view->setModel(query_model_);
-    ui->table_view->horizontalHeader()->setStretchLastSection(true);
-
-    if(!query_model_)
-    {
-        return;
-    }
-
-    switch(query_model_->queryType())
-    {
-    case QueryType::LlqDefaultQuery:
-        ui->table_view->setColumnWidth(1, 200); // id
-        ui->table_view->setColumnWidth(3, 150); //
-        break;
-    case QueryType::LlqDetailQuery:
-        // TODO: 目前无法保留调整过的列宽，每次都恢复到初始状态
-        ui->table_view->setColumnWidth(1, 160); // id
-        ui->table_view->setColumnWidth(2, 80);
-        ui->table_view->setColumnWidth(4, 400);
-        break;
-    default:
-        break;
-    }
-
-    ui->table_view->sortByColumn(0, Qt::AscendingOrder);
-
-    disconnect(ui->table_view, &QTableView::customContextMenuRequested, 0, 0);
-    ui->table_view->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->table_view, &QTableView::customContextMenuRequested,
-            this, &LlqPanel::slotQueryRecordContextMenuRequest);
-}
-
-void LlqPanel::setRequestCommandLabel(const QJsonObject &request_object)
-{
-    QString command = request_object["command"].toString();
-    QJsonArray arguments = request_object["arguments"].toArray();
-    QStringList arg_list;
-    foreach(QJsonValue an_argument, arguments)
-    {
-        arg_list.append(an_argument.toString());
-    }
-    ui->query_command_label->setText(command + " " + arg_list.join(" "));
-    ui->query_command_frame->show();
-}
-
-void LlqPanel::setRequestTimeLabel(const QDateTime &request_time, const QDateTime &finish_time)
-{
-    qint64 interval_seconds = request_time.msecsTo(finish_time);
-    ui->query_time_label->setText(QString::number(interval_seconds/1000.0) + " seconds");
-    ui->query_time_frame->show();
+    ui->table_style_page->setModel(query_model_);
 }
 
 void LlqPanel::updateTextStylePage(const QString &str)

@@ -50,7 +50,7 @@ private slots:
     void slotStyleActionTriggered(QAction *action);
 
     // table style
-    void slotQueryRecordContextMenuRequest(const QPoint& pos);  
+    void slotQueryModelContextMenuRequest(const QPoint &global_point, const QModelIndex &index);
 
 private:
     void setupTemplate();

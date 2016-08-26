@@ -339,9 +339,9 @@
    <item row="2" column="0">
     <widget class="QStackedWidget" name="view_area_stacked_widget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
-     <widget class="QWidget" name="table_style_page">
+     <widget class="TableStylePage" name="table_style_page">
       <layout class="QGridLayout" name="gridLayout">
        <property name="leftMargin">
         <number>0</number>
@@ -355,77 +355,6 @@
        <property name="bottomMargin">
         <number>0</number>
        </property>
-       <item row="0" column="0">
-        <widget class="QTableView" name="table_view">
-         <property name="sizeAdjustPolicy">
-          <enum>QAbstractScrollArea::AdjustToContents</enum>
-         </property>
-         <property name="editTriggers">
-          <set>QAbstractItemView::NoEditTriggers</set>
-         </property>
-         <property name="alternatingRowColors">
-          <bool>true</bool>
-         </property>
-         <property name="sortingEnabled">
-          <bool>true</bool>
-         </property>
-         <attribute name="verticalHeaderVisible">
-          <bool>false</bool>
-         </attribute>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <layout class="QHBoxLayout" name="buttom_layout">
-         <item>
-          <widget class="QPushButton" name="check_all_button">
-           <property name="text">
-            <string>全选</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="uncheck_all_button">
-           <property name="text">
-            <string>取消全选</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_3">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_7">
-           <property name="text">
-            <string>操作</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="llcancel_command_button">
-           <property name="text">
-            <string>llcancel</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="llhold_r_command_button">
-           <property name="text">
-            <string>llhold -r</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
       </layout>
      </widget>
      <widget class="ChartStylePage" name="chart_style_page">
@@ -553,6 +482,12 @@
    <class>ChartStylePage</class>
    <extends>QWidget</extends>
    <header>chart_style_page.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TableStylePage</class>
+   <extends>QWidget</extends>
+   <header>table_style_page.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

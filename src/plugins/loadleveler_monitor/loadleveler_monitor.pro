@@ -34,7 +34,8 @@ SOURCES += loadleveler_monitor_plugin.cpp \
     chart/category_model_processor.cpp \
     panels/style_page.cpp \
     panels/text_style_page.cpp \
-    panels/chart_style_page.cpp
+    panels/chart_style_page.cpp \
+    panels/table_style_page.cpp
 
 HEADERS += loadleveler_monitor_plugin.h \
     loadleveler_monitor_global.h \
@@ -54,7 +55,8 @@ HEADERS += loadleveler_monitor_plugin.h \
     chart/category_model_processor.h \
     panels/style_page.h \
     panels/text_style_page.h \
-    panels/chart_style_page.h
+    panels/chart_style_page.h \
+    panels/table_style_page.h
 
 DISTFILES += loadleveler_monitor.json \
     nwpc_loadleveler/loadleveler.py
@@ -69,7 +71,8 @@ FORMS += \
     client_command_widget.ui \
     panels/llq_panel.ui \
     panels/text_style_page.ui \
-    panels/chart_style_page.ui
+    panels/chart_style_page.ui \
+    panels/table_style_page.ui
 
 RESOURCES += \
     loadleveler_monitor.qrc
