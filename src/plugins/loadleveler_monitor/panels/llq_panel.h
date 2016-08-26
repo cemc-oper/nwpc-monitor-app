@@ -41,11 +41,10 @@ public:
     void setMonitorWidget(LoadLevelerMonitor::LoadLevelerMonitorWidget *widget);
 
 public slots:
+    void slotRequestQuery();
     void slotReciveCommandResponse(const ProgressUtil::ShellCommandResponse &command_response);
 
 private slots:
-    void slotRequestQuery();
-
     void slotTemplateActionTriggered(QAction *action);
     void slotStyleActionTriggered(QAction *action);
 
@@ -74,14 +73,15 @@ private:
     // text style
     void updateTextStylePage(const QString &str);
 
+    QPointer<LoadLevelerMonitor::LoadLevelerMonitorWidget> monitor_widget_;
+
     Ui::LlqPanel *ui;
     QPointer<QActionGroup> style_action_group_;
     QVector<QAction *> style_action_list_;
-
     QPointer<QActionGroup> template_action_group_;
     QVector<QAction *> template_action_list_;
 
-    QPointer<LoadLevelerMonitor::LoadLevelerMonitorWidget> monitor_widget_;
+    // model
     QPointer<LoadLevelerMonitor::Model::QueryModel> query_model_;
 
     // chart

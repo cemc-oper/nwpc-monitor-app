@@ -68,6 +68,17 @@ void LlqPanel::setMonitorWidget(LoadLevelerMonitorWidget *widget)
     monitor_widget_ = widget;
 }
 
+void LlqPanel::slotRequestQuery()
+{
+    QMap<QString, QString> args = monitor_widget_->getSessionArguments();
+    args["command"] = "llq";
+    QString arg_string = ui->argument_edit->text();
+    if(!arg_string.isEmpty())
+        args["command"] += " "+arg_string;
+
+    LoadLevelerMonitorPlugin::client()->runLlqCommand(args, this);
+}
+
 void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandResponse &command_response)
 {
     qDebug()<<"[LlqPanel::slotReciveResponseStdOut] start";    
@@ -160,17 +171,6 @@ void LlqPanel::slotTemplateActionTriggered(QAction *action)
     {
         qWarning()<<"[LlqPanel::slotTemplateActionTriggered] action don't find in action list:"<<action;
     }
-}
-
-void LlqPanel::slotRequestQuery()
-{
-    QMap<QString, QString> args = monitor_widget_->getSessionArguments();
-    args["command"] = "llq";
-    QString arg_string = ui->argument_edit->text();
-    if(!arg_string.isEmpty())
-        args["command"] += " "+arg_string;
-
-    LoadLevelerMonitorPlugin::client()->runLlqCommand(args, this);
 }
 
 void LlqPanel::slotQueryModelContextMenuRequest(const QPoint &global_point, const QModelIndex &index)
