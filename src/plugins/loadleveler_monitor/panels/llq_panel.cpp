@@ -121,7 +121,7 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
     //ui->chart_view->setChart(nullptr);
 
     setTextStyleVisibility(false);
-    ui->text_view->clear();
+    ui->text_sytel_page->clear();
 
     // build model
     QueryModel *model = LlqCommandManager::buildQueryModelFromResponse(doc);
@@ -462,5 +462,5 @@ void LlqPanel::setRequestTimeLabel(const QDateTime &request_time, const QDateTim
 void LlqPanel::updateTextStylePage(const QString &str)
 {
     setTextStyleVisibility(true);
-    ui->text_view->setText(str);
+    ui->text_sytel_page->setText(str);
 }

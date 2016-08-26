@@ -44,11 +44,12 @@ public slots:
     void slotReciveCommandResponse(const ProgressUtil::ShellCommandResponse &command_response);
 
 private slots:
-    void slotStyleActionTriggered(QAction *action);
-    void slotTemplateActionTriggered(QAction *action);
-
     void slotRequestQuery();
 
+    void slotTemplateActionTriggered(QAction *action);
+    void slotStyleActionTriggered(QAction *action);
+
+    // table style
     void slotQueryRecordContextMenuRequest(const QPoint& pos);  
 
 private:
@@ -59,10 +60,12 @@ private:
     void setChartStyleVisibility(bool is_visible);
     void setTextStyleVisibility(bool is_visible);
 
-    // table style
-    void setQueryModel(QPointer<LoadLevelerMonitor::Model::QueryModel> query_model);
+    // request component
     void setRequestCommandLabel(const QJsonObject &request_object);
     void setRequestTimeLabel(const QDateTime &request_time, const QDateTime &finish_time);
+
+    // table style
+    void setQueryModel(QPointer<LoadLevelerMonitor::Model::QueryModel> query_model);
 
     // chart style
     void updateChartStylePage();
