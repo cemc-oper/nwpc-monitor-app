@@ -14,6 +14,8 @@
 #include "../client_command_widget.h"
 #include "../loadleveler_monitor_widget.h"
 
+#include <util/model_view_util.h>
+
 #include <QActionGroup>
 #include <QMap>
 #include <QMenu>
@@ -44,13 +46,13 @@ LlqPanel::LlqPanel(QWidget *parent) :
 
     connect(ui->check_all_button, &QPushButton::clicked,
             [=](){
-                changeAllItemsCheckState(Qt::Checked);
+                Util::ModelView::changeAllItemsCheckState(job_query_model_, Qt::Checked);
             }
     );
 
     connect(ui->uncheck_all_button, &QPushButton::clicked,
             [=](){
-                changeAllItemsCheckState(Qt::Unchecked);
+                Util::ModelView::changeAllItemsCheckState(job_query_model_, Qt::Unchecked);
             }
     );
 
@@ -409,15 +411,4 @@ void LlqPanel::setCommandTime(const QDateTime &request_time, const QDateTime &fi
 void LlqPanel::updateTextStylePage(const QString &str)
 {
     ui->text_view->setText(str);
-}
-
-void LlqPanel::changeAllItemsCheckState(Qt::CheckState check_state)
-{
-    QStandardItem * root_item = job_query_model_->invisibleRootItem();
-    int row_count = root_item->rowCount();
-    for(int i=0; i<row_count; i++)
-    {
-        root_item->child(i, 0)->setCheckState(check_state);
-    }
-
 }

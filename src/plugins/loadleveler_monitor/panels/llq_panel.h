@@ -9,6 +9,7 @@
 QT_BEGIN_NAMESPACE
 class QActionGroup;
 class QAction;
+class QStandardItemModel;
 QT_END_NAMESPACE
 
 namespace LoadLevelerMonitor{
@@ -58,9 +59,6 @@ private:
     void setCommandTime(const QDateTime &request_time, const QDateTime &finish_time);
 
     void updateTextStylePage(const QString &str);
-
-    // table style
-    void changeAllItemsCheckState(Qt::CheckState check_state);
 
     Ui::LlqPanel *ui;
     QPointer<QActionGroup> style_action_group_;
