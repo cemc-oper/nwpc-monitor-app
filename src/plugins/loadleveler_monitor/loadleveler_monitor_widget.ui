@@ -154,7 +154,7 @@
    <item row="2" column="0">
     <widget class="QStackedWidget" name="panel_stacked_widget">
      <widget class="LoadLevelerMonitor::Panels::LlqPanel" name="llq_panel"/>
-     <widget class="QWidget" name="llclass_panel"/>
+     <widget class="LoadLevelerMonitor::Panels::LlclassPanel" name="llclass_panel"/>
      <widget class="QWidget" name="llsubmit_panel"/>
     </widget>
    </item>
@@ -165,6 +165,12 @@
    <class>LoadLevelerMonitor::Panels::LlqPanel</class>
    <extends>QWidget</extends>
    <header>panels/llq_panel.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>LoadLevelerMonitor::Panels::LlclassPanel</class>
+   <extends>QWidget</extends>
+   <header>panels/llclass_panel.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

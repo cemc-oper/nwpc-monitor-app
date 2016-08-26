@@ -6,13 +6,13 @@ namespace LoadLevelerMonitor{
 
 namespace Panels{
 
-class LlqPanel : public QueryPanel
+class LlclassPanel : public QueryPanel
 {
     Q_OBJECT
 
 public:
-    explicit LlqPanel(QWidget *parent = 0);
-    ~LlqPanel();
+    explicit LlclassPanel(QWidget *parent = 0);
+    ~LlclassPanel();
 
 public slots:
     void slotRequestQuery() override;
@@ -28,6 +28,7 @@ private:
 
     // chart style
     void updateChartStylePage() override;
+
 };
 
 }

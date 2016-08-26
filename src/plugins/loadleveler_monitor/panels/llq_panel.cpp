@@ -1,5 +1,5 @@
 #include "llq_panel.h"
-#include "ui_llq_panel.h"
+#include "ui_query_panel.h"
 
 #include "../model/query_model.h"
 #include "../model/query_item.h"
@@ -13,8 +13,6 @@
 
 #include "../client_command_widget.h"
 #include "../loadleveler_monitor_widget.h"
-
-#include <util/model_view_util.h>
 
 #include <QActionGroup>
 #include <QMap>
@@ -34,38 +32,14 @@ using namespace LoadLevelerMonitor::Chart;
 using namespace QtCharts;
 
 LlqPanel::LlqPanel(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::LlqPanel),
-    style_action_group_{new QActionGroup{this}},
-    template_action_group_{new QActionGroup{this}},
-    chart_type_action_group_{new QActionGroup{this}}
+    QueryPanel(parent)
 {
-    ui->setupUi(this);
-
-    ui->query_command_frame->hide();
-    ui->query_time_frame->hide();
-
-    connect(ui->query_button, &QPushButton::clicked,
-            this, &LlqPanel::slotRequestQuery);
-
-    connect(ui->argument_edit, &QLineEdit::returnPressed,
-            this, &LlqPanel::slotRequestQuery);
-
     setupTemplate();
     setupStyle();
 }
 
 LlqPanel::~LlqPanel()
 {
-    delete ui;
-    if(query_model_){
-        query_model_->deleteLater();
-    }
-}
-
-void LlqPanel::setMonitorWidget(LoadLevelerMonitorWidget *widget)
-{
-    monitor_widget_ = widget;
 }
 
 void LlqPanel::slotRequestQuery()
@@ -149,30 +123,6 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
     qDebug()<<"[LlqPanel::slotReciveResponseStdOut] end";
 }
 
-void LlqPanel::slotStyleActionTriggered(QAction *action)
-{
-    int index = style_action_list_.indexOf(action);
-    if(index != -1)
-        ui->view_area_stacked_widget->setCurrentIndex(index);
-    else
-    {
-        qWarning()<<"[LlqPanel::slotStyleActionTriggered] action don't find in action list:"<<action;
-    }
-}
-
-void LlqPanel::slotTemplateActionTriggered(QAction *action)
-{
-    int index = template_action_list_.indexOf(action);
-    if(index != -1)
-    {
-        ui->argument_edit->setText(action->data().toString());
-    }
-    else
-    {
-        qWarning()<<"[LlqPanel::slotTemplateActionTriggered] action don't find in action list:"<<action;
-    }
-}
-
 void LlqPanel::slotQueryModelContextMenuRequest(const QPoint &global_point, const QModelIndex &index)
 {
     //qDebug()<<"[LoadLevelerMonitorWidget::slotLlqQueryRecordContextMenuRequest]";
@@ -219,6 +169,8 @@ void LlqPanel::slotQueryModelContextMenuRequest(const QPoint &global_point, cons
 
 void LlqPanel::setupTemplate()
 {
+    qDebug()<<"[LlqPanel::setupTemplate]";
+
     // template action
     //      text: 显示的文本
     //      data: llq的参数，例如 -l/-u nwp 等
@@ -267,6 +219,7 @@ void LlqPanel::setupTemplate()
 
 void LlqPanel::setupStyle()
 {
+    qDebug()<<"[LlqPanel::setupStyle]";
     // style action
     style_action_list_.clear();
     style_action_list_.append(ui->action_table_style);
@@ -289,41 +242,6 @@ void LlqPanel::setupStyle()
 
     connect(ui->table_style_page, &TableStylePage::signalQueryModelContextMenuRequest,
             this, &LlqPanel::slotQueryModelContextMenuRequest);
-}
-
-void LlqPanel::setTableStyleVisibility(bool is_visible)
-{
-    ui->table_style_button->setHidden(!is_visible);
-}
-
-void LlqPanel::setChartStyleVisibility(bool is_visible)
-{
-    ui->chart_style_button->setHidden(!is_visible);
-}
-
-void LlqPanel::setTextStyleVisibility(bool is_visible)
-{
-    ui->text_style_button->setHidden(!is_visible);
-}
-
-void LlqPanel::setRequestCommandLabel(const QJsonObject &request_object)
-{
-    QString command = request_object["command"].toString();
-    QJsonArray arguments = request_object["arguments"].toArray();
-    QStringList arg_list;
-    foreach(QJsonValue an_argument, arguments)
-    {
-        arg_list.append(an_argument.toString());
-    }
-    ui->query_command_label->setText(command + " " + arg_list.join(" "));
-    ui->query_command_frame->show();
-}
-
-void LlqPanel::setRequestTimeLabel(const QDateTime &request_time, const QDateTime &finish_time)
-{
-    qint64 interval_seconds = request_time.msecsTo(finish_time);
-    ui->query_time_label->setText(QString::number(interval_seconds/1000.0) + " seconds");
-    ui->query_time_frame->show();
 }
 
 void LlqPanel::updateChartStylePage()
@@ -380,37 +298,4 @@ void LlqPanel::updateChartStylePage()
     }
 
     qDebug()<<"[LlqPanel::updateChartStylePage] chart style end";
-}
-
-void LlqPanel::showChart(QAction *chart_type_action)
-{
-    ModelProcessor *processor = chart_type_action_map_[chart_type_action];
-    processor->setQueryModel(query_model_);
-
-    QChart *query_chart = processor->generateChart();
-    if(!query_chart)
-    {
-        qWarning()<<"[LlqPanel::showChart] chart is null";
-        return;
-    }
-
-    ui->chart_style_page->setChart(query_chart);
-}
-
-void LlqPanel::setQueryModel(QPointer<QueryModel> query_model)
-{
-    if(query_model_)
-    {
-        ui->table_style_page->setModel(nullptr);
-        query_model_->deleteLater();
-    }
-    query_model_ = query_model;
-
-    ui->table_style_page->setModel(query_model_);
-}
-
-void LlqPanel::updateTextStylePage(const QString &str)
-{
-    setTextStyleVisibility(true);
-    ui->text_sytel_page->setText(str);
 }

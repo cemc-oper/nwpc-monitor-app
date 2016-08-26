@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>LoadLevelerMonitor::Panels::LlqPanel</class>
- <widget class="QWidget" name="LoadLevelerMonitor::Panels::LlqPanel">
+ <class>LoadLevelerMonitor::Panels::QueryPanel</class>
+ <widget class="QWidget" name="LoadLevelerMonitor::Panels::QueryPanel">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -339,59 +339,11 @@
    <item row="2" column="0">
     <widget class="QStackedWidget" name="view_area_stacked_widget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
-     <widget class="TableStylePage" name="table_style_page">
-      <layout class="QGridLayout" name="gridLayout">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-      </layout>
-     </widget>
-     <widget class="ChartStylePage" name="chart_style_page">
-      <layout class="QGridLayout" name="gridLayout_2">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-      </layout>
-     </widget>
-     <widget class="TextStylePage" name="text_sytel_page">
-      <layout class="QGridLayout" name="gridLayout_3">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <property name="spacing">
-        <number>0</number>
-       </property>
-      </layout>
-     </widget>
+     <widget class="TableStylePage" name="table_style_page"/>
+     <widget class="ChartStylePage" name="chart_style_page"/>
+     <widget class="TextStylePage" name="text_sytel_page"/>
     </widget>
    </item>
   </layout>

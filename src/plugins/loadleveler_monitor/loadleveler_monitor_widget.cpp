@@ -29,8 +29,7 @@ LoadLevelerMonitorWidget::LoadLevelerMonitorWidget(QWidget *parent) :
     panel_button_group_->addButton(ui->llclass_panel_button, 1);
     panel_button_group_->addButton(ui->llsubmit_panel_button, 2);
 
-    ui->llq_panel_button->setChecked(Qt::Checked);
-
+    ui->llq_panel_button->setChecked(true);
 }
 
 LoadLevelerMonitorWidget::~LoadLevelerMonitorWidget()
