@@ -72,6 +72,11 @@ QSet<ModelProcessor *> &LlqCommandManager::processorList()
     return d->processorList();
 }
 
+QSet<ProcessorCondition *> &LlqCommandManager::processorConditionList()
+{
+    return d->processorConditionList();
+}
+
 QMultiMap<ProcessorCondition *, ModelProcessor *> &LlqCommandManager::processorMap()
 {
     return d->processorMap();

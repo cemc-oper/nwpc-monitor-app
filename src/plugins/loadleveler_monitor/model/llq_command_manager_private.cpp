@@ -204,6 +204,7 @@ void LlqCommandManagerPrivate::registerSingleCategoryCountProcessorMap(const QSt
 
     CategoryProcessorCondition *condition = new CategoryProcessorCondition{category_list};
     SingleCategorCountProcessor *processor = new SingleCategorCountProcessor{category_list};
+    processor->setDisplayName(category_list[0].display_name_);
     registerProcessorMap(condition, processor);
 }
 

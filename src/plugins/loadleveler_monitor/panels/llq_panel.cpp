@@ -24,7 +24,9 @@
 #include <QJsonArray>
 #include <QJsonValue>
 #include <QDateTime>
-#include <QtCharts>
+#include <QtCharts/QChart>
+#include <QToolButton>
+#include <QSpacerItem>
 #include <QtDebug>
 
 using namespace LoadLevelerMonitor;
@@ -37,7 +39,8 @@ LlqPanel::LlqPanel(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::LlqPanel),
     style_action_group_{new QActionGroup{this}},
-    template_action_group_{new QActionGroup{this}}
+    template_action_group_{new QActionGroup{this}},
+    chart_type_action_group_{new QActionGroup{this}}
 {
     ui->setupUi(this);
 
@@ -83,9 +86,11 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
 {
     qDebug()<<"[LlqPanel::slotReciveResponseStdOut] start";    
 
+    // run time
     QDateTime finish_date_time = QDateTime::currentDateTime();
-    setCommandTime(command_response.request_date_time_, finish_date_time);
+    setRequestTimeLabel(command_response.request_date_time_, finish_date_time);
 
+    // response json doc
     QJsonDocument doc = QJsonDocument::fromJson(command_response.std_out_.toUtf8());
     if(!doc.isObject())
     {
@@ -102,27 +107,17 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
         return;
     }
 
-    QString app = content_object["app"].toString();
-    QString type = content_object["type"].toString();
+    // query command
     QJsonObject data = content_object["data"].toObject();
-
     QJsonObject request_object = data["request"].toObject();
-    QString command = request_object["command"].toString();
-    QJsonArray arguments = request_object["arguments"].toArray();
-    QStringList arg_list;
-    foreach(QJsonValue an_argument, arguments)
-    {
-        arg_list.append(an_argument.toString());
-    }
-    ui->query_command_label->setText(command + " " + arg_list.join(" "));
-    ui->query_command_frame->show();
+    setRequestCommandLabel(request_object);
 
     // clear styles
     setTableStyleVisibility(false);
     ui->table_view->setModel(nullptr);
 
-    setChartStyleVisibility(false);
     //TODO: clear chart
+    setChartStyleVisibility(false);
     //ui->chart_view->setChart(nullptr);
 
     setTextStyleVisibility(false);
@@ -133,14 +128,13 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
     setQueryModel(model);
 
     // text style
-    setTextStyleVisibility(true);
     QJsonObject response_object = data["response"].toObject();
     QJsonObject message = response_object["message"].toObject();
     QString output_message = message["output"].toString();
     updateTextStylePage(output_message);
 
     // table style
-    if(!model)
+    if(!query_model_)
     {
         ui->action_text_style->activate(QAction::Trigger);
         return;
@@ -150,46 +144,10 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
     ui->action_table_style->activate(QAction::Trigger);
 
     // chart style
-    if(model->isEmpty())
+    if(!query_model_->isEmpty())
     {
-        return;
+        updateChartStylePage();
     }
-    qDebug()<<"[LlqPanel::slotReciveResponseStdOut] chart style start";
-    setChartStyleVisibility(true);
-
-    CategoryModelProcessor *data_processor = LlqCommandManager::modelDataProcessor();
-    data_processor->setQueryModel(model);
-    QueryCategory c;
-    switch(model->queryType())
-    {
-    case QueryType::LlqDefaultQuery:
-        c = model->categoryList().categoryFromId("owner");
-        break;
-    case QueryType::LlqDetailQuery:
-        c = model->categoryList().categoryFromId("owner");
-    }
-    if(!c.isValid())
-    {
-        qWarning()<<"[LlqPanel::slotReciveResponseStdOut] chart category is not valid";
-        return;
-    }
-    data_processor->setQueryModel(model);
-    QueryCategoryList category_list;
-    category_list.append(c);
-    data_processor->setQueryCategoryList(category_list);
-
-    QChart *query_chart = data_processor->generateChart();
-    if(!query_chart)
-    {
-        qWarning()<<"[LlqPanel::slotReciveResponseStdOut] chart is null";
-        return;
-    }
-    QChart *old_chart = ui->chart_view->chart();
-    if(old_chart)
-        old_chart->deleteLater();
-    ui->chart_view->setChart(query_chart);
-
-    qDebug()<<"[LlqPanel::slotReciveResponseStdOut] chart style end";
 
     qDebug()<<"[LlqPanel::slotReciveResponseStdOut] end";
 }
@@ -360,6 +318,86 @@ void LlqPanel::setTextStyleVisibility(bool is_visible)
     ui->text_style_button->setHidden(!is_visible);
 }
 
+void LlqPanel::updateChartStylePage()
+{
+    qDebug()<<"[LlqPanel::updateChartStylePage] chart style start";
+
+    // clean chart type layout
+    QLayoutItem *child;
+    while ((child = ui->chart_type_layout->takeAt(0)) != 0) {
+        QWidget * child_widget = child->widget();
+        QToolButton *tool_button = qobject_cast<QToolButton *>(child_widget);
+        if(tool_button != 0)
+        {
+            QAction *action = tool_button->defaultAction();
+            chart_type_action_group_->removeAction(action);
+            chart_type_action_map_.remove(action);
+            action->deleteLater();
+            tool_button->deleteLater();
+        }
+        delete child;
+    }
+
+    // create processor action and button, and add them to layout
+    QSet<ProcessorCondition*> condition_set = LlqCommandManager::processorConditionList();
+    QMultiMap<ProcessorCondition*, ModelProcessor*> processor_map = LlqCommandManager::processorMap();
+    foreach(ProcessorCondition* condition, condition_set)
+    {
+        if(!condition->isMatch(query_model_))
+            continue;
+        QList<ModelProcessor*> processors = processor_map.values(condition);
+        for (int i = 0; i < processors.size(); ++i)
+        {
+            ModelProcessor* processor = processors[i];
+            QAction *action = new QAction{processor->displayName() ,this};
+            action->setCheckable(true);
+            action->setChecked(Qt::Unchecked);
+            chart_type_action_map_[action] = processor;
+            chart_type_action_group_->addAction(action);
+
+            connect(action, &QAction::triggered, [=](bool flag){
+                if(flag)
+                {
+                    showChart(action);
+                }
+            });
+
+            QToolButton *tool_button = new QToolButton{this};
+            tool_button->setDefaultAction(action);
+            int current_column_count = ui->chart_type_layout->columnCount();
+            ui->chart_type_layout->addWidget(tool_button, 0, current_column_count);
+        }
+    }
+    QSpacerItem *spacer_item = new QSpacerItem{40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum};
+    ui->chart_type_layout->addItem(spacer_item, 0, ui->chart_type_layout->columnCount(), 1, 1);
+
+    // check if show chart style
+    if(chart_type_action_map_.count() > 0 )
+    {
+        setChartStyleVisibility(true);
+        chart_type_action_map_.keys().first()->activate(QAction::Trigger);
+    }
+
+    qDebug()<<"[LlqPanel::updateChartStylePage] chart style end";
+}
+
+void LlqPanel::showChart(QAction *chart_type_action)
+{
+    ModelProcessor *processor = chart_type_action_map_[chart_type_action];
+    processor->setQueryModel(query_model_);
+
+    QChart *query_chart = processor->generateChart();
+    if(!query_chart)
+    {
+        qWarning()<<"[LlqPanel::showChart] chart is null";
+        return;
+    }
+    QChart *old_chart = ui->chart_view->chart();
+    if(old_chart)
+        old_chart->deleteLater();
+    ui->chart_view->setChart(query_chart);
+}
+
 void LlqPanel::setQueryModel(QPointer<QueryModel> query_model)
 {
     if(query_model_)
@@ -401,7 +439,20 @@ void LlqPanel::setQueryModel(QPointer<QueryModel> query_model)
             this, &LlqPanel::slotQueryRecordContextMenuRequest);
 }
 
-void LlqPanel::setCommandTime(const QDateTime &request_time, const QDateTime &finish_time)
+void LlqPanel::setRequestCommandLabel(const QJsonObject &request_object)
+{
+    QString command = request_object["command"].toString();
+    QJsonArray arguments = request_object["arguments"].toArray();
+    QStringList arg_list;
+    foreach(QJsonValue an_argument, arguments)
+    {
+        arg_list.append(an_argument.toString());
+    }
+    ui->query_command_label->setText(command + " " + arg_list.join(" "));
+    ui->query_command_frame->show();
+}
+
+void LlqPanel::setRequestTimeLabel(const QDateTime &request_time, const QDateTime &finish_time)
 {
     qint64 interval_seconds = request_time.msecsTo(finish_time);
     ui->query_time_label->setText(QString::number(interval_seconds/1000.0) + " seconds");
@@ -410,5 +461,6 @@ void LlqPanel::setCommandTime(const QDateTime &request_time, const QDateTime &fi
 
 void LlqPanel::updateTextStylePage(const QString &str)
 {
+    setTextStyleVisibility(true);
     ui->text_view->setText(str);
 }

@@ -18,6 +18,10 @@ namespace Model{
 class QueryModel;
 }
 
+namespace Chart{
+class ModelProcessor;
+}
+
 class LoadLevelerMonitorWidget;
 
 namespace Panels{
@@ -57,7 +61,12 @@ private:
 
     // table style
     void setQueryModel(QPointer<LoadLevelerMonitor::Model::QueryModel> query_model);
-    void setCommandTime(const QDateTime &request_time, const QDateTime &finish_time);
+    void setRequestCommandLabel(const QJsonObject &request_object);
+    void setRequestTimeLabel(const QDateTime &request_time, const QDateTime &finish_time);
+
+    // chart style
+    void updateChartStylePage();
+    void showChart(QAction *chart_type_action);
 
     // text style
     void updateTextStylePage(const QString &str);
@@ -71,6 +80,10 @@ private:
 
     QPointer<LoadLevelerMonitor::LoadLevelerMonitorWidget> monitor_widget_;
     QPointer<LoadLevelerMonitor::Model::QueryModel> query_model_;
+
+    // chart
+    QMap<QAction *, LoadLevelerMonitor::Chart::ModelProcessor*> chart_type_action_map_;
+    QPointer<QActionGroup> chart_type_action_group_;
 };
 
 }

@@ -44,6 +44,10 @@ public:
         return processor_list_;
     }
 
+    QSet<Chart::ProcessorCondition*> &processorConditionList(){
+        return processor_condition_list_;
+    }
+
     QMultiMap<Chart::ProcessorCondition*, Chart::ModelProcessor*> &processorMap(){
         return processor_map_;
     }

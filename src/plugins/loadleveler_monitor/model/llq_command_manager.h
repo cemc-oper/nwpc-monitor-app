@@ -44,6 +44,7 @@ public:
 
     static Chart::CategoryModelProcessor *modelDataProcessor();
     static QSet<Chart::ModelProcessor*> &processorList();
+    static QSet<Chart::ProcessorCondition*> &processorConditionList();
     static QMultiMap<Chart::ProcessorCondition*, Chart::ModelProcessor*> &processorMap();
 
 signals:
