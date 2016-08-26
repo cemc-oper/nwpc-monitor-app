@@ -46,13 +46,13 @@ LlqPanel::LlqPanel(QWidget *parent) :
 
     connect(ui->check_all_button, &QPushButton::clicked,
             [=](){
-                Util::ModelView::changeAllItemsCheckState(job_query_model_, Qt::Checked);
+                Util::ModelView::changeAllItemsCheckState(query_model_, Qt::Checked);
             }
     );
 
     connect(ui->uncheck_all_button, &QPushButton::clicked,
             [=](){
-                Util::ModelView::changeAllItemsCheckState(job_query_model_, Qt::Unchecked);
+                Util::ModelView::changeAllItemsCheckState(query_model_, Qt::Unchecked);
             }
     );
 
@@ -69,8 +69,8 @@ LlqPanel::LlqPanel(QWidget *parent) :
 LlqPanel::~LlqPanel()
 {
     delete ui;
-    if(job_query_model_){
-        job_query_model_->deleteLater();
+    if(query_model_){
+        query_model_->deleteLater();
     }
 }
 
@@ -98,7 +98,7 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
     {
         QString error_message = content_object["data"].toObject()["message"].toObject()["error_message"].toString();
         qDebug()<<"[LlqPanel::slotReciveResponseStdOut] ERROR:"<<error_message;
-        setJobQueryModel(nullptr);
+        setQueryModel(nullptr);
         return;
     }
 
@@ -130,7 +130,7 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
 
     // build model
     QueryModel *model = LlqCommandManager::buildQueryModelFromResponse(doc);
-    setJobQueryModel(model);
+    setQueryModel(model);
 
     // text style
     setTextStyleVisibility(true);
@@ -234,7 +234,7 @@ void LlqPanel::slotQueryRecordContextMenuRequest(const QPoint &pos)
     //qDebug()<<"[LoadLevelerMonitorWidget::slotLlqQueryRecordContextMenuRequest]";
     QModelIndex index = ui->table_view->indexAt(pos);
     if (index.isValid()) {
-        QueryItem *cur_item = static_cast<QueryItem*>(job_query_model_->itemFromIndex(index));
+        QueryItem *cur_item = static_cast<QueryItem*>(query_model_->itemFromIndex(index));
         QueryCategory c = cur_item->category();
 
         QMenu *context_menu = new QMenu{};
@@ -253,7 +253,7 @@ void LlqPanel::slotQueryRecordContextMenuRequest(const QPoint &pos)
             QModelIndex id_index = index.sibling(index.row(), 1);
             if(index.isValid())
             {
-                QStandardItem *id_item = job_query_model_->itemFromIndex(id_index);
+                QStandardItem *id_item = query_model_->itemFromIndex(id_index);
                 QString id = id_item->text();
                 qDebug()<<"[LoadLevelerMonitorWidget::slotLlqQueryRecordContextMenuRequest]"<<id;
                 QMap<QString, QString> args = monitor_widget_->getSessionArguments();
@@ -360,24 +360,24 @@ void LlqPanel::setTextStyleVisibility(bool is_visible)
     ui->text_style_button->setHidden(!is_visible);
 }
 
-void LlqPanel::setJobQueryModel(QPointer<QueryModel> job_query_model)
+void LlqPanel::setQueryModel(QPointer<QueryModel> query_model)
 {
-    if(job_query_model_)
+    if(query_model_)
     {
         ui->table_view->setModel(0);
-        job_query_model_->deleteLater();
+        query_model_->deleteLater();
     }
-    job_query_model_ = job_query_model;
+    query_model_ = query_model;
 
-    ui->table_view->setModel(job_query_model_);
+    ui->table_view->setModel(query_model_);
     ui->table_view->horizontalHeader()->setStretchLastSection(true);
 
-    if(!job_query_model_)
+    if(!query_model_)
     {
         return;
     }
 
-    switch(job_query_model_->queryType())
+    switch(query_model_->queryType())
     {
     case QueryType::LlqDefaultQuery:
         ui->table_view->setColumnWidth(1, 200); // id

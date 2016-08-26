@@ -105,8 +105,8 @@ QueryModel *QueryModel::buildFromLlqDefaultQueryResponse(const QStringList &line
 
     QueryCategory row_num_category = LlqCommandManager::findDefaultQueryCategory("No.");
 
-    QueryModel *job_query_model = new QueryModel(parent);
-    job_query_model->setQueryType(QueryType::LlqDefaultQuery);
+    QueryModel *query_model = new QueryModel(parent);
+    query_model->setQueryType(QueryType::LlqDefaultQuery);
 
 
     for(int i=2; i < lines.size() - 3; i++ )
@@ -118,12 +118,12 @@ QueryModel *QueryModel::buildFromLlqDefaultQueryResponse(const QStringList &line
         item->setCheckable(true);
         item->setCheckState(Qt::Unchecked);
         row.push_front(item);
-        job_query_model->invisibleRootItem()->appendRow(row);
+        query_model->invisibleRootItem()->appendRow(row);
     }
 
     // insert no category
     category_list.insert(0, row_num_category);
-    job_query_model->setCategoryList(category_list);
+    query_model->setCategoryList(category_list);
 
     // set header titles
     QStringList header_labels;
@@ -131,9 +131,9 @@ QueryModel *QueryModel::buildFromLlqDefaultQueryResponse(const QStringList &line
     {
         header_labels.append(c.display_name_);
     }
-    job_query_model->setHorizontalHeaderLabels(header_labels);
+    query_model->setHorizontalHeaderLabels(header_labels);
 
-    return job_query_model;
+    return query_model;
 }
 
 QueryModel *QueryModel::buildFromLlqDetailQueryResponse(const QStringList &lines, QObject *parent)
@@ -160,8 +160,8 @@ QueryModel *QueryModel::buildFromLlqDetailQueryResponse(const QStringList &lines
         return nullptr;
     }
 
-    QueryModel *job_query_model = new QueryModel(parent);
-    job_query_model->setQueryType(QueryType::LlqDetailQuery);
+    QueryModel *query_model = new QueryModel(parent);
+    query_model->setQueryType(QueryType::LlqDetailQuery);
 
     // last two lines is a summary
     QString summary_line = lines[lines.length()-2];
@@ -213,12 +213,12 @@ QueryModel *QueryModel::buildFromLlqDetailQueryResponse(const QStringList &lines
         item->setCheckable(true);
         item->setCheckState(Qt::Unchecked);
         row.push_front(item);
-        job_query_model->invisibleRootItem()->appendRow(row);
+        query_model->invisibleRootItem()->appendRow(row);
     }
 
     // insert no category
     category_list.insert(0, row_num_category);
-    job_query_model->setCategoryList(category_list);
+    query_model->setCategoryList(category_list);
 
     // set header titles
     QStringList header_labels;
@@ -226,7 +226,7 @@ QueryModel *QueryModel::buildFromLlqDetailQueryResponse(const QStringList &lines
     {
         header_labels.append(c.display_name_);
     }
-    job_query_model->setHorizontalHeaderLabels(header_labels);
+    query_model->setHorizontalHeaderLabels(header_labels);
 
-    return job_query_model;
+    return query_model;
 }
