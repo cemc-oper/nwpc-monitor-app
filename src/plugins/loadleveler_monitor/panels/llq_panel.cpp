@@ -323,22 +323,19 @@ void LlqPanel::updateChartStylePage()
     qDebug()<<"[LlqPanel::updateChartStylePage] chart style start";
 
     // clean chart type layout
-    QLayoutItem *child;
-    while ((child = ui->chart_type_layout->takeAt(0)) != 0) {
-        QWidget * child_widget = child->widget();
-        QToolButton *tool_button = qobject_cast<QToolButton *>(child_widget);
-        if(tool_button != 0)
-        {
-            QAction *action = tool_button->defaultAction();
-            chart_type_action_group_->removeAction(action);
-            chart_type_action_map_.remove(action);
-            action->deleteLater();
-            tool_button->deleteLater();
-        }
-        delete child;
+    ui->chart_style_page->clear();
+
+    // delete chart type actions
+    QMapIterator<QAction *, LoadLevelerMonitor::Chart::ModelProcessor*> it(chart_type_action_map_);
+    while (it.hasNext()) {
+        it.next();
+        QAction *action = it.key();
+        chart_type_action_group_->removeAction(action);
+        chart_type_action_map_.remove(action);
+        action->deleteLater();
     }
 
-    // create processor action and button, and add them to layout
+    // create chart type action
     QSet<ProcessorCondition*> condition_set = LlqCommandManager::processorConditionList();
     QMultiMap<ProcessorCondition*, ModelProcessor*> processor_map = LlqCommandManager::processorMap();
     foreach(ProcessorCondition* condition, condition_set)
@@ -361,15 +358,11 @@ void LlqPanel::updateChartStylePage()
                     showChart(action);
                 }
             });
-
-            QToolButton *tool_button = new QToolButton{this};
-            tool_button->setDefaultAction(action);
-            int current_column_count = ui->chart_type_layout->columnCount();
-            ui->chart_type_layout->addWidget(tool_button, 0, current_column_count);
         }
     }
-    QSpacerItem *spacer_item = new QSpacerItem{40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum};
-    ui->chart_type_layout->addItem(spacer_item, 0, ui->chart_type_layout->columnCount(), 1, 1);
+
+    // add action to layout
+    ui->chart_style_page->setChartTypeActionGroup(chart_type_action_group_);
 
     // check if show chart style
     if(chart_type_action_map_.count() > 0 )
@@ -392,10 +385,8 @@ void LlqPanel::showChart(QAction *chart_type_action)
         qWarning()<<"[LlqPanel::showChart] chart is null";
         return;
     }
-    QChart *old_chart = ui->chart_view->chart();
-    if(old_chart)
-        old_chart->deleteLater();
-    ui->chart_view->setChart(query_chart);
+
+    ui->chart_style_page->setChart(query_chart);
 }
 
 void LlqPanel::setQueryModel(QPointer<QueryModel> query_model)
