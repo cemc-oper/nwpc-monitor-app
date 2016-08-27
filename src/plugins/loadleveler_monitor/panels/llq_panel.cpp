@@ -179,8 +179,8 @@ void LlqPanel::setupTemplate()
     template_action_list_.clear();
     template_action_list_.append(ui->action_default_template);
     ui->action_default_template->setData("");
-    template_action_list_.append(ui->action_llqn_template);
-    ui->action_llqn_template->setData("-l");
+    template_action_list_.append(ui->action_detail_template);
+    ui->action_detail_template->setData("-l");
     template_action_list_.append(ui->action_more_template);
     ui->action_more_template->setData("");
 
@@ -210,7 +210,7 @@ void LlqPanel::setupTemplate()
 
     // template tool button
     ui->default_template_button->setDefaultAction(ui->action_default_template);
-    ui->llqn_template_button->setDefaultAction(ui->action_llqn_template);
+    ui->detail_template_button->setDefaultAction(ui->action_detail_template);
     ui->more_template_button->setDefaultAction(ui->action_more_template);
 
     // default state

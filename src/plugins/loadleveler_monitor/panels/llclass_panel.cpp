@@ -6,6 +6,9 @@
 #include "../loadleveler_monitor_plugin.h"
 #include "../loadleveler_client.h"
 
+#include <QMenu>
+#include <QtDebug>
+
 using namespace LoadLevelerMonitor::Panels;
 using namespace LoadLevelerMonitor::Model;
 
@@ -109,7 +112,52 @@ void LlclassPanel::slotQueryModelContextMenuRequest(const QPoint &global_point, 
 
 void LlclassPanel::setupTemplate()
 {
+    qDebug()<<"[LlqPanel::setupTemplate]";
 
+    // template action
+    //      text: 显示的文本
+    //      data: llq的参数，例如 -l/-u nwp 等
+
+    // template action
+    template_action_list_.clear();
+    template_action_list_.append(ui->action_default_template);
+    ui->action_default_template->setData("");
+    template_action_list_.append(ui->action_detail_template);
+    ui->action_detail_template->setData("-l");
+    template_action_list_.append(ui->action_more_template);
+    ui->action_more_template->setData("");
+
+    // tempalte action group
+    foreach(QAction *action, template_action_list_)
+    {
+        template_action_group_->addAction(action);
+    }
+    connect(template_action_group_, &QActionGroup::triggered, this, &LlclassPanel::slotTemplateActionTriggered);
+
+    // more template action
+    QMenu *more_template_menu = new QMenu{this};
+    QAction *action = nullptr;
+    action = new QAction(tr("operation class"));
+    action->setData("-c operation operation1 serial_op serial_op1 serial normal");
+    more_template_menu->addAction(action);
+//    action = new QAction(tr("llq -u nwp_qu"));
+//    action->setData("-u nwp_qu");
+//    more_template_menu->addAction(action);
+
+    connect(more_template_menu, &QMenu::triggered, [=](QAction *a){
+        ui->action_more_template->setText(a->text());
+        ui->action_more_template->setData(a->data());
+        ui->action_more_template->activate(QAction::Trigger);
+    });
+    ui->action_more_template->setMenu(more_template_menu);
+
+    // template tool button
+    ui->default_template_button->setDefaultAction(ui->action_default_template);
+    ui->detail_template_button->setDefaultAction(ui->action_detail_template);
+    ui->more_template_button->setDefaultAction(ui->action_more_template);
+
+    // default state
+    ui->action_default_template->setChecked(true);
 }
 
 void LlclassPanel::setupStyle()
