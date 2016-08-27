@@ -6,11 +6,15 @@
 #include "../loadleveler_monitor_plugin.h"
 #include "../loadleveler_client.h"
 
+#include "../chart/processor_condition.h"
+#include "../chart/model_processor.h"
+
 #include <QMenu>
 #include <QtDebug>
 
 using namespace LoadLevelerMonitor::Panels;
 using namespace LoadLevelerMonitor::Model;
+using namespace LoadLevelerMonitor::Chart;
 
 LlclassPanel::LlclassPanel(QWidget *parent) :
     QueryPanel(parent)
@@ -112,7 +116,7 @@ void LlclassPanel::slotQueryModelContextMenuRequest(const QPoint &global_point, 
 
 void LlclassPanel::setupTemplate()
 {
-    qDebug()<<"[LlqPanel::setupTemplate]";
+    qDebug()<<"[LlclassPanel::setupTemplate]";
 
     // template action
     //      text: 显示的文本
@@ -162,7 +166,7 @@ void LlclassPanel::setupTemplate()
 
 void LlclassPanel::setupStyle()
 {
-    qDebug()<<"[LlqPanel::setupStyle]";
+    qDebug()<<"[LlclassPanel::setupStyle]";
     // style action
     style_action_list_.clear();
     style_action_list_.append(ui->action_table_style);
@@ -189,5 +193,56 @@ void LlclassPanel::setupStyle()
 
 void LlclassPanel::updateChartStylePage()
 {
+    qDebug()<<"[LlclassPanel::updateChartStylePage] chart style start";
 
+    // clean chart type layout
+    ui->chart_style_page->clear();
+
+    // delete chart type actions
+    QMapIterator<QAction *, LoadLevelerMonitor::Chart::ModelProcessor*> it(chart_type_action_map_);
+    while (it.hasNext()) {
+        it.next();
+        QAction *action = it.key();
+        chart_type_action_group_->removeAction(action);
+        chart_type_action_map_.remove(action);
+        action->deleteLater();
+    }
+
+    // create chart type action
+    QSet<ProcessorCondition*> condition_set = LlclassCommandManager::processorConditionList();
+    QMultiMap<ProcessorCondition*, ModelProcessor*> processor_map = LlclassCommandManager::processorMap();
+    foreach(ProcessorCondition* condition, condition_set)
+    {
+        if(!condition->isMatch(query_model_))
+            continue;
+        QList<ModelProcessor*> processors = processor_map.values(condition);
+        for (int i = 0; i < processors.size(); ++i)
+        {
+            ModelProcessor* processor = processors[i];
+            QAction *action = new QAction{processor->displayName() ,this};
+            action->setCheckable(true);
+            action->setChecked(Qt::Unchecked);
+            chart_type_action_map_[action] = processor;
+            chart_type_action_group_->addAction(action);
+
+            connect(action, &QAction::triggered, [=](bool flag){
+                if(flag)
+                {
+                    showChart(action);
+                }
+            });
+        }
+    }
+
+    // add action to layout
+    ui->chart_style_page->setChartTypeActionGroup(chart_type_action_group_);
+
+    // check if show chart style
+    if(chart_type_action_map_.count() > 0 )
+    {
+        setChartStyleVisibility(true);
+        chart_type_action_map_.keys().first()->activate(QAction::Trigger);
+    }
+
+    qDebug()<<"[Llclass::updateChartStylePage] chart style end";
 }

@@ -7,6 +7,7 @@
 #include "../chart/category_model_processor.h"
 #include "../chart/processor_condition.h"
 #include "../chart/model_processor.h"
+#include "../chart/percent_bar_processor.h"
 
 #include <QString>
 #include <QStringList>
@@ -129,10 +130,17 @@ QueryModel *LlclassCommandManagerPrivate::buildQueryModelFromResponse(const QJso
 void LlclassCommandManagerPrivate::initModelProcessor()
 {
     // condition -> processor
-    // register single category count processor
-    registerSingleCategoryCountProcessorMap("owner");
-    registerSingleCategoryCountProcessorMap("status");
-    registerSingleCategoryCountProcessorMap("class");
+    QueryCategory item_category = default_query_category_list_.categoryFromId("llclass.name");
+    QueryCategory total_category = default_query_category_list_.categoryFromId("llclass.max_slots");
+    QueryCategory free_category = default_query_category_list_.categoryFromId("llclass.free_slots");
+    Q_ASSERT(item_category.isValid());
+    Q_ASSERT(total_category.isValid());
+    Q_ASSERT(free_category.isValid());
+
+    PercentBarProcessorCondition *condition = new PercentBarProcessorCondition{item_category,total_category,free_category};
+    PercentBarProcessor *processor = new PercentBarProcessor{item_category,total_category,free_category};
+    processor->setDisplayName("slots");
+    registerProcessorMap(condition, processor);
 }
 
 QueryModel *LlclassCommandManagerPrivate::buildDefaultQueryModel(const QString &output)
@@ -166,25 +174,6 @@ bool LlclassCommandManagerPrivate::isDetailQuery(const QString &command, const Q
         return false;
     else
         return true;
-}
-
-void LlclassCommandManagerPrivate::registerSingleCategoryCountProcessorMap(const QString &category_id)
-{
-    QueryCategory category = default_query_category_list_.categoryFromId(category_id);
-    if(!category.isValid())
-    {
-        qCritical()<<"[LlclassCommandManagerPrivate::registerSingleCategoryCountProcessorMap] category is not found:"
-                   <<category_id;
-        return;
-    }
-    Q_ASSERT(category.isValid());
-    QueryCategoryList category_list;
-    category_list.append(category);
-
-    CategoryProcessorCondition *condition = new CategoryProcessorCondition{category_list};
-    SingleCategorCountProcessor *processor = new SingleCategorCountProcessor{category_list};
-    processor->setDisplayName(category_list[0].display_name_);
-    registerProcessorMap(condition, processor);
 }
 
 void LlclassCommandManagerPrivate::registerProcessorMap(ProcessorCondition *condition, ModelProcessor *processor)

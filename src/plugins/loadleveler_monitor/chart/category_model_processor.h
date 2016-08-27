@@ -31,9 +31,16 @@ public:
     CategoryProcessorCondition(const Model::QueryCategoryList &category_list);
     ~CategoryProcessorCondition();
 
+    void setCategoryList(const Model::QueryCategoryList &cateogry_list)
+    {
+        category_list_ = cateogry_list;
+    }
+
     bool isMatch(Model::QueryModel *query_model);
 
-private:
+protected:
+    CategoryProcessorCondition(){}
+
     Model::QueryCategoryList category_list_;
 };
 

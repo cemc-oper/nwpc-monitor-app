@@ -59,7 +59,6 @@ private:
 
     bool isDetailQuery(const QString &command, const QStringList &arguments) const;
 
-    void registerSingleCategoryCountProcessorMap(const QString &category_id);
     void registerProcessorMap(Chart::ProcessorCondition* condition, Chart::ModelProcessor* processor);
 
     LlclassCommandManager *p;

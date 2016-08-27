@@ -39,7 +39,8 @@ SOURCES += loadleveler_monitor_plugin.cpp \
     panels/llclass_panel.cpp \
     panels/query_panel.cpp \
     model/llclass_command_manager.cpp \
-    model/llclass_command_manager_private.cpp
+    model/llclass_command_manager_private.cpp \
+    chart/percent_bar_processor.cpp
 
 HEADERS += loadleveler_monitor_plugin.h \
     loadleveler_monitor_global.h \
@@ -64,7 +65,8 @@ HEADERS += loadleveler_monitor_plugin.h \
     panels/llclass_panel.h \
     panels/query_panel.h \
     model/llclass_command_manager.h \
-    model/llclass_command_manager_private.h
+    model/llclass_command_manager_private.h \
+    chart/percent_bar_processor.h
 
 DISTFILES += loadleveler_monitor.json \
     nwpc_loadleveler/loadleveler.py
