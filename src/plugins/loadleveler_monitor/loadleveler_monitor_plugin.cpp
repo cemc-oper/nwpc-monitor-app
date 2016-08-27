@@ -4,6 +4,7 @@
 #include "loadleveler_monitor_widget.h"
 #include "model/query_model.h"
 #include "model/llq_command_manager.h"
+#include "model/llclass_command_manager.h"
 
 #include <plugin_manager/plugin_manager.h>
 
@@ -54,6 +55,9 @@ bool LoadLevelerMonitorPlugin::initialize(const QStringList &arguments, QString 
 
     llq_command_manager_ = new LlqCommandManager{this};
     LlqCommandManager::initialize();
+
+    llclass_command_manager_ = new LlclassCommandManager{this};
+    LlclassCommandManager::initialize();
 
     return true;
 }

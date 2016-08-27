@@ -62,11 +62,6 @@ QueryModel *LlqCommandManager::buildQueryModelFromResponse(const QJsonDocument &
     return d->buildQueryModelFromResponse(response_doc);
 }
 
-CategoryModelProcessor *LlqCommandManager::modelDataProcessor()
-{
-    return d->modelDataProcessor();
-}
-
 QSet<ModelProcessor *> &LlqCommandManager::processorList()
 {
     return d->processorList();

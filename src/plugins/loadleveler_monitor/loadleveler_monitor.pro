@@ -37,7 +37,9 @@ SOURCES += loadleveler_monitor_plugin.cpp \
     panels/chart_style_page.cpp \
     panels/table_style_page.cpp \
     panels/llclass_panel.cpp \
-    panels/query_panel.cpp
+    panels/query_panel.cpp \
+    model/llclass_command_manager.cpp \
+    model/llclass_command_manager_private.cpp
 
 HEADERS += loadleveler_monitor_plugin.h \
     loadleveler_monitor_global.h \
@@ -60,7 +62,9 @@ HEADERS += loadleveler_monitor_plugin.h \
     panels/chart_style_page.h \
     panels/table_style_page.h \
     panels/llclass_panel.h \
-    panels/query_panel.h
+    panels/query_panel.h \
+    model/llclass_command_manager.h \
+    model/llclass_command_manager_private.h
 
 DISTFILES += loadleveler_monitor.json \
     nwpc_loadleveler/loadleveler.py

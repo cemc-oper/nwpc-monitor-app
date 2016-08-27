@@ -2,6 +2,7 @@
 #include "loadleveler_monitor_plugin.h"
 #include "client_command_widget.h"
 #include "panels/llq_panel.h"
+#include "panels/llclass_panel.h"
 
 #include <python_env_plugin/python_command.h>
 
@@ -62,6 +63,36 @@ void LoadLevelerClient::runLlqCommand(QMap<QString, QString> args, QPointer<Pane
         arguments
     );
     qDebug()<<"[LoadLevelerClient::runLlqCommand] end";
+}
+
+void LoadLevelerClient::runLlclassCommand(QMap<QString, QString> args, QPointer<Panels::QueryPanel> query_panel)
+{
+    qDebug()<<"[LoadLevelerClient::runLlqCommand] start";
+    QDateTime request_date_time = QDateTime::currentDateTime();
+    QStringList arguments;
+    PythonCommand* command = createPythonCommand();
+
+    if(!query_panel.isNull())
+    {
+        connect(command, &PythonCommand::signalFinished,
+                query_panel, &Panels::QueryPanel::slotReciveCommandResponse);
+    }
+
+    arguments<<"run";
+    arguments<<"--host=" + args["host"];
+    arguments<<"--port=" + args["port"];
+    arguments<<"--user=" + args["user"];
+    arguments<<"--password=" + args["password"];
+    arguments<<"--command=" + args["command"];
+
+    qDebug()<<"[LoadLevelerClient::runLlclassCommand] args:"<<arguments;
+
+    executePythonScript(
+        command,
+        "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app\\src\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
+        arguments
+    );
+    qDebug()<<"[LoadLevelerClient::runLlclassCommand] end";
 }
 
 void LoadLevelerClient::runCommand(QMap<QString, QString> args, QPointer<ClientCommandWidget> command_widget)

@@ -44,6 +44,9 @@ private:
     QHash<QString, int> id_to_category_map_;
     QHash<QString, int> label_to_category_map_;
 
+    //TODO: agly implement
+    QueryCategory valid_category_;
+
 };
 
 }

@@ -17,6 +17,7 @@ LoadLevelerMonitorWidget::LoadLevelerMonitorWidget(QWidget *parent) :
     ui->setupUi(this);
 
     ui->llq_panel->setMonitorWidget(this);
+    ui->llclass_panel->setMonitorWidget(this);
 
     connect(panel_button_group_, static_cast<void(QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled),
             [=](int id, bool checked){

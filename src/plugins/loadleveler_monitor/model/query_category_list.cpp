@@ -5,7 +5,8 @@
 
 using namespace LoadLevelerMonitor::Model;
 
-QueryCategoryList::QueryCategoryList()
+QueryCategoryList::QueryCategoryList():
+    valid_category_{}
 {
 
 }
@@ -63,7 +64,7 @@ const QueryCategory &QueryCategoryList::categoryFromId(const QString &id) const
     if(index != -1)
         return list_[index];
     else
-        return QueryCategory();
+        return valid_category_;
 }
 
 int QueryCategoryList::indexFromLabel(const QString &label) const
@@ -85,7 +86,7 @@ const QueryCategory &QueryCategoryList::categoryFromLabel(const QString &label) 
     if(index != -1)
         return list_[index];
     else
-        return QueryCategory();
+        return valid_category_;
 }
 
 void QueryCategoryList::registerCategory(int index)

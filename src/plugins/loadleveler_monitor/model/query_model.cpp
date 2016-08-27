@@ -1,6 +1,7 @@
 #include "query_model.h"
 #include "query_item.h"
 #include "llq_command_manager.h"
+#include "llclass_command_manager.h"
 
 #include <QJsonArray>
 #include <QtDebug>
@@ -229,4 +230,93 @@ QueryModel *QueryModel::buildFromLlqDetailQueryResponse(const QStringList &lines
     query_model->setHorizontalHeaderLabels(header_labels);
 
     return query_model;
+}
+
+QueryModel *QueryModel::buildFromLlclassDefaultQueryResponse(const QStringList &lines, QObject *parent)
+{
+    // check whether llclass query is success.
+    if(lines[0].startsWith("llclass:"))
+    {
+        qDebug()<<"[QueryModel::buildFromLlclassDefaultQueryResponse] failure detected:"<<lines[0];
+        return nullptr;
+    }
+
+    if( lines.length() < 3 )
+    {
+        qWarning()<<"[QueryModel::buildFromLlclassDefaultQueryResponse] unsupported output:"<<lines;
+        return nullptr;
+    }
+
+    // get categories' title
+    QStringList category_title_line = lines.mid(0,2);
+    QString category_mark_line = lines[2].trimmed();
+
+    QStringList category_marks = category_mark_line.split(' ');
+
+    QVector<int> category_column_width(category_marks.size());
+
+    std::transform(category_marks.begin(), category_marks.end(),
+                   category_column_width.begin(), [=](QString str){
+        return str.length();
+    });
+
+    QVector<QString> category_title_list(category_column_width.size());
+    int pos = 0;
+
+    std::transform(category_column_width.begin(), category_column_width.end(),
+                   category_title_list.begin(), [&pos, &category_title_line](int width){
+        QString title = category_title_line[0].mid(pos, width).trimmed() +
+                category_title_line[1].mid(pos, width).trimmed();
+        pos += width + 1;
+        return title.trimmed();
+    });
+
+    // get category list
+    QueryCategoryList category_list;
+    for(int i=0;i<category_title_list.size(); i++)
+    {
+        category_list.append(LlclassCommandManager::findDefaultQueryCategory(category_title_list[i]));
+        category_list[i].token_length_ = category_column_width[i];
+        if(!category_list[i].isValid())
+        {
+            qDebug()<<"[QueryModel::buildFromLlclassDefaultQueryResponse] category is not supported:"
+                    <<category_title_list[i];
+        }
+    }
+
+    QueryCategory row_num_category = LlclassCommandManager::findDefaultQueryCategory("No.");
+
+    QueryModel *query_model = new QueryModel(parent);
+    query_model->setQueryType(QueryType::LlclassDefaultQuery);
+
+    for(int i=3; i < lines.size() - 3; i++ )
+    {
+        QList<QStandardItem*> row = QueryItem::buildFromQueryRecord(lines[i], category_list);
+        QueryItem *item = new QueryItem(QString::number(i-2));
+        item->setItemType(QueryItem::ItemType::NumberItem);
+        item->setCategory(row_num_category);
+        item->setCheckable(true);
+        item->setCheckState(Qt::Unchecked);
+        row.push_front(item);
+        query_model->invisibleRootItem()->appendRow(row);
+    }
+
+    // insert no category
+    category_list.insert(0, row_num_category);
+    query_model->setCategoryList(category_list);
+
+    // set header titles
+    QStringList header_labels;
+    foreach(QueryCategory c, category_list.categoryList())
+    {
+        header_labels.append(c.display_name_);
+    }
+    query_model->setHorizontalHeaderLabels(header_labels);
+
+    return query_model;
+}
+
+QueryModel *QueryModel::buildFromLlclassDetailQueryResponse(const QStringList &lines, QObject *parent)
+{
+    return nullptr;
 }

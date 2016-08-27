@@ -11,28 +11,26 @@
 namespace LoadLevelerMonitor{
 
 namespace Chart{
-class CategoryModelProcessor;
 class ProcessorCondition;
 class ModelProcessor;
 }
 
 namespace Model{
 
-class LlqCommandManager;
+class LlclassCommandManager;
 class QueryModel;
 
-class LlqCommandManagerPrivate : public QObject
+class LlclassCommandManagerPrivate : public QObject
 {
     Q_OBJECT
 public:
-    explicit LlqCommandManagerPrivate(LlqCommandManager *parent = 0);
-    ~LlqCommandManagerPrivate();
+    explicit LlclassCommandManagerPrivate(LlclassCommandManager *parent = 0);
+    ~LlclassCommandManagerPrivate();
 
     void initCategoryList();
 
-    QueryCategory findQueryCategory(const QString result_title);
-    QueryCategory findSerialJobDetailQueryCategory(const QString &label) const;
-    QueryCategory findParellelJobDetailQueryCategory(const QString &label) const;
+    QueryCategory findDefaultQueryCategory(const QString result_title);
+    QueryCategory findDetailQueryCategory(const QString &label) const;
 
     QueryModel *buildQueryModelFromResponse(const QString &response_str);
     QueryModel *buildQueryModelFromResponse(const QJsonDocument &response_json_document);
@@ -64,17 +62,16 @@ private:
     void registerSingleCategoryCountProcessorMap(const QString &category_id);
     void registerProcessorMap(Chart::ProcessorCondition* condition, Chart::ModelProcessor* processor);
 
-    LlqCommandManager *p;
+    LlclassCommandManager *p;
 
     QueryCategoryList default_query_category_list_;
-    QueryCategoryList serial_job_detail_category_list_;
-    QueryCategoryList parallel_job_detail_category_list_;
+    QueryCategoryList detail_query_category_list_;
 
     QSet<Chart::ModelProcessor*> processor_list_;
     QSet<Chart::ProcessorCondition*> processor_condition_list_;
     QMultiMap<Chart::ProcessorCondition*, Chart::ModelProcessor*> processor_map_;
 
-    friend class LlqCommandManager;
+    friend class LlclassCommandManager;
 };
 
 }

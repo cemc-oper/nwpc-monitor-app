@@ -26,17 +26,45 @@ namespace QueryValueType{
     static const QString FullDate   {"full_date"};   // Mon Aug 22 02:25:09 2016
 }
 
-struct LOADLEVELER_MONITOR_EXPORT QueryCategory
+struct QueryCategory
 {
 public:
     static const QString kValidId;
 
-    QueryCategory();
+    QueryCategory():
+        id_{kValidId},
+        display_name_{""},
+        label_{""},
+        value_type_{QueryValueType::Unknown},
+        category_type_{QueryType::UnknownQuery},
+        command_line_{""},
+        token_length_{-1}
+    {
 
-    bool isValid();
+    }
+
+    QueryCategory(const QueryCategory &other):
+        id_{other.id_},
+        display_name_{other.display_name_},
+        label_{other.label_},
+        value_type_{other.value_type_},
+        category_type_{other.category_type_},
+        command_line_{other.command_line_},
+        token_length_{other.token_length_}
+    {
+
+    }
+
+    virtual ~QueryCategory(){}
+
+    virtual bool isValid();
     bool operator ==(const QueryCategory &other);
 
-    static QueryCategory createFromStringList(QStringList record);
+    static QueryCategory createLlqCategoryFromStringList(const QStringList &record);
+    static QueryCategory createLlclassDefaultCategory(const QStringList &record);
+    static QueryCategory createLlclassDetailCategory(const QStringList &record);
+
+    static QueryCategory createCategoryFromStringList(const QStringList &record);
 
     QString id_;
     QString display_name_; // step id
@@ -49,6 +77,7 @@ public:
     QString command_line_; // %id
     int token_length_; // length in output line
 };
+
 
 static const QVector<QStringList> kLlqDefaultQueryCategoryList = {
     // id,              display_name_,          label,          type                        command_line_,
@@ -104,6 +133,30 @@ static const QVector<QStringList> kLlqDetailQueryParallelCategoryList = {
 
     // additional categories not used in command argument.
     //{"no",              "No.",                  "No.",          QueryValueType::Number,     }    // row number in result records
+};
+
+static const QVector<QStringList> kLlclassDefaultQueryCategoryList = {
+    {"llclass.name",            "Name",             "Name",                 QueryValueType::String      },
+    {"llclass.max_job_cpu",     "Max Job Cpu",      "MaxJobCPUd+hh:mm:ss",  QueryValueType::String      },
+    {"llclass.max_proc_cpu",    "Max Proc Cpu",     "MaxProcCPUd+hh:mm:ss", QueryValueType::String      },
+    {"llclass.free_slots",      "Free Slots",       "FreeSlots",            QueryValueType::String      },
+    {"llclass.max_slots",       "Max Slots",        "MaxSlots",             QueryValueType::String      },
+    {"llclass.description",     "Description",      "Description",          QueryValueType::String      },
+
+    // additional categories not used in command argument.
+    {"no",              "No.",                  "No.",          QueryValueType::Number,     }    // row number in result records
+};
+
+static const QVector<QStringList> kLlclassDetailQueryCategoryList = {
+    {"llclass.name",                "Name",             "Name",                 QueryValueType::String      },
+    {"llclass.exclude_users",       "Exclude Users",    "Exclude_Users",        QueryValueType::String      },
+    {"llclass.include_users",       "Include Users",    "Include_Users",        QueryValueType::String      },
+    {"llclass.wall_clock_limit",    "Wall clock limit", "Wall_clock_limit",     QueryValueType::String      },
+    {"llclass.free_slots",          "Free Slots",       "Free_slots",           QueryValueType::String      },
+    {"llclass.max_slots",           "Max Slots",        "Maximum_slots",        QueryValueType::String      },
+
+    // additional categories not used in command argument.
+    {"no",              "No.",                  "No.",          QueryValueType::Number,     }    // row number in result records
 };
 
 

@@ -13,6 +13,7 @@ class LoadLevelerClient;
 
 namespace Model{
 class LlqCommandManager;
+class LlclassCommandManager;
 }
 
 class LOADLEVELER_MONITOR_EXPORT LoadLevelerMonitorPlugin : public PluginSystem::IPlugin
@@ -41,6 +42,7 @@ private:
     LoadLevelerMonitorPerspective* loadleveler_monitor_perspective_;
     LoadLevelerClient *loadleveler_client_;
     Model::LlqCommandManager *llq_command_manager_;
+    Model::LlclassCommandManager *llclass_command_manager_;
 
 };
 

@@ -11,7 +11,6 @@
 namespace LoadLevelerMonitor{
 
 namespace Chart{
-class CategoryModelProcessor;
 class ProcessorCondition;
 class ModelProcessor;
 }
@@ -21,23 +20,21 @@ class LoadLevelerMonitorPlugin;
 namespace Model{
 
 class QueryModel;
-class LlqCommandManagerPrivate;
+class LlclassCommandManagerPrivate;
 
-class LOADLEVELER_MONITOR_EXPORT LlqCommandManager : public QObject
+class LOADLEVELER_MONITOR_EXPORT LlclassCommandManager : public QObject
 {
     Q_OBJECT
 public:
-    static LlqCommandManager *instance();
+    static LlclassCommandManager *instance();
 
     static void initialize();
 
     static QueryCategoryList defaultCategoryList();
-    static QueryCategoryList serialJobDetailQueryCategoryList();
-    static QueryCategoryList parellelJobDetailQueryCategoryList();
+    static QueryCategoryList detailQueryCategoryList();
 
     static QueryCategory findDefaultQueryCategory(const QString &label);
-    static QueryCategory findSerialJobDetailQueryCategory(const QString &label);
-    static QueryCategory findParellelJobDetailQueryCategory(const QString &label);
+    static QueryCategory findDetailQueryCategory(const QString &label);
 
     static QueryModel *buildQueryModelFromResponse(const QString &response_str);
     static QueryModel *buildQueryModelFromResponse(const QJsonDocument &response_doc);
@@ -51,7 +48,7 @@ signals:
 public slots:
 
 public:
-    explicit LlqCommandManager(QObject *parent = 0);
+    explicit LlclassCommandManager(QObject *parent = 0);
 
     friend class LoadLevelerMonitorPlugin;
 };

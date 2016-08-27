@@ -1,6 +1,6 @@
-#include "llq_command_manager_private.h"
+#include "llclass_command_manager_private.h"
 
-#include "llq_command_manager.h"
+#include "llclass_command_manager.h"
 #include "query_item.h"
 #include "query_model.h"
 
@@ -21,42 +21,35 @@
 using namespace LoadLevelerMonitor::Model;
 using namespace LoadLevelerMonitor::Chart;
 
-LlqCommandManagerPrivate::LlqCommandManagerPrivate(LlqCommandManager *parent) :
+LlclassCommandManagerPrivate::LlclassCommandManagerPrivate(LlclassCommandManager *parent) :
     QObject{parent},
     p{parent}
 {
 
 }
 
-LlqCommandManagerPrivate::~LlqCommandManagerPrivate()
+LlclassCommandManagerPrivate::~LlclassCommandManagerPrivate()
 {
 
 }
 
-void LlqCommandManagerPrivate::initCategoryList()
+void LlclassCommandManagerPrivate::initCategoryList()
 {
     default_query_category_list_.clear();
-    foreach(QStringList record, kLlqDefaultQueryCategoryList)
+    foreach(QStringList record, kLlclassDefaultQueryCategoryList)
     {
-        default_query_category_list_.append(QueryCategory::createLlqCategoryFromStringList(record));
+        default_query_category_list_.append(QueryCategory::createLlclassDefaultCategory(record));
     }
 
-    serial_job_detail_category_list_.clear();
-    foreach(QStringList record, kLlqDetailQuerySerialJobCategoryList)
+    detail_query_category_list_.clear();
+    foreach(QStringList record, kLlclassDetailQueryCategoryList)
     {
-        QueryCategory c = QueryCategory::createLlqCategoryFromStringList(record);
-        serial_job_detail_category_list_.append(c);
-    }
-
-    parallel_job_detail_category_list_.clear();
-    foreach(QStringList record, kLlqDetailQueryParallelCategoryList)
-    {
-        QueryCategory c = QueryCategory::createLlqCategoryFromStringList(record);
-        parallel_job_detail_category_list_.append(c);
+        QueryCategory c = QueryCategory::createLlclassDetailCategory(record);
+        detail_query_category_list_.append(c);
     }
 }
 
-QueryCategory LlqCommandManagerPrivate::findQueryCategory(const QString result_title)
+QueryCategory LlclassCommandManagerPrivate::findDefaultQueryCategory(const QString result_title)
 {
     QueryCategory result_category;
     for(int i=0; i<default_query_category_list_.length(); i++)
@@ -71,43 +64,35 @@ QueryCategory LlqCommandManagerPrivate::findQueryCategory(const QString result_t
     return result_category;
 }
 
-QueryCategory LlqCommandManagerPrivate::findSerialJobDetailQueryCategory(const QString &label) const
+QueryCategory LlclassCommandManagerPrivate::findDetailQueryCategory(const QString &label) const
 {
-    if(serial_job_detail_category_list_.containsLabel(label))
-        return serial_job_detail_category_list_.categoryFromLabel(label);
+    if(detail_query_category_list_.containsLabel(label))
+        return detail_query_category_list_.categoryFromLabel(label);
     else
         return QueryCategory();
 }
 
-QueryCategory LlqCommandManagerPrivate::findParellelJobDetailQueryCategory(const QString &label) const
-{
-    if(parallel_job_detail_category_list_.containsLabel(label))
-        return parallel_job_detail_category_list_.categoryFromLabel(label);
-    else
-        return QueryCategory();
-}
-
-QueryModel *LlqCommandManagerPrivate::buildQueryModelFromResponse(const QString &response_str)
+QueryModel *LlclassCommandManagerPrivate::buildQueryModelFromResponse(const QString &response_str)
 {
     QJsonDocument doc = QJsonDocument::fromJson(response_str.toUtf8());
     if(!doc.isObject())
     {
-        qDebug()<<"[LlqCommandManagerPrivate::buildLlqQueryModelFromResponse] result is not a json string.";
+        qDebug()<<"[LlclassCommandManagerPrivate::buildLlclassQueryModelFromResponse] result is not a json string.";
         return nullptr;
     }
 
     return buildQueryModelFromResponse(doc);
 }
 
-QueryModel *LlqCommandManagerPrivate::buildQueryModelFromResponse(const QJsonDocument &response_json_document)
+QueryModel *LlclassCommandManagerPrivate::buildQueryModelFromResponse(const QJsonDocument &response_json_document)
 {
-    qDebug()<<"[LlqCommandManagerPrivate::buildLlqQueryModelFromResponse] start";
+    qDebug()<<"[LlclassCommandManagerPrivate::buildLlclassQueryModelFromResponse] start";
     QJsonObject result_object = response_json_document.object();
 
     if( result_object.contains("error"))
     {
         QString error_message = result_object["data"].toObject()["message"].toObject()["error_message"].toString();
-        qDebug()<<"[LlqCommandManagerPrivate::buildLlqQueryModelFromResponse] ERROR:"<<error_message;
+        qDebug()<<"[LlclassCommandManagerPrivate::buildLlclassQueryModelFromResponse] ERROR:"<<error_message;
         return nullptr;
     }
 
@@ -137,11 +122,11 @@ QueryModel *LlqCommandManagerPrivate::buildQueryModelFromResponse(const QJsonDoc
         model = buildDefaultQueryModel(output_message);
     }
 
-    qDebug()<<"[LlqCommandManagerPrivate::buildLlqQueryModelFromResponse] end";
+    qDebug()<<"[LlclassCommandManagerPrivate::buildLlclassQueryModelFromResponse] end";
     return model;
 }
 
-void LlqCommandManagerPrivate::initModelProcessor()
+void LlclassCommandManagerPrivate::initModelProcessor()
 {
     // condition -> processor
     // register single category count processor
@@ -150,7 +135,7 @@ void LlqCommandManagerPrivate::initModelProcessor()
     registerSingleCategoryCountProcessorMap("class");
 }
 
-QueryModel *LlqCommandManagerPrivate::buildDefaultQueryModel(const QString &output)
+QueryModel *LlclassCommandManagerPrivate::buildDefaultQueryModel(const QString &output)
 {
     Q_ASSERT(!output.isEmpty());
 
@@ -162,19 +147,19 @@ QueryModel *LlqCommandManagerPrivate::buildDefaultQueryModel(const QString &outp
 //        return str.trimmed();
 //    });
 
-    return QueryModel::buildFromLlqDefaultQueryResponse(lines);
+    return QueryModel::buildFromLlclassDefaultQueryResponse(lines);
 }
 
-QueryModel *LlqCommandManagerPrivate::buildDetailQueryModel(const QString &output)
+QueryModel *LlclassCommandManagerPrivate::buildDetailQueryModel(const QString &output)
 {
     Q_ASSERT(!output.isEmpty());
 
     QStringList lines = output.split('\n');
 
-    return QueryModel::buildFromLlqDetailQueryResponse(lines);
+    return QueryModel::buildFromLlclassDetailQueryResponse(lines);
 }
 
-bool LlqCommandManagerPrivate::isDetailQuery(const QString &command, const QStringList &arguments) const
+bool LlclassCommandManagerPrivate::isDetailQuery(const QString &command, const QStringList &arguments) const
 {
     Q_UNUSED(arguments);
     if(command.indexOf("-l") == -1)
@@ -183,9 +168,15 @@ bool LlqCommandManagerPrivate::isDetailQuery(const QString &command, const QStri
         return true;
 }
 
-void LlqCommandManagerPrivate::registerSingleCategoryCountProcessorMap(const QString &category_id)
+void LlclassCommandManagerPrivate::registerSingleCategoryCountProcessorMap(const QString &category_id)
 {
     QueryCategory category = default_query_category_list_.categoryFromId(category_id);
+    if(!category.isValid())
+    {
+        qCritical()<<"[LlclassCommandManagerPrivate::registerSingleCategoryCountProcessorMap] category is not found:"
+                   <<category_id;
+        return;
+    }
     Q_ASSERT(category.isValid());
     QueryCategoryList category_list;
     category_list.append(category);
@@ -196,7 +187,7 @@ void LlqCommandManagerPrivate::registerSingleCategoryCountProcessorMap(const QSt
     registerProcessorMap(condition, processor);
 }
 
-void LlqCommandManagerPrivate::registerProcessorMap(ProcessorCondition *condition, ModelProcessor *processor)
+void LlclassCommandManagerPrivate::registerProcessorMap(ProcessorCondition *condition, ModelProcessor *processor)
 {
     processor_list_.insert(processor);
     processor_condition_list_.insert(condition);

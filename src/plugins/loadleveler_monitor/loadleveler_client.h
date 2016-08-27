@@ -11,6 +11,7 @@ class ClientCommandWidget;
 
 namespace Panels{
 class LlqPanel;
+class QueryPanel;
 }
 
 class LoadLevelerClient : public PythonEnv::PythonEngine
@@ -21,6 +22,7 @@ public:
     ~LoadLevelerClient();
 
     void runLlqCommand(QMap<QString, QString> args, QPointer<Panels::LlqPanel> llq_panel = nullptr);
+    void runLlclassCommand(QMap<QString, QString> args, QPointer<Panels::QueryPanel> query_panel = nullptr);
 
     void runCommand(QMap<QString, QString> args, QPointer<ClientCommandWidget> command_widget = nullptr);
 
