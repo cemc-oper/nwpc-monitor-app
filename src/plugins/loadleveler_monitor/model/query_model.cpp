@@ -284,12 +284,41 @@ QueryModel *QueryModel::buildFromLlclassDefaultQueryResponse(const QStringList &
         }
     }
 
+    // get record begin and end line
+    int record_line_begin = 3;
+    int record_line_end = lines.length() - 1;
+    // 检查是否有说明行，例如：
+    // Name                 MaxJobCPU     MaxProcCPU  Free   Max Description
+    // d+hh:mm:ss     d+hh:mm:ss Slots Slots
+    // --------------- -------------- -------------- ----- ----- ---------------------
+    // serial_op            undefined      undefined   119   128
+    // serial_op1           undefined      undefined   128   128
+    // normal               undefined      undefined   179  3328
+    // largemem             undefined      undefined   692  1952
+    // serial               undefined      undefined   172   192
+    // special2             undefined      undefined  1443  3200
+    // operation1           undefined      undefined  5267 9999+
+    // normal1              undefined      undefined  5267 9999+
+    // minijob              undefined      undefined    32  2560
+    // operation            undefined      undefined    32  2560
+    // --------------------------------------------------------------------------------
+    // "Free Slots" values of the classes "normal", "largemem", "special2", "operation1", "normal1", "minijob", "operation" are constrained by the MAX_STARTERS limit(s).
+    if(lines.length() > 2 &&
+       lines[lines.length() - 3].startsWith(
+                "--------------------------------------------------------------------------------"
+       )
+    )
+    {
+        record_line_end = lines.length() - 3;
+    }
+
+    // build model
     QueryCategory row_num_category = LlclassCommandManager::findDefaultQueryCategory("No.");
 
     QueryModel *query_model = new QueryModel(parent);
     query_model->setQueryType(QueryType::LlclassDefaultQuery);
 
-    for(int i=3; i < lines.size() - 3; i++ )
+    for(int i=record_line_begin; i < record_line_end; i++ )
     {
         QList<QStandardItem*> row = QueryItem::buildFromQueryRecord(lines[i], category_list);
         QueryItem *item = new QueryItem(QString::number(i-2));
