@@ -347,5 +347,76 @@ QueryModel *QueryModel::buildFromLlclassDefaultQueryResponse(const QStringList &
 
 QueryModel *QueryModel::buildFromLlclassDetailQueryResponse(const QStringList &lines, QObject *parent)
 {
-    return nullptr;
+    // check whether llclass query is success.
+    if(lines[0].startsWith("llclass:"))
+    {
+        qDebug()<<"[QueryModel::buildFromLlclassDetailQueryResponse] failure detected:"<<lines[0];
+        return nullptr;
+    }
+
+    if( lines.length() < 3 )
+    {
+        qWarning()<<"[QueryModel::buildFromLlclassDetailQueryResponse] unsupported output:"<<lines;
+        return nullptr;
+    }
+
+    // get record begin and end line
+    int record_line_begin = 0;
+    int record_line_end = lines.length() - 1;
+    if(lines.length() > 2 &&
+       lines[lines.length() - 3].startsWith(
+                "--------------------------------------------------------------------------------"
+       )
+    )
+    {
+        record_line_end = lines.length() - 3;
+    }
+
+    // record_start_line begin and end
+    QVector<int> record_start_line_no_list;
+    for(int i=0; i < lines.length(); i++)
+    {
+        if(lines[i].startsWith("====="))
+            record_start_line_no_list.push_back(i);
+    }
+    record_start_line_no_list.push_back(record_line_end);
+
+    // build model
+    QueryModel *query_model = new QueryModel(parent);
+    query_model->setQueryType(QueryType::LlqDetailQuery);
+
+    QueryCategoryList category_list = LlclassCommandManager::detailQueryCategoryList();;
+    QueryCategory row_num_category = LlclassCommandManager::findDefaultQueryCategory("No.");
+
+    for(int record_no = 0; record_no < record_start_line_no_list.size() - 1; record_no++)
+    {
+        int begin_line_no = record_start_line_no_list[record_no];
+        int end_line_no = record_start_line_no_list[record_no+1];
+        QStringList record_lines = lines.mid(begin_line_no, end_line_no - begin_line_no);
+
+        QList<QStandardItem*> row = QueryItem::buildFromDetailQueryRecord(record_lines, category_list);
+
+        QueryItem *item = new QueryItem(QString::number(record_no+1));
+        item->setItemType(QueryItem::ItemType::NumberItem);
+        //item->setCategory(row_num_category);
+        item->setCheckable(true);
+        item->setCheckState(Qt::Unchecked);
+        row.push_front(item);
+
+        query_model->invisibleRootItem()->appendRow(row);
+    }
+
+    // insert no category
+    category_list.insert(0, row_num_category);
+    query_model->setCategoryList(category_list);
+
+    // set header titles
+    QStringList header_labels;
+    foreach(QueryCategory c, category_list.categoryList())
+    {
+        header_labels.append(c.display_name_);
+    }
+    query_model->setHorizontalHeaderLabels(header_labels);
+
+    return query_model;
 }

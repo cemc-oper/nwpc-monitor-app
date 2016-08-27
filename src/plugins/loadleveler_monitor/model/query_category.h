@@ -144,7 +144,7 @@ static const QVector<QStringList> kLlclassDefaultQueryCategoryList = {
     {"llclass.description",     "Description",      "Description",          QueryValueType::String      },
 
     // additional categories not used in command argument.
-    {"no",              "No.",                  "No.",          QueryValueType::Number,     }    // row number in result records
+    {"llclass.no",              "No.",                  "No.",          QueryValueType::Number,     }    // row number in result records
 };
 
 static const QVector<QStringList> kLlclassDetailQueryCategoryList = {
@@ -156,7 +156,7 @@ static const QVector<QStringList> kLlclassDetailQueryCategoryList = {
     {"llclass.max_slots",           "Max Slots",        "Maximum_slots",        QueryValueType::String      },
 
     // additional categories not used in command argument.
-    {"no",              "No.",                  "No.",          QueryValueType::Number,     }    // row number in result records
+    //{"llclass.no",              "No.",                  "No.",          QueryValueType::Number,     }    // row number in result records
 };
 
 
