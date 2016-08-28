@@ -145,9 +145,9 @@ void LlqCommandManagerPrivate::initModelProcessor()
 {
     // condition -> processor
     // register single category count processor
-    registerSingleCategoryCountProcessorMap("owner");
-    registerSingleCategoryCountProcessorMap("status");
-    registerSingleCategoryCountProcessorMap("class");
+    registerSingleCategoryCountProcessorMap("llq.owner");
+    registerSingleCategoryCountProcessorMap("llq.status");
+    registerSingleCategoryCountProcessorMap("llq.class");
 }
 
 QueryModel *LlqCommandManagerPrivate::buildDefaultQueryModel(const QString &output)
