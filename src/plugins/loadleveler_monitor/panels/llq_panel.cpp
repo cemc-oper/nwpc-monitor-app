@@ -138,9 +138,9 @@ void LlqPanel::slotQueryModelContextMenuRequest(const QPoint &global_point, cons
     context_menu->addSeparator();
 
     // add actions acording to category
-    if(query_model_->categoryList().containsId("llq.id"))
+    if(query_model_->categoryList().containsId(Constant::Llq::Id))
     {
-        int detail_col = query_model_->categoryList().indexFromId("llq.id");
+        int detail_col = query_model_->categoryList().indexFromId(Constant::Llq::Id);
         QAction *detail_action = new QAction{tr("详细信息")};
         context_menu->addAction(detail_action);
         connect(detail_action, &QAction::triggered,
@@ -166,9 +166,9 @@ void LlqPanel::slotQueryModelContextMenuRequest(const QPoint &global_point, cons
         });
     }
 
-    if(query_model_->categoryList().containsId("llq.owner"))
+    if(query_model_->categoryList().containsId(Constant::Llq::Owner))
     {
-        int owner_col = query_model_->categoryList().indexFromId("llq.owner");
+        int owner_col = query_model_->categoryList().indexFromId(Constant::Llq::Owner);
         QModelIndex owner_index = index.sibling(index.row(), owner_col);
         QStandardItem *owner_item = query_model_->itemFromIndex(owner_index);
         QString owner = owner_item->text();
@@ -184,9 +184,9 @@ void LlqPanel::slotQueryModelContextMenuRequest(const QPoint &global_point, cons
         });
     }
 
-    if(query_model_->categoryList().containsId("llq.class"))
+    if(query_model_->categoryList().containsId(Constant::Llq::Class))
     {
-        int class_col = query_model_->categoryList().indexFromId("llq.class");
+        int class_col = query_model_->categoryList().indexFromId(Constant::Llq::Class);
         QModelIndex class_index = index.sibling(index.row(), class_col);
         QStandardItem *class_item = query_model_->itemFromIndex(class_index);
         QString job_class = class_item->text();

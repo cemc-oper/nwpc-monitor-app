@@ -66,7 +66,8 @@ HEADERS += loadleveler_monitor_plugin.h \
     panels/query_panel.h \
     model/llclass_command_manager.h \
     model/llclass_command_manager_private.h \
-    chart/percent_bar_processor.h
+    chart/percent_bar_processor.h \
+    model/model_constants.h
 
 DISTFILES += loadleveler_monitor.json \
     nwpc_loadleveler/loadleveler.py

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../loadleveler_monitor_global.h"
+#include "model_constants.h"
 
 #include <QString>
 #include <QVector>
@@ -80,14 +81,14 @@ public:
 
 
 static const QVector<QStringList> kLlqDefaultQueryCategoryList = {
-    // id,              display_name_,          label,          type                        command_line_,
+    // id,                  display_name_,          label,          type                        command_line_,
 
     // used in default llq output
-    {"llq.id",              "Id",                   "Id",           QueryValueType::String,     ""              },// cma20n04.2681148.0
+    {Constant::Llq::Id,     "Id",                   "Id",           QueryValueType::String,     ""              },// cma20n04.2681148.0
     {"llq.submitted",       "Submitted",            "Submitted",    QueryValueType::Date,       "",             },// same as Queue Date, use in standard llq.
 
     // used in llq's -f arguemnt.
-    {"llq.class",           "Class",                "Class",        QueryValueType::String,     "%c",           },// normal|operation
+    {Constant::Llq::Class,  "Class",                "Class",        QueryValueType::String,     "%c",           },// normal|operation
     {"llq.dispatch_date",   "Dispatch Date",        "Disp. Date",   QueryValueType::Date,       "%dd",          },// 08/20 12:37
     {"llq.queue_date",      "Queue Date",           "Queue Date",   QueryValueType::Date,       "%dq",          },// 08/20 12:37
     {"llq.unix_group",      "UNIX Group",           "Unix Group",   QueryValueType::String,     "%gu",          },// eps
@@ -97,10 +98,10 @@ static const QVector<QStringList> kLlqDefaultQueryCategoryList = {
     {"llq.job_name",        "Job Name",             "Job Name",     QueryValueType::String,     "%jn",          },// cma20n04.2681148
     {"llq.job_type",        "Job Type",             "Type",         QueryValueType::String,     "%jt",          },// SER|PAR
     {"llq.host_count",      "Number of Hosts",      "NM",           QueryValueType::Number,     "%nh",          },// 16
-    {"llq.owner",           "Job Owner",            "Owner",        QueryValueType::String,     "%o",           },// nwp_qu
+    {Constant::Llq::Owner,  "Job Owner",            "Owner",        QueryValueType::String,     "%o",           },// nwp_qu
     {"llq.priority",        "User Priority",        "PRI",          QueryValueType::Number,     "%p",           },// 50
     {"llq.step_name",       "Step Name",            "Step Name",    QueryValueType::String,     "%sn",          },// 0
-    {"llq.status",          "Status",               "ST",           QueryValueType::String,     "%st",          },// R
+    {Constant::Llq::Status, "Status",               "ST",           QueryValueType::String,     "%st",          },// R
 
     // additional categories not used in command argument.
     {"llq.no",              "No.",                  "No.",          QueryValueType::Number,     "",             }    // row number in result records
@@ -108,17 +109,17 @@ static const QVector<QStringList> kLlqDefaultQueryCategoryList = {
 
 
 static const QVector<QStringList> kLlqDetailQuerySerialJobCategoryList = {
-    //id,               display name,       label,              type
-    {"llq.id",              "Id",               "Job Step Id",      QueryValueType::String      },
-    {"llq.owner",           "Owner",            "Owner",            QueryValueType::String      },
-    {"llq.class",           "Class",            "Class",            QueryValueType::String      },
-    {"llq.job_script",      "Job Script",       "Cmd",              QueryValueType::String      },
-    {"llq.full_status",     "Status",           "Status",           QueryValueType::String      },
-    {"llq.queue_full_date", "Queue Date",       "Queue Date",       QueryValueType::FullDate    },
-  //{"llq.step_type",       "Step Type",        "Step Type",        QueryValueType::String      },       // Serial | General Parallel
+    //id,                       display name,       label,              type
+    {Constant::Llq::Id,         "Id",               "Job Step Id",      QueryValueType::String      },
+    {Constant::Llq::Owner,      "Owner",            "Owner",            QueryValueType::String      },
+    {Constant::Llq::Class,      "Class",            "Class",            QueryValueType::String      },
+    {"llq.job_script",          "Job Script",       "Cmd",              QueryValueType::String      },
+    {Constant::Llq::FullStatus, "Status",           "Status",           QueryValueType::String      },
+    {"llq.queue_full_date",     "Queue Date",       "Queue Date",       QueryValueType::FullDate    },
+  //{"llq.step_type",           "Step Type",        "Step Type",        QueryValueType::String      },       // Serial | General Parallel
 
     // additional categories not used in command argument.
-    //{"llq.no",              "No.",                  "No.",          QueryValueType::Number,     }    // row number in result records
+    //{"llq.no",                "No.",                  "No.",          QueryValueType::Number,     }    // row number in result records
 };
 
 static const QVector<QStringList> kLlqDetailQueryParallelCategoryList = {
