@@ -126,45 +126,87 @@ void LlqPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRespons
 void LlqPanel::slotQueryModelContextMenuRequest(const QPoint &global_point, const QModelIndex &index)
 {
     //qDebug()<<"[LoadLevelerMonitorWidget::slotLlqQueryRecordContextMenuRequest]";
-    if (index.isValid()) {
-        QueryItem *cur_item = static_cast<QueryItem*>(query_model_->itemFromIndex(index));
-        QueryCategory c = cur_item->category();
-
-        QMenu *context_menu = new QMenu{};
-        QAction *title_action = new QAction{c.display_name_ + ": " + cur_item->text()};
-        context_menu->addAction(title_action);
-        context_menu->addSeparator();
-
-        // add actions acording to category
-        QAction *detail_action = new QAction{tr("详情")};
-        context_menu->addAction(detail_action);
-
-        // show menu
-        QAction *action = context_menu->exec(global_point);
-        if(action == detail_action)
-        {
-            QModelIndex id_index = index.sibling(index.row(), 1);
-            if(index.isValid())
-            {
-                QStandardItem *id_item = query_model_->itemFromIndex(id_index);
-                QString id = id_item->text();
-                qDebug()<<"[LoadLevelerMonitorWidget::slotLlqQueryRecordContextMenuRequest]"<<id;
-                QMap<QString, QString> args = monitor_widget_->getSessionArguments();
-                args["command"] = "llq -l "+id;
-
-                //TODO: 创建一个弹出窗口，接收命令执行结果，将窗口传递给 client。
-                ClientCommandWidget *command_widget = new ClientCommandWidget();
-
-//                command_widget->runPythonCommand(args);
-                command_widget->show();
-
-                LoadLevelerMonitorPlugin::client()->runCommand(args, command_widget);
-            }
-        }
-        delete context_menu;
-        delete title_action;
-        delete detail_action;
+    if (!index.isValid()) {
+        return;
     }
+    QueryItem *cur_item = static_cast<QueryItem*>(query_model_->itemFromIndex(index));
+    QueryCategory c = cur_item->category();
+
+    QMenu *context_menu = new QMenu{};
+    QAction *title_action = new QAction{c.display_name_ + ": " + cur_item->text()};
+    context_menu->addAction(title_action);
+    context_menu->addSeparator();
+
+    // add actions acording to category
+    if(query_model_->categoryList().containsId("llq.id"))
+    {
+        int detail_col = query_model_->categoryList().indexFromId("llq.id");
+        QAction *detail_action = new QAction{tr("详细信息")};
+        context_menu->addAction(detail_action);
+        connect(detail_action, &QAction::triggered,
+                [=](bool){
+            QModelIndex id_index = index.sibling(index.row(), detail_col);
+            if(!index.isValid())
+            {
+                detail_action->deleteLater();
+                return;
+            }
+            QStandardItem *id_item = query_model_->itemFromIndex(id_index);
+            QString id = id_item->text();
+            qDebug()<<"[LlqPanel::slotQueryModelContextMenuRequest] llq.id:"<<id;
+            QMap<QString, QString> args = monitor_widget_->getSessionArguments();
+            args["command"] = "llq -l "+id;
+
+            //TODO: 创建一个弹出窗口，接收命令执行结果，将窗口传递给 client。
+            ClientCommandWidget *command_widget = new ClientCommandWidget();
+            command_widget->show();
+
+            LoadLevelerMonitorPlugin::client()->runCommand(args, command_widget);
+            detail_action->deleteLater();
+        });
+    }
+
+    if(query_model_->categoryList().containsId("llq.owner"))
+    {
+        int owner_col = query_model_->categoryList().indexFromId("llq.owner");
+        QModelIndex owner_index = index.sibling(index.row(), owner_col);
+        QStandardItem *owner_item = query_model_->itemFromIndex(owner_index);
+        QString owner = owner_item->text();
+
+        QAction *owner_action = new QAction{tr("Query user ") + owner + tr("'s all jobs.")};
+        context_menu->addAction(owner_action);
+        connect(owner_action, &QAction::triggered,
+                [=](bool){
+            qDebug()<<"[LlqPanel::slotQueryModelContextMenuRequest] llq.owner:"<<owner;
+            ui->argument_edit->setText("-u " + owner);
+            slotRequestQuery();
+            owner_action->deleteLater();
+        });
+    }
+
+    if(query_model_->categoryList().containsId("llq.class"))
+    {
+        int class_col = query_model_->categoryList().indexFromId("llq.class");
+        QModelIndex class_index = index.sibling(index.row(), class_col);
+        QStandardItem *class_item = query_model_->itemFromIndex(class_index);
+        QString job_class = class_item->text();
+
+        QAction *class_action = new QAction{tr("Query class ") + job_class + tr("'s all jobs.")};
+        context_menu->addAction(class_action);
+        connect(class_action, &QAction::triggered,
+                [=](bool){
+            qDebug()<<"[LlqPanel::slotQueryModelContextMenuRequest] llq.class:"<<job_class;
+            ui->argument_edit->setText("-c " + job_class);
+            slotRequestQuery();
+            class_action->deleteLater();
+        });
+    }
+
+    // show menu
+    context_menu->exec(global_point);
+    // delete objects
+    delete context_menu;
+    delete title_action;
 }
 
 void LlqPanel::setupTemplate()
