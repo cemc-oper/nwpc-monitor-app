@@ -1,5 +1,6 @@
 #include "llclass_panel.h"
 #include "ui_query_panel.h"
+#include "../model/query_item.h"
 #include "../model/query_model.h"
 #include "../model/llclass_command_manager.h"
 #include "../loadleveler_monitor_widget.h"
@@ -8,6 +9,8 @@
 
 #include "../chart/processor_condition.h"
 #include "../chart/model_processor.h"
+
+#include "../client_command_widget.h"
 
 #include <QMenu>
 #include <QtDebug>
@@ -111,7 +114,53 @@ void LlclassPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRes
 
 void LlclassPanel::slotQueryModelContextMenuRequest(const QPoint &global_point, const QModelIndex &index)
 {
+    //qDebug()<<"[LlclassPanel::slotLlqQueryRecordContextMenuRequest]";
+    if (!index.isValid()) {
+        return;
+    }
+    QueryItem *cur_item = static_cast<QueryItem*>(query_model_->itemFromIndex(index));
+    QueryCategory c = cur_item->category();
 
+    QMenu *context_menu = new QMenu{};
+    QAction *title_action = new QAction{c.display_name_ + ": " + cur_item->text()};
+    context_menu->addAction(title_action);
+    context_menu->addSeparator();
+
+    // add actions acording to category
+    if(query_model_->categoryList().containsId(Constant::Llclass::Name))
+    {
+        int detail_col = query_model_->categoryList().indexFromId(Constant::Llclass::Name);
+        QAction *detail_action = new QAction{tr("详细信息")};
+        context_menu->addAction(detail_action);
+        connect(detail_action, &QAction::triggered,
+                [=](bool){
+            QModelIndex id_index = index.sibling(index.row(), detail_col);
+            if(!index.isValid())
+            {
+                detail_action->deleteLater();
+                return;
+            }
+
+            QStandardItem *id_item = query_model_->itemFromIndex(id_index);
+            QString id = id_item->text();
+            qDebug()<<"[LlqPanel::slotQueryModelContextMenuRequest] llq.id:"<<id;
+            QMap<QString, QString> args = monitor_widget_->getSessionArguments();
+            args["command"] = "llclass -l "+id;
+
+            ClientCommandWidget *command_widget = new ClientCommandWidget();
+            command_widget->show();
+
+            LoadLevelerMonitorPlugin::client()->runCommand(args, command_widget);
+
+            detail_action->deleteLater();
+        });
+    }
+
+    // show menu
+    context_menu->exec(global_point);
+    // delete objects
+    delete context_menu;
+    delete title_action;
 }
 
 void LlclassPanel::setupTemplate()
