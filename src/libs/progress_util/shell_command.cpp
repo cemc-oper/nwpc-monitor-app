@@ -44,6 +44,11 @@ QDateTime ShellCommand::requestTime() const
     return request_date_time_;
 }
 
+QFutureWatcher<void> &ShellCommand::futureWatcher()
+{
+    return watcher_;
+}
+
 void ShellCommand::execute()
 {
     if(command_steps_.isEmpty())

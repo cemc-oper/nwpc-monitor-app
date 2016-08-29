@@ -67,7 +67,7 @@ PythonCommand *PythonEngine::createPythonCommand()
     return command;
 }
 
-void PythonEngine::executePythonScript(PythonCommand *command, const QString &script_path, const QStringList &argument_list)
+QFuture<void> PythonEngine::executePythonScript(PythonCommand *command, const QString &script_path, const QStringList &argument_list)
 {
     qDebug()<<"[PythonEngine::executePythonScript] start";
 
@@ -81,7 +81,7 @@ void PythonEngine::executePythonScript(PythonCommand *command, const QString &sc
     command->execute();
 
     qDebug()<<"[PythonEngine::executePythonScript] end";
-    return;
+    return command->futureWatcher().future();
 }
 
 void PythonEngine::runPythonScript(PythonCommand *command, const QString &script_path, const QStringList &argument_list)

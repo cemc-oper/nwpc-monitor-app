@@ -41,6 +41,7 @@ public:
 
     void setRequestTime(const QDateTime &request_date_time);
     QDateTime requestTime() const;
+    QFutureWatcher<void> &futureWatcher();
 
     // 使用异步进程运行
     void execute();

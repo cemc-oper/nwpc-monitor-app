@@ -5,6 +5,7 @@
 #include "panels/llclass_panel.h"
 
 #include <python_env_plugin/python_command.h>
+#include <core_plugin/progress_system/progress_manager.h>
 
 #include <QProcess>
 #include <QDateTime>
@@ -57,11 +58,14 @@ void LoadLevelerClient::runLlqCommand(QMap<QString, QString> args, QPointer<Pane
 
     qDebug()<<"[LoadLevelerClient::runLlqCommand] args:"<<arguments;
 
-    executePythonScript(
+    QFuture<void> future = executePythonScript(
         command,
         "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app\\src\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
         arguments
     );
+
+    Core::ProgressSystem::ProgressManager::addTask(future, args["command"]);
+
     qDebug()<<"[LoadLevelerClient::runLlqCommand] end";
 }
 
@@ -87,11 +91,14 @@ void LoadLevelerClient::runLlclassCommand(QMap<QString, QString> args, QPointer<
 
     qDebug()<<"[LoadLevelerClient::runLlclassCommand] args:"<<arguments;
 
-    executePythonScript(
+    QFuture<void> future = executePythonScript(
         command,
         "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app\\src\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
         arguments
     );
+
+    Core::ProgressSystem::ProgressManager::addTask(future, args["command"]);
+
     qDebug()<<"[LoadLevelerClient::runLlclassCommand] end";
 }
 
@@ -127,13 +134,15 @@ void LoadLevelerClient::runCommand(QMap<QString, QString> args, QPointer<ClientC
 
     qDebug()<<arguments;
 
-    executePythonScript(
+    QFuture<void> future = executePythonScript(
         command,
         "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app\\src\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
         arguments
     );
 
     command_widget->setCommandText("loadleveler.py " + arguments.join(" "));
+
+    Core::ProgressSystem::ProgressManager::addTask(future, args["command"]);
 
     qDebug()<<"[LoadLevelerClient::runCommand] end";
 }

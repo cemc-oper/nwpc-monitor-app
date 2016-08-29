@@ -11,6 +11,8 @@ namespace ModelView{
 
 UTILSHARED_EXPORT void changeAllItemsCheckState(QStandardItemModel *model, Qt::CheckState check_state)
 {
+    if(model == nullptr)
+        return;
     QStandardItem * root_item = model->invisibleRootItem();
     int row_count = root_item->rowCount();
     for(int i=0; i<row_count; i++)

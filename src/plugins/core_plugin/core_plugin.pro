@@ -32,7 +32,12 @@ SOURCES += core_plugin.cpp \
     perspective_system/iperspective.cpp \
     perspective_system/perspective_manager.cpp \
     perspective_system/perspective_manager_private.cpp \
-    views/console_dock_widget.cpp
+    views/console_dock_widget.cpp \
+    progress_system/progress_manager.cpp \
+    progress_system/progress_manager_private.cpp \
+    progress_system/progress_view.cpp \
+    progress_system/progress_item_widget.cpp \
+    views/progress_dock_widget.cpp
 
 HEADERS += core_plugin.h \
     core_plugin_global.h \
@@ -53,7 +58,12 @@ HEADERS += core_plugin.h \
     perspective_system/iperspective.h \
     perspective_system/perspective_manager.h \
     perspective_system/perspective_manager_private.h \
-    views/console_dock_widget.h
+    views/console_dock_widget.h \
+    progress_system/progress_manager.h \
+    progress_system/progress_manager_private.h \
+    progress_system/progress_view.h \
+    progress_system/progress_item_widget.h \
+    views/progress_dock_widget.h
 
 DISTFILES += core_plugin.json
 
@@ -64,7 +74,10 @@ unix {
 
 FORMS += \
     mainwindow.ui \
-    views/console_dock_widget.ui
+    views/console_dock_widget.ui \
+    progress_system/progress_view.ui \
+    progress_system/progress_item_widget.ui \
+    views/progress_dock_widget.ui
 
 RESOURCES += \
     core.qrc

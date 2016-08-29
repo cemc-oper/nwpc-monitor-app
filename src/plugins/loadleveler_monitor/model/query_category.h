@@ -119,7 +119,7 @@ static const QVector<QStringList> kLlqDetailQuerySerialJobCategoryList = {
   //{Constant::Llq::StepType,           "Step Type",            "Step Type",        QueryValueType::String      },       // Serial | General Parallel
 
     // additional categories not used in command argument.
-  //{Constant::Llq::No,                 "No.",                  "No.",          QueryValueType::Number,     }    // row number in result records
+  //{Constant::Llq::No,                 "No.",                  "No.",              QueryValueType::Number,     }    // row number in result records
 };
 
 static const QVector<QStringList> kLlqDetailQueryParallelCategoryList = {
@@ -133,7 +133,7 @@ static const QVector<QStringList> kLlqDetailQueryParallelCategoryList = {
   //{Constant::Llq::StepType,           "Step Type",            "Step Type",        QueryValueType::String      },       // Serial | General Parallel
 
     // additional categories not used in command argument.
-  //{Constant::Llq::No,                 "No.",                  "No.",          QueryValueType::Number,     }    // row number in result records
+  //{Constant::Llq::No,                 "No.",                  "No.",              QueryValueType::Number,     }    // row number in result records
 };
 
 static const QVector<QStringList> kLlclassDefaultQueryCategoryList = {

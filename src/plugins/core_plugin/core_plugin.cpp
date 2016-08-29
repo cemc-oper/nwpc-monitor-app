@@ -4,9 +4,12 @@
 #include "action_system/action_manager.h"
 #include "view_system/view_manager.h"
 #include "views/console_dock_widget.h"
+#include "views/progress_dock_widget.h"
 #include "view_system/view_spec.h"
 #include "view_system/dock_view.h"
 #include "perspective_system/perspective_manager.h"
+#include "progress_system/progress_manager.h"
+#include "progress_system/progress_view.h"
 
 #include <plugin_manager/plugin_manager.h>
 
@@ -15,13 +18,15 @@ using namespace PluginSystem;
 using namespace Core::Views;
 using namespace Core::ViewSystem;
 using namespace Core::PerspectiveSystem;
+using namespace Core::ProgressSystem;
 
 CorePlugin::CorePlugin(QObject *parent) :
     IPlugin(parent),
     main_window_(nullptr),
     action_manager_{nullptr},
     view_manager_{nullptr},
-    perspective_manager_{nullptr}
+    perspective_manager_{nullptr},
+    progress_manager_{nullptr}
 {
 }
 
@@ -37,6 +42,7 @@ bool CorePlugin::initialize(const QStringList &arguments, QString *error_string)
     initActionSystem();
     initMainWindow();
     initViewSystem();
+    initProgressSystem();
     return true;
 }
 
@@ -82,7 +88,32 @@ void CorePlugin::initViewSystem()
     output_view_spec->setPathList(output_dock_widget->PathList);
     output_view_spec->setPluginSpec(this->pluginSpec());
     output_view_spec->setView(output_dock_view);
-
     ViewManager::addView(output_view_spec);
     PluginManager::addObject(output_dock_view);
+
+
+
+}
+
+void CorePlugin::initProgressSystem()
+{
+    ProgressDockWidget *progress_dock_widget = new ProgressDockWidget{main_window_};
+    progress_dock_widget->hide();
+    DockView *progress_dock_view = new DockView();
+    progress_dock_view->setDockWidget(progress_dock_widget);
+    progress_dock_view->setInitDockLocation(progress_dock_widget->DockLocation);
+
+    ViewSpec *progress_view_spec = new ViewSpec();
+    progress_view_spec->setId(progress_dock_widget->Id);
+    progress_view_spec->setName(progress_dock_widget->Name);
+    progress_view_spec->setPathList(progress_dock_widget->PathList);
+    progress_view_spec->setPluginSpec(this->pluginSpec());
+    progress_view_spec->setView(progress_dock_view);
+
+    ViewManager::addView(progress_view_spec);
+    PluginManager::addObject(progress_dock_view);
+
+    progress_manager_ = new ProgressManager{this};
+    progress_manager_->setProgressView(progress_dock_widget->progressView());
+
 }

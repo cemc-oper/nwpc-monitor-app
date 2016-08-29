@@ -18,6 +18,10 @@ namespace PerspectiveSystem{
 class PerspectiveManager;
 }
 
+namespace ProgressSystem{
+class ProgressManager;
+}
+
 class CorePlugin : public PluginSystem::IPlugin
 {
     Q_OBJECT
@@ -37,6 +41,7 @@ private:
     void initActionSystem();
     void initMainWindow();
     void initViewSystem();
+    void initProgressSystem();
 
     MainWindow *main_window_;
 
@@ -44,10 +49,9 @@ private:
     WelcomePerspective *welcome_perspective_;
 
     ActionManager *action_manager_;
-
     ViewSystem::ViewManager *view_manager_;
-
     PerspectiveSystem::PerspectiveManager *perspective_manager_;
+    ProgressSystem::ProgressManager *progress_manager_;
 };
 
 }
