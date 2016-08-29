@@ -22,6 +22,8 @@ public:
     void setDescription(const QString &description);
     void setProgressValue(int value);
 
+    int getProgressMaxValue() const;
+
 private:
     Ui::ProgressItemWidget *ui;
 };

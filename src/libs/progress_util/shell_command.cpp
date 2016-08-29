@@ -108,13 +108,16 @@ SynchronousJobResponse ShellCommand::runCommandStep(const CommandStep &step)
 
 void ShellCommand::asyncRun(QFutureInterface<void> &future_interface)
 {
+    future_interface.setProgressValue(10);
     int command_step_size = command_steps_.length();
     for(int i=0;i<command_step_size;i++)
     {
         CommandStep command_step = command_steps_.at(i);
         runCommandStep(command_step);
+        future_interface.setProgressValue( (i+1)/command_step_size * 80 + 10);
     }
     this->deleteLater();
+    future_interface.setProgressValue(100);
 }
 
 

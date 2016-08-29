@@ -30,6 +30,15 @@ ProgressItemWidget *ProgressManagerPrivate::addTask(const QFuture<void> &future,
     ProgressItemWidget *progress_widget = new ProgressItemWidget;
     progress_widget->setTitle(title);
 
+    connect(watcher, &QFutureWatcher<void>::progressValueChanged,
+            [=](int progress_value){
+        progress_widget->setProgressValue(progress_value);
+    });
+
+    connect(watcher, &QFutureWatcher<void>::finished, [=](){
+        progress_widget->setProgressValue(progress_widget->getProgressMaxValue());
+    });
+
     progress_view_->addProgressItemWidget(progress_widget);
     return progress_widget;
 }

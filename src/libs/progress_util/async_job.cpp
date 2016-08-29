@@ -12,6 +12,7 @@ AsyncJob::AsyncJob(ShellCommand *command):
     future_interface_.setRunnable(this);
     future_interface_.reportStarted();
     future_interface_.setThreadPool(QThreadPool::globalInstance());
+    future_interface_.setProgressRange(0, 100);
 }
 
 AsyncJob::~AsyncJob()

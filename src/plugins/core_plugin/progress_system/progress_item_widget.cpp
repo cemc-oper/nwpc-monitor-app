@@ -32,3 +32,8 @@ void ProgressItemWidget::setProgressValue(int value)
 {
     ui->progress_bar->setValue(value);
 }
+
+int ProgressItemWidget::getProgressMaxValue() const
+{
+    return ui->progress_bar->maximum();
+}
