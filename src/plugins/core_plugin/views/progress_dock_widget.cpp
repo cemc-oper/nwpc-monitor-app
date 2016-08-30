@@ -7,7 +7,14 @@ using namespace Core::Views;
 using namespace Core::ViewSystem;
 
 ProgressDockWidget::ProgressDockWidget(QWidget *parent) :
-    DockWidget(parent),
+    DockWidget(
+        "NwpcMonitor.CorePlugin.View.ProgressDockView",
+        tr("Progress"),
+        QStringList()<<"General"<<"Progress",
+        ":/core/images/progress_view@128x128.png",
+        Qt::BottomDockWidgetArea,
+        parent
+    ),
     ui(new Ui::ProgressDockWidget)
 {
     ui->setupUi(this);

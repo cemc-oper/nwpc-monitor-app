@@ -34,6 +34,13 @@ public:
     QString path() const;
     void setPathList(const QStringList &pathList);
 
+    void setIconLocation(const QString &location){
+        icon_location_ = location;
+    }
+    QString iconLocation() const{
+        return icon_location_;
+    }
+
     IView *view();
     void setView(IView *view);
 
@@ -49,6 +56,8 @@ private:
     QString id_;
     QString name_;
     QStringList path_list_;
+
+    QString icon_location_;
 
     // 内容
     QPointer<IView> view_;

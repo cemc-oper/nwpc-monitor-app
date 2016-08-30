@@ -80,19 +80,14 @@ void CorePlugin::initViewSystem()
     output_dock_widget->hide();
     DockView *output_dock_view = new DockView();
     output_dock_view->setDockWidget(output_dock_widget);
-    output_dock_view->setInitDockLocation(output_dock_widget->DockLocation);
+    output_dock_view->setInitDockLocation(output_dock_widget->DockLocation());
 
     ViewSpec *output_view_spec = new ViewSpec();
-    output_view_spec->setId(output_dock_widget->Id);
-    output_view_spec->setName(output_dock_widget->Name);
-    output_view_spec->setPathList(output_dock_widget->PathList);
-    output_view_spec->setPluginSpec(this->pluginSpec());
+    initViewSpec(output_view_spec, output_dock_widget);
     output_view_spec->setView(output_dock_view);
+
     ViewManager::addView(output_view_spec);
     PluginManager::addObject(output_dock_view);
-
-
-
 }
 
 void CorePlugin::initProgressSystem()
@@ -101,13 +96,10 @@ void CorePlugin::initProgressSystem()
     progress_dock_widget->hide();
     DockView *progress_dock_view = new DockView();
     progress_dock_view->setDockWidget(progress_dock_widget);
-    progress_dock_view->setInitDockLocation(progress_dock_widget->DockLocation);
+    progress_dock_view->setInitDockLocation(progress_dock_widget->DockLocation());
 
     ViewSpec *progress_view_spec = new ViewSpec();
-    progress_view_spec->setId(progress_dock_widget->Id);
-    progress_view_spec->setName(progress_dock_widget->Name);
-    progress_view_spec->setPathList(progress_dock_widget->PathList);
-    progress_view_spec->setPluginSpec(this->pluginSpec());
+    initViewSpec(progress_view_spec, progress_dock_widget);
     progress_view_spec->setView(progress_dock_view);
 
     ViewManager::addView(progress_view_spec);
@@ -115,5 +107,13 @@ void CorePlugin::initProgressSystem()
 
     progress_manager_ = new ProgressManager{this};
     progress_manager_->setProgressView(progress_dock_widget->progressView());
+}
 
+void CorePlugin::initViewSpec(ViewSpec *view_spec, ViewSystem::DockWidget *dock_widget)
+{
+    view_spec->setId(dock_widget->Id());
+    view_spec->setName(dock_widget->Name());
+    view_spec->setPathList(dock_widget->PathList());
+    view_spec->setPluginSpec(this->pluginSpec());
+    view_spec->setIconLocation(dock_widget->IconLocation());
 }

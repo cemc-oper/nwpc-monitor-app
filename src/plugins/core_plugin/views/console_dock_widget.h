@@ -50,16 +50,8 @@ private:
     Ui::ConsoleDockWidget *ui;
     QToolBar *tool_bar_;
 
-
 public:
     static const QString GeneralPanelId;
-
-    const QString Id {"NwpcMonitor.CorePlugin.View.ConsoleDockView"};
-    const QString Name {tr("Console")};
-    const QStringList PathList {QStringList()<<"General"<<"Console"};
-
-    const Qt::DockWidgetArea DockLocation{Qt::BottomDockWidgetArea};
-
 };
 
 }

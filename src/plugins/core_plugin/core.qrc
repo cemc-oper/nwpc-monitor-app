@@ -5,10 +5,11 @@
         <file>images/mail-mark-task.png</file>
         <file>images/office-chart-bar.png</file>
         <file>images/office-chart-pie.png</file>
-        <file>images/view-list-text-4.png</file>
+        <file>images/console-view-icon@128x128.png</file>
         <file>images/scroll-to-end.png</file>
         <file>images/logo.png</file>
         <file>images/progress-run-default-icon@24x24.png</file>
         <file>images/progress-clear@24x24.png</file>
+        <file>images/progress_view@128x128.png</file>
     </qresource>
 </RCC>

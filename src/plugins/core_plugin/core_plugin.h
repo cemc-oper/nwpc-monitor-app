@@ -12,6 +12,8 @@ class ActionManager;
 
 namespace ViewSystem{
 class ViewManager;
+class ViewSpec;
+class DockWidget;
 }
 
 namespace PerspectiveSystem{
@@ -42,6 +44,8 @@ private:
     void initMainWindow();
     void initViewSystem();
     void initProgressSystem();
+
+    void initViewSpec(ViewSystem::ViewSpec *view_spec, ViewSystem::DockWidget *dock_widget);
 
     MainWindow *main_window_;
 

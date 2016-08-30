@@ -32,13 +32,6 @@ public:
 
 private:
     Ui::ProgressDockWidget *ui;
-
-public:
-    const QString Id {"NwpcMonitor.CorePlugin.View.ProgressDockView"};
-    const QString Name {tr("Progress")};
-    const QStringList PathList {QStringList()<<"General"<<"Progress"};
-
-    const Qt::DockWidgetArea DockLocation{Qt::BottomDockWidgetArea};
 };
 
 }

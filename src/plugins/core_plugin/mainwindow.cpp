@@ -106,7 +106,7 @@ void MainWindow::loadViews()
         qDebug()<<"[MainWindow::loadViews]"<<view_spec->id();
 
         QAction *view_action = new QAction{view_spec->name(), this};
-        view_action->setIcon(QIcon(":/core/images/view-list-text-4.png"));
+        view_action->setIcon(QIcon(view_spec->iconLocation()));
         Action *action_container = ActionManager::registerAction(view_action, Constrants::Action::ACTION_VIEW_PREFIX + "." + view_spec->id());
         connect(view_action, &QAction::triggered, [=](bool){
             dock_view->dockWidget()->show();

@@ -16,12 +16,18 @@ using namespace Core::ViewSystem;
 const QString ConsoleDockWidget::GeneralPanelId{"General"};
 
 ConsoleDockWidget::ConsoleDockWidget(QWidget *parent) :
-    Core::ViewSystem::DockWidget(parent),
+    Core::ViewSystem::DockWidget(
+        "NwpcMonitor.CorePlugin.View.ConsoleDockView",
+        tr("Console"),
+        QStringList()<<"General"<<"Console",
+        ":/core/images/console-view-icon@128x128.png",
+        Qt::BottomDockWidgetArea,
+        parent
+    ),
     ui(new Ui::ConsoleDockWidget),
     tool_bar_{new QToolBar{this}}
 {
     ui->setupUi(this);
-
     setupActions();
     setupToolBar();
 }
