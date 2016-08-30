@@ -6,27 +6,24 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>475</width>
-    <height>71</height>
+    <width>565</width>
+    <height>68</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Progress</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="leftMargin">
-    <number>3</number>
+    <number>0</number>
    </property>
    <property name="topMargin">
-    <number>3</number>
+    <number>0</number>
    </property>
    <property name="rightMargin">
-    <number>3</number>
+    <number>0</number>
    </property>
    <property name="bottomMargin">
-    <number>3</number>
-   </property>
-   <property name="spacing">
     <number>0</number>
    </property>
    <item row="0" column="0">
@@ -57,24 +54,43 @@
     </layout>
    </item>
    <item row="1" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="icon_label">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../core.qrc">:/core/images/progress-run-default-icon@24x24.png</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QProgressBar" name="progress_bar">
+       <property name="value">
+        <number>0</number>
+       </property>
+       <property name="textVisible">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="0">
     <widget class="QLabel" name="description_label">
      <property name="text">
       <string>Label</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="0">
-    <widget class="QProgressBar" name="progress_bar">
-     <property name="value">
-      <number>0</number>
-     </property>
-     <property name="textVisible">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../core.qrc"/>
+ </resources>
  <connections/>
 </ui>
