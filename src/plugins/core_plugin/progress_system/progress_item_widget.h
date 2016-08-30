@@ -25,6 +25,8 @@ public:
 
     int getProgressMaxValue() const;
 
+    bool isProgressFinished() const;
+
 private:
     Ui::ProgressItemWidget *ui;
 };

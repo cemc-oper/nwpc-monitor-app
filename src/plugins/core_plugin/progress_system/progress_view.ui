@@ -26,12 +26,25 @@
    <property name="bottomMargin">
     <number>0</number>
    </property>
+   <property name="spacing">
+    <number>0</number>
+   </property>
    <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Progress View</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="tool_bar_layout">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
    <item row="1" column="0">
     <widget class="QScrollArea" name="scrollArea">
@@ -44,7 +57,7 @@
         <x>0</x>
         <y>0</y>
         <width>725</width>
-        <height>189</height>
+        <height>185</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
@@ -82,7 +95,18 @@
     </widget>
    </item>
   </layout>
+  <action name="action_clear_all_finished">
+   <property name="icon">
+    <iconset resource="../core.qrc">
+     <normaloff>:/core/images/progress-clear@24x24.png</normaloff>:/core/images/progress-clear@24x24.png</iconset>
+   </property>
+   <property name="text">
+    <string>Clear All Finished Progresses</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../core.qrc"/>
+ </resources>
  <connections/>
 </ui>

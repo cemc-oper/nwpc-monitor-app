@@ -2,6 +2,11 @@
 
 #include "../core_plugin_global.h"
 #include <QWidget>
+#include <QPointer>
+
+QT_BEGIN_NAMESPACE
+class QToolBar;
+QT_END_NAMESPACE
 
 namespace Core{
 
@@ -21,8 +26,15 @@ public:
 
     void addProgressItemWidget(QWidget *widget);
 
+private slots:
+    void slotClearFinishedProgress();
+
 private:
+    void setupActions();
+    void setupToolBar();
+
     Ui::ProgressView *ui;
+    QPointer<QToolBar> tool_bar_;
 };
 
 }

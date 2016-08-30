@@ -9,5 +9,6 @@
         <file>images/scroll-to-end.png</file>
         <file>images/logo.png</file>
         <file>images/progress-run-default-icon@24x24.png</file>
+        <file>images/progress-clear@24x24.png</file>
     </qresource>
 </RCC>

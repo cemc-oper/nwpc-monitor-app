@@ -37,3 +37,11 @@ int ProgressItemWidget::getProgressMaxValue() const
 {
     return ui->progress_bar->maximum();
 }
+
+bool ProgressItemWidget::isProgressFinished() const
+{
+    if(ui->progress_bar->value() == ui->progress_bar->maximum())
+        return true;
+    else
+        return false;
+}
