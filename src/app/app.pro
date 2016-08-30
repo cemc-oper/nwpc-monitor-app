@@ -15,3 +15,6 @@ SOURCES += \
     main.cpp
 
 RC_ICONS = logo.ico
+
+RESOURCES += \
+    app.qrc
