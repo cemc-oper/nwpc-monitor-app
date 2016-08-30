@@ -6,6 +6,7 @@
 
 #include <python_env_plugin/python_command.h>
 #include <core_plugin/progress_system/progress_manager.h>
+#include <core_plugin/progress_system/progress_item_widget.h>
 
 #include <QProcess>
 #include <QDateTime>
@@ -13,6 +14,7 @@
 
 using namespace LoadLevelerMonitor;
 using namespace PythonEnv;
+using namespace Core::ProgressSystem;
 
 LoadLevelerClient::LoadLevelerClient(QObject *parent):
     PythonEngine(parent)
@@ -31,17 +33,6 @@ void LoadLevelerClient::runLlqCommand(QMap<QString, QString> args, QPointer<Pane
     QDateTime request_date_time = QDateTime::currentDateTime();
     QStringList arguments;
     PythonCommand* command = createPythonCommand();
-
-//    if(!llq_panel.isNull())
-//    {
-//        connect(command, &PythonCommand::signalStdOutString,
-//                llq_panel, &Panels::LlqPanel::slotReciveResponseStdOut);
-//    }
-
-//    connect(command, &PythonCommand::signalStdErrString,
-//            [=](const QString &string){
-//        qDebug()<<"[LoadLevelerClient::runLlqCommand] error out:"<<string;
-//    });
 
     if(!llq_panel.isNull())
     {
@@ -64,7 +55,8 @@ void LoadLevelerClient::runLlqCommand(QMap<QString, QString> args, QPointer<Pane
         arguments
     );
 
-    Core::ProgressSystem::ProgressManager::addTask(future, args["command"]);
+    ProgressItemWidget *progress_item_widget =  ProgressManager::addTask(future, args["command"]);
+    progress_item_widget->setDescription("Run shell command: " + args["command"] + " ...");
 
     qDebug()<<"[LoadLevelerClient::runLlqCommand] end";
 }
@@ -88,7 +80,6 @@ void LoadLevelerClient::runLlclassCommand(QMap<QString, QString> args, QPointer<
     arguments<<"--user=" + args["user"];
     arguments<<"--password=" + args["password"];
     arguments<<"--command=" + args["command"];
-
     qDebug()<<"[LoadLevelerClient::runLlclassCommand] args:"<<arguments;
 
     QFuture<void> future = executePythonScript(
@@ -96,8 +87,8 @@ void LoadLevelerClient::runLlclassCommand(QMap<QString, QString> args, QPointer<
         "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app\\src\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
         arguments
     );
-
-    Core::ProgressSystem::ProgressManager::addTask(future, args["command"]);
+    ProgressItemWidget *progress_item_widget =  ProgressManager::addTask(future, args["command"]);
+    progress_item_widget->setDescription("Run shell command: " + args["command"] + " ...");
 
     qDebug()<<"[LoadLevelerClient::runLlclassCommand] end";
 }
@@ -117,14 +108,6 @@ void LoadLevelerClient::runCommand(QMap<QString, QString> args, QPointer<ClientC
                 command_widget, &ClientCommandWidget::setErrorOutputText);
     }
 
-//    connect(command, &PythonCommand::signalFinished,
-//            [=](int exit_code, QProcess::ExitStatus status)
-//            {
-//                qDebug()<<"[LoadLevelerClient::runCommand] exit code:"<<exit_code;
-//                qDebug()<<"[LoadLevelerClient::runCommand] exit status:"<<status;
-//            }
-//    );
-
     arguments<<"run";
     arguments<<"--host=" + args["host"];
     arguments<<"--port=" + args["port"];
@@ -142,7 +125,8 @@ void LoadLevelerClient::runCommand(QMap<QString, QString> args, QPointer<ClientC
 
     command_widget->setCommandText("loadleveler.py " + arguments.join(" "));
 
-    Core::ProgressSystem::ProgressManager::addTask(future, args["command"]);
+    ProgressItemWidget *progress_item_widget =  ProgressManager::addTask(future, args["command"]);
+    progress_item_widget->setDescription("Run shell command: " + args["command"] + " ...");
 
     qDebug()<<"[LoadLevelerClient::runCommand] end";
 }

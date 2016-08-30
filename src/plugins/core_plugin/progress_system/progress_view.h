@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../core_plugin_global.h"
 #include <QWidget>
 
 namespace Core{
@@ -10,7 +11,7 @@ namespace Ui {
 class ProgressView;
 }
 
-class ProgressView : public QWidget
+class CORE_PLUGIN_EXPORT ProgressView : public QWidget
 {
     Q_OBJECT
 
