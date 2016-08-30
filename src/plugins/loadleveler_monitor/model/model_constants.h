@@ -32,6 +32,7 @@ const QString No            =   "llq.no";
 
 const QString JobScript     =   "llq.job_script";
 const QString QueueFullDate =   "llq.queue_full_date";
+const QString NodeMinimum   =   "llq.node_minimum";
 const QString StepType      =   "llq.step_type";
 }
 

@@ -130,7 +130,8 @@ static const QVector<QStringList> kLlqDetailQueryParallelCategoryList = {
     {Constant::Llq::JobScript,          "Job Script",           "Executable",       QueryValueType::String      },
     {Constant::Llq::FullStatus,         "Status",               "Status",           QueryValueType::String      },
     {Constant::Llq::QueueFullDate,      "Queue Date",           "Queue Date",       QueryValueType::FullDate    },
-  //{Constant::Llq::StepType,           "Step Type",            "Step Type",        QueryValueType::String      },       // Serial | General Parallel
+    {Constant::Llq::NodeMinimum,        "Node Minimun",         "Node minimum",     QueryValueType::Number      },
+    //{Constant::Llq::StepType,           "Step Type",            "Step Type",        QueryValueType::String      },       // Serial | General Parallel
 
     // additional categories not used in command argument.
   //{Constant::Llq::No,                 "No.",                  "No.",              QueryValueType::Number,     }    // row number in result records
