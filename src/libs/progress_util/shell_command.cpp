@@ -1,7 +1,5 @@
 #include "shell_command.h"
 
-#include "async_job.h"
-
 #include <QProcess>
 #include <QThreadPool>
 #include <QtDebug>
@@ -53,7 +51,7 @@ void ShellCommand::execute()
 {
     if(command_steps_.isEmpty())
         return;
-    QFuture<void> future = AsyncShellCommandJob::runJob(this);
+    QFuture<void> future = AsyncRunJob<ShellCommand>::runJob(this);
     watcher_.setFuture(future);
 }
 

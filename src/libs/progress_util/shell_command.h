@@ -3,14 +3,13 @@
 #include "progress_util_global.h"
 
 #include "synchronous_job.h"
+#include "async_job.h"
 
 #include <QDateTime>
 #include <QFutureWatcher>
 #include <QObject>
 
 namespace ProgressUtil{
-
-class AsyncShellCommandJob;
 
 struct PROGRESS_UTIL_SHARED_EXPORT CommandStep{
     explicit CommandStep(const QString &program, const QStringList &arguments);
@@ -67,6 +66,7 @@ protected:
     QFutureWatcher<void> watcher_;
 
     friend class ProgressUtil::AsyncShellCommandJob;
+    friend class ProgressUtil::AsyncRunJob<ShellCommand>;
 };
 
 }

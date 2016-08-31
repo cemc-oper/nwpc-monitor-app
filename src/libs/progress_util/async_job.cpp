@@ -1,7 +1,10 @@
 #include "async_job.h"
 
+#include "shell_command.h"
+
 #include <QThreadPool>
 #include <QtConcurrent/QtConcurrent>
+#include <QtDebug>
 
 using namespace ProgressUtil;
 
@@ -9,6 +12,7 @@ using namespace ProgressUtil;
 AsyncShellCommandJob::AsyncShellCommandJob(ShellCommand *command):
     command_{command}
 {
+    qWarning()<<"[AsyncShellCommandJob] This class is deprecated. Please use AsyncRunJob";
     future_interface_.setRunnable(this);
     future_interface_.reportStarted();
     future_interface_.setThreadPool(QThreadPool::globalInstance());
