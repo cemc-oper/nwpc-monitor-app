@@ -1,5 +1,5 @@
 #include "iplugin.h"
-
+#include "plugin_spec.h"
 #include "plugin_manager.h"
 
 using namespace PluginSystem;

@@ -130,7 +130,7 @@ void ConsoleDockWidget::setupActions()
             ui->output_text->setLineWrapMode(QTextEdit::NoWrap);
     });
 
-    connect(ui->action_clear, &QAction::triggered, [=](bool flag){
+    connect(ui->action_clear, &QAction::triggered, [=](bool){
         qDebug()<<"[ConsoleDockWidget] clear output text.";
         ui->output_text->clear();
     });

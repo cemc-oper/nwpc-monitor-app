@@ -44,9 +44,6 @@ private:
     QStringList plugin_paths_;
 
     QList<PluginSpec*> plugin_specs_;
-
-    QObject* a;
-
 };
 
 }

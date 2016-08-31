@@ -8,6 +8,7 @@
 #include <QHash>
 #include <QPluginLoader>
 #include <QJsonObject>
+#include <QPointer>
 
 QT_BEGIN_NAMESPACE
 class QPluginLoader;
@@ -75,7 +76,7 @@ private:
 
     // qt plugin
     QPluginLoader loader_;
-    IPlugin* plugin_;
+    QPointer<IPlugin> plugin_;
 };
 
 }

@@ -47,15 +47,15 @@ private:
 
     void initViewSpec(ViewSystem::ViewSpec *view_spec, ViewSystem::DockWidget *dock_widget);
 
-    MainWindow *main_window_;
+    QPointer<MainWindow> main_window_;
 
     //add for test
-    WelcomePerspective *welcome_perspective_;
+    QPointer<WelcomePerspective> welcome_perspective_;
 
-    ActionManager *action_manager_;
-    ViewSystem::ViewManager *view_manager_;
-    PerspectiveSystem::PerspectiveManager *perspective_manager_;
-    ProgressSystem::ProgressManager *progress_manager_;
+    QPointer<ActionManager> action_manager_;
+    QPointer<ViewSystem::ViewManager> view_manager_;
+    QPointer<PerspectiveSystem::PerspectiveManager> perspective_manager_;
+    QPointer<ProgressSystem::ProgressManager> progress_manager_;
 };
 
 }

@@ -32,7 +32,7 @@ uint PluginSystem::qHash(const PluginSystem::PluginDependency &value)
 PluginSpec::PluginSpec(QObject *parent) :
     QObject(parent),
     loader_(this),
-    plugin_(0)
+    plugin_()
 {
 
 }
@@ -40,6 +40,8 @@ PluginSpec::PluginSpec(QObject *parent) :
 PluginSpec::~PluginSpec()
 {
     loader_.deleteLater();
+    if(plugin_)
+        plugin_->deleteLater();
 }
 
 bool PluginSpec::satisfyDependency(const PluginDependency &dependency) const
@@ -58,7 +60,7 @@ bool PluginSpec::read(const QString &file_path)
 
     if(!file_info.exists())
     {
-        qDebug()<<"[PluginSpec::read] plugin file doesn't exist."<<file_path;
+        qDebug()<<"[PluginSpec::read] plugin file doesn't exist:"<<file_path;
         return false;
     }
 
@@ -66,7 +68,7 @@ bool PluginSpec::read(const QString &file_path)
 
     if(!readMetaData(loader_.metaData()))
     {
-        qDebug()<<"[PluginSpec::read] failed read meta data.";
+        qDebug()<<"[PluginSpec::read] failed read meta data:"<<loader_.metaData();
         return false;
     }
 
@@ -160,7 +162,8 @@ bool PluginSpec::pluginsInitialized()
 
 bool PluginSpec::readMetaData(const QJsonObject &meta_data)
 {
-    qDebug()<<QJsonDocument(meta_data).toJson();
+    qDebug()<<"[PluginSpec::readMetaData]";
+    qDebug(QJsonDocument(meta_data).toJson(QJsonDocument::Indented));
     QJsonValue value;
 
     value = meta_data.value(QLatin1String("MetaData"));

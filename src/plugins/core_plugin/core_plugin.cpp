@@ -32,7 +32,11 @@ CorePlugin::CorePlugin(QObject *parent) :
 
 CorePlugin::~CorePlugin()
 {
-    delete main_window_;
+    main_window_->deleteLater();
+    action_manager_->deleteLater();
+    view_manager_->deleteLater();
+    perspective_manager_->deleteLater();
+    progress_manager_->deleteLater();
 }
 
 bool CorePlugin::initialize(const QStringList &arguments, QString *error_string)

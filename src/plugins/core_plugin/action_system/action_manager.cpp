@@ -99,7 +99,6 @@ void ActionManager::unregisterAction(QString id)
 
 Action *ActionManager::action(QString id)
 {
-    ActionManager *a = action_manager;
     const auto it = action_manager->id_to_action_map_.constFind(id);
     if(it == action_manager->id_to_action_map_.constEnd())
     {

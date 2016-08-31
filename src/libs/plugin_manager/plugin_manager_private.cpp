@@ -18,7 +18,7 @@ PluginManagerPrivate::PluginManagerPrivate(PluginManager *plugin_manager):
 
 PluginManagerPrivate::~PluginManagerPrivate()
 {
-
+    qDeleteAll(plugin_specs_);
 }
 
 void PluginManagerPrivate::setPluginPaths(const QStringList &paths)

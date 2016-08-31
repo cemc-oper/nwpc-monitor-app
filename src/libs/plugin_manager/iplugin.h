@@ -4,6 +4,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QPointer>
 
 namespace PluginSystem{
 
@@ -30,7 +31,8 @@ signals:
 public slots:
 
 private:
-    PluginSpec *plugin_spec_;
+    // only a reference, may be use another pointer class.
+    QPointer<PluginSpec> plugin_spec_;
 
     friend class PluginSpec;
 };
