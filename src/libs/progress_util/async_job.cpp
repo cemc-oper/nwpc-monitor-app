@@ -6,7 +6,7 @@
 using namespace ProgressUtil;
 
 
-AsyncJob::AsyncJob(ShellCommand *command):
+AsyncShellCommandJob::AsyncShellCommandJob(ShellCommand *command):
     command_{command}
 {
     future_interface_.setRunnable(this);
@@ -15,31 +15,31 @@ AsyncJob::AsyncJob(ShellCommand *command):
     future_interface_.setProgressRange(0, 100);
 }
 
-AsyncJob::~AsyncJob()
+AsyncShellCommandJob::~AsyncShellCommandJob()
 {
     future_interface_.reportFinished();
 }
 
 
-void AsyncJob::setPool(QThreadPool *pool)
+void AsyncShellCommandJob::setPool(QThreadPool *pool)
 {
     future_interface_.setThreadPool(pool);
 }
 
-void AsyncJob::run()
+void AsyncShellCommandJob::run()
 {
     command_->asyncRun(future_interface_);
 }
 
-QFuture<void> AsyncJob::future()
+QFuture<void> AsyncShellCommandJob::future()
 {
     return future_interface_.future();
 }
 
-QFuture<void> AsyncJob::runJob(ShellCommand *command)
+QFuture<void> AsyncShellCommandJob::runJob(ShellCommand *command)
 {
     QThreadPool *pool = QThreadPool::globalInstance();
-    auto async_job = new AsyncJob{command};
+    auto async_job = new AsyncShellCommandJob{command};
     QFuture<void> future = async_job->future();
     pool->start(async_job);
     return future;

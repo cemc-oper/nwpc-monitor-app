@@ -10,7 +10,7 @@
 
 namespace ProgressUtil{
 
-class AsyncJob;
+class AsyncShellCommandJob;
 
 struct PROGRESS_UTIL_SHARED_EXPORT CommandStep{
     explicit CommandStep(const QString &program, const QStringList &arguments);
@@ -66,7 +66,7 @@ protected:
 
     QFutureWatcher<void> watcher_;
 
-    friend class ProgressUtil::AsyncJob;
+    friend class ProgressUtil::AsyncShellCommandJob;
 };
 
 }

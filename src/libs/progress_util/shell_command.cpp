@@ -53,7 +53,7 @@ void ShellCommand::execute()
 {
     if(command_steps_.isEmpty())
         return;
-    QFuture<void> future = AsyncJob::runJob(this);
+    QFuture<void> future = AsyncShellCommandJob::runJob(this);
     watcher_.setFuture(future);
 }
 

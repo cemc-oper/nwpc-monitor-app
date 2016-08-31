@@ -12,12 +12,12 @@ QT_END_NAMESPACE
 
 namespace ProgressUtil{
 
-class AsyncJob : public QRunnable
+class AsyncShellCommandJob : public QRunnable
 {
 public:
-    AsyncJob(ShellCommand *command);
+    AsyncShellCommandJob(ShellCommand *command);
 
-    ~AsyncJob();
+    ~AsyncShellCommandJob();
 
     void setPool(QThreadPool *pool);
 
