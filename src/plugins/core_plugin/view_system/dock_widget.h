@@ -10,7 +10,6 @@ class DockWidget : public QDockWidget
 {
     Q_OBJECT
 public:
-    explicit DockWidget(QWidget *parent = 0);
     DockWidget(
             QString id,
             QString name,

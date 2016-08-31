@@ -2,17 +2,6 @@
 
 using namespace Core::ViewSystem;
 
-DockWidget::DockWidget(QWidget *parent) :
-    QDockWidget{parent},
-    kId{},
-    kName{},
-    kPathList{},
-    kIconLocation{},
-    kDockLocation{Qt::BottomDockWidgetArea}
-{
-
-}
-
 DockWidget::DockWidget(QString id, QString name, QStringList path_list, QString icon_location, Qt::DockWidgetArea dock_location, QWidget *parent):
     QDockWidget{parent},
     kId{id},
