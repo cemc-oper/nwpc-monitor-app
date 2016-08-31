@@ -37,7 +37,8 @@ SOURCES += core_plugin.cpp \
     progress_system/progress_manager_private.cpp \
     progress_system/progress_view.cpp \
     progress_system/progress_item_widget.cpp \
-    views/progress_dock_widget.cpp
+    views/progress_dock_widget.cpp \
+    progress_system/progress_status_bar_widget.cpp
 
 HEADERS += core_plugin.h \
     core_plugin_global.h \
@@ -63,7 +64,8 @@ HEADERS += core_plugin.h \
     progress_system/progress_manager_private.h \
     progress_system/progress_view.h \
     progress_system/progress_item_widget.h \
-    views/progress_dock_widget.h
+    views/progress_dock_widget.h \
+    progress_system/progress_status_bar_widget.h
 
 DISTFILES += core_plugin.json
 
@@ -77,7 +79,8 @@ FORMS += \
     views/console_dock_widget.ui \
     progress_system/progress_view.ui \
     progress_system/progress_item_widget.ui \
-    views/progress_dock_widget.ui
+    views/progress_dock_widget.ui \
+    progress_system/progress_status_bar_widget.ui
 
 RESOURCES += \
     core.qrc

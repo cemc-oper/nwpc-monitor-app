@@ -33,6 +33,11 @@ void ProgressItemWidget::setProgressValue(int value)
     ui->progress_bar->setValue(value);
 }
 
+void ProgressItemWidget::setProgressIcon(const QString &icon_location)
+{
+    ui->icon_label->setPixmap(QPixmap(icon_location));
+}
+
 int ProgressItemWidget::getProgressMaxValue() const
 {
     return ui->progress_bar->maximum();
@@ -44,4 +49,11 @@ bool ProgressItemWidget::isProgressFinished() const
         return true;
     else
         return false;
+}
+
+void ProgressItemWidget::slotProgressFinish()
+{
+    setProgressValue(getProgressMaxValue());
+    setProgressIcon(QString::fromUtf8(":/core/images/progess-run-success-icon@24x24.png"));
+    setDescription(QString());
 }

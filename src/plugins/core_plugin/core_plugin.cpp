@@ -52,18 +52,12 @@ bool CorePlugin::initialize(const QStringList &arguments, QString *error_string)
 
 void CorePlugin::pluginsInitialized()
 {
-    main_window_->loadPerspectives();
-
-    main_window_->loadViews();
-
-    main_window_->activatePerspective("welcome");
-
-    main_window_->show();
+    main_window_->pluginsInitialized();
 }
 
 void CorePlugin::aboutToShutDown()
 {
-    main_window_->hide();
+    main_window_->aboutToShutdown();
 }
 
 void CorePlugin::initActionSystem()
@@ -73,7 +67,8 @@ void CorePlugin::initActionSystem()
 
 void CorePlugin::initMainWindow()
 {
-    main_window_ = new MainWindow();
+    main_window_ = new MainWindow;
+    main_window_->initialize();
 }
 
 void CorePlugin::initViewSystem()
@@ -111,6 +106,7 @@ void CorePlugin::initProgressSystem()
 
     progress_manager_ = new ProgressManager{this};
     progress_manager_->setProgressView(progress_dock_widget->progressView());
+    progress_manager_->init();
 }
 
 void CorePlugin::initViewSpec(ViewSpec *view_spec, ViewSystem::DockWidget *dock_widget)

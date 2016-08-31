@@ -13,6 +13,11 @@ ProgressManager *ProgressManager::instance()
     return progress_manager_instance;
 }
 
+void ProgressManager::init()
+{
+    return d->init();
+}
+
 ProgressView *ProgressManager::progressView()
 {
     return d->progressView();
@@ -21,6 +26,11 @@ ProgressView *ProgressManager::progressView()
 void ProgressManager::setProgressView(ProgressView *view)
 {
     return d->setProgressView(view);
+}
+
+ProgressStatusBarWidget *ProgressManager::statusBarWidget()
+{
+    return d->statusBarWidget();
 }
 
 ProgressItemWidget *ProgressManager::addTask(const QFuture<void> &future, const QString &title)

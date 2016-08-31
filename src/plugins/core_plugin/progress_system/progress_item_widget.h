@@ -21,13 +21,16 @@ public:
 
     void setTitle(const QString &title);
     void setDescription(const QString &description);
-    void setProgressValue(int value);
 
     int getProgressMaxValue() const;
-
     bool isProgressFinished() const;
 
+public slots:
+    void slotProgressFinish();
+    void setProgressValue(int value);
+
 private:
+    void setProgressIcon(const QString &icon_location);
     Ui::ProgressItemWidget *ui;
 };
 

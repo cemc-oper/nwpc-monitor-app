@@ -11,5 +11,7 @@
         <file>images/progress-run-default-icon@24x24.png</file>
         <file>images/progress-clear@24x24.png</file>
         <file>images/progress_view@128x128.png</file>
+        <file>images/progess-run-success-icon@24x24.png</file>
+        <file>images/progress-run-failed-icon@24x24.png</file>
     </qresource>
 </RCC>

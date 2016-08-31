@@ -23,13 +23,11 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 public:
     explicit MainWindow(QWidget *parent = 0);
-
     ~MainWindow();
 
-    void loadPerspectives();
-    void loadViews();
-
-    void activatePerspective(QString id);
+    void initialize();
+    void pluginsInitialized();
+    void aboutToShutdown();
 
 public slots:
     void slotPerspectiveActionTriggered(QAction* action);
@@ -40,6 +38,11 @@ private slots:
 private:
     void registerMainActionContainers();
     void registerMainActions();
+
+    void loadPerspectives();
+    void loadViews();
+    void activatePerspective(QString id);
+    void initStatusBar();
 
     Ui::MainWindow *ui;
 

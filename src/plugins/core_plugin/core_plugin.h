@@ -34,9 +34,7 @@ public:
     ~CorePlugin();
 
     bool initialize(const QStringList& arguments, QString* error_string);
-
     void pluginsInitialized();
-
     void aboutToShutDown();
 
 private:
