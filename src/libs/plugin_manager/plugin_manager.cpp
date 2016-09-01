@@ -1,6 +1,8 @@
 #include "plugin_manager.h"
 #include "plugin_manager_private.h"
 
+#include <QSplashScreen>
+
 using namespace PluginSystem;
 
 static PluginManager *plugin_manager_instance = 0;
@@ -47,6 +49,16 @@ void PluginManager::removeObject(QObject *obj)
 QList<QObject *> PluginManager::allObjects()
 {
     return d->allObjects();
+}
+
+void PluginManager::connectSplashScreen(QSplashScreen *screen)
+{
+    d->connectSplashScreen(screen);
+}
+
+void PluginManager::disconnectSplashSceen(QSplashScreen *screen)
+{
+    d->disconnectSplashSceen(screen);
 }
 
 

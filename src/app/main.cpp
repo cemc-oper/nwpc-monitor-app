@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
     splash.showMessage("Loading plugins...");
     app.processEvents();
     PluginManager plugin_manager;
+    PluginManager::connectSplashScreen(&splash);
 
     QStringList plugin_paths;
     QDir rootDir = QApplication::applicationDirPath();
@@ -36,6 +37,8 @@ int main(int argc, char *argv[])
 
     PluginManager::setPluginPaths(plugin_paths);
     PluginManager::loadPlugins();
+
+    PluginManager::disconnectSplashSceen(&splash);
 
     splash.clearMessage();
     app.processEvents();

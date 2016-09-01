@@ -1,11 +1,14 @@
 #pragma once
 
 #include "plugin_system_global.h"
-#include "plugin_manager_private.h"
 
 #include <QObject>
 #include <QList>
 #include <QStringList>
+
+QT_BEGIN_NAMESPACE
+class QSplashScreen;
+QT_END_NAMESPACE
 
 namespace PluginSystem{
 
@@ -28,6 +31,9 @@ public:
     void removeObject(QObject *obj);
 
     QList<QObject *> allObjects();
+
+    void connectSplashScreen(QSplashScreen *screen);
+    void disconnectSplashSceen(QSplashScreen *screen);
 
 private:
     void readPluginPaths();

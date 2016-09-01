@@ -1,4 +1,5 @@
 #include "plugin_manager_private.h"
+#include "plugin_manager.h"
 
 #include "plugin_spec.h"
 
@@ -6,6 +7,7 @@
 #include <QFileInfo>
 #include <QLibrary>
 #include <QListIterator>
+#include <QSplashScreen>
 #include <QtDebug>
 
 using namespace PluginSystem;
@@ -34,11 +36,13 @@ void PluginManagerPrivate::loadPlugins()
     QString error_string;
     foreach(PluginSpec *plugin_spec, load_queue)
     {
+        emit q->signalSplashMessageChanged("Loading plugin's library..." + plugin_spec->name());
         plugin_spec->loadLibrary();
     }
 
     foreach(PluginSpec *plugin_spec, load_queue)
     {
+        emit q->signalSplashMessageChanged("Initializing plugin..." + plugin_spec->name());
         plugin_spec->initializePlugin();
     }
 
@@ -47,6 +51,7 @@ void PluginManagerPrivate::loadPlugins()
     while(iter.hasPrevious())
     {
         PluginSpec *plugin_spec = iter.previous();
+        emit q->signalSplashMessageChanged("Finishing plugin loading..." + plugin_spec->name());
         plugin_spec->pluginsInitialized();
     }
 }
@@ -64,6 +69,19 @@ void PluginManagerPrivate::removeObject(QObject *obj)
 QList<QObject *> PluginManagerPrivate::allObjects()
 {
     return all_objects_;
+}
+
+void PluginManagerPrivate::connectSplashScreen(QSplashScreen *screen)
+{
+    connect(q, &PluginManager::signalSplashMessageChanged,
+            [=](const QString &message){
+        screen->showMessage(message);
+    });
+}
+
+void PluginManagerPrivate::disconnectSplashSceen(QSplashScreen *screen)
+{
+    disconnect(q, &PluginManager::signalSplashMessageChanged, 0, 0);
 }
 
 void PluginManagerPrivate::readPluginPaths()

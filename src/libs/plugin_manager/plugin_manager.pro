@@ -2,7 +2,7 @@ DEFINES += PLUGIN_SYSTEM_LIBRARY
 
 include(../../../nwpc-monitor-app.pri)
 
-QT       -= gui
+QT       += widgets
 
 TARGET = plugin_system
 TEMPLATE = lib

@@ -5,6 +5,10 @@
 #include <QObject>
 #include <QList>
 
+QT_BEGIN_NAMESPACE
+class QSplashScreen;
+QT_END_NAMESPACE
+
 namespace PluginSystem{
 
 class PluginSpec;
@@ -38,6 +42,14 @@ public:
         }
         return results;
     }
+
+    static void connectSplashScreen(QSplashScreen *screen);
+    static void disconnectSplashSceen(QSplashScreen *screen);
+
+signals:
+    void signalSplashMessageChanged(const QString &message);
+
+private:
 
     friend class PluginManagerPrivate;
 };
