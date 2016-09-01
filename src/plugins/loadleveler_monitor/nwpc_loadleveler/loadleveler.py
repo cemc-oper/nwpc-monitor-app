@@ -57,7 +57,8 @@ def llq_object_handler(args):
                     'message': {
                         'output': std_out_string,
                         'error_output': std_error_string
-                    }
+                    },
+                    'time': 'YYYY-MM-DD HH:mm:SS'
                 },
 
             }
@@ -79,7 +80,8 @@ def llq_object_handler(args):
                     'message': {
                         'output': std_out_string,
                         'error_output': std_error_string
-                    }
+                    },
+                    'time': 'YYYY-MM-DD HH:mm:SS'
                 }
             }
         }
@@ -123,7 +125,8 @@ def llq_object_handler(args):
                     'message': {
                         'output': std_out_string,
                         'error_output': std_error_string
-                    }
+                    },
+                    'time': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 },
 
             }
@@ -148,7 +151,8 @@ def llq_object_handler(args):
                         'error_message': 'can not parse result.',
                         'output': std_out_string,
                         'error_output': std_error_string
-                    }
+                    },
+                    'time': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 }
             }
         }
@@ -200,7 +204,8 @@ def llq_object_handler(args):
                 'message': {
                     'output': std_out_string,
                     'error_output': std_error_string
-                }
+                },
+                'time': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             },
 
         }
@@ -245,6 +250,9 @@ def run_handler(args):
     password = args.password
     command = args.command
 
+    request_date_time = datetime.datetime.now()
+    request_time_string = request_date_time.strftime("%Y-%m-%d %H:%M:%S")
+
     client = SSHClient()
     client.set_missing_host_key_policy(AutoAddPolicy())
     client.connect(host, port, user, password)
@@ -263,13 +271,15 @@ def run_handler(args):
         'data': {
             'request': {
                 'command': command,
-                'arguments': []
+                'arguments': [],
+                'time': request_time_string
             },
             'response': {
                 'message': {
                     'output': std_out_string,
                     'error_output': std_error_out_string
-                }
+                },
+                'time': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             }
         }
     }
