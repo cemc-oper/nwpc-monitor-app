@@ -157,12 +157,12 @@ QList<QStandardItem *> QueryItem::buildFromDetailQueryRecord(
         }
         else if(c.value_type_ == QueryValueType::Date)
         {
-            QString item_string_trimmed = item_string.trimmed();
-            QRegularExpressionMatch match = re.match(item_string_trimmed);
+            QRegularExpression re("^([0-9]{1,2})/([0-9]{1,2}) {1,2}([0-9][0-9]):([0-9][0-9])");
+            QRegularExpressionMatch match = re.match(value);
             if(!match.hasMatch())
             {
-                qWarning()<<"[QueryItem::buildFromQueryRecord] can't parse Date item:"<<item_string_trimmed;
-                item->setText(item_string_trimmed);
+                qWarning()<<"[QueryItem::buildFromQueryRecord] can't parse Date item:"<<value;
+                item->setText(value);
                 item->setItemType(QueryItem::ItemType::DateItem);
             }
             else
@@ -185,13 +185,26 @@ QList<QStandardItem *> QueryItem::buildFromDetailQueryRecord(
         }
         else if(c.value_type_ == QueryValueType::FullDate)
         {
-            // TODO：本地系统为中文，无法使用 ddd MMM 解析英文系统的日期
-            //QDateTime date_time = QDateTime::fromString(value, "ddd MMM d hh:mm:ss yyyy"); // Tue Aug 23 01:54:30 2016
-            //item->setText(date_time.toString("ddd MMM d hh:mm:ss yyyy"));
-            //item->setItemType(JobQueryItem::ItemType::FullDateItem);
+            // 本地系统为中文，使用 Qlocale 解析英文系统的日期
+            QLocale locale(QLocale::C);
+            // Month and day has a spacing of 1 or 2 spaces.
+            //  Tue Aug 23 01:54:30 2016
+            //  Thu Sep  1 08:55:23 2016
+            QDateTime date_time = locale.toDateTime(value, "ddd MMM d hh:mm:ss yyyy");
+            if(!date_time.isValid())
+                date_time = locale.toDateTime(value, "ddd MMM  d hh:mm:ss yyyy");
 
-            item->setText(value);
-            item->setItemType(QueryItem::ItemType::NormalItem);
+            if(date_time.isValid())
+            {
+                item->setText(date_time.toString("MM/dd HH:mm"));
+                item->setItemType(QueryItem::ItemType::FullDateItem);
+            }
+            else
+            {
+                qWarning()<<"[QueryItem::buildFromQueryRecord] can't parse FullDateItem:"<<value;
+                item->setText(value);
+                item->setItemType(QueryItem::ItemType::NormalItem);
+            }
         }
         else
         {
