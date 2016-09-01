@@ -50,14 +50,13 @@ ProgressItemWidget *ProgressManagerPrivate::addTask(const QFuture<void> &future,
     connect(watcher, &QFutureWatcherBase::progressValueChanged, this, &ProgressManagerPrivate::updateStatusBarWidget);
     connect(watcher, &QFutureWatcherBase::finished, this, &ProgressManagerPrivate::updateStatusBarWidget);
 
-    watcher->setFuture(future);
-
     ProgressItemWidget *progress_widget = new ProgressItemWidget;
     progress_widget->setTitle(title);
     connect(watcher, &QFutureWatcherBase::progressValueChanged, progress_widget, &ProgressItemWidget::setProgressValue);
     connect(watcher, &QFutureWatcherBase::finished, progress_widget, &ProgressItemWidget::slotProgressFinish);
-
     progress_view_->addProgressItemWidget(progress_widget);
+
+    watcher->setFuture(future);
 
     updateStatusBarWidget();
 
