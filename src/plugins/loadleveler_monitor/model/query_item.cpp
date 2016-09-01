@@ -1,6 +1,8 @@
 #include "query_item.h"
 
 #include <QDateTime>
+#include <QRegularExpression>
+#include <QLocale>
 #include <QtDebug>
 
 using namespace LoadLevelerMonitor::Model;
@@ -56,6 +58,8 @@ QList<QStandardItem *> QueryItem::buildFromQueryRecord(
 
         QueryItem *item = new QueryItem{};
         item->category_ = c;
+
+        // TODO: repeat is evil
         if(c.value_type_ == QueryValueType::String)
         {
             item->setText(item_string.trimmed());
@@ -68,9 +72,38 @@ QList<QStandardItem *> QueryItem::buildFromQueryRecord(
         }
         else if(c.value_type_ == QueryValueType::Date)
         {
-            QDateTime date_time = QDateTime::fromString(item_string.trimmed(), "M/d HH:mm");
-            item->setText(date_time.toString("MM/dd HH:mm"));
-            item->setItemType(QueryItem::ItemType::DateItem);
+            QString item_string_trimmed = item_string.trimmed();
+
+            // Different data has different spaces between date and time, such as:
+            //  9/1  08:17  --  2 spaces
+            //  8/20 02:52  --  1 space
+            // As QDateTime::fromString does not support regular expression,
+            // we should use QRegularExpression to get elements of datetime.
+            QRegularExpression re("^([0-9]{1,2})/([0-9]{1,2}) {1,2}([0-9][0-9]):([0-9][0-9])");
+            QRegularExpressionMatch match = re.match(item_string_trimmed);
+            if(!match.hasMatch())
+            {
+                qWarning()<<"[QueryItem::buildFromQueryRecord] can't parse Date item:"<<item_string_trimmed;
+                item->setText(item_string_trimmed);
+                item->setItemType(QueryItem::ItemType::DateItem);
+            }
+            else
+            {
+                int month = match.captured(1).toInt();
+                int day = match.captured(2).toInt();
+                int hour = match.captured(3).toInt();
+                int minute = match.captured(4).toInt();
+
+                QDate cur_date = QDate::currentDate();
+                int year = cur_date.year();
+                if(month > cur_date.month())
+                {
+                    year -= 1;
+                }
+                QDateTime date_time{QDate{year,month,day}, QTime{hour,minute}};
+                item->setText(date_time.toString("MM/dd HH:mm"));
+                item->setItemType(QueryItem::ItemType::DateItem);
+            }
         }
         else
         {
@@ -110,6 +143,8 @@ QList<QStandardItem *> QueryItem::buildFromDetailQueryRecord(
         QString value = line.mid(index + 2).trimmed();
         QueryItem *item = new QueryItem{};
         item->category_ = c;
+
+        //TODO: repeat is evil
         if(c.value_type_ == QueryValueType::String)
         {
             item->setText(value);
@@ -122,9 +157,31 @@ QList<QStandardItem *> QueryItem::buildFromDetailQueryRecord(
         }
         else if(c.value_type_ == QueryValueType::Date)
         {
-            QDateTime date_time = QDateTime::fromString(value, "M/d HH:mm");
-            item->setText(date_time.toString("MM/dd HH:mm"));
-            item->setItemType(QueryItem::ItemType::DateItem);
+            QString item_string_trimmed = item_string.trimmed();
+            QRegularExpressionMatch match = re.match(item_string_trimmed);
+            if(!match.hasMatch())
+            {
+                qWarning()<<"[QueryItem::buildFromQueryRecord] can't parse Date item:"<<item_string_trimmed;
+                item->setText(item_string_trimmed);
+                item->setItemType(QueryItem::ItemType::DateItem);
+            }
+            else
+            {
+                int month = match.captured(1).toInt();
+                int day = match.captured(2).toInt();
+                int hour = match.captured(3).toInt();
+                int minute = match.captured(4).toInt();
+
+                QDate cur_date = QDate::currentDate();
+                int year = cur_date.year();
+                if(month > cur_date.month())
+                {
+                    year -= 1;
+                }
+                QDateTime date_time{QDate{year,month,day}, QTime{hour,minute}};
+                item->setText(date_time.toString("MM/dd HH:mm"));
+                item->setItemType(QueryItem::ItemType::DateItem);
+            }
         }
         else if(c.value_type_ == QueryValueType::FullDate)
         {

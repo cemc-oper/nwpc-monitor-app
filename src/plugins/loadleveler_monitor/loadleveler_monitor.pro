@@ -70,7 +70,8 @@ HEADERS += loadleveler_monitor_plugin.h \
     model/model_constants.h
 
 DISTFILES += loadleveler_monitor.json \
-    nwpc_loadleveler/loadleveler.py
+    nwpc_loadleveler/loadleveler.py \
+    doc/llq.introduction.md
 
 unix {
     target.path = /usr/lib
