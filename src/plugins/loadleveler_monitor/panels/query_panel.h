@@ -61,7 +61,9 @@ protected:
 
     // request component
     void setRequestCommandLabel(const QJsonObject &request_object);
-    void setRequestTimeLabel(const QDateTime &request_time, const QDateTime &finish_time);
+    void setRequestTimeLable(const QDateTime &request_time);
+    void setResponseSecondLabel(const QDateTime &request_time, const QDateTime &finish_time);
+    void setResponseHandleSecondLabel(const QDateTime &received_time, const QDateTime &finish_time);
 
     // table style
     void setQueryModel(QPointer<LoadLevelerMonitor::Model::QueryModel> query_model);

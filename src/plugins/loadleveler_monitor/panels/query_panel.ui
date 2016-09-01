@@ -44,52 +44,8 @@
       <property name="verticalSpacing">
        <number>0</number>
       </property>
-      <item row="0" column="0">
-       <widget class="QFrame" name="query_command_frame">
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_6">
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         <property name="verticalSpacing">
-          <number>0</number>
-         </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="query_command_icon_label">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="pixmap">
-            <pixmap resource="../loadleveler_monitor.qrc">:/loadleveler_monitor/images/repo_16.png</pixmap>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="query_command_label">
-           <property name="text">
-            <string>command</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QFrame" name="query_time_frame">
+      <item row="0" column="2">
+       <widget class="QFrame" name="response_second_frame">
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
@@ -113,7 +69,7 @@
           <number>0</number>
          </property>
          <item row="0" column="0">
-          <widget class="QLabel" name="query_time_icon_label">
+          <widget class="QLabel" name="response_second_icon_label">
            <property name="text">
             <string/>
            </property>
@@ -123,29 +79,69 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QLabel" name="query_time_label">
+          <widget class="QLabel" name="response_second_label">
+           <property name="toolTip">
+            <string>response second</string>
+           </property>
            <property name="text">
-            <string>run time</string>
+            <string>response second</string>
            </property>
           </widget>
          </item>
         </layout>
        </widget>
       </item>
-      <item row="0" column="2">
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>559</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
       <item row="0" column="3">
+       <widget class="QFrame" name="response_handle_second_frame">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="response_handle_second_icon_label">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="../loadleveler_monitor.qrc">:/loadleveler_monitor/images/clock_16.png</pixmap>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="response_handle_second_label">
+           <property name="toolTip">
+            <string>&lt;html&gt;
+&lt;head/&gt;
+&lt;body&gt;
+&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;response handle second&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;seconds of handling response.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</string>
+           </property>
+           <property name="text">
+            <string>response handle second</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="0" column="5">
        <widget class="QFrame" name="style_group_frame">
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
@@ -220,6 +216,107 @@
            </property>
            <property name="checkable">
             <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QFrame" name="query_command_frame">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_6">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <property name="verticalSpacing">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="query_command_icon_label">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="../loadleveler_monitor.qrc">:/loadleveler_monitor/images/repo_16.png</pixmap>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="query_command_label">
+           <property name="text">
+            <string>command</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>559</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="1">
+       <widget class="QFrame" name="request_time_frame">
+        <property name="toolTip">
+         <string>request time</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="request_time_icon_label">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="../loadleveler_monitor.qrc">:/loadleveler_monitor/images/clock_16.png</pixmap>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="request_time_label">
+           <property name="text">
+            <string>request time</string>
            </property>
           </widget>
          </item>

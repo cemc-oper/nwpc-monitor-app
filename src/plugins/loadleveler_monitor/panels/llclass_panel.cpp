@@ -46,15 +46,19 @@ void LlclassPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRes
 {
     qDebug()<<"[LlclassPanel::slotReciveResponseStdOut] start";
 
-    // run time
-    QDateTime finish_date_time = QDateTime::currentDateTime();
-    setRequestTimeLabel(command_response.request_date_time_, finish_date_time);
+    // request time
+    setRequestTimeLable(command_response.request_date_time_);
+    // response time
+    QDateTime received_date_time = QDateTime::currentDateTime();
+    setResponseSecondLabel(command_response.request_date_time_, received_date_time);
 
     // response json doc
     QJsonDocument doc = QJsonDocument::fromJson(command_response.std_out_.toUtf8());
     if(!doc.isObject())
     {
         qDebug()<<"[LlclassPanel::slotReciveResponseStdOut] result is not a json string.";
+        QDateTime response_handle_finish_time = QDateTime::currentDateTime();
+        setResponseHandleSecondLabel(received_date_time, response_handle_finish_time);
         return;
     }
 
@@ -64,6 +68,9 @@ void LlclassPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRes
         QString error_message = content_object["data"].toObject()["message"].toObject()["error_message"].toString();
         qDebug()<<"[LlclassPanel::slotReciveResponseStdOut] ERROR:"<<error_message;
         setQueryModel(nullptr);
+        // TODO：repeat is evil
+        QDateTime response_handle_finish_time = QDateTime::currentDateTime();
+        setResponseHandleSecondLabel(received_date_time, response_handle_finish_time);
         return;
     }
 
@@ -97,6 +104,8 @@ void LlclassPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRes
     if(!query_model_)
     {
         ui->action_text_style->activate(QAction::Trigger);
+        QDateTime response_handle_finish_time = QDateTime::currentDateTime();
+        setResponseHandleSecondLabel(received_date_time, response_handle_finish_time);
         return;
     }
 
@@ -108,6 +117,9 @@ void LlclassPanel::slotReciveCommandResponse(const ProgressUtil::ShellCommandRes
     {
         updateChartStylePage();
     }
+
+    QDateTime response_handle_finish_time = QDateTime::currentDateTime();
+    setResponseHandleSecondLabel(received_date_time, response_handle_finish_time);
 
     qDebug()<<"[LlqPanel::slotReciveResponseStdOut] end";
 }

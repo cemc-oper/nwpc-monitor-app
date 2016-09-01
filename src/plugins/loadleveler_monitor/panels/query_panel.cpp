@@ -30,7 +30,9 @@ QueryPanel::QueryPanel(QWidget *parent) :
     ui->setupUi(this);
 
     ui->query_command_frame->hide();
-    ui->query_time_frame->hide();
+    ui->request_time_frame->hide();
+    ui->response_second_frame->hide();
+    ui->response_handle_second_frame->hide();
 
     connect(ui->query_button, &QPushButton::clicked,
             this, &QueryPanel::slotRequestQuery);
@@ -118,11 +120,24 @@ void QueryPanel::setRequestCommandLabel(const QJsonObject &request_object)
     ui->query_command_frame->show();
 }
 
-void QueryPanel::setRequestTimeLabel(const QDateTime &request_time, const QDateTime &finish_time)
+void QueryPanel::setRequestTimeLable(const QDateTime &request_time)
+{
+    ui->request_time_label->setText(request_time.toString());
+    ui->request_time_frame->show();
+}
+
+void QueryPanel::setResponseSecondLabel(const QDateTime &request_time, const QDateTime &finish_time)
 {
     qint64 interval_seconds = request_time.msecsTo(finish_time);
-    ui->query_time_label->setText(QString::number(interval_seconds/1000.0) + " seconds");
-    ui->query_time_frame->show();
+    ui->response_second_label->setText(QString::number(interval_seconds/1000.0) + " seconds");
+    ui->response_second_frame->show();
+}
+
+void QueryPanel::setResponseHandleSecondLabel(const QDateTime &received_time, const QDateTime &finish_time)
+{
+    qint64 interval_seconds = received_time.msecsTo(finish_time);
+    ui->response_handle_second_label->setText(QString::number(interval_seconds/1000.0) + " seconds");
+    ui->response_handle_second_frame->show();
 }
 
 void QueryPanel::showChart(QAction *chart_type_action)
