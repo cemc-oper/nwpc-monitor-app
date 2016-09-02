@@ -97,6 +97,8 @@ void TableStylePageTest::testOperationButtons()
     QTest::mouseClick(multi_button, Qt::LeftButton);
     QCOMPARE(y, 2);
 
+    page.setOperationButtons(QVector<QPointer<QAction>>());
+
     add_action->deleteLater();
     multi_action->deleteLater();
 }
