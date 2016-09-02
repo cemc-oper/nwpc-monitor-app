@@ -1,5 +1,4 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    libs \
-    plugins
+    loadleveler_monitor

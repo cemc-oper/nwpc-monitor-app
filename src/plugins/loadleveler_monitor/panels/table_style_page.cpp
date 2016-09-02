@@ -77,3 +77,27 @@ void TableStylePage::setModel(QPointer<QueryModel> query_model)
         emit signalQueryModelContextMenuRequest(ui->table_view->mapToGlobal(pos), ui->table_view->indexAt(pos));
     });
 }
+
+void TableStylePage::setOperationButtons(QVector<QPointer<QAction>> action_list)
+{
+    clearOperationButtons();
+    foreach(QAction *action, action_list)
+    {
+        QPointer<QPushButton> push_button = new QPushButton{this};
+        push_button->setObjectName(action->objectName() + ".button");
+        push_button->setText(action->text());
+        ui->operation_button_layout->addWidget(push_button);
+        connect(push_button, &QPushButton::clicked, [=](bool){
+            action->activate(QAction::Trigger);
+        });
+    }
+}
+
+void TableStylePage::clearOperationButtons()
+{
+    QLayoutItem *child;
+    while ((child = ui->operation_button_layout->takeAt(0)) != 0)
+    {
+        delete child;
+    }
+}

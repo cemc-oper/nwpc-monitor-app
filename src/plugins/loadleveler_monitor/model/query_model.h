@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../loadleveler_monitor_global.h"
 #include "query_category.h"
 #include "query_category_list.h"
 
@@ -11,7 +12,7 @@ namespace LoadLevelerMonitor{
 
 namespace Model{
 
-class QueryModel : public QStandardItemModel
+class LOADLEVELER_MONITOR_EXPORT QueryModel : public QStandardItemModel
 {
     Q_OBJECT
 public:
