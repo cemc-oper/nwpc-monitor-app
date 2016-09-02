@@ -60,6 +60,7 @@ ProgressItemWidget *ProgressManagerPrivate::addTask(const QFuture<void> &future,
 
     updateStatusBarWidget();
 
+    qDebug()<<"[ProgressManagerPrivate::addTask] end"<<title;
     return progress_widget;
 }
 

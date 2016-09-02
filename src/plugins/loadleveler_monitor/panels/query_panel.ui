@@ -118,7 +118,7 @@
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap resource="../loadleveler_monitor.qrc">:/loadleveler_monitor/images/clock_16.png</pixmap>
+            <pixmap resource="../loadleveler_monitor.qrc">:/loadleveler_monitor/images/response_handle_second@16x16.png</pixmap>
            </property>
           </widget>
          </item>
@@ -309,7 +309,7 @@
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap resource="../loadleveler_monitor.qrc">:/loadleveler_monitor/images/clock_16.png</pixmap>
+            <pixmap resource="../loadleveler_monitor.qrc">:/loadleveler_monitor/images/request_time@16x16.png</pixmap>
            </property>
           </widget>
          </item>
