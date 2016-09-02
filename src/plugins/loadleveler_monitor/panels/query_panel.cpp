@@ -122,7 +122,7 @@ void QueryPanel::setRequestCommandLabel(const QJsonObject &request_object)
 
 void QueryPanel::setRequestTimeLable(const QDateTime &request_time)
 {
-    ui->request_time_label->setText(request_time.toString("yyyy-mm-dd HH:mm:ss"));
+    ui->request_time_label->setText(request_time.toString("yyyy-MM-dd HH:mm:ss"));
     ui->request_time_frame->show();
 }
 
