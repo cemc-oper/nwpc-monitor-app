@@ -25,6 +25,7 @@
 #include <QJsonValue>
 #include <QDateTime>
 #include <QtCharts/QChart>
+#include <QMessageBox>
 #include <QtDebug>
 
 using namespace LoadLevelerMonitor;
@@ -306,13 +307,24 @@ void LlqPanel::setupOperationAction()
     cancel_action_ = new QAction{"llcancel"};
     cancel_action_->setObjectName("LlqPanel.OperationAction.cancel");
     connect(cancel_action_, &QAction::triggered, [=](bool){
-        cancelSelectedJobs();
+        QMessageBox::StandardButton button = QMessageBox::warning(
+                    this, tr("Warning"),
+                    tr("llcancel is a dangrous command. Do you want to continue?"),
+                    QMessageBox::Yes|QMessageBox::No);
+        if(button == QMessageBox::Yes)
+            cancelSelectedJobs();
     });
 
     release_action_ = new QAction{"llhold_r"};
     release_action_->setObjectName("LlqPanel.OperationAction.release");
     connect(release_action_, &QAction::triggered, [=](bool){
-        releaseSelectedJobs();
+        QMessageBox::StandardButton button = QMessageBox::warning(
+                    this, tr("Warning"),
+                    tr("llhold is a dangrous command. Do you want to continue?"),
+                    QMessageBox::Yes|QMessageBox::No);
+        if(button == QMessageBox::Yes)
+            releaseSelectedJobs();
+
     });
 
     QVector<QPointer<QAction>> action_vector;
@@ -324,13 +336,25 @@ void LlqPanel::setupOperationAction()
 void LlqPanel::cancelSelectedJobs()
 {
     QList<int> checked_rows = Util::ModelView::getCheckedRows(query_model_);
-    qDebug()<<checked_rows;
+    QStringList job_id_list = LlqPanel::getLlqJobIdList(query_model_, checked_rows);
+    foreach(QString job_id, job_id_list)
+    {
+        QMap<QString, QString> args = monitor_widget_->getSessionArguments();
+        args["command"] = "llcancel " + job_id;
+        LoadLevelerMonitorPlugin::client()->runLlcancelCommand(args, this);
+    }
 }
 
 void LlqPanel::releaseSelectedJobs()
 {
     QList<int> checked_rows = Util::ModelView::getCheckedRows(query_model_);
-    qDebug()<<checked_rows;
+    QStringList job_id_list = LlqPanel::getLlqJobIdList(query_model_, checked_rows);
+    foreach(QString job_id, job_id_list)
+    {
+        QMap<QString, QString> args = monitor_widget_->getSessionArguments();
+        args["command"] = "llhold -r " + job_id;
+        LoadLevelerMonitorPlugin::client()->runLlholdCommand(args, this);
+    }
 }
 
 void LlqPanel::updateChartStylePage()
@@ -387,4 +411,27 @@ void LlqPanel::updateChartStylePage()
     }
 
     qDebug()<<"[LlqPanel::updateChartStylePage] chart style end";
+}
+
+QStringList LlqPanel::getLlqJobIdList(QueryModel *model, const QList<int> &row_list)
+{
+    QStringList job_id_list;
+    int id_category_index = model->categoryList().indexFromId(Constant::Llq::Id);
+    if(id_category_index == -1)
+    {
+        qWarning()<<"[LlqPanel::getLlqJobIdList] can't get id category";
+        return job_id_list;
+    }
+    foreach(int row_index, row_list)
+    {
+        QStandardItem *id_item = model->invisibleRootItem()->child(row_index, id_category_index);
+        if(id_item == nullptr)
+        {
+            qWarning()<<"[LlqPanel::getLlqJobIdList] can't get id in row:"<<row_index;
+            continue;
+        }
+        job_id_list.append(id_item->text());
+    }
+
+    return job_id_list;
 }

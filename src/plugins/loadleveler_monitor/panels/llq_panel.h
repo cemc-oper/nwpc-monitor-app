@@ -35,6 +35,8 @@ private:
     // chart style
     void updateChartStylePage() override;
 
+    static QStringList getLlqJobIdList(Model::QueryModel *model,const QList<int> &row_list);
+
     QPointer<QAction> cancel_action_;
     QPointer<QAction> release_action_;
 };

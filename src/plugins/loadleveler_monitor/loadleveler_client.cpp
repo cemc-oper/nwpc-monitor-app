@@ -61,6 +61,63 @@ void LoadLevelerClient::runLlqCommand(QMap<QString, QString> args, QPointer<Pane
     qDebug()<<"[LoadLevelerClient::runLlqCommand] end";
 }
 
+// TODO: repeat is evil
+void LoadLevelerClient::runLlcancelCommand(QMap<QString, QString> args, QPointer<Panels::LlqPanel> llq_panel)
+{
+    qDebug()<<"[LoadLevelerClient::runLlcancelCommand] start";
+    QDateTime request_date_time = QDateTime::currentDateTime();
+    QStringList arguments;
+    PythonCommand* command = createPythonCommand();
+
+    arguments<<"run";
+    arguments<<"--host=" + args["host"];
+    arguments<<"--port=" + args["port"];
+    arguments<<"--user=" + args["user"];
+    arguments<<"--password=" + args["password"];
+    arguments<<"--command=" + args["command"];
+
+    qDebug()<<"[LoadLevelerClient::runLlcancelCommand] args:"<<arguments;
+
+    QFuture<void> future = executePythonScript(
+        command,
+        "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app\\src\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
+        arguments
+    );
+
+    ProgressItemWidget *progress_item_widget =  ProgressManager::addTask(future, args["command"]);
+    progress_item_widget->setDescription("Run shell command: " + args["command"] + " ...");
+
+    qDebug()<<"[LoadLevelerClient::runLlcancelCommand] end";
+}
+
+void LoadLevelerClient::runLlholdCommand(QMap<QString, QString> args, QPointer<Panels::LlqPanel> llq_panel)
+{
+    qDebug()<<"[LoadLevelerClient::runLlcancelCommand] start";
+    QDateTime request_date_time = QDateTime::currentDateTime();
+    QStringList arguments;
+    PythonCommand* command = createPythonCommand();
+
+    arguments<<"run";
+    arguments<<"--host=" + args["host"];
+    arguments<<"--port=" + args["port"];
+    arguments<<"--user=" + args["user"];
+    arguments<<"--password=" + args["password"];
+    arguments<<"--command=" + args["command"];
+
+    qDebug()<<"[LoadLevelerClient::runLlholdCommand] args:"<<arguments;
+
+    QFuture<void> future = executePythonScript(
+        command,
+        "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app\\src\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
+        arguments
+    );
+
+    ProgressItemWidget *progress_item_widget =  ProgressManager::addTask(future, args["command"]);
+    progress_item_widget->setDescription("Run shell command: " + args["command"] + " ...");
+
+    qDebug()<<"[LoadLevelerClient::runLlholdCommand] end";
+}
+
 void LoadLevelerClient::runLlclassCommand(QMap<QString, QString> args, QPointer<Panels::QueryPanel> query_panel)
 {
     qDebug()<<"[LoadLevelerClient::runLlqCommand] start";

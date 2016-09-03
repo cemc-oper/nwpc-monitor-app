@@ -22,6 +22,8 @@ public:
     ~LoadLevelerClient();
 
     void runLlqCommand(QMap<QString, QString> args, QPointer<Panels::LlqPanel> llq_panel = nullptr);
+    void runLlcancelCommand(QMap<QString, QString> args, QPointer<Panels::LlqPanel> llq_panel = nullptr);
+    void runLlholdCommand(QMap<QString, QString> args, QPointer<Panels::LlqPanel> llq_panel = nullptr);
     void runLlclassCommand(QMap<QString, QString> args, QPointer<Panels::QueryPanel> query_panel = nullptr);
 
     void runCommand(QMap<QString, QString> args, QPointer<ClientCommandWidget> command_widget = nullptr);
