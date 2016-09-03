@@ -6,6 +6,7 @@
 #include <QStandardItem>
 #include <QStandardItemModel>
 #include <QPointer>
+#include <QList>
 
 class ModelViewUtilTest : public QObject
 {
@@ -22,6 +23,9 @@ private Q_SLOTS:
 
     void testAllItemChecked_data();
     void testAllItemChecked();
+
+    void testGetCheckedRows_data();
+    void testGetCheckedRows();
 
 private:
     QPointer<QStandardItemModel> normal_model_;
@@ -80,6 +84,41 @@ void ModelViewUtilTest::testAllItemChecked()
     for(int i=0; i<row_count; i++)
     {
         QCOMPARE(normal_model_->invisibleRootItem()->child(i,0)->checkState(), Qt::Checked);
+    }
+}
+
+void ModelViewUtilTest::testGetCheckedRows_data()
+{
+    QPointer<QStandardItemModel> model = new QStandardItemModel;
+    model->invisibleRootItem()->appendRow(QList<QStandardItem *>()<<new QStandardItem("cell (0,0)")<<new QStandardItem("cell (0,1)"));
+    model->invisibleRootItem()->appendRow(QList<QStandardItem *>()<<new QStandardItem("cell (1,0)")<<new QStandardItem("cell (1,1)"));
+    model->invisibleRootItem()->appendRow(QList<QStandardItem *>()<<new QStandardItem("cell (2,0)")<<new QStandardItem("cell (2,1)"));
+    model->invisibleRootItem()->appendRow(QList<QStandardItem *>()<<new QStandardItem("cell (3,0)")<<new QStandardItem("cell (3,1)"));
+    model->invisibleRootItem()->child(1)->setCheckState(Qt::Checked);
+    model->invisibleRootItem()->child(2)->setCheckState(Qt::Checked);
+
+    QTest::addColumn<QPointer<QStandardItemModel>>("model");
+    QTest::addColumn<QList<int>>("selected_rows");
+
+    QTest::newRow("normal_model")
+            << model
+            << QList<int>()<<1<<2;
+    QTest::newRow("empty model")
+            << empty_model_
+            << QList<int>();
+}
+
+void ModelViewUtilTest::testGetCheckedRows()
+{
+    QFETCH(QPointer<QStandardItemModel>, model);
+    QFETCH(QList<int>, selected_rows);
+
+    QList<int> get_selected_rows = Util::ModelView::getCheckedRows(model);
+
+    QCOMPARE(get_selected_rows.size(), selected_rows.size());
+    for(int i=0; i<get_selected_rows.size(); i++)
+    {
+        QCOMPARE(get_selected_rows[i], selected_rows[i]);
     }
 }
 

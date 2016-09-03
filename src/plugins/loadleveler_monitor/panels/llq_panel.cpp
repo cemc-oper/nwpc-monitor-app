@@ -14,6 +14,8 @@
 #include "../client_command_widget.h"
 #include "../loadleveler_monitor_widget.h"
 
+#include <util/model_view_util.h>
+
 #include <QActionGroup>
 #include <QMap>
 #include <QMenu>
@@ -36,6 +38,8 @@ LlqPanel::LlqPanel(QWidget *parent) :
 {
     setupTemplate();
     setupStyle();
+
+    setupOperationAction();
 }
 
 LlqPanel::~LlqPanel()
@@ -295,6 +299,38 @@ void LlqPanel::setupStyle()
 
     connect(ui->table_style_page, &TableStylePage::signalQueryModelContextMenuRequest,
             this, &LlqPanel::slotQueryModelContextMenuRequest);
+}
+
+void LlqPanel::setupOperationAction()
+{
+    cancel_action_ = new QAction{"llcancel"};
+    cancel_action_->setObjectName("LlqPanel.OperationAction.cancel");
+    connect(cancel_action_, &QAction::triggered, [=](bool){
+        cancelSelectedJobs();
+    });
+
+    release_action_ = new QAction{"llhold_r"};
+    release_action_->setObjectName("LlqPanel.OperationAction.release");
+    connect(release_action_, &QAction::triggered, [=](bool){
+        releaseSelectedJobs();
+    });
+
+    QVector<QPointer<QAction>> action_vector;
+    action_vector.push_back(cancel_action_);
+    action_vector.push_back(release_action_);
+    ui->table_style_page->setOperationButtons(action_vector);
+}
+
+void LlqPanel::cancelSelectedJobs()
+{
+    QList<int> checked_rows = Util::ModelView::getCheckedRows(query_model_);
+    qDebug()<<checked_rows;
+}
+
+void LlqPanel::releaseSelectedJobs()
+{
+    QList<int> checked_rows = Util::ModelView::getCheckedRows(query_model_);
+    qDebug()<<checked_rows;
 }
 
 void LlqPanel::updateChartStylePage()

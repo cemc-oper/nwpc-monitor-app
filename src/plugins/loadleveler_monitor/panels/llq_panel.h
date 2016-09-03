@@ -1,12 +1,13 @@
 #pragma once
 
+#include "../loadleveler_monitor_global.h"
 #include "query_panel.h"
 
 namespace LoadLevelerMonitor{
 
 namespace Panels{
 
-class LlqPanel : public QueryPanel
+class LOADLEVELER_MONITOR_EXPORT LlqPanel : public QueryPanel
 {
     Q_OBJECT
 
@@ -26,8 +27,16 @@ private:
     void setupTemplate() override;
     void setupStyle() override;
 
+    void setupOperationAction();
+
+    void cancelSelectedJobs();
+    void releaseSelectedJobs();
+
     // chart style
     void updateChartStylePage() override;
+
+    QPointer<QAction> cancel_action_;
+    QPointer<QAction> release_action_;
 };
 
 }

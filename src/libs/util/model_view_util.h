@@ -12,7 +12,7 @@ namespace Util{
 namespace ModelView{
 
 UTILSHARED_EXPORT void changeAllItemsCheckState(QStandardItemModel *model, Qt::CheckState check_state);
-
+UTILSHARED_EXPORT QList<int> getCheckedRows(QStandardItemModel *model);
 }
 
 }
