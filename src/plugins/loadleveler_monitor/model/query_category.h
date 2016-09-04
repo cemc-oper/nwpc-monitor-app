@@ -6,6 +6,10 @@
 #include <QString>
 #include <QVector>
 #include <QStringList>
+#include <QtDebug>
+
+#include <tuple>
+#include <vector>
 
 namespace LoadLevelerMonitor{
 
@@ -19,13 +23,15 @@ enum class QueryType{
     LlclassDetailQuery
 };
 
-namespace QueryValueType{
-    static const QString Unknown    {"unknown"};
-    static const QString String     {"string"};
-    static const QString Number     {"number"};
-    static const QString Date       {"date"};            // 'MM/DD HH:MM'
-    static const QString FullDate   {"full_date"};   // Mon Aug 22 02:25:09 2016
-}
+enum class QueryValueType{
+    Unknown,
+    String,
+    Number,
+    Date,       // 'MM/DD HH:MM'
+    FullDate    // Mon Aug 22 02:25:09 2016
+};
+
+LOADLEVELER_MONITOR_EXPORT QDebug operator <<(QDebug debug, const QueryValueType &value_type);
 
 struct QueryCategory
 {
@@ -61,17 +67,15 @@ public:
     virtual bool isValid();
     bool operator ==(const QueryCategory &other);
 
-    static QueryCategory createLlqCategoryFromStringList(const QStringList &record);
-    static QueryCategory createLlclassDefaultCategory(const QStringList &record);
-    static QueryCategory createLlclassDetailCategory(const QStringList &record);
-
-    static QueryCategory createCategoryFromStringList(const QStringList &record);
+    static QueryCategory createLlqDefaultQueryCategory(const std::tuple<QString, QString, QString, QueryValueType, QString> &record);
+    static QueryCategory createLlqDetialQueryCategory(const std::tuple<QString, QString, QString, QueryValueType> &record);
+    static QueryCategory createLlclassDefaultCategory(const std::tuple<QString, QString, QString, QueryValueType> &record);
+    static QueryCategory createLlclassDetailCategory(const std::tuple<QString, QString, QString, QueryValueType> &record);
 
     QString id_;
     QString display_name_; // step id
     QString label_; // Step Id
-    QString value_type_; // string or number,
-
+    QueryValueType value_type_; // string or number,
     QueryType category_type_;
 
     // llq query
@@ -79,8 +83,7 @@ public:
     int token_length_; // length in output line
 };
 
-
-static const QVector<QStringList> kLlqDefaultQueryCategoryList = {
+static const std::vector<std::tuple<QString, QString, QString, QueryValueType, QString>> kLlqDefaultQueryCategoryList = {
     // id,                          display_name_,              label,          type                        command_line_,
 
     // used in default llq output
@@ -108,7 +111,7 @@ static const QVector<QStringList> kLlqDefaultQueryCategoryList = {
 };
 
 
-static const QVector<QStringList> kLlqDetailQuerySerialJobCategoryList = {
+static const std::vector<std::tuple<QString, QString, QString, QueryValueType>> kLlqDetailQuerySerialJobCategoryList = {
     //id,                               display name,           label,              type
     {Constant::Llq::Id,                 "Id",                   "Job Step Id",      QueryValueType::String      },
     {Constant::Llq::Owner,              "Owner",                "Owner",            QueryValueType::String      },
@@ -122,7 +125,7 @@ static const QVector<QStringList> kLlqDetailQuerySerialJobCategoryList = {
   //{Constant::Llq::No,                 "No.",                  "No.",              QueryValueType::Number,     }    // row number in result records
 };
 
-static const QVector<QStringList> kLlqDetailQueryParallelCategoryList = {
+static const std::vector<std::tuple<QString, QString, QString, QueryValueType>> kLlqDetailQueryParallelCategoryList = {
     //id,                               display name,           label,              type
     {Constant::Llq::Id,                 "Id",                   "Job Step Id",      QueryValueType::String      },
     {Constant::Llq::Owner,              "Owner",                "Owner",            QueryValueType::String      },
@@ -137,7 +140,7 @@ static const QVector<QStringList> kLlqDetailQueryParallelCategoryList = {
   //{Constant::Llq::No,                 "No.",                  "No.",              QueryValueType::Number,     }    // row number in result records
 };
 
-static const QVector<QStringList> kLlclassDefaultQueryCategoryList = {
+static const std::vector<std::tuple<QString, QString, QString, QueryValueType>> kLlclassDefaultQueryCategoryList = {
     {Constant::Llclass::Name,           "Name",                 "Name",                 QueryValueType::String      },
     {Constant::Llclass::MaxJobCpu,      "Max Job Cpu",          "MaxJobCPUd+hh:mm:ss",  QueryValueType::String      },
     {Constant::Llclass::MaxProcCpu,     "Max Proc Cpu",         "MaxProcCPUd+hh:mm:ss", QueryValueType::String      },
@@ -149,7 +152,7 @@ static const QVector<QStringList> kLlclassDefaultQueryCategoryList = {
     {Constant::Llclass::No,             "No.",                  "No.",                  QueryValueType::Number,     }    // row number in result records
 };
 
-static const QVector<QStringList> kLlclassDetailQueryCategoryList = {
+static const std::vector<std::tuple<QString, QString, QString, QueryValueType>> kLlclassDetailQueryCategoryList = {
     {Constant::Llclass::Name,               "Name",             "Name",                 QueryValueType::String      },
     {Constant::Llclass::ExcludeUsers,       "Exclude Users",    "Exclude_Users",        QueryValueType::String      },
     {Constant::Llclass::IncludeUsers,       "Include Users",    "Include_Users",        QueryValueType::String      },

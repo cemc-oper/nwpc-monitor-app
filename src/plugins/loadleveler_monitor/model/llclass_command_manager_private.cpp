@@ -37,13 +37,13 @@ LlclassCommandManagerPrivate::~LlclassCommandManagerPrivate()
 void LlclassCommandManagerPrivate::initCategoryList()
 {
     default_query_category_list_.clear();
-    foreach(QStringList record, kLlclassDefaultQueryCategoryList)
+    foreach(auto record, kLlclassDefaultQueryCategoryList)
     {
         default_query_category_list_.append(QueryCategory::createLlclassDefaultCategory(record));
     }
 
     detail_query_category_list_.clear();
-    foreach(QStringList record, kLlclassDetailQueryCategoryList)
+    foreach(auto record, kLlclassDetailQueryCategoryList)
     {
         QueryCategory c = QueryCategory::createLlclassDetailCategory(record);
         detail_query_category_list_.append(c);

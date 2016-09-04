@@ -1,6 +1,40 @@
 #include "query_category.h"
 
 using namespace LoadLevelerMonitor::Model;
+using namespace std;
+
+namespace LoadLevelerMonitor{
+
+namespace Model {
+LOADLEVELER_MONITOR_EXPORT QDebug operator <<(QDebug debug, const QueryValueType &value_type)
+{
+    switch(value_type)
+    {
+    case QueryValueType::Unknown:
+        debug<<"Unknown";
+        break;
+    case QueryValueType::String:
+        debug<<"String";
+        break;
+    case QueryValueType::Number:
+        debug<<"Number";
+        break;
+    case QueryValueType::Date:
+        debug<<"Date";
+        break;
+    case QueryValueType::FullDate:
+        debug<<"FullDate";
+        break;
+    default:
+        Q_ASSERT(0);
+        debug<<"unspported";
+    }
+
+    return debug;
+}
+}
+}
+
 
 const QString QueryCategory::kValidId{".valid_id"};
 
@@ -14,66 +48,64 @@ bool QueryCategory::operator ==(const QueryCategory &other)
     return id_ == other.id_;
 }
 
-QueryCategory QueryCategory::createLlqCategoryFromStringList(const QStringList &record)
+QueryCategory QueryCategory::createLlqDefaultQueryCategory(const tuple<QString, QString, QString, QueryValueType, QString> &record)
 {
-    QueryCategory category = QueryCategory::createCategoryFromStringList(record);
-    if(record.length() == 5)
-    {
-        category.category_type_ = QueryType::LlqDefaultQuery;
-    }
-    else if(record.length()==4)
-    {
-        category.category_type_ = QueryType::LlqDetailQuery;
-    }
+    QString id = get<0>(record);
+    QString display_name = get<0>(record);
+    QString label= get<2>(record);
+    QueryValueType type = get<3>(record);
+    QString comand_line = get<4>(record);
+    QueryCategory category;
+    category.id_ = id;
+    category.display_name_ = display_name;
+    category.label_ = label;
+    category.value_type_ = type;
+    category.command_line_ = comand_line;
+    category.category_type_ = QueryType::LlqDefaultQuery;
     return category;
 }
 
-QueryCategory QueryCategory::createLlclassDefaultCategory(const QStringList &record)
+QueryCategory QueryCategory::createLlqDetialQueryCategory(const tuple<QString, QString, QString, QueryValueType> &record)
 {
-    QueryCategory category = QueryCategory::createCategoryFromStringList(record);
+    QString id = get<0>(record);
+    QString display_name = get<0>(record);
+    QString label= get<2>(record);
+    QueryValueType type = get<3>(record);
+    QueryCategory category;
+    category.id_ = id;
+    category.display_name_ = display_name;
+    category.label_ = label;
+    category.value_type_ = type;
+    category.category_type_ = QueryType::LlqDetailQuery;
+    return category;
+}
+
+QueryCategory QueryCategory::createLlclassDefaultCategory(const tuple<QString, QString, QString, QueryValueType> &record)
+{
+    QString id = get<0>(record);
+    QString display_name = get<0>(record);
+    QString label= get<2>(record);
+    QueryValueType type = get<3>(record);
+    QueryCategory category;
+    category.id_ = id;
+    category.display_name_ = display_name;
+    category.label_ = label;
+    category.value_type_ = type;
     category.category_type_ = QueryType::LlclassDefaultQuery;
     return category;
 }
 
-QueryCategory QueryCategory::createLlclassDetailCategory(const QStringList &record)
+QueryCategory QueryCategory::createLlclassDetailCategory(const tuple<QString, QString, QString, QueryValueType> &record)
 {
-    QueryCategory category = QueryCategory::createCategoryFromStringList(record);
+    QString id = get<0>(record);
+    QString display_name = get<0>(record);
+    QString label= get<2>(record);
+    QueryValueType type = get<3>(record);
+    QueryCategory category;
+    category.id_ = id;
+    category.display_name_ = display_name;
+    category.label_ = label;
+    category.value_type_ = type;
     category.category_type_ = QueryType::LlclassDetailQuery;
     return category;
-}
-
-QueryCategory QueryCategory::createCategoryFromStringList(const QStringList &record)
-{
-    if(record.length() == 5)
-    {
-        QString id = record[0];
-        QString display_name = record[1];
-        QString label= record[2];
-        QString type = record[3];
-        QString comand_line = record[4];
-        QueryCategory category;
-        category.id_ = id;
-        category.display_name_ = display_name;
-        category.label_ = label;
-        category.value_type_ = type;
-        category.command_line_ = comand_line;
-        return category;
-    }
-    else if(record.length()==4)
-    {
-        QString id = record[0];
-        QString display_name = record[1];
-        QString label = record[2];
-        QString type = record[3];
-        QueryCategory category;
-        category.id_ = id;
-        category.display_name_ = display_name;
-        category.label_ = label;
-        category.value_type_ = type;
-        return category;
-    }
-    else
-    {
-        return QueryCategory();
-    }
 }

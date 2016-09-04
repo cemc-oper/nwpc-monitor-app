@@ -36,22 +36,22 @@ LlqCommandManagerPrivate::~LlqCommandManagerPrivate()
 void LlqCommandManagerPrivate::initCategoryList()
 {
     default_query_category_list_.clear();
-    foreach(QStringList record, kLlqDefaultQueryCategoryList)
+    foreach(auto record, kLlqDefaultQueryCategoryList)
     {
-        default_query_category_list_.append(QueryCategory::createLlqCategoryFromStringList(record));
+        default_query_category_list_.append(QueryCategory::createLlqDefaultQueryCategory(record));
     }
 
     serial_job_detail_category_list_.clear();
-    foreach(QStringList record, kLlqDetailQuerySerialJobCategoryList)
+    foreach(auto record, kLlqDetailQuerySerialJobCategoryList)
     {
-        QueryCategory c = QueryCategory::createLlqCategoryFromStringList(record);
+        QueryCategory c = QueryCategory::createLlqDetialQueryCategory(record);
         serial_job_detail_category_list_.append(c);
     }
 
     parallel_job_detail_category_list_.clear();
-    foreach(QStringList record, kLlqDetailQueryParallelCategoryList)
+    foreach(auto record, kLlqDetailQueryParallelCategoryList)
     {
-        QueryCategory c = QueryCategory::createLlqCategoryFromStringList(record);
+        QueryCategory c = QueryCategory::createLlqDetialQueryCategory(record);
         parallel_job_detail_category_list_.append(c);
     }
 }
