@@ -6,7 +6,7 @@ QT       += core gui widgets charts
 
 TARGET = loadleveler_monitor
 TEMPLATE = lib
-CONFIG += plugin
+CONFIG += plugin c++11
 
 INCLUDEPATH += ../../libs
 INCLUDEPATH += ../../plugins

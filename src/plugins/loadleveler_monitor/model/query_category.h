@@ -83,87 +83,86 @@ public:
     int token_length_; // length in output line
 };
 
-static const std::vector<std::tuple<QString, QString, QString, QueryValueType, QString>> kLlqDefaultQueryCategoryList = {
+const std::vector< std::tuple<QString, QString, QString, QueryValueType, QString> > kLlqDefaultQueryCategoryList = {
     // id,                          display_name_,              label,          type                        command_line_,
 
     // used in default llq output
-    {Constant::Llq::Id,             "Id",                       "Id",           QueryValueType::String,     ""              },// cma20n04.2681148.0
-    {Constant::Llq::Submitted,      "Submitted",                "Submitted",    QueryValueType::Date,       "",             },// same as Queue Date, use in standard llq.
+    std::make_tuple(Constant::Llq::Id,             "Id",                       "Id",           QueryValueType::String,      ""              ),// cma20n04.2681148.0
+    std::make_tuple(Constant::Llq::Submitted,      "Submitted",                "Submitted",    QueryValueType::Date,        ""              ),// same as Queue Date, use in standard llq.
 
     // used in llq's -f arguemnt.
-    {Constant::Llq::Class,          "Class",                    "Class",        QueryValueType::String,     "%c",           },// normal|operation
-    {Constant::Llq::DispatchDate,   "Dispatch Date",            "Disp. Date",   QueryValueType::Date,       "%dd",          },// 08/20 12:37
-    {Constant::Llq::QueueDate,      "Queue Date",               "Queue Date",   QueryValueType::Date,       "%dq",          },// 08/20 12:37
-    {Constant::Llq::UnixGroup,      "UNIX Group",               "Unix Group",   QueryValueType::String,     "%gu",          },// eps
-    {Constant::Llq::HostName,       "Running On",               "Running On",   QueryValueType::String,     "%h",           },// cma19n06
-    {Constant::Llq::StepId,         "Step Id",                  "Step Id",      QueryValueType::String,     "%id",          },// cma20n04.2681148.0
-    {Constant::Llq::ImageSize,      "Virtual Image Size",       "Im.Size",      QueryValueType::Number,     "%is",          },// 13
-    {Constant::Llq::JobName,        "Job Name",                 "Job Name",     QueryValueType::String,     "%jn",          },// cma20n04.2681148
-    {Constant::Llq::JobType,        "Job Type",                 "Type",         QueryValueType::String,     "%jt",          },// SER|PAR
-    {Constant::Llq::HostCount,      "Number of Hosts",          "NM",           QueryValueType::Number,     "%nh",          },// 16
-    {Constant::Llq::Owner,          "Job Owner",                "Owner",        QueryValueType::String,     "%o",           },// nwp_qu
-    {Constant::Llq::Priority,       "User Priority",            "PRI",          QueryValueType::Number,     "%p",           },// 50
-    {Constant::Llq::StepName,       "Step Name",                "Step Name",    QueryValueType::String,     "%sn",          },// 0
-    {Constant::Llq::Status,         "Status",                   "ST",           QueryValueType::String,     "%st",          },// R
+    std::make_tuple(Constant::Llq::Class,          "Class",                    "Class",        QueryValueType::String,      "%c"            ),// normal|operation
+    std::make_tuple(Constant::Llq::DispatchDate,   "Dispatch Date",            "Disp. Date",   QueryValueType::Date,        "%dd"           ),// 08/20 12:37
+    std::make_tuple(Constant::Llq::QueueDate,      "Queue Date",               "Queue Date",   QueryValueType::Date,        "%dq"           ),// 08/20 12:37
+    std::make_tuple(Constant::Llq::UnixGroup,      "UNIX Group",               "Unix Group",   QueryValueType::String,      "%gu"           ),// eps
+    std::make_tuple(Constant::Llq::HostName,       "Running On",               "Running On",   QueryValueType::String,      "%h"            ),// cma19n06
+    std::make_tuple(Constant::Llq::StepId,         "Step Id",                  "Step Id",      QueryValueType::String,      "%id"           ),// cma20n04.2681148.0
+    std::make_tuple(Constant::Llq::ImageSize,      "Virtual Image Size",       "Im.Size",      QueryValueType::Number,      "%is"           ),// 13
+    std::make_tuple(Constant::Llq::JobName,        "Job Name",                 "Job Name",     QueryValueType::String,      "%jn"           ),// cma20n04.2681148
+    std::make_tuple(Constant::Llq::JobType,        "Job Type",                 "Type",         QueryValueType::String,      "%jt"           ),// SER|PAR
+    std::make_tuple(Constant::Llq::HostCount,      "Number of Hosts",          "NM",           QueryValueType::Number,      "%nh"           ),// 16
+    std::make_tuple(Constant::Llq::Owner,          "Job Owner",                "Owner",        QueryValueType::String,      "%o"            ),// nwp_qu
+    std::make_tuple(Constant::Llq::Priority,       "User Priority",            "PRI",          QueryValueType::Number,      "%p"            ),// 50
+    std::make_tuple(Constant::Llq::StepName,       "Step Name",                "Step Name",    QueryValueType::String,      "%sn"           ),// 0
+    std::make_tuple(Constant::Llq::Status,         "Status",                   "ST",           QueryValueType::String,      "%st"           ),// R
 
     // additional categories not used in command argument.
-    {Constant::Llq::No,             "No.",                      "No.",          QueryValueType::Number,     "",             }    // row number in result records
+    std::make_tuple(Constant::Llq::No,             "No.",                      "No.",          QueryValueType::Number,      ""              ),    // row number in result records
 };
 
 
-static const std::vector<std::tuple<QString, QString, QString, QueryValueType>> kLlqDetailQuerySerialJobCategoryList = {
+const std::vector<std::tuple<QString, QString, QString, QueryValueType>> kLlqDetailQuerySerialJobCategoryList = {
     //id,                               display name,           label,              type
-    {Constant::Llq::Id,                 "Id",                   "Job Step Id",      QueryValueType::String      },
-    {Constant::Llq::Owner,              "Owner",                "Owner",            QueryValueType::String      },
-    {Constant::Llq::Class,              "Class",                "Class",            QueryValueType::String      },
-    {Constant::Llq::JobScript,          "Job Script",           "Cmd",              QueryValueType::String      },
-    {Constant::Llq::FullStatus,         "Status",               "Status",           QueryValueType::String      },
-    {Constant::Llq::QueueFullDate,      "Queue Date",           "Queue Date",       QueryValueType::FullDate    },
-  //{Constant::Llq::StepType,           "Step Type",            "Step Type",        QueryValueType::String      },       // Serial | General Parallel
+    std::make_tuple(Constant::Llq::Id,                 "Id",                   "Job Step Id",      QueryValueType::String      ),
+    std::make_tuple(Constant::Llq::Owner,              "Owner",                "Owner",            QueryValueType::String      ),
+    std::make_tuple(Constant::Llq::Class,              "Class",                "Class",            QueryValueType::String      ),
+    std::make_tuple(Constant::Llq::JobScript,          "Job Script",           "Cmd",              QueryValueType::String      ),
+    std::make_tuple(Constant::Llq::FullStatus,         "Status",               "Status",           QueryValueType::String      ),
+    std::make_tuple(Constant::Llq::QueueFullDate,      "Queue Date",           "Queue Date",       QueryValueType::FullDate    ),
+  //std::make_tuple(Constant::Llq::StepType,           "Step Type",            "Step Type",        QueryValueType::String      ),       // Serial | General Parallel
 
     // additional categories not used in command argument.
-  //{Constant::Llq::No,                 "No.",                  "No.",              QueryValueType::Number,     }    // row number in result records
+  //std::make_tuple(Constant::Llq::No,                 "No.",                  "No.",              QueryValueType::Number,     )    // row number in result records
 };
 
-static const std::vector<std::tuple<QString, QString, QString, QueryValueType>> kLlqDetailQueryParallelCategoryList = {
+const std::vector<std::tuple<QString, QString, QString, QueryValueType>> kLlqDetailQueryParallelCategoryList = {
     //id,                               display name,           label,              type
-    {Constant::Llq::Id,                 "Id",                   "Job Step Id",      QueryValueType::String      },
-    {Constant::Llq::Owner,              "Owner",                "Owner",            QueryValueType::String      },
-    {Constant::Llq::Class,              "Class",                "Class",            QueryValueType::String      },
-    {Constant::Llq::JobScript,          "Job Script",           "Executable",       QueryValueType::String      },
-    {Constant::Llq::FullStatus,         "Status",               "Status",           QueryValueType::String      },
-    {Constant::Llq::QueueFullDate,      "Queue Date",           "Queue Date",       QueryValueType::FullDate    },
-    {Constant::Llq::NodeMinimum,        "Node Minimun",         "Node minimum",     QueryValueType::Number      },
-    //{Constant::Llq::StepType,           "Step Type",            "Step Type",        QueryValueType::String      },       // Serial | General Parallel
+    std::make_tuple(Constant::Llq::Id,                 "Id",                   "Job Step Id",      QueryValueType::String      ),
+    std::make_tuple(Constant::Llq::Owner,              "Owner",                "Owner",            QueryValueType::String      ),
+    std::make_tuple(Constant::Llq::Class,              "Class",                "Class",            QueryValueType::String      ),
+    std::make_tuple(Constant::Llq::JobScript,          "Job Script",           "Executable",       QueryValueType::String      ),
+    std::make_tuple(Constant::Llq::FullStatus,         "Status",               "Status",           QueryValueType::String      ),
+    std::make_tuple(Constant::Llq::QueueFullDate,      "Queue Date",           "Queue Date",       QueryValueType::FullDate    ),
+    std::make_tuple(Constant::Llq::NodeMinimum,        "Node Minimun",         "Node minimum",     QueryValueType::Number      ),
+  //std::make_tuple(Constant::Llq::StepType,           "Step Type",            "Step Type",        QueryValueType::String      ),       // Serial | General Parallel
 
     // additional categories not used in command argument.
-  //{Constant::Llq::No,                 "No.",                  "No.",              QueryValueType::Number,     }    // row number in result records
+  //std::make_tuple(Constant::Llq::No,                 "No.",                  "No.",              QueryValueType::Number,     )    // row number in result records
 };
 
-static const std::vector<std::tuple<QString, QString, QString, QueryValueType>> kLlclassDefaultQueryCategoryList = {
-    {Constant::Llclass::Name,           "Name",                 "Name",                 QueryValueType::String      },
-    {Constant::Llclass::MaxJobCpu,      "Max Job Cpu",          "MaxJobCPUd+hh:mm:ss",  QueryValueType::String      },
-    {Constant::Llclass::MaxProcCpu,     "Max Proc Cpu",         "MaxProcCPUd+hh:mm:ss", QueryValueType::String      },
-    {Constant::Llclass::FreeSlots,      "Free Slots",           "FreeSlots",            QueryValueType::String      },
-    {Constant::Llclass::MaxSlots,       "Max Slots",            "MaxSlots",             QueryValueType::String      },
-    {Constant::Llclass::Description,    "Description",          "Description",          QueryValueType::String      },
+const std::vector<std::tuple<QString, QString, QString, QueryValueType>> kLlclassDefaultQueryCategoryList = {
+    std::make_tuple(Constant::Llclass::Name,           "Name",                 "Name",                 QueryValueType::String      ),
+    std::make_tuple(Constant::Llclass::MaxJobCpu,      "Max Job Cpu",          "MaxJobCPUd+hh:mm:ss",  QueryValueType::String      ),
+    std::make_tuple(Constant::Llclass::MaxProcCpu,     "Max Proc Cpu",         "MaxProcCPUd+hh:mm:ss", QueryValueType::String      ),
+    std::make_tuple(Constant::Llclass::FreeSlots,      "Free Slots",           "FreeSlots",            QueryValueType::String      ),
+    std::make_tuple(Constant::Llclass::MaxSlots,       "Max Slots",            "MaxSlots",             QueryValueType::String      ),
+    std::make_tuple(Constant::Llclass::Description,    "Description",          "Description",          QueryValueType::String      ),
 
     // additional categories not used in command argument.
-    {Constant::Llclass::No,             "No.",                  "No.",                  QueryValueType::Number,     }    // row number in result records
+    std::make_tuple(Constant::Llclass::No,             "No.",                  "No.",                  QueryValueType::Number      )    // row number in result records
 };
 
-static const std::vector<std::tuple<QString, QString, QString, QueryValueType>> kLlclassDetailQueryCategoryList = {
-    {Constant::Llclass::Name,               "Name",             "Name",                 QueryValueType::String      },
-    {Constant::Llclass::ExcludeUsers,       "Exclude Users",    "Exclude_Users",        QueryValueType::String      },
-    {Constant::Llclass::IncludeUsers,       "Include Users",    "Include_Users",        QueryValueType::String      },
-    {Constant::Llclass::WallColockLimit,    "Wall clock limit", "Wall_clock_limit",     QueryValueType::String      },
-    {Constant::Llclass::FreeSlots,          "Free Slots",       "Free_slots",           QueryValueType::String      },
-    {Constant::Llclass::MaxSlots,           "Max Slots",        "Maximum_slots",        QueryValueType::String      },
+const std::vector<std::tuple<QString, QString, QString, QueryValueType>> kLlclassDetailQueryCategoryList = {
+    std::make_tuple(Constant::Llclass::Name,               "Name",             "Name",                 QueryValueType::String      ),
+    std::make_tuple(Constant::Llclass::ExcludeUsers,       "Exclude Users",    "Exclude_Users",        QueryValueType::String      ),
+    std::make_tuple(Constant::Llclass::IncludeUsers,       "Include Users",    "Include_Users",        QueryValueType::String      ),
+    std::make_tuple(Constant::Llclass::WallColockLimit,    "Wall clock limit", "Wall_clock_limit",     QueryValueType::String      ),
+    std::make_tuple(Constant::Llclass::FreeSlots,          "Free Slots",       "Free_slots",           QueryValueType::String      ),
+    std::make_tuple(Constant::Llclass::MaxSlots,           "Max Slots",        "Maximum_slots",        QueryValueType::String      ),
 
     // additional categories not used in command argument.
-  //{Constant::Llclass::No,                 "No.",                  "No.",          QueryValueType::Number,     }    // row number in result records
+  //std::make_tuple(Constant::Llclass::No,                 "No.",                  "No.",          QueryValueType::Number,     )    // row number in result records
 };
-
 
 }
 
