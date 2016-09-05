@@ -51,7 +51,7 @@ bool QueryCategory::operator ==(const QueryCategory &other)
 QueryCategory QueryCategory::createLlqDefaultQueryCategory(const tuple<QString, QString, QString, QueryValueType, QString> &record)
 {
     QString id = get<0>(record);
-    QString display_name = get<0>(record);
+    QString display_name = get<1>(record);
     QString label= get<2>(record);
     QueryValueType type = get<3>(record);
     QString comand_line = get<4>(record);
