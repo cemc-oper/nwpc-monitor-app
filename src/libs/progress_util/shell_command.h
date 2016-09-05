@@ -65,7 +65,6 @@ protected:
 
     QFutureWatcher<void> watcher_;
 
-    friend class ProgressUtil::AsyncShellCommandJob;
     friend class ProgressUtil::AsyncRunJob<ShellCommand>;
 };
 
