@@ -47,9 +47,7 @@ public:
         command_line_{""},
         token_length_{-1}
     {
-
     }
-
     QueryCategory(const QueryCategory &other):
         id_{other.id_},
         display_name_{other.display_name_},
@@ -59,18 +57,11 @@ public:
         command_line_{other.command_line_},
         token_length_{other.token_length_}
     {
-
     }
-
     virtual ~QueryCategory(){}
 
     virtual bool isValid();
     bool operator ==(const QueryCategory &other);
-
-    static QueryCategory createLlqDefaultQueryCategory(const std::tuple<QString, QString, QString, QueryValueType, QString> &record);
-    static QueryCategory createLlqDetialQueryCategory(const std::tuple<QString, QString, QString, QueryValueType> &record);
-    static QueryCategory createLlclassDefaultCategory(const std::tuple<QString, QString, QString, QueryValueType> &record);
-    static QueryCategory createLlclassDetailCategory(const std::tuple<QString, QString, QString, QueryValueType> &record);
 
     QString id_;
     QString display_name_; // step id
@@ -81,6 +72,11 @@ public:
     // llq query
     QString command_line_; // %id
     int token_length_; // length in output line
+
+    static QueryCategory createLlqDefaultQueryCategory(const std::tuple<QString, QString, QString, QueryValueType, QString> &record);
+    static QueryCategory createLlqDetialQueryCategory(const std::tuple<QString, QString, QString, QueryValueType> &record);
+    static QueryCategory createLlclassDefaultCategory(const std::tuple<QString, QString, QString, QueryValueType> &record);
+    static QueryCategory createLlclassDetailCategory(const std::tuple<QString, QString, QString, QueryValueType> &record);
 };
 
 const std::vector< std::tuple<QString, QString, QString, QueryValueType, QString> > kLlqDefaultQueryCategoryList = {
