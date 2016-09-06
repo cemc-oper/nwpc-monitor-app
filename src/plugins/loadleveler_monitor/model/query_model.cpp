@@ -71,19 +71,10 @@ QueryModel *QueryModel::buildFromLlqDefaultQueryResponse(const QStringList &line
     // get categories' title
     QString category_title_line = lines[0];
     QString category_mark_line = lines[1].trimmed();
-
-    QStringList category_marks = category_mark_line.split(' ');
-
-    QVector<int> category_column_width(category_marks.size());
-
-    std::transform(category_marks.begin(), category_marks.end(),
-                   category_column_width.begin(), [=](QString str){
-        return str.length();
-    });
+    QVector<int> category_column_width = getCategoryColumnWidth(category_mark_line);
 
     QVector<QString> category_title_list(category_column_width.size());
     int pos = 0;
-
     std::transform(category_column_width.begin(), category_column_width.end(),
                    category_title_list.begin(), [&pos, &category_title_line](int width){
         QString title = category_title_line.mid(pos, width);
@@ -257,20 +248,12 @@ QueryModel *QueryModel::buildFromLlclassDefaultQueryResponse(const QStringList &
 
     // get categories' title
     QStringList category_title_line = lines.mid(0,2);
+
     QString category_mark_line = lines[2].trimmed();
-
-    QStringList category_marks = category_mark_line.split(' ');
-
-    QVector<int> category_column_width(category_marks.size());
-
-    std::transform(category_marks.begin(), category_marks.end(),
-                   category_column_width.begin(), [=](QString str){
-        return str.length();
-    });
+    QVector<int> category_column_width = getCategoryColumnWidth(category_mark_line);
 
     QVector<QString> category_title_list(category_column_width.size());
     int pos = 0;
-
     std::transform(category_column_width.begin(), category_column_width.end(),
                    category_title_list.begin(), [&pos, &category_title_line](int width){
         QString title = category_title_line[0].mid(pos, width).trimmed() +

@@ -33,6 +33,8 @@ enum class QueryValueType{
 
 LOADLEVELER_MONITOR_EXPORT QDebug operator <<(QDebug debug, const QueryValueType &value_type);
 
+LOADLEVELER_MONITOR_EXPORT QVector<int> getCategoryColumnWidth(const QString &mark_line);
+
 struct LOADLEVELER_MONITOR_EXPORT QueryCategory
 {
 public:

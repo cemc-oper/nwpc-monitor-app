@@ -32,6 +32,18 @@ LOADLEVELER_MONITOR_EXPORT QDebug operator <<(QDebug debug, const QueryValueType
 
     return debug;
 }
+
+LOADLEVELER_MONITOR_EXPORT QVector<int> getCategoryColumnWidth(const QString &mark_line)
+{
+    QStringList category_marks = mark_line.split(' ');
+    QVector<int> category_column_width(category_marks.size());
+    transform(category_marks.begin(), category_marks.end(),
+                   category_column_width.begin(), [=](QString str){
+        return str.length();
+    });
+    return category_column_width;
+}
+
 }
 }
 

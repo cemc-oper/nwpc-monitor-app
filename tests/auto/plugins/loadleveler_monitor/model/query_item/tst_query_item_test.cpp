@@ -24,6 +24,9 @@ private Q_SLOTS:
     void testBuildLlqDefaultQueryRow_data();
     void testBuildLlqDefaultQueryRow();
 
+    void testBuildLlclassDefaultQueryRow_data();
+    void testBuildLlclassDefaultQueryRow();
+
 private:
     QueryCategoryList llq_default_category_list_;
     QueryCategoryList llq_detail_category_list_;
@@ -37,22 +40,17 @@ QueryItemTest::QueryItemTest()
 
 void QueryItemTest::initTestCase()
 {
-    QString category_mark_line = "------------------------ ---------- ----------- -- --- ------------ -----------";
-    QStringList category_marks = category_mark_line.split(' ');
-    QVector<int> category_column_width(category_marks.size());
-    transform(category_marks.begin(), category_marks.end(),
-                   category_column_width.begin(), [=](QString str){
-        return str.length();
-    });
+    QString llq_category_mark_line = "------------------------ ---------- ----------- -- --- ------------ -----------";
+    QVector<int> llq_category_column_width = getCategoryColumnWidth(llq_category_mark_line);
 
     vector<tuple<QString, QString, QueryValueType, int>> llq_default_vector = {
-        make_tuple(Constant::Llq::Id,           "Id",           QueryValueType::String, category_column_width[0]),
-        make_tuple(Constant::Llq::Owner,        "Owner",        QueryValueType::String, category_column_width[1]),
-        make_tuple(Constant::Llq::Submitted,    "Submiited",    QueryValueType::Date,   category_column_width[2]),
-        make_tuple(Constant::Llq::Status,       "ST",           QueryValueType::String, category_column_width[3]),
-        make_tuple(Constant::Llq::Priority,     "PRI",          QueryValueType::Number, category_column_width[4]),
-        make_tuple(Constant::Llq::Class,        "Class",        QueryValueType::String, category_column_width[5]),
-        make_tuple(Constant::Llq::HostName,     "Running On",   QueryValueType::String, category_column_width[6]),
+        make_tuple(Constant::Llq::Id,           "Id",           QueryValueType::String, llq_category_column_width[0]),
+        make_tuple(Constant::Llq::Owner,        "Owner",        QueryValueType::String, llq_category_column_width[1]),
+        make_tuple(Constant::Llq::Submitted,    "Submiited",    QueryValueType::Date,   llq_category_column_width[2]),
+        make_tuple(Constant::Llq::Status,       "ST",           QueryValueType::String, llq_category_column_width[3]),
+        make_tuple(Constant::Llq::Priority,     "PRI",          QueryValueType::Number, llq_category_column_width[4]),
+        make_tuple(Constant::Llq::Class,        "Class",        QueryValueType::String, llq_category_column_width[5]),
+        make_tuple(Constant::Llq::HostName,     "Running On",   QueryValueType::String, llq_category_column_width[6]),
     };
 
     for_each(llq_default_vector.begin(), llq_default_vector.end(),
@@ -188,6 +186,16 @@ void QueryItemTest::testBuildLlqDefaultQueryRow()
     QCOMPARE(row[4]->text(), pri);
     QCOMPARE(row[5]->text(), ll_class);
     QCOMPARE(row[6]->text(), running_on);
+
+}
+
+void QueryItemTest::testBuildLlclassDefaultQueryRow_data()
+{
+
+}
+
+void QueryItemTest::testBuildLlclassDefaultQueryRow()
+{
 
 }
 
