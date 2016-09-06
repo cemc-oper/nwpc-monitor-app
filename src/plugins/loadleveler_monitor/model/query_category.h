@@ -84,7 +84,7 @@ public:
 };
 
 const std::vector< std::tuple<QString, QString, QString, QueryValueType, QString> > kLlqDefaultQueryCategoryList = {
-    // id,                          display_name_,              label,          type                        command_line_,
+    //              id,                            display_name_,              label,          type                        command_line_,
 
     // used in default llq output
     std::make_tuple(Constant::Llq::Id,             "Id",                       "Id",           QueryValueType::String,      ""              ),// cma20n04.2681148.0
@@ -112,29 +112,29 @@ const std::vector< std::tuple<QString, QString, QString, QueryValueType, QString
 
 
 const std::vector<std::tuple<QString, QString, QString, QueryValueType>> kLlqDetailQuerySerialJobCategoryList = {
-    //id,                               display name,           label,              type
-    std::make_tuple(Constant::Llq::Id,                 "Id",                   "Job Step Id",      QueryValueType::String      ),
-    std::make_tuple(Constant::Llq::Owner,              "Owner",                "Owner",            QueryValueType::String      ),
-    std::make_tuple(Constant::Llq::Class,              "Class",                "Class",            QueryValueType::String      ),
-    std::make_tuple(Constant::Llq::JobScript,          "Job Script",           "Cmd",              QueryValueType::String      ),
-    std::make_tuple(Constant::Llq::FullStatus,         "Status",               "Status",           QueryValueType::String      ),
-    std::make_tuple(Constant::Llq::QueueFullDate,      "Queue Date",           "Queue Date",       QueryValueType::FullDate    ),
-  //std::make_tuple(Constant::Llq::StepType,           "Step Type",            "Step Type",        QueryValueType::String      ),       // Serial | General Parallel
+    //              id,                                 display name,           label,              type
+    std::make_tuple(Constant::Llq::Id,                  "Id",                   "Job Step Id",      QueryValueType::String      ),
+    std::make_tuple(Constant::Llq::Owner,               "Owner",                "Owner",            QueryValueType::String      ),
+    std::make_tuple(Constant::Llq::Class,               "Class",                "Class",            QueryValueType::String      ),
+    std::make_tuple(Constant::Llq::JobScript,           "Job Script",           "Cmd",              QueryValueType::String      ),
+    std::make_tuple(Constant::Llq::FullStatus,          "Status",               "Status",           QueryValueType::String      ),
+    std::make_tuple(Constant::Llq::QueueFullDate,       "Queue Date",           "Queue Date",       QueryValueType::FullDate    ),
+  //std::make_tuple(Constant::Llq::StepType,            "Step Type",            "Step Type",        QueryValueType::String      ),       // Serial | General Parallel
 
     // additional categories not used in command argument.
-  //std::make_tuple(Constant::Llq::No,                 "No.",                  "No.",              QueryValueType::Number,     )    // row number in result records
+  //std::make_tuple(Constant::Llq::No,                  "No.",                  "No.",              QueryValueType::Number,     )    // row number in result records
 };
 
 const std::vector<std::tuple<QString, QString, QString, QueryValueType>> kLlqDetailQueryParallelCategoryList = {
-    //id,                               display name,           label,              type
-    std::make_tuple(Constant::Llq::Id,                 "Id",                   "Job Step Id",      QueryValueType::String      ),
-    std::make_tuple(Constant::Llq::Owner,              "Owner",                "Owner",            QueryValueType::String      ),
-    std::make_tuple(Constant::Llq::Class,              "Class",                "Class",            QueryValueType::String      ),
-    std::make_tuple(Constant::Llq::JobScript,          "Job Script",           "Executable",       QueryValueType::String      ),
-    std::make_tuple(Constant::Llq::FullStatus,         "Status",               "Status",           QueryValueType::String      ),
-    std::make_tuple(Constant::Llq::QueueFullDate,      "Queue Date",           "Queue Date",       QueryValueType::FullDate    ),
-    std::make_tuple(Constant::Llq::NodeMinimum,        "Node Minimun",         "Node minimum",     QueryValueType::Number      ),
-  //std::make_tuple(Constant::Llq::StepType,           "Step Type",            "Step Type",        QueryValueType::String      ),       // Serial | General Parallel
+    //              id,                                 display name,           label,              type
+    std::make_tuple(Constant::Llq::Id,                  "Id",                   "Job Step Id",      QueryValueType::String      ),
+    std::make_tuple(Constant::Llq::Owner,               "Owner",                "Owner",            QueryValueType::String      ),
+    std::make_tuple(Constant::Llq::Class,               "Class",                "Class",            QueryValueType::String      ),
+    std::make_tuple(Constant::Llq::JobScript,           "Job Script",           "Executable",       QueryValueType::String      ),
+    std::make_tuple(Constant::Llq::FullStatus,          "Status",               "Status",           QueryValueType::String      ),
+    std::make_tuple(Constant::Llq::QueueFullDate,       "Queue Date",           "Queue Date",       QueryValueType::FullDate    ),
+    std::make_tuple(Constant::Llq::NodeMinimum,         "Node Minimun",         "Node minimum",     QueryValueType::Number      ),
+  //std::make_tuple(Constant::Llq::StepType,            "Step Type",            "Step Type",        QueryValueType::String      ),       // Serial | General Parallel
 
     // additional categories not used in command argument.
   //std::make_tuple(Constant::Llq::No,                 "No.",                  "No.",              QueryValueType::Number,     )    // row number in result records
