@@ -3,6 +3,7 @@
 #include "llclass_command_manager.h"
 #include "query_item.h"
 #include "query_model.h"
+#include "query_util.h"
 
 #include "../chart/category_model_processor.h"
 #include "../chart/processor_condition.h"
@@ -101,6 +102,7 @@ QueryModel *LlclassCommandManagerPrivate::buildQueryModelFromResponse(const QJso
     QString type = result_object["type"].toString();
     QJsonObject data = result_object["data"].toObject();
 
+    // request command
     QJsonObject request = data["request"].toObject();
     QString command = request["command"].toString();
     QJsonArray arguments = request["arguments"].toArray();
@@ -110,17 +112,21 @@ QueryModel *LlclassCommandManagerPrivate::buildQueryModelFromResponse(const QJso
         arg_list.append(an_argument.toString());
     }
 
+    // response message
     QJsonObject message = data["response"].toObject()["message"].toObject();
     QString output_message = message["output"].toString();
+    Q_ASSERT(!output_message.isEmpty());
+    QStringList lines = output_message.split('\n');
 
+    // build model
     QueryModel *model = nullptr;
-    if(isDetailQuery(command, arg_list))
+    if(QueryUtil::isDetailQuery(command, arg_list))
     {
-        model = buildDetailQueryModel(output_message);
+        model = QueryModel::buildFromLlclassDetailQueryResponse(lines);
     }
     else
     {
-        model = buildDefaultQueryModel(output_message);
+        model = QueryModel::buildFromLlclassDefaultQueryResponse(lines);
     }
 
     qDebug()<<"[LlclassCommandManagerPrivate::buildLlclassQueryModelFromResponse] end";
@@ -141,39 +147,6 @@ void LlclassCommandManagerPrivate::initModelProcessor()
     PercentBarProcessor *processor = new PercentBarProcessor{item_category,total_category,free_category};
     processor->setDisplayName("slots");
     registerProcessorMap(condition, processor);
-}
-
-QueryModel *LlclassCommandManagerPrivate::buildDefaultQueryModel(const QString &output)
-{
-    Q_ASSERT(!output.isEmpty());
-
-    QStringList lines = output.split('\n');
-
-    // 不能直接对每行使用trimmed，因为第一项和最后一项都可能为空，trimmed将破坏数据。
-//    std::transform(lines.begin(), lines.end(),
-//                   lines.begin(), [=](QString str){
-//        return str.trimmed();
-//    });
-
-    return QueryModel::buildFromLlclassDefaultQueryResponse(lines);
-}
-
-QueryModel *LlclassCommandManagerPrivate::buildDetailQueryModel(const QString &output)
-{
-    Q_ASSERT(!output.isEmpty());
-
-    QStringList lines = output.split('\n');
-
-    return QueryModel::buildFromLlclassDetailQueryResponse(lines);
-}
-
-bool LlclassCommandManagerPrivate::isDetailQuery(const QString &command, const QStringList &arguments) const
-{
-    Q_UNUSED(arguments);
-    if(command.indexOf("-l") == -1)
-        return false;
-    else
-        return true;
 }
 
 void LlclassCommandManagerPrivate::registerProcessorMap(ProcessorCondition *condition, ModelProcessor *processor)

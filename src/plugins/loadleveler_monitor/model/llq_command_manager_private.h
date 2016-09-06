@@ -56,11 +56,6 @@ signals:
 public slots:
 
 private:
-    QueryModel *buildDefaultQueryModel(const QString &output);
-    QueryModel *buildDetailQueryModel(const QString &output);
-
-    bool isDetailQuery(const QString &command, const QStringList &arguments) const;
-
     void registerSingleCategoryCountProcessorMap(const QString &category_id);
     void registerProcessorMap(Chart::ProcessorCondition* condition, Chart::ModelProcessor* processor);
 
