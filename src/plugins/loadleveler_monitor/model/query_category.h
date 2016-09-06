@@ -33,7 +33,7 @@ enum class QueryValueType{
 
 LOADLEVELER_MONITOR_EXPORT QDebug operator <<(QDebug debug, const QueryValueType &value_type);
 
-struct QueryCategory
+struct LOADLEVELER_MONITOR_EXPORT QueryCategory
 {
 public:
     static const QString kValidId;

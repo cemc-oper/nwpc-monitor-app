@@ -9,7 +9,7 @@ namespace LoadLevelerMonitor{
 
 namespace Model{
 
-class QueryCategoryList
+class LOADLEVELER_MONITOR_EXPORT QueryCategoryList
 {
 public:
     QueryCategoryList();

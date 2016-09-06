@@ -62,7 +62,6 @@ QueryModel *QueryModel::buildFromLlqDefaultQueryResponse(const QStringList &line
             return nullptr;
         }
     }
-
     if( lines.length() < 2 )
     {
         qWarning()<<"[JobQueryModel::buildFromLlqResponseLines] unsupported output:"<<lines;
@@ -93,6 +92,13 @@ QueryModel *QueryModel::buildFromLlqDefaultQueryResponse(const QStringList &line
     });
 
     // get category list
+    /*
+     *  将提取category数据所需要的信息（token_length_）保存到 category 中，
+     *  实际上相当于将创建一个文本解析器，在建立每个 cell 时，使用该解析器从文本中提取信息。
+     *  TODO: 创建 Parser 类，负责从文本中 (string/string list) 提取数据，生成 QueryItem。
+     *  每个 QueryCateogry 绑定一个 Parser。
+     *  每次创建 QueryModel，需要根据输出文本调整 Parser 的参数，匹配该次输出。
+     */
     QueryCategoryList category_list;
     for(int i=0;i<category_title_list.size(); i++)
     {
@@ -103,22 +109,23 @@ QueryModel *QueryModel::buildFromLlqDefaultQueryResponse(const QStringList &line
             qDebug()<<"[JobQueryModel::buildFromLlqResponseLines] category is not supported:"<<category_title_list[i];
         }
     }
-
     QueryCategory row_num_category = LlqCommandManager::findDefaultQueryCategory("No.");
 
+    // build model
     QueryModel *query_model = new QueryModel(parent);
     query_model->setQueryType(QueryType::LlqDefaultQuery);
-
-
     for(int i=2; i < lines.size() - 3; i++ )
     {
-        QList<QStandardItem*> row = QueryItem::buildFromQueryRecord(lines[i], category_list);
+        QList<QStandardItem*> row = QueryItem::buildDefaultQueryRow(lines[i], category_list);
+
+        // insert row num column.
         QueryItem *item = new QueryItem(QString::number(i-1));
-        item->setItemType(QueryItem::ItemType::NumberItem);
+        item->setValueType(QueryValueType::Number);
         item->setCategory(row_num_category);
         item->setCheckable(true);
         item->setCheckState(Qt::Unchecked);
         row.push_front(item);
+
         query_model->invisibleRootItem()->appendRow(row);
     }
 
@@ -160,13 +167,10 @@ QueryModel *QueryModel::buildFromLlqDetailQueryResponse(const QStringList &lines
         qWarning()<<"[JobQueryModel::buildFromLlqDetailQueryResponse] unsupported output:"<<lines;
         return nullptr;
     }
-
-    QueryModel *query_model = new QueryModel(parent);
-    query_model->setQueryType(QueryType::LlqDetailQuery);
-
     // last two lines is a summary
     QString summary_line = lines[lines.length()-2];
 
+    // get record start line no.
     QVector<int> record_start_line_no_list;
     for(int i=0; i < lines.length() - 3; i++)
     {
@@ -174,6 +178,10 @@ QueryModel *QueryModel::buildFromLlqDetailQueryResponse(const QStringList &lines
             record_start_line_no_list.push_back(i);
     }
     record_start_line_no_list.push_back(lines.length() -2);
+
+    // build model
+    QueryModel *query_model = new QueryModel(parent);
+    query_model->setQueryType(QueryType::LlqDetailQuery);
 
     QueryCategoryList category_list;
     QueryCategory row_num_category = LlqCommandManager::findDefaultQueryCategory("No.");
@@ -207,9 +215,9 @@ QueryModel *QueryModel::buildFromLlqDetailQueryResponse(const QStringList &lines
             category_list = LlqCommandManager::parellelJobDetailQueryCategoryList();
         }
 
-        QList<QStandardItem*> row = QueryItem::buildFromDetailQueryRecord(record_lines, category_list);
+        QList<QStandardItem*> row = QueryItem::buildDetailQueryRow(record_lines, category_list);
         QueryItem *item = new QueryItem(QString::number(record_no+1));
-        item->setItemType(QueryItem::ItemType::NumberItem);
+        item->setValueType(QueryValueType::Number);
         //item->setCategory(row_num_category);
         item->setCheckable(true);
         item->setCheckState(Qt::Unchecked);
@@ -320,9 +328,9 @@ QueryModel *QueryModel::buildFromLlclassDefaultQueryResponse(const QStringList &
 
     for(int i=record_line_begin; i < record_line_end; i++ )
     {
-        QList<QStandardItem*> row = QueryItem::buildFromQueryRecord(lines[i], category_list);
+        QList<QStandardItem*> row = QueryItem::buildDefaultQueryRow(lines[i], category_list);
         QueryItem *item = new QueryItem(QString::number(i-2));
-        item->setItemType(QueryItem::ItemType::NumberItem);
+        item->setValueType(QueryValueType::Number);
         item->setCategory(row_num_category);
         item->setCheckable(true);
         item->setCheckState(Qt::Unchecked);
@@ -394,10 +402,10 @@ QueryModel *QueryModel::buildFromLlclassDetailQueryResponse(const QStringList &l
         int end_line_no = record_start_line_no_list[record_no+1];
         QStringList record_lines = lines.mid(begin_line_no, end_line_no - begin_line_no);
 
-        QList<QStandardItem*> row = QueryItem::buildFromDetailQueryRecord(record_lines, category_list);
+        QList<QStandardItem*> row = QueryItem::buildDetailQueryRow(record_lines, category_list);
 
         QueryItem *item = new QueryItem(QString::number(record_no+1));
-        item->setItemType(QueryItem::ItemType::NumberItem);
+        item->setValueType(QueryValueType::Number);
         //item->setCategory(row_num_category);
         item->setCheckable(true);
         item->setCheckState(Qt::Unchecked);
