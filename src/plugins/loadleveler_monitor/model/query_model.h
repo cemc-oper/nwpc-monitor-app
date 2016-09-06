@@ -38,6 +38,8 @@ signals:
 public slots:
 
 private:
+    static void setHeader(QueryModel *query_model, const QueryCategoryList &category_list);
+
     QueryCategoryList category_list_;
     QueryType query_type_;
 };

@@ -75,12 +75,24 @@ QList<QStandardItem *> QueryItem::buildDetailQueryRow(
     return row;
 }
 
+QueryItem *QueryItem::createIndexNoItem(const QueryCategory &num_category, int num)
+{
+    QueryItem *item = new QueryItem(QString::number(num));
+    item->setValueType(QueryValueType::Number);
+    item->setCategory(num_category);
+    item->setCheckable(true);
+    item->setCheckState(Qt::Unchecked);
+    return item;
+}
+
 QStandardItem *QueryItem::buildDefaultQueryItem(
         const QueryCategory &category, const QString &line, int begin_pos, int end_pos)
 {
+    // find value
     QString item_string = line.mid(begin_pos, end_pos-begin_pos);
     QString value = item_string.trimmed();
 
+    // set value
     QueryItem *item = new QueryItem{};
     setQueryItemValue(category, value, item);
 
@@ -90,6 +102,8 @@ QStandardItem *QueryItem::buildDefaultQueryItem(
 QStandardItem *QueryItem::buildDetailQueryItem(const QueryCategory &category, const QStringList &lines)
 {
     QueryItem *item = new QueryItem();
+
+    // find value from lines
     foreach(QString line, lines)
     {
         int index = line.indexOf(": ");
@@ -100,15 +114,21 @@ QStandardItem *QueryItem::buildDetailQueryItem(const QueryCategory &category, co
         if(label != category.label_)
             continue;
 
+        // value got
         QString value = line.mid(index + 2).trimmed();
 
+        // set value
         setQueryItemValue(category, value, item);
-
         break;
     }
     return item;
 }
 
+/*
+ *           QueryCategory
+ *   value ================>  QueryItem
+ *            value_type_
+ */
 void QueryItem::setQueryItemValue(const QueryCategory &category, const QString &value, QueryItem *query_item)
 {
     query_item->category_ = category;

@@ -6,6 +6,7 @@
 #include <loadleveler_monitor/model/query_item.h>
 
 #include <algorithm>
+#include <QtDebug>
 
 using namespace LoadLevelerMonitor::Model;
 using namespace std;
@@ -61,6 +62,28 @@ void QueryItemTest::initTestCase()
         c.value_type_ = get<2>(t);
         c.token_length_ = get<3>(t);
         llq_default_category_list_.append(c);
+    });
+
+    QString llclass_category_mark_line = "--------------- -------------- -------------- ----- ----- ---------------------";
+    QVector<int> llclass_category_column_width = getCategoryColumnWidth(llclass_category_mark_line);
+
+    vector<tuple<QString, QString, QueryValueType, int>> llclass_default_vector = {
+        make_tuple(Constant::Llclass::Name,        "Name",                 QueryValueType::String, llclass_category_column_width[0] ),
+        make_tuple(Constant::Llclass::MaxJobCpu,   "MaxJobCPUd+hh:mm:ss",  QueryValueType::String, llclass_category_column_width[1] ),
+        make_tuple(Constant::Llclass::MaxProcCpu,  "MaxProcCPUd+hh:mm:ss", QueryValueType::String, llclass_category_column_width[2] ),
+        make_tuple(Constant::Llclass::FreeSlots,   "FreeSlots",            QueryValueType::String, llclass_category_column_width[3] ),
+        make_tuple(Constant::Llclass::MaxSlots,    "MaxSlots",             QueryValueType::String, llclass_category_column_width[4] ),
+        make_tuple(Constant::Llclass::Description, "Description",          QueryValueType::String, llclass_category_column_width[5] ),
+    };
+
+    for_each(llclass_default_vector.begin(), llclass_default_vector.end(),
+             [=](const auto &t){
+        QueryCategory c;
+        c.id_ = get<0>(t);
+        c.label_ = get<1>(t);
+        c.value_type_ = get<2>(t);
+        c.token_length_ = get<3>(t);
+        llclass_default_category_list_.append(c);
     });
 }
 
@@ -191,12 +214,133 @@ void QueryItemTest::testBuildLlqDefaultQueryRow()
 
 void QueryItemTest::testBuildLlclassDefaultQueryRow_data()
 {
+    QTest::addColumn<QString>("line");
+    QTest::addColumn<QString>("name");
+    QTest::addColumn<QString>("max_job_cpu");
+    QTest::addColumn<QString>("max_proc_cpu");
+    QTest::addColumn<QString>("free_slots");
+    QTest::addColumn<QString>("max_slots");
+    QTest::addColumn<QString>("description");
+
+    QStringList lines{
+        "serial_op            undefined      undefined   128   128                      ",
+        "serial_op1           undefined      undefined   128   128                      ",
+        "normal               undefined      undefined   162  3328                      ",
+        "largemem             undefined      undefined   670  1952                      ",
+        "serial               undefined      undefined   170   192                      ",
+        "special2             undefined      undefined   633  3168                      ",
+        "operation1           undefined      undefined  5650 9999+                      ",
+        "normal1              undefined      undefined  5650 9999+                      ",
+        "minijob              undefined      undefined  1024  2560                      ",
+        "operation            undefined      undefined  1024  2560                      ",
+    };
+
+    QStringList names{
+        "serial_op",
+        "serial_op1",
+        "normal",
+        "largemem",
+        "serial",
+        "special2",
+        "operation1",
+        "normal1",
+        "minijob",
+        "operation"
+    };
+
+    QStringList max_job_cpus{
+        "undefined",
+        "undefined",
+        "undefined",
+        "undefined",
+        "undefined",
+        "undefined",
+        "undefined",
+        "undefined",
+        "undefined",
+        "undefined",
+    };
+    QStringList max_proc_cpus{
+        "undefined",
+        "undefined",
+        "undefined",
+        "undefined",
+        "undefined",
+        "undefined",
+        "undefined",
+        "undefined",
+        "undefined",
+        "undefined",
+    };
+    QStringList free_slots_list{
+        "128",
+        "128",
+        "162",
+        "670",
+        "170",
+        "633",
+       "5650",
+       "5650",
+       "1024",
+       "1024",
+    };
+    QStringList max_slots_list{
+        "128",
+        "128",
+       "3328",
+       "1952",
+        "192",
+       "3168",
+      "9999+",
+      "9999+",
+       "2560",
+       "2560",
+    };
+    QStringList description_list{
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+    };
+    int row_no = 0;
+    for(int i=0; i<lines.length(); i++)
+    {
+        QTest::newRow(("llclass.default." + QString::number(row_no++)).toStdString().c_str())
+                << lines[i]
+                << names[i]
+                << max_job_cpus[i]
+                << max_proc_cpus[i]
+                << free_slots_list[i]
+                << max_slots_list[i]
+                << description_list[i];
+    }
 
 }
 
 void QueryItemTest::testBuildLlclassDefaultQueryRow()
 {
+    QFETCH(QString, line);
+    QFETCH(QString, name);
+    QFETCH(QString, max_job_cpu);
+    QFETCH(QString, max_proc_cpu);
+    QFETCH(QString, free_slots);
+    QFETCH(QString, max_slots);
+    QFETCH(QString, description);
 
+    QList<QStandardItem *> row = QueryItem::buildDefaultQueryRow(line, llclass_default_category_list_);
+
+    QCOMPARE(row[0]->text(), name);
+    QCOMPARE(row[1]->text(), max_job_cpu);
+    QCOMPARE(row[2]->text(), max_proc_cpu);
+    QCOMPARE(row[3]->text(), free_slots);
+    QCOMPARE(row[4]->text(), max_slots);
+    QCOMPARE(row[5]->text(), description);
 }
 
 QTEST_APPLESS_MAIN(QueryItemTest)

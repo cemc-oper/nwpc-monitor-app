@@ -68,11 +68,12 @@ QueryModel *QueryModel::buildFromLlqDefaultQueryResponse(const QStringList &line
         return nullptr;
     }
 
-    // get categories' title
-    QString category_title_line = lines[0];
+    // get category width
     QString category_mark_line = lines[1].trimmed();
     QVector<int> category_column_width = getCategoryColumnWidth(category_mark_line);
 
+    // get category title
+    QString category_title_line = lines[0];
     QVector<QString> category_title_list(category_column_width.size());
     int pos = 0;
     std::transform(category_column_width.begin(), category_column_width.end(),
@@ -83,6 +84,7 @@ QueryModel *QueryModel::buildFromLlqDefaultQueryResponse(const QStringList &line
     });
 
     // get category list
+    //      use title to find category, and use width to set up parser.
     /*
      *  将提取category数据所需要的信息（token_length_）保存到 category 中，
      *  实际上相当于将创建一个文本解析器，在建立每个 cell 时，使用该解析器从文本中提取信息。
@@ -102,19 +104,18 @@ QueryModel *QueryModel::buildFromLlqDefaultQueryResponse(const QStringList &line
     }
     QueryCategory row_num_category = LlqCommandManager::findDefaultQueryCategory("No.");
 
+    // get data line range
+    int begin_record_line = 2;
+    int end_record_line = lines.size() - 3;
+
     // build model
     QueryModel *query_model = new QueryModel(parent);
     query_model->setQueryType(QueryType::LlqDefaultQuery);
-    for(int i=2; i < lines.size() - 3; i++ )
+    for(int i = begin_record_line; i < end_record_line; i++ )
     {
         QList<QStandardItem*> row = QueryItem::buildDefaultQueryRow(lines[i], category_list);
 
-        // insert row num column.
-        QueryItem *item = new QueryItem(QString::number(i-1));
-        item->setValueType(QueryValueType::Number);
-        item->setCategory(row_num_category);
-        item->setCheckable(true);
-        item->setCheckState(Qt::Unchecked);
+        QueryItem *item = QueryItem::createIndexNoItem(row_num_category, i-1);
         row.push_front(item);
 
         query_model->invisibleRootItem()->appendRow(row);
@@ -125,12 +126,7 @@ QueryModel *QueryModel::buildFromLlqDefaultQueryResponse(const QStringList &line
     query_model->setCategoryList(category_list);
 
     // set header titles
-    QStringList header_labels;
-    foreach(QueryCategory c, category_list.categoryList())
-    {
-        header_labels.append(c.display_name_);
-    }
-    query_model->setHorizontalHeaderLabels(header_labels);
+    setHeader(query_model, category_list);
 
     return query_model;
 }
@@ -207,12 +203,9 @@ QueryModel *QueryModel::buildFromLlqDetailQueryResponse(const QStringList &lines
         }
 
         QList<QStandardItem*> row = QueryItem::buildDetailQueryRow(record_lines, category_list);
-        QueryItem *item = new QueryItem(QString::number(record_no+1));
-        item->setValueType(QueryValueType::Number);
-        //item->setCategory(row_num_category);
-        item->setCheckable(true);
-        item->setCheckState(Qt::Unchecked);
+        QueryItem *item = QueryItem::createIndexNoItem(row_num_category, record_no+1);
         row.push_front(item);
+
         query_model->invisibleRootItem()->appendRow(row);
     }
 
@@ -221,12 +214,7 @@ QueryModel *QueryModel::buildFromLlqDetailQueryResponse(const QStringList &lines
     query_model->setCategoryList(category_list);
 
     // set header titles
-    QStringList header_labels;
-    foreach(QueryCategory c, category_list.categoryList())
-    {
-        header_labels.append(c.display_name_);
-    }
-    query_model->setHorizontalHeaderLabels(header_labels);
+    setHeader(query_model, category_list);
 
     return query_model;
 }
@@ -312,12 +300,10 @@ QueryModel *QueryModel::buildFromLlclassDefaultQueryResponse(const QStringList &
     for(int i=record_line_begin; i < record_line_end; i++ )
     {
         QList<QStandardItem*> row = QueryItem::buildDefaultQueryRow(lines[i], category_list);
-        QueryItem *item = new QueryItem(QString::number(i-2));
-        item->setValueType(QueryValueType::Number);
-        item->setCategory(row_num_category);
-        item->setCheckable(true);
-        item->setCheckState(Qt::Unchecked);
+
+        QueryItem *item = QueryItem::createIndexNoItem(row_num_category, i-2);
         row.push_front(item);
+
         query_model->invisibleRootItem()->appendRow(row);
     }
 
@@ -326,12 +312,7 @@ QueryModel *QueryModel::buildFromLlclassDefaultQueryResponse(const QStringList &
     query_model->setCategoryList(category_list);
 
     // set header titles
-    QStringList header_labels;
-    foreach(QueryCategory c, category_list.categoryList())
-    {
-        header_labels.append(c.display_name_);
-    }
-    query_model->setHorizontalHeaderLabels(header_labels);
+    setHeader(query_model, category_list);
 
     return query_model;
 }
@@ -376,7 +357,7 @@ QueryModel *QueryModel::buildFromLlclassDetailQueryResponse(const QStringList &l
     QueryModel *query_model = new QueryModel(parent);
     query_model->setQueryType(QueryType::LlqDetailQuery);
 
-    QueryCategoryList category_list = LlclassCommandManager::detailQueryCategoryList();;
+    QueryCategoryList category_list = LlclassCommandManager::detailQueryCategoryList();
     QueryCategory row_num_category = LlclassCommandManager::findDefaultQueryCategory("No.");
 
     for(int record_no = 0; record_no < record_start_line_no_list.size() - 1; record_no++)
@@ -387,11 +368,7 @@ QueryModel *QueryModel::buildFromLlclassDetailQueryResponse(const QStringList &l
 
         QList<QStandardItem*> row = QueryItem::buildDetailQueryRow(record_lines, category_list);
 
-        QueryItem *item = new QueryItem(QString::number(record_no+1));
-        item->setValueType(QueryValueType::Number);
-        //item->setCategory(row_num_category);
-        item->setCheckable(true);
-        item->setCheckState(Qt::Unchecked);
+        QueryItem *item = QueryItem::createIndexNoItem(row_num_category, record_no+1);
         row.push_front(item);
 
         query_model->invisibleRootItem()->appendRow(row);
@@ -402,12 +379,17 @@ QueryModel *QueryModel::buildFromLlclassDetailQueryResponse(const QStringList &l
     query_model->setCategoryList(category_list);
 
     // set header titles
+    setHeader(query_model, category_list);
+
+    return query_model;
+}
+
+void QueryModel::setHeader(QueryModel *query_model, const QueryCategoryList &category_list)
+{
     QStringList header_labels;
     foreach(QueryCategory c, category_list.categoryList())
     {
         header_labels.append(c.display_name_);
     }
     query_model->setHorizontalHeaderLabels(header_labels);
-
-    return query_model;
 }

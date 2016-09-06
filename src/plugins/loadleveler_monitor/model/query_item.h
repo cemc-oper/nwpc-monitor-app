@@ -38,6 +38,8 @@ public:
     static QList<QStandardItem *> buildDetailQueryRow(
             const QStringList &lines, const QueryCategoryList &category_list);
 
+    static QueryItem *createIndexNoItem(const QueryCategory &num_category, int num);
+
 private:
     static QStandardItem *buildDefaultQueryItem(
             const QueryCategory &category, const QString &line, int begin_pos, int end_pos);

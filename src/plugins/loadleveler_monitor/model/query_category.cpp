@@ -95,7 +95,7 @@ QueryCategory QueryCategory::createLlqDetialQueryCategory(const tuple<QString, Q
 QueryCategory QueryCategory::createLlclassDefaultCategory(const tuple<QString, QString, QString, QueryValueType> &record)
 {
     QString id = get<0>(record);
-    QString display_name = get<0>(record);
+    QString display_name = get<1>(record);
     QString label= get<2>(record);
     QueryValueType type = get<3>(record);
     QueryCategory category;
@@ -110,7 +110,7 @@ QueryCategory QueryCategory::createLlclassDefaultCategory(const tuple<QString, Q
 QueryCategory QueryCategory::createLlclassDetailCategory(const tuple<QString, QString, QString, QueryValueType> &record)
 {
     QString id = get<0>(record);
-    QString display_name = get<0>(record);
+    QString display_name = get<1>(record);
     QString label= get<2>(record);
     QueryValueType type = get<3>(record);
     QueryCategory category;
