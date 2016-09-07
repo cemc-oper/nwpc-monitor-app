@@ -88,7 +88,7 @@ QueryItem *QueryItem::createIndexNoItem(const QueryCategory &num_category, int n
 QStandardItem *QueryItem::buildDefaultQueryItem(
         const QueryCategory &category, const QString &line, int begin_pos, int end_pos)
 {
-    // find value
+    // find value: category, line, begin_pos, end_pos => value
     QString item_string = line.mid(begin_pos, end_pos-begin_pos);
     QString value = item_string.trimmed();
 
@@ -103,7 +103,7 @@ QStandardItem *QueryItem::buildDetailQueryItem(const QueryCategory &category, co
 {
     QueryItem *item = new QueryItem();
 
-    // find value from lines
+    // find value from lines: category, lines => value
     foreach(QString line, lines)
     {
         int index = line.indexOf(": ");

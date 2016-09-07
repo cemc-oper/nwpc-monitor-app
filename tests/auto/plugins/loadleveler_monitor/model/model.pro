@@ -2,4 +2,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     query_item \
-    query_category
+    query_category \
+    query_item_value_saver

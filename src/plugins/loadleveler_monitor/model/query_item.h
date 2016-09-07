@@ -41,6 +41,7 @@ public:
     static QueryItem *createIndexNoItem(const QueryCategory &num_category, int num);
 
 private:
+    // TODO: 使用 parser 替换这两个方法，支持更多的选项
     static QStandardItem *buildDefaultQueryItem(
             const QueryCategory &category, const QString &line, int begin_pos, int end_pos);
     static QStandardItem *buildDetailQueryItem(const QueryCategory &category, const QStringList &lines);
