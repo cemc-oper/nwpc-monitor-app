@@ -60,64 +60,64 @@ bool QueryCategory::operator ==(const QueryCategory &other)
     return id_ == other.id_;
 }
 
-QueryCategory QueryCategory::createLlqDefaultQueryCategory(const tuple<QString, QString, QString, QueryValueType, QString> &record)
+QueryCategory QueryCategory::createLlqDefaultQueryCategory(const std::tuple<QString, QString, QString, QueryValueType, QString> &record)
 {
     QString id = get<0>(record);
     QString display_name = get<1>(record);
     QString label= get<2>(record);
-    QueryValueType type = get<3>(record);
+    auto type = get<3>(record);
     QString comand_line = get<4>(record);
     QueryCategory category;
     category.id_ = id;
     category.display_name_ = display_name;
     category.label_ = label;
-    category.value_type_ = type;
+    category.value_saver_ = QueryItemValueSaverFactory::make(type);
     category.command_line_ = comand_line;
     category.category_type_ = QueryType::LlqDefaultQuery;
     return category;
 }
 
-QueryCategory QueryCategory::createLlqDetialQueryCategory(const tuple<QString, QString, QString, QueryValueType> &record)
+QueryCategory QueryCategory::createLlqDetialQueryCategory(const std::tuple<QString, QString, QString, QueryValueType> &record)
 {
     QString id = get<0>(record);
     QString display_name = get<1>(record);
     QString label= get<2>(record);
-    QueryValueType type = get<3>(record);
+    auto type = get<3>(record);
     QueryCategory category;
     category.id_ = id;
     category.display_name_ = display_name;
     category.label_ = label;
-    category.value_type_ = type;
+    category.value_saver_ = QueryItemValueSaverFactory::make(type);
     category.category_type_ = QueryType::LlqDetailQuery;
     return category;
 }
 
-QueryCategory QueryCategory::createLlclassDefaultCategory(const tuple<QString, QString, QString, QueryValueType> &record)
+QueryCategory QueryCategory::createLlclassDefaultCategory(const std::tuple<QString, QString, QString, QueryValueType> &record)
 {
     QString id = get<0>(record);
     QString display_name = get<1>(record);
     QString label= get<2>(record);
-    QueryValueType type = get<3>(record);
+    auto type = get<3>(record);
     QueryCategory category;
     category.id_ = id;
     category.display_name_ = display_name;
     category.label_ = label;
-    category.value_type_ = type;
+    category.value_saver_ = QueryItemValueSaverFactory::make(type);
     category.category_type_ = QueryType::LlclassDefaultQuery;
     return category;
 }
 
-QueryCategory QueryCategory::createLlclassDetailCategory(const tuple<QString, QString, QString, QueryValueType> &record)
+QueryCategory QueryCategory::createLlclassDetailCategory(const std::tuple<QString, QString, QString, QueryValueType> &record)
 {
     QString id = get<0>(record);
     QString display_name = get<1>(record);
     QString label= get<2>(record);
-    QueryValueType type = get<3>(record);
+    auto type = get<3>(record);
     QueryCategory category;
     category.id_ = id;
     category.display_name_ = display_name;
     category.label_ = label;
-    category.value_type_ = type;
+    category.value_saver_ = QueryItemValueSaverFactory::make(type);
     category.category_type_ = QueryType::LlclassDetailQuery;
     return category;
 }

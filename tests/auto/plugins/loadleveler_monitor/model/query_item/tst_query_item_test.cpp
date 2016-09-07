@@ -59,7 +59,7 @@ void QueryItemTest::initTestCase()
         QueryCategory c;
         c.id_ = get<0>(t);
         c.label_ = get<1>(t);
-        c.value_type_ = get<2>(t);
+        c.value_saver_ = QueryItemValueSaverFactory::make(get<2>(t));
         c.token_length_ = get<3>(t);
         llq_default_category_list_.append(c);
     });
@@ -81,7 +81,7 @@ void QueryItemTest::initTestCase()
         QueryCategory c;
         c.id_ = get<0>(t);
         c.label_ = get<1>(t);
-        c.value_type_ = get<2>(t);
+        c.value_saver_ = QueryItemValueSaverFactory::make(get<2>(t));
         c.token_length_ = get<3>(t);
         llclass_default_category_list_.append(c);
     });

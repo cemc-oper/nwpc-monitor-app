@@ -86,3 +86,26 @@ void QueryItemFullDateSaver::setItemValue(QueryItem *query_item, const QString &
     }
 }
 
+
+QSharedPointer<QueryItemValueSaver> QueryItemValueSaverFactory::make(QueryValueType value_type)
+{
+    switch(value_type)
+    {
+    case QueryValueType::String:
+        return QSharedPointer<QueryItemValueSaver>{new QueryItemStringSaver};
+        break;
+    case QueryValueType::Number:
+        return QSharedPointer<QueryItemValueSaver>{new QueryItemNumberSaver};
+        break;
+    case QueryValueType::Date:
+        return QSharedPointer<QueryItemValueSaver>{new QueryItemDateSaver};
+        break;
+    case QueryValueType::FullDate:
+        return QSharedPointer<QueryItemValueSaver>{new QueryItemFullDateSaver};
+        break;
+    case QueryValueType::Unknown:
+    default:
+        qDebug()<<"[QueryItemValueSaverFactory::make] unknown value type";
+        return QSharedPointer<QueryItemValueSaver>{new QueryItemValueSaver};
+    }
+}
