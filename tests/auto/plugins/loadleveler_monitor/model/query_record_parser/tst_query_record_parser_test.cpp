@@ -183,7 +183,8 @@ void QueryRecordParserTest::testTableRecordParser()
     QFETCH(int, end_pos);
     QFETCH(QString, value);
 
-    QueryRecordParser *table_record_parser = new QueryTableRecordParser{begin_pos, end_pos};
+    QueryRecordParser *table_record_parser = QueryRecordParserFactory::make(
+                kQueryTableRecordParser, QVariantList{begin_pos, end_pos});
     QString parsed_value = table_record_parser->parse(line);
     QCOMPARE(parsed_value, value);
 }
@@ -277,7 +278,7 @@ void QueryRecordParserTest::testDetailLabelParser()
     QFETCH(QString, label);
     QFETCH(QString, value);
 
-    QueryRecordParser *record_parser = new DetailLabelParser(label);
+    QueryRecordParser *record_parser = QueryRecordParserFactory::make(kDetailLabelParser, QVariantList{label});
     QString parsed_value = record_parser->parse(lines);
     QCOMPARE(parsed_value, value);
 }

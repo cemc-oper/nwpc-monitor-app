@@ -4,6 +4,7 @@
 
 #include <QString>
 #include <QStringList>
+#include <QVariantList>
 
 namespace LoadLevelerMonitor{
 
@@ -20,6 +21,20 @@ public:
 
     virtual QStringList parseToList(const QStringList &lines);
 };
+
+// factory
+const QString kQueryTableRecordParser = "QueryTableRecordParser";
+const QString kDetailLabelParser      = "DetailLabelParser";
+
+class LOADLEVELER_MONITOR_EXPORT QueryRecordParserFactory
+{
+public:
+    QueryRecordParserFactory(){}
+    ~QueryRecordParserFactory(){}
+
+    static QueryRecordParser *make(const QString &parser_name, const QVariantList &args);
+};
+
 
 // parser classes
 
