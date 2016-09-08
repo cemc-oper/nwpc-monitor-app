@@ -4,6 +4,15 @@
 
 using namespace LoadLevelerMonitor::Model;
 
+/*
+ * QueryRecordParser
+ */
+
+void QueryRecordParser::setArguments(const QVariantList &args)
+{
+
+}
+
 QString QueryRecordParser::parse(const QString &)
 {
     return QString();
@@ -26,29 +35,11 @@ QueryRecordParser *QueryRecordParserFactory::make(const QString &parser_name, co
     QueryRecordParser *parser = nullptr;
     if(parser_name == kQueryTableRecordParser)
     {
-        if(args.length() != 2)
-            throw std::invalid_argument("QueryTableRecordParser need 2 args");
-
-        if(!args[0].canConvert<int>())
-            throw std::invalid_argument("QueryTableRecordParser arg 1 must be int");
-        int begin_pos = args[0].toInt();
-
-        if(!args[1].canConvert<int>())
-            throw std::invalid_argument("QueryTableRecordParser arg 2 must be int");
-        int end_pos = args[1].toInt();
-
-        parser = new QueryTableRecordParser{begin_pos, end_pos};
+        parser = new QueryTableRecordParser{args};
     }
     else if(parser_name == kDetailLabelParser)
     {
-        if(args.length() != 1)
-            throw std::invalid_argument("DetailLabelParser need 1 args");
-
-        if(!args[0].canConvert<QString>())
-            throw std::invalid_argument("DetailLabelParser arg 1 must be QString");
-        QString label = args[0].toString();
-
-        parser = new DetailLabelParser{label};
+        parser = new DetailLabelParser{args};
     }
     else
     {
@@ -59,8 +50,30 @@ QueryRecordParser *QueryRecordParserFactory::make(const QString &parser_name, co
 }
 
 
-
 // parsers
+
+/*
+ * QueryTableRecordParser
+ */
+
+
+QueryTableRecordParser::QueryTableRecordParser():
+    QueryTableRecordParser{QVariantList{}}
+{
+
+}
+
+QueryTableRecordParser::QueryTableRecordParser(const QVariantList &args):
+    QueryRecordParser{}
+{
+    if(args.isEmpty())
+    {
+        begin_pos_ = -1;
+        end_pos_ = -1;
+        return;
+    }
+    setArguments(args);
+}
 
 QueryTableRecordParser::QueryTableRecordParser(int begin_pos, int end_pos):
     QueryRecordParser{},
@@ -75,8 +88,19 @@ QueryTableRecordParser::~QueryTableRecordParser()
 
 }
 
-void QueryTableRecordParser::setArguments(int begin_pos, int end_pos)
+void QueryTableRecordParser::setArguments(const QVariantList &args)
 {
+    if(args.length() != 2)
+        throw std::invalid_argument("QueryTableRecordParser need 2 args");
+
+    if(!args[0].canConvert<int>())
+        throw std::invalid_argument("QueryTableRecordParser arg 1 must be int");
+    int begin_pos = args[0].toInt();
+
+    if(!args[1].canConvert<int>())
+        throw std::invalid_argument("QueryTableRecordParser arg 2 must be int");
+    int end_pos = args[1].toInt();
+
     begin_pos_ = begin_pos;
     end_pos_ = end_pos;
 }
@@ -85,6 +109,28 @@ QString QueryTableRecordParser::parse(const QString &line)
 {
     return line.mid(begin_pos_, end_pos_ - begin_pos_).trimmed();
 }
+
+/*
+ * DetailLabelParser
+ */
+
+DetailLabelParser::DetailLabelParser():
+    DetailLabelParser{QVariantList{}}
+{
+
+}
+
+DetailLabelParser::DetailLabelParser(const QVariantList &args):
+    QueryRecordParser{}
+{
+    if(args.isEmpty())
+    {
+        label_ = "";
+        return;
+    }
+    setArguments(args);
+}
+
 
 DetailLabelParser::DetailLabelParser(const QString &label):
     QueryRecordParser{},
@@ -98,13 +144,21 @@ DetailLabelParser::~DetailLabelParser()
 
 }
 
-void DetailLabelParser::setArguments(const QString &label)
+void DetailLabelParser::setArguments(const QVariantList &args)
 {
+    if(args.length() != 1)
+        throw std::invalid_argument("DetailLabelParser need 1 args");
+
+    if(!args[0].canConvert<QString>())
+        throw std::invalid_argument("DetailLabelParser arg 1 must be QString");
+    QString label = args[0].toString();
+
     label_ = label;
 }
 
 QString DetailLabelParser::parse(const QStringList &lines)
 {
+    Q_ASSERT(!label_.isEmpty());
     foreach(QString line, lines)
     {
         int index = line.indexOf(": ");

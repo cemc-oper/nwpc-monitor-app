@@ -16,6 +16,8 @@ public:
     QueryRecordParser(){}
     virtual ~QueryRecordParser(){}
 
+    virtual void setArguments(const QVariantList &args) = 0;
+
     virtual QString parse(const QString &line);
     virtual QString parse(const QStringList &lines);
 
@@ -41,10 +43,12 @@ public:
 class LOADLEVELER_MONITOR_EXPORT QueryTableRecordParser : public QueryRecordParser
 {
 public:
+    QueryTableRecordParser();
+    QueryTableRecordParser(const QVariantList &args);
     QueryTableRecordParser(int begin_pos, int end_pos);
     ~QueryTableRecordParser();
 
-    void setArguments(int begin_pos, int end_pos);
+    void setArguments(const QVariantList &args) override;
 
     QString parse(const QString &line) override;
 
@@ -56,10 +60,12 @@ private:
 class LOADLEVELER_MONITOR_EXPORT DetailLabelParser : public QueryRecordParser
 {
 public:
+    DetailLabelParser();
+    DetailLabelParser(const QVariantList &args);
     DetailLabelParser(const QString &label);
     ~DetailLabelParser();
 
-    void setArguments(const QString &label);
+    void setArguments(const QVariantList &args) override;
 
     QString parse(const QStringList& lines) override;
 
