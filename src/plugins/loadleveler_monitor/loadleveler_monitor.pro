@@ -42,7 +42,8 @@ SOURCES += loadleveler_monitor_plugin.cpp \
     model/llclass_command_manager_private.cpp \
     chart/percent_bar_processor.cpp \
     model/query_util.cpp \
-    model/query_item_value_saver.cpp
+    model/query_item_value_saver.cpp \
+    model/query_record_parser.cpp
 
 HEADERS += loadleveler_monitor_plugin.h \
     loadleveler_monitor_global.h \
@@ -71,7 +72,8 @@ HEADERS += loadleveler_monitor_plugin.h \
     chart/percent_bar_processor.h \
     model/model_constants.h \
     model/query_util.h \
-    model/query_item_value_saver.h
+    model/query_item_value_saver.h \
+    model/query_record_parser.h
 
 DISTFILES += loadleveler_monitor.json \
     nwpc_loadleveler/loadleveler.py \
