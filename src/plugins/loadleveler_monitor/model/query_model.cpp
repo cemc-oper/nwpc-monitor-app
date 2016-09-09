@@ -93,14 +93,23 @@ QueryModel *QueryModel::buildFromLlqDefaultQueryResponse(const QStringList &line
      *  每次创建 QueryModel，需要根据输出文本调整 Parser 的参数，匹配该次输出。
      */
     QueryCategoryList category_list;
+    pos = 0;
     for(int i=0;i<category_title_list.size(); i++)
     {
         category_list.append(LlqCommandManager::findDefaultQueryCategory(category_title_list[i]));
-        category_list[i].token_length_ = category_column_width[i];
+
         if(!category_list[i].isValid())
         {
             qDebug()<<"[JobQueryModel::buildFromLlqResponseLines] category is not supported:"<<category_title_list[i];
         }
+
+        if(QueryTableRecordParser *table_parser = dynamic_cast<QueryTableRecordParser*>(category_list[i].record_parser_.data()))
+        {
+            category_list[i].record_parser_args_ = QVariantList() << pos << pos + category_column_width[i];
+            table_parser->setArguments(QVariantList() << pos << pos + category_column_width[i]);
+        }
+
+        pos += category_column_width[i] + 1;
     }
     QueryCategory row_num_category = LlqCommandManager::findDefaultQueryCategory("No.");
 
@@ -252,15 +261,22 @@ QueryModel *QueryModel::buildFromLlclassDefaultQueryResponse(const QStringList &
 
     // get category list
     QueryCategoryList category_list;
+    pos = 0;
     for(int i=0;i<category_title_list.size(); i++)
     {
         category_list.append(LlclassCommandManager::findDefaultQueryCategory(category_title_list[i]));
-        category_list[i].token_length_ = category_column_width[i];
         if(!category_list[i].isValid())
         {
             qDebug()<<"[QueryModel::buildFromLlclassDefaultQueryResponse] category is not supported:"
                     <<category_title_list[i];
         }
+        if(QueryTableRecordParser *table_parser = dynamic_cast<QueryTableRecordParser*>(category_list[i].record_parser_.data()))
+        {
+            category_list[i].record_parser_args_ = QVariantList() << pos << pos + category_column_width[i];
+            table_parser->setArguments(QVariantList() << pos << pos + category_column_width[i]);
+        }
+        pos += category_column_width[i] + 1;
+
     }
 
     // get record begin and end line

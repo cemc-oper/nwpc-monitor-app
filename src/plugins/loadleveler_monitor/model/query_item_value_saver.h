@@ -35,6 +35,8 @@ public:
     static QSharedPointer<QueryItemValueSaver>  make(QueryValueType value_type);
 };
 
+// value savers
+
 class LOADLEVELER_MONITOR_EXPORT QueryItemStringSaver: public QueryItemValueSaver
 {
 public:

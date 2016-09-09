@@ -16,7 +16,7 @@ public:
     QueryRecordParser(){}
     virtual ~QueryRecordParser(){}
 
-    virtual void setArguments(const QVariantList &args) = 0;
+    virtual void setArguments(const QVariantList &args);
 
     virtual QString parse(const QString &line);
     virtual QString parse(const QStringList &lines);

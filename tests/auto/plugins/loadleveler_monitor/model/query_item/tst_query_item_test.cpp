@@ -54,14 +54,20 @@ void QueryItemTest::initTestCase()
         make_tuple(Constant::Llq::HostName,     "Running On",   QueryValueType::String, llq_category_column_width[6]),
     };
 
+    int pos = 0;
     for_each(llq_default_vector.begin(), llq_default_vector.end(),
-             [=](const auto &t){
+             [&pos, this](const auto &t){
         QueryCategory c;
         c.id_ = get<0>(t);
         c.label_ = get<1>(t);
         c.value_saver_ = QueryItemValueSaverFactory::make(get<2>(t));
-        c.token_length_ = get<3>(t);
+        c.record_parser_type_ = kQueryTableRecordParser;
+        c.record_parser_args_ << pos << pos + get<3>(t);
+        c.record_parser_.reset(QueryRecordParserFactory::make(
+                                  c.record_parser_type_, c.record_parser_args_));
         llq_default_category_list_.append(c);
+
+        pos += get<3>(t) + 1;
     });
 
     QString llclass_category_mark_line = "--------------- -------------- -------------- ----- ----- ---------------------";
@@ -76,14 +82,20 @@ void QueryItemTest::initTestCase()
         make_tuple(Constant::Llclass::Description, "Description",          QueryValueType::String, llclass_category_column_width[5] ),
     };
 
+    pos = 0;
     for_each(llclass_default_vector.begin(), llclass_default_vector.end(),
-             [=](const auto &t){
+             [&pos, this](const auto &t){
         QueryCategory c;
         c.id_ = get<0>(t);
         c.label_ = get<1>(t);
         c.value_saver_ = QueryItemValueSaverFactory::make(get<2>(t));
-        c.token_length_ = get<3>(t);
+        c.record_parser_type_ = kQueryTableRecordParser;
+        c.record_parser_args_.clear();
+        c.record_parser_args_ << pos << pos + get<3>(t);
+        c.record_parser_.reset( QueryRecordParserFactory::make(
+                                  c.record_parser_type_, c.record_parser_args_));
         llclass_default_category_list_.append(c);
+        pos += get<3>(t) + 1;
     });
 }
 

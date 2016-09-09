@@ -50,13 +50,11 @@ QList<QStandardItem *> QueryItem::buildDefaultQueryRow(
         const QueryCategoryList &category_list)
 {
     QList<QStandardItem *> row;
-    int pos = 0;
     for(int i = 0; i < category_list.size(); i++)
     {
         QueryCategory c = category_list[i];
-        QStandardItem *item = buildDefaultQueryItem(c, line, pos, pos + c.token_length_);
+        QStandardItem *item = buildDefaultQueryItem(c, line);
         row<<item;
-        pos += c.token_length_ + 1;
     }
     return row;
 }
@@ -85,16 +83,15 @@ QueryItem *QueryItem::createIndexNoItem(const QueryCategory &num_category, int n
     return item;
 }
 
-QStandardItem *QueryItem::buildDefaultQueryItem(
-        const QueryCategory &category, const QString &line, int begin_pos, int end_pos)
+QStandardItem *QueryItem::buildDefaultQueryItem(const QueryCategory &category, const QString &line)
 {
-    // find value: category, line, begin_pos, end_pos => value
-    QString item_string = line.mid(begin_pos, end_pos-begin_pos);
-    QString value = item_string.trimmed();
+    QueryItem *item = new QueryItem{};
+
+    // find value: category, line => value
+    QString value = category.record_parser_->parse(line);
 
     // set value
-    QueryItem *item = new QueryItem{};
-    setQueryItemValue(category, value, item);
+    category.value_saver_->setItemValue(item, value);
 
     return item;
 }
@@ -103,37 +100,13 @@ QStandardItem *QueryItem::buildDetailQueryItem(const QueryCategory &category, co
 {
     QueryItem *item = new QueryItem();
 
-    // find value from lines: category, lines => value
-    foreach(QString line, lines)
-    {
-        int index = line.indexOf(": ");
-        if (index == -1)
-            continue;
+    // find value: category, lines => value
+    QString value = category.record_parser_->parse(lines);
 
-        QString label = line.left(index).trimmed();
-        if(label != category.label_)
-            continue;
+    // set value
+    category.value_saver_->setItemValue(item, value);
 
-        // value got
-        QString value = line.mid(index + 2).trimmed();
-
-        // set value
-        setQueryItemValue(category, value, item);
-        break;
-    }
     return item;
-}
-
-/*
- *           QueryCategory
- *   value ================>  QueryItem
- *            value_saver_
- */
-void QueryItem::setQueryItemValue(const QueryCategory &category, const QString &value, QueryItem *query_item)
-{
-    query_item->category_ = category;
-
-    category.value_saver_->setItemValue(query_item, value);
 }
 
 void QueryItem::setValueType(const QueryValueType &query_value_type)

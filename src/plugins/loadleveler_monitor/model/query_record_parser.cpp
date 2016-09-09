@@ -41,6 +41,11 @@ QueryRecordParser *QueryRecordParserFactory::make(const QString &parser_name, co
     {
         parser = new DetailLabelParser{args};
     }
+    else if(parser_name == "")
+    {
+        // for valid category used in QueryCategoryList.
+        parser = new QueryRecordParser;
+    }
     else
     {
         throw std::invalid_argument(QString("error parser name: " + parser_name).toStdString());
@@ -90,6 +95,13 @@ QueryTableRecordParser::~QueryTableRecordParser()
 
 void QueryTableRecordParser::setArguments(const QVariantList &args)
 {
+    if(args.isEmpty())
+    {
+        begin_pos_ = -1;
+        end_pos_ = -1;
+        return;
+    }
+
     if(args.length() != 2)
         throw std::invalid_argument("QueryTableRecordParser need 2 args");
 

@@ -38,11 +38,11 @@ ModelViewUtilTest::ModelViewUtilTest()
 
 void ModelViewUtilTest::initTestCase()
 {
-    normal_model_ = new QStandardItemModel{};
+    normal_model_ = new QStandardItemModel;
     normal_model_->invisibleRootItem()->appendRow(QList<QStandardItem *>()<<new QStandardItem("cell (0,0)")<<new QStandardItem("cell (0,1)"));
     normal_model_->invisibleRootItem()->appendRow(QList<QStandardItem *>()<<new QStandardItem("cell (1,0)")<<new QStandardItem("cell (1,1)"));
 
-    empty_model_ = new QStandardItemModel{};
+    empty_model_ = new QStandardItemModel;
 }
 
 void ModelViewUtilTest::cleanupTestCase()
@@ -89,22 +89,24 @@ void ModelViewUtilTest::testAllItemChecked()
 
 void ModelViewUtilTest::testGetCheckedRows_data()
 {
-    QPointer<QStandardItemModel> model = new QStandardItemModel;
-    model->invisibleRootItem()->appendRow(QList<QStandardItem *>()<<new QStandardItem("cell (0,0)")<<new QStandardItem("cell (0,1)"));
-    model->invisibleRootItem()->appendRow(QList<QStandardItem *>()<<new QStandardItem("cell (1,0)")<<new QStandardItem("cell (1,1)"));
-    model->invisibleRootItem()->appendRow(QList<QStandardItem *>()<<new QStandardItem("cell (2,0)")<<new QStandardItem("cell (2,1)"));
-    model->invisibleRootItem()->appendRow(QList<QStandardItem *>()<<new QStandardItem("cell (3,0)")<<new QStandardItem("cell (3,1)"));
-    model->invisibleRootItem()->child(1)->setCheckState(Qt::Checked);
-    model->invisibleRootItem()->child(2)->setCheckState(Qt::Checked);
+    QPointer<QStandardItemModel> model_ex1 = new QStandardItemModel;
+    model_ex1->invisibleRootItem()->appendRow(QList<QStandardItem *>()<<new QStandardItem("cell (0,0)")<<new QStandardItem("cell (0,1)"));
+    model_ex1->invisibleRootItem()->appendRow(QList<QStandardItem *>()<<new QStandardItem("cell (1,0)")<<new QStandardItem("cell (1,1)"));
+    model_ex1->invisibleRootItem()->appendRow(QList<QStandardItem *>()<<new QStandardItem("cell (2,0)")<<new QStandardItem("cell (2,1)"));
+    model_ex1->invisibleRootItem()->appendRow(QList<QStandardItem *>()<<new QStandardItem("cell (3,0)")<<new QStandardItem("cell (3,1)"));
+    model_ex1->invisibleRootItem()->child(1)->setCheckState(Qt::Checked);
+    model_ex1->invisibleRootItem()->child(2)->setCheckState(Qt::Checked);
 
-    QTest::addColumn<QPointer<QStandardItemModel>>("model");
+    QTest::addColumn< QPointer<QStandardItemModel> >("model");
     QTest::addColumn<QList<int>>("selected_rows");
 
+    QPointer<QStandardItemModel> empty_model = new QStandardItemModel;
+
     QTest::newRow("normal_model")
-            << model
+            << model_ex1
             << QList<int>()<<1<<2;
     QTest::newRow("empty model")
-            << empty_model_
+            << empty_model
             << QList<int>();
 }
 

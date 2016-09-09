@@ -53,17 +53,15 @@ void LlclassCommandManagerPrivate::initCategoryList()
 
 QueryCategory LlclassCommandManagerPrivate::findDefaultQueryCategory(const QString result_title)
 {
-    QueryCategory result_category;
     for(int i=0; i<default_query_category_list_.length(); i++)
     {
         QueryCategory category = default_query_category_list_[i];
         if( category.label_ == result_title )
         {
-            result_category = category;
-            break;
+            return category;
         }
     }
-    return result_category;
+    return QueryCategory::createDefaultQueryCategory();
 }
 
 QueryCategory LlclassCommandManagerPrivate::findDetailQueryCategory(const QString &label) const
@@ -71,7 +69,7 @@ QueryCategory LlclassCommandManagerPrivate::findDetailQueryCategory(const QStrin
     if(detail_query_category_list_.containsLabel(label))
         return detail_query_category_list_.categoryFromLabel(label);
     else
-        return QueryCategory();
+        return QueryCategory::createLlclassDetailCategory();
 }
 
 QueryModel *LlclassCommandManagerPrivate::buildQueryModelFromResponse(const QString &response_str)
