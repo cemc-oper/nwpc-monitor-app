@@ -1,4 +1,5 @@
 #include "query_item_value_saver.h"
+#include "special_value_saver.h"
 #include "query_item.h"
 
 #include <QRegularExpression>
@@ -33,10 +34,14 @@ QSharedPointer<QueryItemValueSaver> QueryItemValueSaverFactory::make(QueryValueT
     case QueryValueType::FullDate:
         return QSharedPointer<QueryItemValueSaver>{new QueryItemFullDateSaver};
         break;
+    case QueryValueType::JobState:
+        return QSharedPointer<QueryItemValueSaver>{new JobStateValueSaver};
+        break;
     case QueryValueType::Unknown:
-    default:
         qDebug()<<"[QueryItemValueSaverFactory::make] unknown value type";
         return QSharedPointer<QueryItemValueSaver>{new QueryItemValueSaver};
+    default:
+        throw std::invalid_argument(QString("error query value type").toStdString());
     }
 }
 
@@ -64,7 +69,7 @@ void QueryItemDateSaver::setItemValue(QueryItem *query_item, const QString &valu
     QRegularExpressionMatch match = re.match(value);
     if(!match.hasMatch())
     {
-        qWarning()<<"[QueryItem::buildFromQueryRecord] can't parse Date item:"<<value;
+        qWarning()<<"[QueryItemDateSaver::setItemValue] can't parse Date item:"<<value;
         query_item->setText(value);
         query_item->setValueType(QueryValueType::String);
     }
@@ -105,7 +110,7 @@ void QueryItemFullDateSaver::setItemValue(QueryItem *query_item, const QString &
     }
     else
     {
-        qWarning()<<"[QueryItem::buildFromQueryRecord] can't parse FullDateItem:"<<value;
+        qWarning()<<"[QueryItemFullDateSaver::setItemValue] can't parse FullDateItem:"<<value;
         query_item->setText(value);
         query_item->setValueType(QueryValueType::String);
     }

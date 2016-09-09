@@ -3,6 +3,7 @@
 
 #include <loadleveler_monitor/model/query_item.h>
 #include <loadleveler_monitor/model/query_item_value_saver.h>
+#include <loadleveler_monitor/model/special_value_saver.h>
 
 using namespace LoadLevelerMonitor::Model;
 
@@ -28,6 +29,9 @@ private Q_SLOTS:
 
     void testFullDate_data();
     void testFullDate();
+
+    void testJobState_data();
+    void testJobState();
 };
 
 QueryItemValueSaverTest::QueryItemValueSaverTest()
@@ -141,6 +145,32 @@ void QueryItemValueSaverTest::testFullDate()
     QCOMPARE(query_item->text(), text);
 
     delete string_saver;
+    delete query_item;
+}
+
+void QueryItemValueSaverTest::testJobState_data()
+{
+    QTest::addColumn<QString>("value");
+    QTest::addColumn<QString>("text");
+
+    QTest::newRow("R") << "R" <<"R";
+    QTest::newRow("Running") << "Running" <<"R";
+    QTest::newRow("RP") << "RP" <<"RP";
+    QTest::newRow("Remove Pending") << "Remove Pending" <<"RP";
+}
+
+void QueryItemValueSaverTest::testJobState()
+{
+    QFETCH(QString, value);
+    QFETCH(QString, text);
+
+    QueryItemValueSaver *saver = new JobStateValueSaver;
+    QueryItem *query_item = new QueryItem;
+    saver->setItemValue(query_item, value);
+
+    QCOMPARE(query_item->text(), text);
+
+    delete saver;
     delete query_item;
 }
 

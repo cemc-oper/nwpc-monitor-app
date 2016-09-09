@@ -148,7 +148,7 @@ const std::vector<DefaultQueryCategoryType> kLlqDefaultQueryCategoryList = {
     std::make_tuple(Constant::Llq::Owner,          "Job Owner",                "Owner",        QueryValueType::String,      "%o" ,  kQueryTableRecordParser,    QVariantList{}  ),// nwp_qu
     std::make_tuple(Constant::Llq::Priority,       "User Priority",            "PRI",          QueryValueType::Number,      "%p" ,  kQueryTableRecordParser,    QVariantList{}  ),// 50
     std::make_tuple(Constant::Llq::StepName,       "Step Name",                "Step Name",    QueryValueType::String,      "%sn",  kQueryTableRecordParser,    QVariantList{}  ),// 0
-    std::make_tuple(Constant::Llq::Status,         "Status",                   "ST",           QueryValueType::String,      "%st",  kQueryTableRecordParser,    QVariantList{}  ),// R
+    std::make_tuple(Constant::Llq::Status,         "Status",                   "ST",           QueryValueType::JobState,    "%st",  kQueryTableRecordParser,    QVariantList{}  ),// R
 
     // additional categories not used in command argument.
     std::make_tuple(Constant::Llq::No,             "No.",                      "No.",          QueryValueType::Number,      "",     kQueryTableRecordParser,    QVariantList{}  ),    // row number in result records
@@ -160,7 +160,7 @@ const std::vector<DefaultQueryCategoryType> kLlqDetailQuerySerialJobCategoryList
     std::make_tuple(Constant::Llq::Owner,               "Owner",                "Owner",            QueryValueType::String,     "",     kDetailLabelParser,    QVariantList{"Owner"}   ),
     std::make_tuple(Constant::Llq::Class,               "Class",                "Class",            QueryValueType::String,     "",     kDetailLabelParser,    QVariantList{"Class"}   ),
     std::make_tuple(Constant::Llq::JobScript,           "Job Script",           "Cmd",              QueryValueType::String,     "",     kDetailLabelParser,    QVariantList{"Cmd"}   ),
-    std::make_tuple(Constant::Llq::FullStatus,          "Status",               "Status",           QueryValueType::String,     "",     kDetailLabelParser,    QVariantList{"Status"}   ),
+    std::make_tuple(Constant::Llq::FullStatus,          "Status",               "Status",           QueryValueType::JobState,   "",     kDetailLabelParser,    QVariantList{"Status"}   ),
     std::make_tuple(Constant::Llq::QueueFullDate,       "Queue Date",           "Queue Date",       QueryValueType::FullDate,   "",     kDetailLabelParser,    QVariantList{"Queue Date"}   ),
   //std::make_tuple(Constant::Llq::StepType,            "Step Type",            "Step Type",        QueryValueType::String,     "",     kDetailLabelParser,    QVariantList{"Step Type"}   ),       // Serial | General Parallel
 
@@ -174,7 +174,7 @@ const std::vector<DefaultQueryCategoryType> kLlqDetailQueryParallelCategoryList 
     std::make_tuple(Constant::Llq::Owner,               "Owner",                "Owner",            QueryValueType::String,     "",     kDetailLabelParser,    QVariantList{"Owner"}   ),
     std::make_tuple(Constant::Llq::Class,               "Class",                "Class",            QueryValueType::String,     "",     kDetailLabelParser,    QVariantList{"Class"}   ),
     std::make_tuple(Constant::Llq::JobScript,           "Job Script",           "Executable",       QueryValueType::String,     "",     kDetailLabelParser,    QVariantList{"Executable"}   ),
-    std::make_tuple(Constant::Llq::FullStatus,          "Status",               "Status",           QueryValueType::String,     "",     kDetailLabelParser,    QVariantList{"Status"}   ),
+    std::make_tuple(Constant::Llq::FullStatus,          "Status",               "Status",           QueryValueType::JobState,   "",     kDetailLabelParser,    QVariantList{"Status"}   ),
     std::make_tuple(Constant::Llq::QueueFullDate,       "Queue Date",           "Queue Date",       QueryValueType::FullDate,   "",     kDetailLabelParser,    QVariantList{"Queue Date"}   ),
     std::make_tuple(Constant::Llq::NodeMinimum,         "Node Minimun",         "Node minimum",     QueryValueType::Number,     "",     kDetailLabelParser,    QVariantList{"Node minimum"}   ),
   //std::make_tuple(Constant::Llq::StepType,            "Step Type",            "Step Type",        QueryValueType::String,     "",     kDetailLabelParser,    QVariantList{"Step Type"}   ),       // Serial | General Parallel

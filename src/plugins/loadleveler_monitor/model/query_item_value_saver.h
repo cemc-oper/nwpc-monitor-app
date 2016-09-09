@@ -16,7 +16,10 @@ enum class QueryValueType{
     String,
     Number,
     Date,       // 'MM/DD HH:MM'
-    FullDate    // Mon Aug 22 02:25:09 2016
+    FullDate,    // Mon Aug 22 02:25:09 2016
+
+    // special value
+    JobState    // job status: Running/R, Idle/I
 };
 
 
