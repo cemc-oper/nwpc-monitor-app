@@ -23,7 +23,8 @@ QueryItem::QueryItem(const QString &text):
 
 QueryItem::QueryItem(const QueryItem &other):
     QStandardItem{other},
-    query_value_type_{other.query_value_type_}
+    query_value_type_{other.query_value_type_},
+    category_{other.category_}
 {
 
 }
