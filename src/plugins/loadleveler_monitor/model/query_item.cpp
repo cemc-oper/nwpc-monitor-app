@@ -86,6 +86,7 @@ QueryItem *QueryItem::createIndexNoItem(const QueryCategory &num_category, int n
 QStandardItem *QueryItem::buildDefaultQueryItem(const QueryCategory &category, const QString &line)
 {
     QueryItem *item = new QueryItem{};
+    item->setCategory(category);
 
     // find value: category, line => value
     QString value = category.record_parser_->parse(line);
@@ -99,6 +100,7 @@ QStandardItem *QueryItem::buildDefaultQueryItem(const QueryCategory &category, c
 QStandardItem *QueryItem::buildDetailQueryItem(const QueryCategory &category, const QStringList &lines)
 {
     QueryItem *item = new QueryItem();
+    item->setCategory(category);
 
     // find value: category, lines => value
     QString value = category.record_parser_->parse(lines);
