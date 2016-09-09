@@ -1,4 +1,5 @@
 #include "query_record_parser.h"
+#include "special_record_parser.h"
 
 #include <exception>
 
@@ -8,7 +9,7 @@ using namespace LoadLevelerMonitor::Model;
  * QueryRecordParser
  */
 
-void QueryRecordParser::setArguments(const QVariantList &args)
+void QueryRecordParser::setArguments(const QVariantList &)
 {
 
 }
@@ -40,6 +41,10 @@ QueryRecordParser *QueryRecordParserFactory::make(const QString &parser_name, co
     else if(parser_name == kDetailLabelParser)
     {
         parser = new DetailLabelParser{args};
+    }
+    else if(parser_name == kTaskInstanceCountParser)
+    {
+        parser = new TaskInstanceCountParser{args};
     }
     else if(parser_name == "")
     {

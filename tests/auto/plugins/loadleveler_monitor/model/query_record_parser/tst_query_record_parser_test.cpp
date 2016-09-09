@@ -4,6 +4,7 @@
 #include <QTextStream>
 
 #include <loadleveler_monitor/model/query_record_parser.h>
+#include <loadleveler_monitor/model/special_record_parser.h>
 
 using namespace LoadLevelerMonitor::Model;
 
@@ -23,6 +24,9 @@ private Q_SLOTS:
 
     void testDetailLabelParser_data();
     void testDetailLabelParser();
+
+    void testTaskInstanceCountParser_data();
+    void testTaskInstanceCountParser();
 };
 
 QueryRecordParserTest::QueryRecordParserTest()
@@ -279,6 +283,41 @@ void QueryRecordParserTest::testDetailLabelParser()
     QFETCH(QString, value);
 
     QueryRecordParser *record_parser = QueryRecordParserFactory::make(kDetailLabelParser, QVariantList{label});
+    QString parsed_value = record_parser->parse(lines);
+    QCOMPARE(parsed_value, value);
+}
+
+void QueryRecordParserTest::testTaskInstanceCountParser_data()
+{
+    QTest::addColumn<QStringList>("lines");
+    QTest::addColumn<QString>("value");
+
+    // llq
+    QString parallel_job_running_file_path = QFINDTESTDATA("data/detail_query/llq/parallel_job_running.txt");
+
+    QFile parallel_job_running_file(parallel_job_running_file_path);
+    if(parallel_job_running_file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        QStringList lines;
+        QTextStream in(&parallel_job_running_file);
+        while (!in.atEnd())
+        {
+            lines << in.readLine();
+        }
+        parallel_job_running_file.close();
+
+        QTest::newRow("llq.parallel_job_running")
+                <<lines
+                << "512";
+    }
+}
+
+void QueryRecordParserTest::testTaskInstanceCountParser()
+{
+    QFETCH(QStringList, lines);
+    QFETCH(QString, value);
+
+    QueryRecordParser *record_parser = QueryRecordParserFactory::make(kTaskInstanceCountParser, QVariantList{});
     QString parsed_value = record_parser->parse(lines);
     QCOMPARE(parsed_value, value);
 }

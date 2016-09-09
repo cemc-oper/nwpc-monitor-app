@@ -27,6 +27,7 @@ public:
 // factory
 const QString kQueryTableRecordParser = "QueryTableRecordParser";
 const QString kDetailLabelParser      = "DetailLabelParser";
+const QString kTaskInstanceCountParser = "TaskInstanceCountParser";
 
 class LOADLEVELER_MONITOR_EXPORT QueryRecordParserFactory
 {
