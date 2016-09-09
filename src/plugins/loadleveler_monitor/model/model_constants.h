@@ -30,10 +30,13 @@ const QString Priority      =   "llq.priority";
 const QString StepName      =   "llq.step_name";
 const QString No            =   "llq.no";
 
+const QString StepType      =   "llq.step_type";
 const QString JobScript     =   "llq.job_script";
 const QString QueueFullDate =   "llq.queue_full_date";
 const QString NodeMinimum   =   "llq.node_minimum";
-const QString StepType      =   "llq.step_type";
+const QString NodeActual    =   "llq.node_actual";
+const QString NodeMaximum   =   "llq.node_maximum";
+const QString TaskInstanceCount =   "llq.task_instance_count";
 }
 
 namespace Llclass{

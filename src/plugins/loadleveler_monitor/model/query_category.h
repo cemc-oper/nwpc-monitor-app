@@ -177,6 +177,8 @@ const std::vector<DefaultQueryCategoryType> kLlqDetailQueryParallelCategoryList 
     std::make_tuple(Constant::Llq::FullStatus,          "Status",               "Status",           QueryValueType::JobState,   "",     kDetailLabelParser,    QVariantList{"Status"}   ),
     std::make_tuple(Constant::Llq::QueueFullDate,       "Queue Date",           "Queue Date",       QueryValueType::FullDate,   "",     kDetailLabelParser,    QVariantList{"Queue Date"}   ),
     std::make_tuple(Constant::Llq::NodeMinimum,         "Node Minimun",         "Node minimum",     QueryValueType::Number,     "",     kDetailLabelParser,    QVariantList{"Node minimum"}   ),
+    std::make_tuple(Constant::Llq::NodeActual,          "Node Actual",          "Node actual",      QueryValueType::Number,     "",     kDetailLabelParser,    QVariantList{"Node actual"}   ),
+    std::make_tuple(Constant::Llq::TaskInstanceCount,   "Task Instance Count",  "Num Task Inst",    QueryValueType::Number,     "",     kDetailLabelParser,    QVariantList{"Num Task Inst"}   ),
   //std::make_tuple(Constant::Llq::StepType,            "Step Type",            "Step Type",        QueryValueType::String,     "",     kDetailLabelParser,    QVariantList{"Step Type"}   ),       // Serial | General Parallel
 
     // additional categories not used in command argument.
