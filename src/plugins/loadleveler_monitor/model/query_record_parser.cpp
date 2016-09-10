@@ -14,6 +14,11 @@ void QueryRecordParser::setArguments(const QVariantList &)
 
 }
 
+QVariantList QueryRecordParser::arguments() const
+{
+    return args_;
+}
+
 QString QueryRecordParser::parse(const QString &)
 {
     return QString();
@@ -76,6 +81,7 @@ QueryTableRecordParser::QueryTableRecordParser():
 QueryTableRecordParser::QueryTableRecordParser(const QVariantList &args):
     QueryRecordParser{}
 {
+    type_ = kQueryTableRecordParser;
     if(args.isEmpty())
     {
         begin_pos_ = -1;
@@ -90,7 +96,7 @@ QueryTableRecordParser::QueryTableRecordParser(int begin_pos, int end_pos):
     begin_pos_{begin_pos},
     end_pos_{end_pos}
 {
-
+    type_ = kQueryTableRecordParser;
 }
 
 QueryTableRecordParser::~QueryTableRecordParser()
@@ -120,6 +126,7 @@ void QueryTableRecordParser::setArguments(const QVariantList &args)
 
     begin_pos_ = begin_pos;
     end_pos_ = end_pos;
+    args_ = args;
 }
 
 QString QueryTableRecordParser::parse(const QString &line)
@@ -140,6 +147,7 @@ DetailLabelParser::DetailLabelParser():
 DetailLabelParser::DetailLabelParser(const QVariantList &args):
     QueryRecordParser{}
 {
+    type_ = kDetailLabelParser;
     if(args.isEmpty())
     {
         label_ = "";
@@ -148,13 +156,6 @@ DetailLabelParser::DetailLabelParser(const QVariantList &args):
     setArguments(args);
 }
 
-
-DetailLabelParser::DetailLabelParser(const QString &label):
-    QueryRecordParser{},
-    label_{label}
-{
-
-}
 
 DetailLabelParser::~DetailLabelParser()
 {
@@ -171,6 +172,7 @@ void DetailLabelParser::setArguments(const QVariantList &args)
     QString label = args[0].toString();
 
     label_ = label;
+    args_ = args;
 }
 
 QString DetailLabelParser::parse(const QStringList &lines)

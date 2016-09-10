@@ -10,24 +10,35 @@ namespace LoadLevelerMonitor{
 
 namespace Model{
 
+
+const QString kQueryRecordParser = "QueryRecordParser";
+const QString kQueryTableRecordParser = "QueryTableRecordParser";
+const QString kDetailLabelParser      = "DetailLabelParser";
+const QString kTaskInstanceCountParser = "TaskInstanceCountParser";
+
 class LOADLEVELER_MONITOR_EXPORT QueryRecordParser
 {
 public:
-    QueryRecordParser(){}
+    QueryRecordParser():type_{kQueryRecordParser}{}
     virtual ~QueryRecordParser(){}
 
     virtual void setArguments(const QVariantList &args);
+    QVariantList arguments() const;
+
+    QString type() const
+    { return type_; }
 
     virtual QString parse(const QString &line);
     virtual QString parse(const QStringList &lines);
 
     virtual QStringList parseToList(const QStringList &lines);
+
+protected:
+    QString type_;
+    QVariantList args_;
 };
 
 // factory
-const QString kQueryTableRecordParser = "QueryTableRecordParser";
-const QString kDetailLabelParser      = "DetailLabelParser";
-const QString kTaskInstanceCountParser = "TaskInstanceCountParser";
 
 class LOADLEVELER_MONITOR_EXPORT QueryRecordParserFactory
 {

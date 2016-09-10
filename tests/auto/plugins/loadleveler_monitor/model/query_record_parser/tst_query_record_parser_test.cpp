@@ -6,6 +6,8 @@
 #include <loadleveler_monitor/model/query_record_parser.h>
 #include <loadleveler_monitor/model/special_record_parser.h>
 
+Q_DECLARE_METATYPE(LoadLevelerMonitor::Model::QueryRecordParser*);
+
 using namespace LoadLevelerMonitor::Model;
 
 class QueryRecordParserTest : public QObject
@@ -18,6 +20,9 @@ public:
 private Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();
+
+    void testParserType_data();
+    void testParserType();
 
     void testTableRecordParser_data();
     void testTableRecordParser();
@@ -39,6 +44,24 @@ void QueryRecordParserTest::initTestCase()
 
 void QueryRecordParserTest::cleanupTestCase()
 {
+}
+
+void QueryRecordParserTest::testParserType_data()
+{
+    QTest::addColumn<QueryRecordParser*>("parser");
+    QTest::addColumn<QString>("parser_type");
+
+    QTest::newRow("QueryRecordType")
+            << new QueryRecordParser
+            <<kQueryRecordParser;
+}
+
+void QueryRecordParserTest::testParserType()
+{
+    QFETCH(QueryRecordParser*, parser);
+    QFETCH(QString, parser_type);
+
+    QCOMPARE(parser->type(), parser_type);
 }
 
 void QueryRecordParserTest::testTableRecordParser_data()
@@ -191,6 +214,12 @@ void QueryRecordParserTest::testTableRecordParser()
                 kQueryTableRecordParser, QVariantList{begin_pos, end_pos});
     QString parsed_value = table_record_parser->parse(line);
     QCOMPARE(parsed_value, value);
+
+    QVariantList args = table_record_parser->arguments();
+    QCOMPARE(args[0].toInt(), begin_pos);
+    QCOMPARE(args[1].toInt(), end_pos);
+
+    QCOMPARE(table_record_parser->type(), kQueryTableRecordParser);
 }
 
 void QueryRecordParserTest::testDetailLabelParser_data()
@@ -285,6 +314,11 @@ void QueryRecordParserTest::testDetailLabelParser()
     QueryRecordParser *record_parser = QueryRecordParserFactory::make(kDetailLabelParser, QVariantList{label});
     QString parsed_value = record_parser->parse(lines);
     QCOMPARE(parsed_value, value);
+
+    QVariantList args = record_parser->arguments();
+    QCOMPARE(args[0].toString(), label);
+
+    QCOMPARE(record_parser->type(), kDetailLabelParser);
 }
 
 void QueryRecordParserTest::testTaskInstanceCountParser_data()
@@ -320,6 +354,11 @@ void QueryRecordParserTest::testTaskInstanceCountParser()
     QueryRecordParser *record_parser = QueryRecordParserFactory::make(kTaskInstanceCountParser, QVariantList{});
     QString parsed_value = record_parser->parse(lines);
     QCOMPARE(parsed_value, value);
+
+    QVariantList args = record_parser->arguments();
+    QVERIFY(args.isEmpty());
+
+    QCOMPARE(record_parser->type(), kTaskInstanceCountParser);
 }
 
 QTEST_APPLESS_MAIN(QueryRecordParserTest)

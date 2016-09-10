@@ -3,7 +3,7 @@
 using namespace LoadLevelerMonitor::Model;
 
 TaskInstanceCountParser::TaskInstanceCountParser():
-    QueryRecordParser{}
+    TaskInstanceCountParser{QVariantList{}}
 {
 
 }
@@ -11,7 +11,7 @@ TaskInstanceCountParser::TaskInstanceCountParser():
 TaskInstanceCountParser::TaskInstanceCountParser(const QVariantList &):
     QueryRecordParser{}
 {
-
+    type_ = kTaskInstanceCountParser;
 }
 
 /**
