@@ -61,10 +61,10 @@ void QueryItemTest::initTestCase()
         c.id_ = get<0>(t);
         c.label_ = get<1>(t);
         c.value_saver_ = QueryItemValueSaverFactory::make(get<2>(t));
-        c.record_parser_type_ = kQueryTableRecordParser;
-        c.record_parser_args_ << pos << pos + get<3>(t);
+        QVariantList args;
+        args<< pos << pos + get<3>(t);
         c.record_parser_.reset(QueryRecordParserFactory::make(
-                                  c.record_parser_type_, c.record_parser_args_));
+                                  kQueryTableRecordParser, args));
         llq_default_category_list_.append(c);
 
         pos += get<3>(t) + 1;
@@ -89,11 +89,10 @@ void QueryItemTest::initTestCase()
         c.id_ = get<0>(t);
         c.label_ = get<1>(t);
         c.value_saver_ = QueryItemValueSaverFactory::make(get<2>(t));
-        c.record_parser_type_ = kQueryTableRecordParser;
-        c.record_parser_args_.clear();
-        c.record_parser_args_ << pos << pos + get<3>(t);
+        QVariantList args;
+        args << pos << pos + get<3>(t);
         c.record_parser_.reset( QueryRecordParserFactory::make(
-                                  c.record_parser_type_, c.record_parser_args_));
+                                  kQueryTableRecordParser, args));
         llclass_default_category_list_.append(c);
         pos += get<3>(t) + 1;
     });

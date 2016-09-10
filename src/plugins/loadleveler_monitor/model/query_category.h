@@ -49,7 +49,6 @@ public:
         label_              {""},
         value_saver_        {new QueryItemValueSaver},
         category_type_      {QueryType::UnknownQuery},
-        record_parser_type_ {""},
         command_line_       {""}
     {
     }
@@ -59,14 +58,14 @@ public:
         label_              {other.label_},
         value_saver_        {other.value_saver_},
         category_type_      {other.category_type_},
-        record_parser_type_ {other.record_parser_type_},
         command_line_       {other.command_line_}
     {
-        foreach(QVariant args, other.record_parser_args_)
+        QVariantList args;
+        foreach(QVariant arg, other.record_parser_->arguments())
         {
-            record_parser_args_.append(args);
+            args.append(arg);
         }
-        record_parser_.reset(QueryRecordParserFactory::make(other.record_parser_type_, other.record_parser_args_));
+        record_parser_.reset(QueryRecordParserFactory::make(other.record_parser_->type(), args));
     }
 
     QueryCategory& operator=(const QueryCategory &other)
@@ -76,14 +75,13 @@ public:
         label_              = other.label_;
         value_saver_        = other.value_saver_;
         category_type_      = other.category_type_;
-        record_parser_type_ = other.record_parser_type_;
 
-        record_parser_args_.clear();
-        foreach(QVariant args, other.record_parser_args_)
+        QVariantList args;
+        foreach(QVariant arg, other.record_parser_->arguments())
         {
-            record_parser_args_.append(args);
+            args.append(arg);
         }
-        record_parser_.reset(QueryRecordParserFactory::make(record_parser_type_, record_parser_args_));
+        record_parser_.reset(QueryRecordParserFactory::make(other.record_parser_->type(), args));
         command_line_       = other.command_line_;
         return *this;
     }
@@ -101,8 +99,6 @@ public:
     // parser: record => value
     QueryType category_type_;
 
-    QString record_parser_type_;
-    QVariantList record_parser_args_;
     QScopedPointer<QueryRecordParser> record_parser_;
 
     // saver: value => item

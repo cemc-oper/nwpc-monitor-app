@@ -105,7 +105,6 @@ QueryModel *QueryModel::buildFromLlqDefaultQueryResponse(const QStringList &line
 
         if(QueryTableRecordParser *table_parser = dynamic_cast<QueryTableRecordParser*>(category_list[i].record_parser_.data()))
         {
-            category_list[i].record_parser_args_ = QVariantList() << pos << pos + category_column_width[i];
             table_parser->setArguments(QVariantList() << pos << pos + category_column_width[i]);
         }
 
@@ -272,7 +271,6 @@ QueryModel *QueryModel::buildFromLlclassDefaultQueryResponse(const QStringList &
         }
         if(QueryTableRecordParser *table_parser = dynamic_cast<QueryTableRecordParser*>(category_list[i].record_parser_.data()))
         {
-            category_list[i].record_parser_args_ = QVariantList() << pos << pos + category_column_width[i];
             table_parser->setArguments(QVariantList() << pos << pos + category_column_width[i]);
         }
         pos += category_column_width[i] + 1;

@@ -129,11 +129,9 @@ QueryCategory QueryCategory::createCateogry(const DefaultQueryCategoryType &reco
     category.id_ = id;
     category.display_name_ = display_name;
     category.label_ = label;
-    category.record_parser_type_ = record_parser_type;
-    category.record_parser_args_ = record_parser_agrs;
     category.record_parser_.reset(QueryRecordParserFactory::make(
-                                      category.record_parser_type_,
-                                      category.record_parser_args_));
+                                      record_parser_type,
+                                      record_parser_agrs));
     category.value_saver_ = QueryItemValueSaverFactory::make(type);
     category.command_line_ = comand_line;
     return category;
@@ -142,9 +140,8 @@ QueryCategory QueryCategory::createCateogry(const DefaultQueryCategoryType &reco
 QueryCategory QueryCategory::createDefaultQueryCategory()
 {
     QueryCategory category;
-    category.record_parser_type_ = kQueryTableRecordParser;
     category.record_parser_.reset(
-                QueryRecordParserFactory::make(category.record_parser_type_, QVariantList()));
+                QueryRecordParserFactory::make(kQueryTableRecordParser, QVariantList()));
     category.value_saver_ = QueryItemValueSaverFactory::make(QueryValueType::Unknown);
     return category;
 }
@@ -152,9 +149,8 @@ QueryCategory QueryCategory::createDefaultQueryCategory()
 QueryCategory QueryCategory::createDetialQueryCategory()
 {
     QueryCategory category;
-    category.record_parser_type_ = kQueryTableRecordParser;
     category.record_parser_.reset(
-                QueryRecordParserFactory::make(category.record_parser_type_, QVariantList()));
+                QueryRecordParserFactory::make(kQueryTableRecordParser, QVariantList()));
     category.value_saver_ = QueryItemValueSaverFactory::make(QueryValueType::Unknown);
     return category;
 }
