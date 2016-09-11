@@ -30,7 +30,7 @@ public:
 
     void initCategoryList();
 
-    QueryCategory findQueryCategory(const QString result_title);
+    QueryCategory findQueryCategory(const QString &label);
     QueryCategory findSerialJobDetailQueryCategory(const QString &label) const;
     QueryCategory findParellelJobDetailQueryCategory(const QString &label) const;
 

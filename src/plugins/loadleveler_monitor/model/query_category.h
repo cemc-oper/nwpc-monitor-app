@@ -47,6 +47,7 @@ public:
         id_                 {kValidId},
         display_name_       {""},
         label_              {""},
+        record_parser_      {new QueryRecordParser},
         value_saver_        {new QueryItemValueSaver},
         category_type_      {QueryType::UnknownQuery},
         command_line_       {""}

@@ -56,6 +56,10 @@ QueryRecordParser *QueryRecordParserFactory::make(const QString &parser_name, co
         // for valid category used in QueryCategoryList.
         parser = new QueryRecordParser;
     }
+    else if(parser_name == "QueryRecordParser")
+    {
+        parser = new QueryRecordParser;
+    }
     else
     {
         throw std::invalid_argument(QString("error parser name: " + parser_name).toStdString());

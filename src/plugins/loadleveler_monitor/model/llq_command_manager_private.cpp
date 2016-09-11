@@ -57,17 +57,12 @@ void LlqCommandManagerPrivate::initCategoryList()
     }
 }
 
-QueryCategory LlqCommandManagerPrivate::findQueryCategory(const QString result_title)
+QueryCategory LlqCommandManagerPrivate::findQueryCategory(const QString &label)
 {
-    for(int i=0; i<default_query_category_list_.length(); i++)
-    {
-        QueryCategory category = default_query_category_list_[i];
-        if( category.label_ == result_title )
-        {
-            return category;
-        }
-    }
-    return QueryCategory::createLlqDefaultQueryCategory();
+    if(default_query_category_list_.containsLabel(label))
+        return default_query_category_list_.categoryFromLabel(label);
+    else
+        return QueryCategory::createLlqDefaultQueryCategory();
 }
 
 QueryCategory LlqCommandManagerPrivate::findSerialJobDetailQueryCategory(const QString &label) const

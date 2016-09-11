@@ -29,7 +29,7 @@ public:
 
     void initCategoryList();
 
-    QueryCategory findDefaultQueryCategory(const QString result_title);
+    QueryCategory findDefaultQueryCategory(const QString &label);
     QueryCategory findDetailQueryCategory(const QString &label) const;
 
     QueryModel *buildQueryModelFromResponse(const QString &response_str);
