@@ -22,6 +22,8 @@ using namespace LoadLevelerMonitor::Chart;
 LlclassPanel::LlclassPanel(QWidget *parent) :
     QueryPanel(parent)
 {
+    ui->argument_edit->setPlaceholderText(tr("use command llclass's arguments, such as '-c serial', '-l' and so on."));
+
     setupTemplate();
     setupStyle();
 }

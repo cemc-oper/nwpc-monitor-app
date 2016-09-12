@@ -37,6 +37,7 @@ using namespace QtCharts;
 LlqPanel::LlqPanel(QWidget *parent) :
     QueryPanel(parent)
 {
+    ui->argument_edit->setPlaceholderText(tr("use command llq's arguments, such as '-u nwp_qu', '-c serial' and so on."));
     setupTemplate();
     setupStyle();
 
