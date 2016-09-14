@@ -5,6 +5,10 @@
 
 #include <QPointer>
 
+QT_BEGIN_NAMESPACE
+class QStandardItemModel;
+QT_END_NAMESPACE
+
 namespace LoadLevelerMonitor{
 
 namespace Model{
@@ -27,6 +31,7 @@ public:
 
     void clear();
     void setModel(QPointer<Model::QueryModel> query_model);
+    void setSummaryModel(QPointer<QStandardItemModel> summary_model);
 
     void setOperationButtons(QVector<QPointer<QAction>> action_list);
 
@@ -37,6 +42,7 @@ private:
     void clearOperationButtons();
 
     QPointer<Model::QueryModel> query_model_;
+    QPointer<QStandardItemModel> summary_model_;
     Ui::TableStylePage *ui;
 };
 

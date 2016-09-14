@@ -39,6 +39,7 @@ TableStylePage::~TableStylePage()
 void TableStylePage::clear()
 {
     ui->table_view->setModel(nullptr);
+    ui->summary_table_view->setModel(nullptr);
 }
 
 void TableStylePage::setModel(QPointer<QueryModel> query_model)
@@ -76,6 +77,12 @@ void TableStylePage::setModel(QPointer<QueryModel> query_model)
             [=](const QPoint &pos){
         emit signalQueryModelContextMenuRequest(ui->table_view->mapToGlobal(pos), ui->table_view->indexAt(pos));
     });
+}
+
+void TableStylePage::setSummaryModel(QPointer<QStandardItemModel> summary_model)
+{
+    summary_model_ = summary_model;
+    ui->summary_table_view->setModel(summary_model_);
 }
 
 void TableStylePage::setOperationButtons(QVector<QPointer<QAction>> action_list)
