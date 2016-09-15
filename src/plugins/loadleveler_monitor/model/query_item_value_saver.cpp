@@ -10,6 +10,44 @@
 
 using namespace LoadLevelerMonitor::Model;
 
+namespace LoadLevelerMonitor{
+
+namespace Model{
+
+LOADLEVELER_MONITOR_EXPORT QDebug operator <<(QDebug debug, const QueryValueType &value_type)
+{
+    switch(value_type)
+    {
+    case QueryValueType::Unknown:
+        debug<<"Unknown";
+        break;
+    case QueryValueType::String:
+        debug<<"String";
+        break;
+    case QueryValueType::Number:
+        debug<<"Number";
+        break;
+    case QueryValueType::Date:
+        debug<<"Date";
+        break;
+    case QueryValueType::FullDate:
+        debug<<"FullDate";
+        break;
+    case QueryValueType::JobState:
+        debug<<"JobState";
+        break;
+    default:
+        Q_ASSERT(0);
+        debug<<"unspported";
+    }
+
+    return debug;
+}
+
+}
+
+}
+
 void QueryItemValueSaver::setItemValue(QueryItem *query_item, const QString &value)
 {
     qWarning()<<"[QueryItemValueSaver::setItemValue] default saver";

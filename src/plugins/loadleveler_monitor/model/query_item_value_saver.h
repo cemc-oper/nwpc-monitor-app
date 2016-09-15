@@ -22,6 +22,8 @@ enum class QueryValueType{
     JobState    // job status: Running/R, Idle/I
 };
 
+LOADLEVELER_MONITOR_EXPORT QDebug operator <<(QDebug debug, const QueryValueType &value_type);
+
 
 class LOADLEVELER_MONITOR_EXPORT QueryItemValueSaver
 {

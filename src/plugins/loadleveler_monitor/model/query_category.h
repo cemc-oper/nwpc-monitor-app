@@ -2,7 +2,6 @@
 
 #include "../loadleveler_monitor_global.h"
 #include "model_constants.h"
-
 #include "query_record_parser.h"
 #include "query_item_value_saver.h"
 
@@ -29,8 +28,6 @@ enum class QueryType{
     LlclassDetailQuery
 };
 
-LOADLEVELER_MONITOR_EXPORT QDebug operator <<(QDebug debug, const QueryValueType &value_type);
-
 LOADLEVELER_MONITOR_EXPORT QVector<int> getCategoryColumnWidth(const QString &mark_line);
 
 
@@ -43,49 +40,10 @@ struct LOADLEVELER_MONITOR_EXPORT QueryCategory
 public:
     static const QString kValidId;
 
-    QueryCategory():
-        id_                 {kValidId},
-        display_name_       {""},
-        label_              {""},
-        record_parser_      {new QueryRecordParser},
-        value_saver_        {new QueryItemValueSaver},
-        category_type_      {QueryType::UnknownQuery},
-        command_line_       {""}
-    {
-    }
-    QueryCategory(const QueryCategory &other):
-        id_                 {other.id_},
-        display_name_       {other.display_name_},
-        label_              {other.label_},
-        value_saver_        {other.value_saver_},
-        category_type_      {other.category_type_},
-        command_line_       {other.command_line_}
-    {
-        QVariantList args;
-        foreach(QVariant arg, other.record_parser_->arguments())
-        {
-            args.append(arg);
-        }
-        record_parser_.reset(QueryRecordParserFactory::make(other.record_parser_->type(), args));
-    }
+    QueryCategory();
+    QueryCategory(const QueryCategory &other);
 
-    QueryCategory& operator=(const QueryCategory &other)
-    {
-        id_                 = other.id_;
-        display_name_       = other.display_name_;
-        label_              = other.label_;
-        value_saver_        = other.value_saver_;
-        category_type_      = other.category_type_;
-
-        QVariantList args;
-        foreach(QVariant arg, other.record_parser_->arguments())
-        {
-            args.append(arg);
-        }
-        record_parser_.reset(QueryRecordParserFactory::make(other.record_parser_->type(), args));
-        command_line_       = other.command_line_;
-        return *this;
-    }
+    QueryCategory &operator=(const QueryCategory &other);
 
     ~QueryCategory(){}
 

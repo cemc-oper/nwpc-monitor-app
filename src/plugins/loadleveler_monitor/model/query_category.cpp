@@ -6,33 +6,19 @@ using namespace std;
 namespace LoadLevelerMonitor{
 
 namespace Model {
-LOADLEVELER_MONITOR_EXPORT QDebug operator <<(QDebug debug, const QueryValueType &value_type)
-{
-    switch(value_type)
-    {
-    case QueryValueType::Unknown:
-        debug<<"Unknown";
-        break;
-    case QueryValueType::String:
-        debug<<"String";
-        break;
-    case QueryValueType::Number:
-        debug<<"Number";
-        break;
-    case QueryValueType::Date:
-        debug<<"Date";
-        break;
-    case QueryValueType::FullDate:
-        debug<<"FullDate";
-        break;
-    default:
-        Q_ASSERT(0);
-        debug<<"unspported";
-    }
 
-    return debug;
-}
+/*
+llq 和 llclass 的输出格式如下：
+Id                       Owner      Submitted   ST PRI Class        Running On
+------------------------ ---------- ----------- -- --- ------------ -----------
+cma20n02.2942180.0       nwp_pd      9/14 04:01 R  100 serial_op    cma18n04
+cma20n01.2957161.0       nwp_vfy     9/15 10:00 R  100 serial       cma20n06
 
+其中第二行
+------------------------ ---------- ----------- -- --- ------------ -----------
+就是标志行，可以得到每列的起止字符数。
+本函数返回每段-*的长度。
+ */
 LOADLEVELER_MONITOR_EXPORT QVector<int> getCategoryColumnWidth(const QString &mark_line)
 {
     QStringList category_marks = mark_line.split(' ');
@@ -49,6 +35,51 @@ LOADLEVELER_MONITOR_EXPORT QVector<int> getCategoryColumnWidth(const QString &ma
 
 
 const QString QueryCategory::kValidId{".valid_id"};
+
+QueryCategory::QueryCategory():
+    id_                 {kValidId},
+    display_name_       {""},
+    label_              {""},
+    record_parser_      {new QueryRecordParser},
+    value_saver_        {new QueryItemValueSaver},
+    category_type_      {QueryType::UnknownQuery},
+    command_line_       {""}
+{
+}
+
+QueryCategory::QueryCategory(const QueryCategory &other):
+    id_                 {other.id_},
+    display_name_       {other.display_name_},
+    label_              {other.label_},
+    value_saver_        {other.value_saver_},
+    category_type_      {other.category_type_},
+    command_line_       {other.command_line_}
+{
+    QVariantList args;
+    foreach(QVariant arg, other.record_parser_->arguments())
+    {
+        args.append(arg);
+    }
+    record_parser_.reset(QueryRecordParserFactory::make(other.record_parser_->type(), args));
+}
+
+QueryCategory &QueryCategory::operator=(const QueryCategory &other)
+{
+    id_                 = other.id_;
+    display_name_       = other.display_name_;
+    label_              = other.label_;
+    value_saver_        = other.value_saver_;
+    category_type_      = other.category_type_;
+
+    QVariantList args;
+    foreach(QVariant arg, other.record_parser_->arguments())
+    {
+        args.append(arg);
+    }
+    record_parser_.reset(QueryRecordParserFactory::make(other.record_parser_->type(), args));
+    command_line_       = other.command_line_;
+    return *this;
+}
 
 bool QueryCategory::isValid()
 {
