@@ -218,11 +218,12 @@ QueryModel *QueryModel::buildFromLlqDetailQueryResponse(const QStringList &lines
     }
 
     // insert no category
-    category_list.insert(0, row_num_category);
-    query_model->setCategoryList(category_list);
+    QueryCategoryList header_category_list = LlqCommandManager::parellelJobDetailQueryCategoryList();
+    header_category_list.insert(0, row_num_category);
+    query_model->setCategoryList(header_category_list);
 
     // set header titles
-    setHeader(query_model, category_list);
+    setHeader(query_model, header_category_list);
 
     return query_model;
 }
