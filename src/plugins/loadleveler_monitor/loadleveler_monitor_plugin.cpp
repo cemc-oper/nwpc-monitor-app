@@ -20,8 +20,8 @@ LoadLevelerMonitorPlugin* loadleveler_monitor_plugin_instance = nullptr;
 
 LoadLevelerMonitorPlugin::LoadLevelerMonitorPlugin(QObject *parent) :
     IPlugin{parent},
-    loadleveler_monitor_perspective_{0},
-    llq_command_manager_{0}
+    loadleveler_monitor_perspective_{nullptr},
+    llq_command_manager_{nullptr}
 {
     loadleveler_monitor_plugin_instance = this;
 }
