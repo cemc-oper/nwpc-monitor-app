@@ -39,20 +39,20 @@ void LlqCommandManagerPrivate::initCategoryList()
     default_query_category_list_.clear();
     foreach(auto record, kLlqDefaultQueryCategoryList)
     {
-        default_query_category_list_.append(QueryCategory::createLlqDefaultQueryCategory(record));
+        default_query_category_list_.append(QueryCategoryFactory::createLlqDefaultQueryCategory(record));
     }
 
     serial_job_detail_category_list_.clear();
     foreach(auto record, kLlqDetailQuerySerialJobCategoryList)
     {
-        QueryCategory c = QueryCategory::createLlqDetialQueryCategory(record);
+        QueryCategory c = QueryCategoryFactory::createLlqDetialQueryCategory(record);
         serial_job_detail_category_list_.append(c);
     }
 
     parallel_job_detail_category_list_.clear();
     foreach(auto record, kLlqDetailQueryParallelCategoryList)
     {
-        QueryCategory c = QueryCategory::createLlqDetialQueryCategory(record);
+        QueryCategory c = QueryCategoryFactory::createLlqDetialQueryCategory(record);
         parallel_job_detail_category_list_.append(c);
     }
 }
@@ -62,7 +62,7 @@ QueryCategory LlqCommandManagerPrivate::findQueryCategory(const QString &label)
     if(default_query_category_list_.containsLabel(label))
         return default_query_category_list_.categoryFromLabel(label);
     else
-        return QueryCategory::createLlqDefaultQueryCategory();
+        return QueryCategoryFactory::createLlqDefaultQueryCategory();
 }
 
 QueryCategory LlqCommandManagerPrivate::findSerialJobDetailQueryCategory(const QString &label) const
@@ -70,7 +70,7 @@ QueryCategory LlqCommandManagerPrivate::findSerialJobDetailQueryCategory(const Q
     if(serial_job_detail_category_list_.containsLabel(label))
         return serial_job_detail_category_list_.categoryFromLabel(label);
     else
-        return QueryCategory::createLlqDetialQueryCategory();
+        return QueryCategoryFactory::createLlqDetialQueryCategory();
 }
 
 QueryCategory LlqCommandManagerPrivate::findParellelJobDetailQueryCategory(const QString &label) const
@@ -78,7 +78,7 @@ QueryCategory LlqCommandManagerPrivate::findParellelJobDetailQueryCategory(const
     if(parallel_job_detail_category_list_.containsLabel(label))
         return parallel_job_detail_category_list_.categoryFromLabel(label);
     else
-        return QueryCategory::createLlqDetialQueryCategory();
+        return QueryCategoryFactory::createLlqDetialQueryCategory();
 }
 
 QueryModel *LlqCommandManagerPrivate::buildQueryModelFromResponse(const QString &response_str)

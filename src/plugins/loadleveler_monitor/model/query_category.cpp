@@ -91,63 +91,65 @@ bool QueryCategory::operator ==(const QueryCategory &other)
     return id_ == other.id_;
 }
 
-QueryCategory QueryCategory::createLlqDefaultQueryCategory()
+// QueryCategoryFactory
+
+QueryCategory QueryCategoryFactory::createLlqDefaultQueryCategory()
 {
     QueryCategory category = createDefaultQueryCategory();
     category.category_type_ = QueryType::LlqDefaultQuery;
     return category;
 }
 
-QueryCategory QueryCategory::createLlqDefaultQueryCategory(const DefaultQueryCategoryType &record)
+QueryCategory QueryCategoryFactory::createLlqDefaultQueryCategory(const DefaultQueryCategoryType &record)
 {
     QueryCategory category = createCateogry(record);
     category.category_type_ = QueryType::LlqDefaultQuery;
     return category;
 }
 
-QueryCategory QueryCategory::createLlqDetialQueryCategory()
+QueryCategory QueryCategoryFactory::createLlqDetialQueryCategory()
 {
     QueryCategory category = createDetialQueryCategory();
     category.category_type_ = QueryType::LlqDetailQuery;
     return category;
 }
 
-QueryCategory QueryCategory::createLlqDetialQueryCategory(const DefaultQueryCategoryType &record)
+QueryCategory QueryCategoryFactory::createLlqDetialQueryCategory(const DefaultQueryCategoryType &record)
 {
     QueryCategory category = createCateogry(record);
     category.category_type_ = QueryType::LlqDetailQuery;
     return category;
 }
 
-QueryCategory QueryCategory::createLlclassDefaultCategory()
+QueryCategory QueryCategoryFactory::createLlclassDefaultCategory()
 {
     QueryCategory category = createDefaultQueryCategory();
     category.category_type_ = QueryType::LlclassDefaultQuery;
     return category;
 }
 
-QueryCategory QueryCategory::createLlclassDefaultCategory(const DefaultQueryCategoryType &record)
+QueryCategory QueryCategoryFactory::createLlclassDefaultCategory(const DefaultQueryCategoryType &record)
 {
     QueryCategory category = createCateogry(record);
     category.category_type_ = QueryType::LlclassDefaultQuery;
     return category;
 }
 
-QueryCategory QueryCategory::createLlclassDetailCategory()
+QueryCategory QueryCategoryFactory::createLlclassDetailCategory()
 {
     QueryCategory category = createDetialQueryCategory();
     category.category_type_ = QueryType::LlclassDetailQuery;
     return category;
 }
 
-QueryCategory QueryCategory::createLlclassDetailCategory(const DefaultQueryCategoryType &record)
+QueryCategory QueryCategoryFactory::createLlclassDetailCategory(const DefaultQueryCategoryType &record)
 {
     QueryCategory category = createCateogry(record);
     category.category_type_ = QueryType::LlclassDetailQuery;
     return category;
 }
 
-QueryCategory QueryCategory::createCateogry(const DefaultQueryCategoryType &record)
+QueryCategory QueryCategoryFactory::createCateogry(const DefaultQueryCategoryType &record)
 {
     QString id = get<0>(record);
     QString display_name = get<1>(record);
@@ -168,7 +170,7 @@ QueryCategory QueryCategory::createCateogry(const DefaultQueryCategoryType &reco
     return category;
 }
 
-QueryCategory QueryCategory::createDefaultQueryCategory()
+QueryCategory QueryCategoryFactory::createDefaultQueryCategory()
 {
     QueryCategory category;
     category.record_parser_.reset(
@@ -177,7 +179,7 @@ QueryCategory QueryCategory::createDefaultQueryCategory()
     return category;
 }
 
-QueryCategory QueryCategory::createDetialQueryCategory()
+QueryCategory QueryCategoryFactory::createDetialQueryCategory()
 {
     QueryCategory category;
     category.record_parser_.reset(

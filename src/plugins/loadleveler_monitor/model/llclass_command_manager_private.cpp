@@ -40,13 +40,13 @@ void LlclassCommandManagerPrivate::initCategoryList()
     default_query_category_list_.clear();
     foreach(auto record, kLlclassDefaultQueryCategoryList)
     {
-        default_query_category_list_.append(QueryCategory::createLlclassDefaultCategory(record));
+        default_query_category_list_.append(QueryCategoryFactory::createLlclassDefaultCategory(record));
     }
 
     detail_query_category_list_.clear();
     foreach(auto record, kLlclassDetailQueryCategoryList)
     {
-        QueryCategory c = QueryCategory::createLlclassDetailCategory(record);
+        QueryCategory c = QueryCategoryFactory::createLlclassDetailCategory(record);
         detail_query_category_list_.append(c);
     }
 }
@@ -56,7 +56,7 @@ QueryCategory LlclassCommandManagerPrivate::findDefaultQueryCategory(const QStri
     if(default_query_category_list_.containsLabel(label))
         return default_query_category_list_.categoryFromLabel(label);
     else
-        return QueryCategory::createDefaultQueryCategory();
+        return QueryCategoryFactory::createDefaultQueryCategory();
 }
 
 QueryCategory LlclassCommandManagerPrivate::findDetailQueryCategory(const QString &label) const
@@ -64,7 +64,7 @@ QueryCategory LlclassCommandManagerPrivate::findDetailQueryCategory(const QStrin
     if(detail_query_category_list_.containsLabel(label))
         return detail_query_category_list_.categoryFromLabel(label);
     else
-        return QueryCategory::createLlclassDetailCategory();
+        return QueryCategoryFactory::createLlclassDetailCategory();
 }
 
 QueryModel *LlclassCommandManagerPrivate::buildQueryModelFromResponse(const QString &response_str)
