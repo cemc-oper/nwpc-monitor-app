@@ -3,7 +3,6 @@
 #include "query_item.h"
 
 #include <QRegularExpression>
-#include <QDateTime>
 #include <QLocale>
 
 #include <QtDebug>
@@ -55,6 +54,10 @@ void QueryItemValueSaver::setItemValue(QueryItem *query_item, const QString &val
     query_item->setValueType(QueryValueType::Unknown);
 }
 
+QVariant QueryItemValueSaver::getItemValue(QueryItem *query_item, int role) const
+{
+    return query_item->data(role);
+}
 
 QSharedPointer<QueryItemValueSaver> QueryItemValueSaverFactory::make(QueryValueType value_type)
 {
@@ -88,12 +91,26 @@ void QueryItemStringSaver::setItemValue(QueryItem *query_item, const QString &va
 {
     query_item->setText(value);
     query_item->setValueType(QueryValueType::String);
+    text_ = value;
 }
 
 void QueryItemNumberSaver::setItemValue(QueryItem *query_item, const QString &value)
 {
     query_item->setText(value);
     query_item->setValueType(QueryValueType::Number);
+    num_ = value.toFloat();
+}
+
+QVariant QueryItemNumberSaver::getItemValue(QueryItem *query_item, int role) const
+{
+    if(role == QueryItem::SortRole)
+    {
+        return num_;
+    }
+    else
+    {
+        return QueryItemValueSaver::getItemValue(query_item, role);
+    }
 }
 
 void QueryItemDateSaver::setItemValue(QueryItem *query_item, const QString &value)
@@ -120,6 +137,7 @@ void QueryItemDateSaver::setItemValue(QueryItem *query_item, const QString &valu
 
         QDate cur_date = QDate::currentDate();
         int year = cur_date.year();
+        qDebug()<<month<<cur_date.month();
         if(month > cur_date.month())
         {
             year -= 1;
@@ -127,6 +145,19 @@ void QueryItemDateSaver::setItemValue(QueryItem *query_item, const QString &valu
         QDateTime date_time{QDate{year,month,day}, QTime{hour,minute}};
         query_item->setText(date_time.toString("MM/dd HH:mm"));
         query_item->setValueType(QueryValueType::Date);
+        date_time_ = date_time;
+    }
+}
+
+QVariant QueryItemDateSaver::getItemValue(QueryItem *query_item, int role) const
+{
+    if(role == QueryItem::SortRole)
+    {
+        return date_time_;
+    }
+    else
+    {
+        return QueryItemValueSaver::getItemValue(query_item, role);
     }
 }
 
@@ -145,12 +176,25 @@ void QueryItemFullDateSaver::setItemValue(QueryItem *query_item, const QString &
     {
         query_item->setText(date_time.toString("MM/dd HH:mm"));
         query_item->setValueType(QueryValueType::FullDate);
+        date_time_ = date_time;
     }
     else
     {
         qWarning()<<"[QueryItemFullDateSaver::setItemValue] can't parse FullDateItem:"<<value;
         query_item->setText(value);
         query_item->setValueType(QueryValueType::String);
+    }
+}
+
+QVariant QueryItemFullDateSaver::getItemValue(QueryItem *query_item, int role) const
+{
+    if(role == QueryItem::SortRole)
+    {
+        return date_time_;
+    }
+    else
+    {
+        return QueryItemValueSaver::getItemValue(query_item, role);
     }
 }
 
