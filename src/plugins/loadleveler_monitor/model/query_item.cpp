@@ -1,4 +1,5 @@
 #include "query_item.h"
+#include "query_item_value_saver.h"
 
 #include <QDateTime>
 #include <QRegularExpression>
@@ -8,22 +9,19 @@
 using namespace LoadLevelerMonitor::Model;
 
 QueryItem::QueryItem():
-    QStandardItem{},
-    query_value_type_{QueryValueType::String}
+    QStandardItem{}
 {
 
 }
 
 QueryItem::QueryItem(const QString &text):
-    QStandardItem{text},
-    query_value_type_{QueryValueType::String}
+    QStandardItem{text}
 {
 
 }
 
 QueryItem::QueryItem(const QueryItem &other):
     QStandardItem{other},
-    query_value_type_{other.query_value_type_},
     category_{other.category_}
 {
 
@@ -38,10 +36,7 @@ QVariant QueryItem::data(int role) const
 {
     if ( role == Role::SortRole )
     {
-        if(query_value_type_ == QueryValueType::Number)
-            return text().toFloat();
-        else
-            return QStandardItem::data(Qt::DisplayRole);
+        return category_.value_saver_->getItemValue(this, role);
     }
     return QStandardItem::data(role);
 }
@@ -77,7 +72,6 @@ QList<QStandardItem *> QueryItem::buildDetailQueryRow(
 QueryItem *QueryItem::createIndexNoItem(const QueryCategory &num_category, int num)
 {
     QueryItem *item = new QueryItem(QString::number(num));
-    item->setValueType(QueryValueType::Number);
     item->setCategory(num_category);
     item->setCheckable(true);
     item->setCheckState(Qt::Unchecked);
@@ -112,11 +106,6 @@ QStandardItem *QueryItem::buildDetailQueryItem(const QueryCategory &category, co
     return item;
 }
 
-void QueryItem::setValueType(const QueryValueType &query_value_type)
-{
-    query_value_type_ = query_value_type;
-}
-
 void QueryItem::setCategory(const QueryCategory &category)
 {
     category_ = category;
@@ -130,6 +119,5 @@ QueryCategory QueryItem::category() const
 QueryItem &QueryItem::operator =(const QueryItem &other)
 {
     QStandardItem::operator=(other);
-    query_value_type_ = other.query_value_type_;
     return *this;
 }

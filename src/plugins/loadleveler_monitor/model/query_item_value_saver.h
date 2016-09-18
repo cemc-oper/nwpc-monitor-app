@@ -33,7 +33,7 @@ public:
     virtual ~QueryItemValueSaver(){}
 
     virtual void setItemValue(QueryItem *query_item, const QString &value);
-    virtual QVariant getItemValue(QueryItem *query_item, int role = Qt::DisplayRole) const;
+    virtual QVariant getItemValue(const QueryItem *query_item, int role = Qt::DisplayRole) const;
 };
 
 class LOADLEVELER_MONITOR_EXPORT QueryItemValueSaverFactory
@@ -50,8 +50,6 @@ public:
     QueryItemStringSaver(): QueryItemValueSaver{}{}
 
     void setItemValue(QueryItem *query_item, const QString &value) override;
-protected:
-    QString text_;
 };
 
 
@@ -61,10 +59,7 @@ public:
     QueryItemNumberSaver(): QueryItemValueSaver{}{}
 
     void setItemValue(QueryItem *query_item, const QString &value) override;
-    virtual QVariant getItemValue(QueryItem *query_item, int role = Qt::DisplayRole) const override;
-
-protected:
-    float num_;
+    virtual QVariant getItemValue(const QueryItem *query_item, int role = Qt::DisplayRole) const override;
 };
 
 class LOADLEVELER_MONITOR_EXPORT QueryItemDateSaver: public QueryItemValueSaver
@@ -73,10 +68,7 @@ public:
     QueryItemDateSaver(): QueryItemValueSaver{}{}
 
     void setItemValue(QueryItem *query_item, const QString &value) override;
-    virtual QVariant getItemValue(QueryItem *query_item, int role = Qt::DisplayRole) const override;
-
-protected:
-    QDateTime date_time_;
+    virtual QVariant getItemValue(const QueryItem *query_item, int role = Qt::DisplayRole) const override;
 };
 
 class LOADLEVELER_MONITOR_EXPORT QueryItemFullDateSaver: public QueryItemValueSaver
@@ -85,10 +77,7 @@ public:
     QueryItemFullDateSaver(): QueryItemValueSaver{}{}
 
     void setItemValue(QueryItem *query_item, const QString &value) override;
-    virtual QVariant getItemValue(QueryItem *query_item, int role = Qt::DisplayRole) const override;
-
-protected:
-    QDateTime date_time_;
+    virtual QVariant getItemValue(const QueryItem *query_item, int role = Qt::DisplayRole) const override;
 };
 
 }

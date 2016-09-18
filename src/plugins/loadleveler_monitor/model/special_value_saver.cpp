@@ -48,7 +48,6 @@ void JobStateValueSaver::setItemValue(QueryItem *query_item, const QString &valu
     if(value_length == 1 || value_length == 2)
     {
         query_item->setText(value);
-        query_item->setValueType(QueryValueType::JobState);
         return;
     }
 
@@ -57,12 +56,10 @@ void JobStateValueSaver::setItemValue(QueryItem *query_item, const QString &valu
         if(state.name_ == value)
         {
             query_item->setText(state.abbreviation_);
-            query_item->setValueType(QueryValueType::JobState);
             return;
         }
     }
 
     query_item->setText(value);
-    query_item->setValueType(QueryValueType::JobState);
     return;
 }

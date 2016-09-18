@@ -21,10 +21,10 @@ public:
     ~QueryItem();
 
     enum Role{
+        ValueRole = Qt::UserRole + 100,
         SortRole = Qt::UserRole + 110
     };
 
-    void setValueType(const QueryValueType &query_value_type);
     void setCategory(const QueryCategory &category);
     QueryCategory category() const;
 
@@ -44,7 +44,6 @@ private:
     static QStandardItem *buildDefaultQueryItem(const QueryCategory &category, const QString &line);
     static QStandardItem *buildDetailQueryItem(const QueryCategory &category, const QStringList &lines);
 
-    QueryValueType query_value_type_;
     QueryCategory category_;
 };
 
