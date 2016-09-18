@@ -14,7 +14,6 @@
 #include <QVariantList>
 
 #include <tuple>
-#include <vector>
 
 namespace LoadLevelerMonitor{
 
