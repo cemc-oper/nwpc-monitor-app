@@ -40,7 +40,8 @@ SOURCES += core_plugin.cpp \
     views/progress_dock_widget.cpp \
     progress_system/progress_status_bar_widget.cpp \
     session_system/session.cpp \
-    session_system/session_manager.cpp
+    session_system/session_manager.cpp \
+    session_system/session_widget.cpp
 
 HEADERS += core_plugin.h \
     core_plugin_global.h \
@@ -69,7 +70,8 @@ HEADERS += core_plugin.h \
     views/progress_dock_widget.h \
     progress_system/progress_status_bar_widget.h \
     session_system/session.h \
-    session_system/session_manager.h
+    session_system/session_manager.h \
+    session_system/session_widget.h
 
 DISTFILES += core_plugin.json
 
@@ -84,7 +86,8 @@ FORMS += \
     progress_system/progress_view.ui \
     progress_system/progress_item_widget.ui \
     views/progress_dock_widget.ui \
-    progress_system/progress_status_bar_widget.ui
+    progress_system/progress_status_bar_widget.ui \
+    session_system/session_widget.ui
 
 RESOURCES += \
     core.qrc
