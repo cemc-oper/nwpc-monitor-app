@@ -38,7 +38,8 @@ SOURCES += core_plugin.cpp \
     progress_system/progress_view.cpp \
     progress_system/progress_item_widget.cpp \
     views/progress_dock_widget.cpp \
-    progress_system/progress_status_bar_widget.cpp
+    progress_system/progress_status_bar_widget.cpp \
+    session_system/session.cpp
 
 HEADERS += core_plugin.h \
     core_plugin_global.h \
@@ -65,7 +66,8 @@ HEADERS += core_plugin.h \
     progress_system/progress_view.h \
     progress_system/progress_item_widget.h \
     views/progress_dock_widget.h \
-    progress_system/progress_status_bar_widget.h
+    progress_system/progress_status_bar_widget.h \
+    session_system/session.h
 
 DISTFILES += core_plugin.json
 
