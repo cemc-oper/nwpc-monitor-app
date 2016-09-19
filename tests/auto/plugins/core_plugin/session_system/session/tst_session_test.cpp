@@ -118,4 +118,4 @@ void SessionSystemTest::testLoadSessionFromJson()
 
 QTEST_APPLESS_MAIN(SessionSystemTest)
 
-#include "tst_session_system_test.moc"
+#include "tst_session_test.moc"
