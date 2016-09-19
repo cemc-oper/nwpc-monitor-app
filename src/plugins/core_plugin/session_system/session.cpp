@@ -6,6 +6,11 @@
 using namespace Core::SessionSystem;
 using namespace std;
 
+Session::Session()
+{
+
+}
+
 Session::Session(const QString &name, const QString &host, const QString &port, const QString &user, const QString &password):
     name_{name},
     host_{host},
@@ -67,4 +72,19 @@ Session::Session(const QJsonObject &obj)
         throw invalid_argument{"json object doesn't have key 'password'."};
     }
     password_ = auth["password"].toString();;
+}
+
+bool Session::operator ==(const Session &other) const
+{
+    if(name_ != other.name_)
+        return false;
+    if(host_ != other.host_)
+        return false;
+    if(port_ != other.port_)
+        return false;
+    if(user_ != other.user_)
+        return false;
+    if(password_ != other.password_)
+        return false;
+    return true;
 }
