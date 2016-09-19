@@ -1,0 +1,11 @@
+{
+  "name": "wangdp@uranus",
+  "connection":{
+    "host": "uranus.hpc.nmic.cn",
+    "port": "22",
+    "auth": {
+      "user": "wangdp",
+      "password": "perilla"
+    }
+  }
+}

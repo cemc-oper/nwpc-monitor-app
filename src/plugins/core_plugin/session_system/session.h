@@ -3,6 +3,7 @@
 #include "../core_plugin_global.h"
 
 #include <QString>
+#include <QJsonObject>
 
 namespace Core{
 
@@ -11,7 +12,8 @@ namespace SessionSystem{
 class CORE_PLUGIN_EXPORT Session
 {
 public:
-    explicit Session(const QString &name, const QString &host, const QString &port, const QString &user, const QString &password);
+    Session(const QString &name, const QString &host, const QString &port, const QString &user, const QString &password);
+    explicit Session(const QJsonObject &obj);
 
 public:
     QString name_;
