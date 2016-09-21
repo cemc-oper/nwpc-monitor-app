@@ -3,6 +3,10 @@
 #include <QWidget>
 #include <QPointer>
 
+QT_BEGIN_NAMESPACE
+class QStandardItemModel;
+QT_END_NAMESPACE
+
 namespace Core{
 
 namespace SessionSystem{
@@ -34,6 +38,7 @@ private:
 
     Ui::SessionWidget *ui;
     QPointer<SessionManager> session_manager_;
+    QPointer<QStandardItemModel> session_model_;
 };
 
 }

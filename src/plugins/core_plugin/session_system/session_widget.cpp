@@ -1,7 +1,8 @@
 #include "session_widget.h"
 #include "ui_session_widget.h"
-
 #include "session_manager.h"
+
+#include <QStandardItemModel>
 
 using namespace Core::SessionSystem;
 
@@ -10,6 +11,13 @@ SessionWidget::SessionWidget(QWidget *parent) :
     ui(new Ui::SessionWidget)
 {
     ui->setupUi(this);
+
+    connect(ui->create_button, &QPushButton::clicked, this, &SessionWidget::createSession);
+    connect(ui->edit_button, &QPushButton::clicked, this, &SessionWidget::editSession);
+    connect(ui->clone_button, &QPushButton::clicked, this, &SessionWidget::cloneSession);
+    connect(ui->remove_button, &QPushButton::clicked, this, &SessionWidget::removeSession);
+
+    ui->session_table_view->setModel(session_model_);
 }
 
 SessionWidget::~SessionWidget()
