@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../core_plugin_global.h"
+
 #include <QWidget>
 #include <QPointer>
 
@@ -17,7 +19,7 @@ namespace Ui {
 class SessionWidget;
 }
 
-class SessionWidget : public QWidget
+class CORE_PLUGIN_EXPORT SessionWidget : public QWidget
 {
     Q_OBJECT
 

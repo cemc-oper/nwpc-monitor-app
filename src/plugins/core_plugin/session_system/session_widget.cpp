@@ -31,6 +31,26 @@ void SessionWidget::setSessionManager(SessionManager *manager)
     updateSessionList();
 }
 
+void SessionWidget::createSession()
+{
+
+}
+
+void SessionWidget::editSession()
+{
+
+}
+
+void SessionWidget::removeSession()
+{
+
+}
+
+void SessionWidget::cloneSession()
+{
+
+}
+
 void SessionWidget::updateSessionList()
 {
 
