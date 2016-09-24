@@ -3,12 +3,14 @@
 #include "session_manager.h"
 
 #include <QStandardItemModel>
+#include <QStandardItem>
 
 using namespace Core::SessionSystem;
 
 SessionWidget::SessionWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::SessionWidget)
+    ui(new Ui::SessionWidget),
+    session_model_{new QStandardItemModel{this}}
 {
     ui->setupUi(this);
 
@@ -53,5 +55,19 @@ void SessionWidget::cloneSession()
 
 void SessionWidget::updateSessionList()
 {
-
+    session_model_->clear();
+    auto session_map = session_manager_->sessionMap();
+    QMapIterator<QString, Session> i(session_map);
+    while (i.hasNext()) {
+        i.next();
+        QString id = i.key();
+        Session session = i.value();
+        session_model_->invisibleRootItem()->appendRow(
+            QList<QStandardItem*>()
+                    << new QStandardItem{session.name_}
+                    << new QStandardItem{session.host_ + ":" + session.port_}
+                    << new QStandardItem{session.user_}
+        );
+    }
+    session_model_->setHorizontalHeaderLabels(QStringList()<<"Name"<<"Address"<<"User");
 }
