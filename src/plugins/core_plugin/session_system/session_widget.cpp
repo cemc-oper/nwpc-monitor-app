@@ -1,6 +1,7 @@
 #include "session_widget.h"
 #include "ui_session_widget.h"
 #include "session_manager.h"
+#include "session_setting_dialog.h"
 
 #include <QStandardItemModel>
 #include <QStandardItem>
@@ -35,7 +36,13 @@ void SessionWidget::setSessionManager(SessionManager *manager)
 
 void SessionWidget::createSession()
 {
-
+    SessionSettingDialog setting_dialog{this};
+    if(setting_dialog.exec())
+    {
+        Session *session = setting_dialog.getSession();
+        session_manager_->addSession(*session);
+    }
+    updateSessionList();
 }
 
 void SessionWidget::editSession()
