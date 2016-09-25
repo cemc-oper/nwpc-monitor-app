@@ -13,6 +13,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     QPointer<SessionManager> session_manager = new SessionManager;
+    Session wangdp{"wangdp", "uranus.hpc.nmic.cn", "22", "wangdp", "perilla"};
+    session_manager->addSession(wangdp);
 
     SessionWidget session_widget;
     session_widget.setSessionManager(session_manager);
