@@ -47,6 +47,15 @@ LoadLevelerMonitorWidget::~LoadLevelerMonitorWidget()
     }
 }
 
+bool LoadLevelerMonitorWidget::hasSession() const
+{
+    bool has_empty = ui->host_edit->text().isEmpty()
+            || ui->port_edit->text().isEmpty()
+            || ui->user_edit->text().isEmpty()
+            || ui->password_edit->text().isEmpty();
+    return !has_empty;
+}
+
 QMap<QString, QString> LoadLevelerMonitorWidget::getSessionArguments()
 {
     QMap<QString, QString> args;

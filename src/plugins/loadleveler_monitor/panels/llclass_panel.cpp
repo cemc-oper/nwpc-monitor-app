@@ -13,6 +13,7 @@
 #include "../client_command_widget.h"
 
 #include <QMenu>
+#include <QMessageBox>
 #include <QtDebug>
 
 using namespace LoadLevelerMonitor::Panels;
@@ -35,6 +36,11 @@ LlclassPanel::~LlclassPanel()
 
 void LlclassPanel::slotRequestQuery()
 {
+    if(!monitor_widget_->hasSession())
+    {
+        QMessageBox::warning(this, tr("Session"), tr("Please set the session."));
+        return;
+    }
     QMap<QString, QString> args = monitor_widget_->getSessionArguments();
     args["command"] = "llclass";
     QString arg_string = ui->argument_edit->text();

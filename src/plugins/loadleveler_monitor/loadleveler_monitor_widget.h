@@ -24,6 +24,7 @@ public:
     explicit LoadLevelerMonitorWidget(QWidget *parent = 0);
     ~LoadLevelerMonitorWidget();
 
+    bool hasSession() const;
     QMap<QString, QString> getSessionArguments();
 
 private slots:

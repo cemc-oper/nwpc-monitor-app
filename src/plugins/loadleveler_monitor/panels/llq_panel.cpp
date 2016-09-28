@@ -50,6 +50,11 @@ LlqPanel::~LlqPanel()
 
 void LlqPanel::slotRequestQuery()
 {
+    if(!monitor_widget_->hasSession())
+    {
+        QMessageBox::warning(this, tr("Session"), tr("Please set the session."));
+        return;
+    }
     QMap<QString, QString> args = monitor_widget_->getSessionArguments();
     args["command"] = "llq";
     QString arg_string = ui->argument_edit->text();
