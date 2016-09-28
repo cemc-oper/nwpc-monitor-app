@@ -3,7 +3,7 @@
 #include <QCoreApplication>
 #include <QVector>
 
-#include <core_plugin/session_system/session_widget.h>
+#include <core_plugin/session_system/session_dialog.h>
 #include <core_plugin/session_system/session_manager.h>
 #include <core_plugin/session_system/session.h>
 
@@ -66,7 +66,7 @@ void SessionWidgetTest::testSetSessionManager()
         manager->addSession(session);
     }
 
-    QPointer<SessionWidget> session_widget = new SessionWidget;
+    QPointer<SessionDialog> session_widget = new SessionDialog;
     session_widget->setSessionManager(manager);
 
     session_widget->deleteLater();

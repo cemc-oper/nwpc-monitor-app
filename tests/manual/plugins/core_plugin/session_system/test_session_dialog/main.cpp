@@ -1,10 +1,11 @@
 #include <QApplication>
 #include <QPointer>
 
-#include <core_plugin/session_system/session_widget.h>
+#include <core_plugin/session_system/session_dialog.h>
 #include <core_plugin/session_system/session_manager.h>
 #include <core_plugin/session_system/session.h>
 
+#include <QtDebug>
 
 using namespace Core::SessionSystem;
 
@@ -16,10 +17,13 @@ int main(int argc, char *argv[])
     Session wangdp{"wangdp", "uranus.hpc.nmic.cn", "22", "wangdp", "perilla"};
     session_manager->addSession(wangdp);
 
-    SessionWidget session_widget;
-    session_widget.setSessionManager(session_manager);
-    session_widget.show();
-
+    SessionDialog session_dialog;
+    session_dialog.setSessionManager(session_manager);
+    if(session_dialog.exec())
+    {
+        Session selected_session = session_dialog.getSelectedSession();
+        qDebug()<<selected_session.name_;
+    }
 
     return a.exec();
 }

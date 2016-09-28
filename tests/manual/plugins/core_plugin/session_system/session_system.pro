@@ -1,4 +1,4 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    test_sessio_widget
+    test_session_dialog

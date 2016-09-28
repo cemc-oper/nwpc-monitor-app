@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Core::SessionSystem::SessionWidget</class>
- <widget class="QWidget" name="Core::SessionSystem::SessionWidget">
+ <class>Core::SessionSystem::SessionDialog</class>
+ <widget class="QDialog" name="Core::SessionSystem::SessionDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>474</width>
-    <height>227</height>
+    <width>507</width>
+    <height>295</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Session</string>
+   <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -60,9 +60,51 @@
     </layout>
    </item>
    <item row="1" column="0">
-    <widget class="QTableView" name="session_table_view"/>
+    <widget class="QTableView" name="session_table_view">
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="connect_button">
+       <property name="text">
+        <string>Connect</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancel_button">
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
+  <zorder>session_table_view</zorder>
+  <zorder>layoutWidget</zorder>
+  <zorder>layoutWidget_2</zorder>
+  <zorder>remove_button</zorder>
  </widget>
  <resources/>
  <connections/>

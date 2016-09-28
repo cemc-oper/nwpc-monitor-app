@@ -1,8 +1,9 @@
 #pragma once
 
 #include "../core_plugin_global.h"
+#include "session.h"
 
-#include <QWidget>
+#include <QDialog>
 #include <QPointer>
 
 QT_BEGIN_NAMESPACE
@@ -14,20 +15,22 @@ namespace Core{
 namespace SessionSystem{
 
 class SessionManager;
+class Session;
 
 namespace Ui {
-class SessionWidget;
+class SessionDialog;
 }
 
-class CORE_PLUGIN_EXPORT SessionWidget : public QWidget
+class CORE_PLUGIN_EXPORT SessionDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit SessionWidget(QWidget *parent = 0);
-    ~SessionWidget();
+    explicit SessionDialog(QWidget *parent = 0);
+    ~SessionDialog();
 
     void setSessionManager(SessionManager *manager);
+    Session getSelectedSession() const;
 
 public slots:
     void createSession();
@@ -35,12 +38,17 @@ public slots:
     void removeSession();
     void cloneSession();
 
+protected:
+    void accept() override;
+
 private:
     void updateSessionList();
 
-    Ui::SessionWidget *ui;
+    Ui::SessionDialog *ui;
     QPointer<SessionManager> session_manager_;
     QPointer<QStandardItemModel> session_model_;
+
+    Session selected_session_;
 };
 
 }
