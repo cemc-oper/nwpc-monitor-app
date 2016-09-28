@@ -41,6 +41,8 @@ public:
     void pluginsInitialized();
     void aboutToShutDown();
 
+    SessionSystem::SessionManager *sessionManager() const;
+
 private:
     void initActionSystem();
     void initMainWindow();

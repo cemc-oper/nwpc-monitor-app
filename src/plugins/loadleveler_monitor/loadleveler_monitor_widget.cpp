@@ -1,6 +1,10 @@
 #include "loadleveler_monitor_widget.h"
 #include "ui_loadleveler_monitor_widget.h"
 
+#include <core_plugin/session_system/session_manager.h>
+#include <core_plugin/session_system/session_dialog.h>
+#include <plugin_manager/plugin_manager.h>
+
 #include <QButtonGroup>
 #include <QMap>
 #include <QMenu>
@@ -31,6 +35,8 @@ LoadLevelerMonitorWidget::LoadLevelerMonitorWidget(QWidget *parent) :
     panel_button_group_->addButton(ui->llsubmit_panel_button, 2);
 
     ui->llq_panel_button->setChecked(true);
+
+    connect(ui->choose_session_button, &QPushButton::clicked, this, &LoadLevelerMonitorWidget::slotChooseSession);
 }
 
 LoadLevelerMonitorWidget::~LoadLevelerMonitorWidget()
@@ -49,4 +55,32 @@ QMap<QString, QString> LoadLevelerMonitorWidget::getSessionArguments()
     args["user"] = ui->user_edit->text();
     args["password"] = ui->password_edit->text();
     return args;
+}
+
+void LoadLevelerMonitorWidget::slotChooseSession()
+{
+    // NOTE: change way of getting SessionManager.
+    QList<Core::SessionSystem::SessionManager *> manager_list = PluginSystem::PluginManager::getObjects<Core::SessionSystem::SessionManager>();
+    if(manager_list.length() != 1)
+    {
+        qWarning()<<"[LoadLevelerMonitorWidget::slotChooseSession] SessionManager must be one. current is "<<manager_list.size();
+        return;
+    }
+
+    Core::SessionSystem::SessionDialog dialog{this};
+    dialog.setSessionManager(manager_list.first());
+    if(dialog.exec())
+    {
+        Core::SessionSystem::Session session = dialog.getSelectedSession();
+        setSession(session);
+    }
+
+}
+
+void LoadLevelerMonitorWidget::setSession(const Core::SessionSystem::Session &session)
+{
+    ui->host_edit->setText(session.host_);
+    ui->port_edit->setText(session.port_);
+    ui->user_edit->setText(session.user_);
+    ui->password_edit->setText(session.password_);
 }

@@ -26,10 +26,10 @@ public:
 
     void loadPlugins();
 
+    QList<PluginSpec *> plugins();
+
     void addObject(QObject *obj);
-
     void removeObject(QObject *obj);
-
     QList<QObject *> allObjects();
 
     void connectSplashScreen(QSplashScreen *screen);

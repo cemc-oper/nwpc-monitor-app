@@ -1,5 +1,7 @@
 #pragma once
 
+#include <core_plugin/session_system/session.h>
+
 #include <QWidget>
 #include <QPointer>
 #include <QMap>
@@ -25,8 +27,11 @@ public:
     QMap<QString, QString> getSessionArguments();
 
 private slots:
+    void slotChooseSession();
 
 private:
+    void setSession(const Core::SessionSystem::Session &session);
+
     Ui::LoadLevelerMonitorWidget *ui;
 
     QPointer<QButtonGroup> panel_button_group_;

@@ -73,7 +73,7 @@
      <item>
       <widget class="QLabel" name="label_8">
        <property name="text">
-        <string>会话：</string>
+        <string>Session：</string>
        </property>
       </widget>
      </item>
@@ -143,9 +143,9 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="test_session_button">
+      <widget class="QPushButton" name="choose_session_button">
        <property name="text">
-        <string>测试</string>
+        <string>Choose Session</string>
        </property>
       </widget>
      </item>

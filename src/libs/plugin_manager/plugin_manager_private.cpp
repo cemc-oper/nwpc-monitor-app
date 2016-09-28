@@ -56,6 +56,11 @@ void PluginManagerPrivate::loadPlugins()
     }
 }
 
+QList<PluginSpec *> PluginManagerPrivate::plugins()
+{
+    return plugin_specs_;
+}
+
 void PluginManagerPrivate::addObject(QObject *obj)
 {
     all_objects_.append(obj);

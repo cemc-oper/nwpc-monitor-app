@@ -36,6 +36,11 @@ void PluginManager::loadPlugins()
     d->loadPlugins();
 }
 
+QList<PluginSpec *> PluginManager::plugins()
+{
+    return d->plugins();
+}
+
 void PluginManager::addObject(QObject *obj)
 {
     d->addObject(obj);

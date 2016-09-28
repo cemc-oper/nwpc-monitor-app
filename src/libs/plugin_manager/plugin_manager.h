@@ -26,9 +26,10 @@ public:
 
     static void loadPlugins();
 
+    static QList<PluginSpec *> plugins();
+
     static void addObject(QObject* obj);
     static void removeObject(QObject *obj);
-
     static QList<QObject *> allObjects();
 
     template <typename T> static QList<T *> getObjects()

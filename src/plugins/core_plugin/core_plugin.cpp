@@ -63,6 +63,11 @@ void CorePlugin::aboutToShutDown()
     main_window_->aboutToShutdown();
 }
 
+SessionSystem::SessionManager *CorePlugin::sessionManager() const
+{
+    return session_manager_;
+}
+
 void CorePlugin::initActionSystem()
 {
     action_manager_ = new ActionManager(this);
