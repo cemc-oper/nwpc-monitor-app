@@ -10,6 +10,8 @@
 #include "perspective_system/perspective_manager.h"
 #include "progress_system/progress_manager.h"
 #include "progress_system/progress_view.h"
+#include "session_system/session_manager.h"
+#include "session_system/session.h"
 
 #include <plugin_manager/plugin_manager.h>
 
@@ -47,6 +49,7 @@ bool CorePlugin::initialize(const QStringList &arguments, QString *error_string)
     initMainWindow();
     initViewSystem();
     initProgressSystem();
+    initSessionSystem();
     return true;
 }
 
@@ -107,6 +110,17 @@ void CorePlugin::initProgressSystem()
     progress_manager_ = new ProgressManager{this};
     progress_manager_->setProgressView(progress_dock_widget->progressView());
     progress_manager_->init();
+}
+
+void CorePlugin::initSessionSystem()
+{
+    session_manager_ = new SessionSystem::SessionManager{this};
+    PluginManager::addObject(session_manager_);
+
+    // just for test
+    // TODO: load session from config file.
+    SessionSystem::Session initial_session("wangdp", "uranus.hpc.nmic.cn", "22", "wangdp", "perilla");
+    session_manager_->addSession(initial_session);
 }
 
 void CorePlugin::initViewSpec(ViewSpec *view_spec, ViewSystem::DockWidget *dock_widget)

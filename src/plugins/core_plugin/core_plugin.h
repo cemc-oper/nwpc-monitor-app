@@ -24,6 +24,10 @@ namespace ProgressSystem{
 class ProgressManager;
 }
 
+namespace SessionSystem{
+class SessionManager;
+}
+
 class CorePlugin : public PluginSystem::IPlugin
 {
     Q_OBJECT
@@ -42,6 +46,7 @@ private:
     void initMainWindow();
     void initViewSystem();
     void initProgressSystem();
+    void initSessionSystem();
 
     void initViewSpec(ViewSystem::ViewSpec *view_spec, ViewSystem::DockWidget *dock_widget);
 
@@ -54,6 +59,7 @@ private:
     QPointer<ViewSystem::ViewManager> view_manager_;
     QPointer<PerspectiveSystem::PerspectiveManager> perspective_manager_;
     QPointer<ProgressSystem::ProgressManager> progress_manager_;
+    QPointer<SessionSystem::SessionManager> session_manager_;
 };
 
 }
