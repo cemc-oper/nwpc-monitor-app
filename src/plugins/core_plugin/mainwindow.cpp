@@ -239,10 +239,7 @@ void MainWindow::activatePerspective(QString id)
     }
 
     QAction *active_action = action->action();
-    active_action->setChecked(true);
-
-    //NOTE: action的setChecked不触发QActionGroup的triggered信号，所以强制执行该slot
-    slotActivatePerspective(id);
+    active_action->activate(QAction::Trigger);
 }
 
 void MainWindow::initStatusBar()
