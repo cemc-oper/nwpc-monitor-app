@@ -85,14 +85,14 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="startup_sms_monitor_button">
          <property name="text">
           <string>启动SMS工具</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="startup_loadleveler_monitor_button">
          <property name="text">
           <string>启动LoadLeveler工具</string>
          </property>

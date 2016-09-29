@@ -69,38 +69,48 @@ void MainWindow::aboutToShutdown()
     hide();
 }
 
-void MainWindow::slotPerspectiveActionTriggered(QAction *action)
+void MainWindow::activatePerspective(QString id)
 {
-    if(action->isChecked())
-    {
-        QString id = action->data().toString();
-        slotActivatePerspective(id);
-    }
-}
+    Action *action = ActionManager::action(Core::Constrants::Action::ACTION_PERSPECTIVE_PREFIX + "." + id);
 
-void MainWindow::slotActivatePerspective(QString id)
-{
-    IPerspective* pers = PerspectiveManager::perspective(id);
-    if(pers == nullptr)
+    if(!action)
     {
         qWarning()<<"[MainWindow::activatePerspective] can't find perspective "<<id;
         return;
     }
 
-    QWidget* widget = pers->widget();
-    QLayoutItem *item = ui->main_grid_layout->itemAtPosition(0,0);
-    if(item==0)
-    {
-        ui->main_grid_layout->addWidget(widget, 0, 0);
-    }
-    else
-    {
-        item->widget()->hide();
-        ui->main_grid_layout->replaceWidget(item->widget(), widget);
-        widget->show();
-    }
+    QAction *active_action = action->action();
+    active_action->activate(QAction::Trigger);
+}
 
-    ConsoleDockWidget::info(ConsoleDockWidget::GeneralPanelId, "perspective active: " + pers->id());
+
+void MainWindow::slotPerspectiveActionTriggered(QAction *action)
+{
+    if(action->isChecked())
+    {
+        QString id = action->data().toString();
+        IPerspective* pers = PerspectiveManager::perspective(id);
+        if(pers == nullptr)
+        {
+            qWarning()<<"[MainWindow::activatePerspective] can't find perspective "<<id;
+            return;
+        }
+
+        QWidget* widget = pers->widget();
+        QLayoutItem *item = ui->main_grid_layout->itemAtPosition(0,0);
+        if(item==0)
+        {
+            ui->main_grid_layout->addWidget(widget, 0, 0);
+        }
+        else
+        {
+            item->widget()->hide();
+            ui->main_grid_layout->replaceWidget(item->widget(), widget);
+            widget->show();
+        }
+
+        ConsoleDockWidget::info(ConsoleDockWidget::GeneralPanelId, "perspective active: " + pers->id());
+    }
 }
 
 void MainWindow::registerMainActionContainers()
@@ -228,19 +238,6 @@ void MainWindow::loadViews()
     }
 }
 
-void MainWindow::activatePerspective(QString id)
-{
-    Action *action = ActionManager::action(Core::Constrants::Action::ACTION_PERSPECTIVE_PREFIX + "." + id);
-
-    if(!action)
-    {
-        qWarning()<<"[MainWindow::activatePerspective] can't find perspective "<<id;
-        return;
-    }
-
-    QAction *active_action = action->action();
-    active_action->activate(QAction::Trigger);
-}
 
 void MainWindow::initStatusBar()
 {

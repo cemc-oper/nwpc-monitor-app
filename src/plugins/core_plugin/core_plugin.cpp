@@ -43,7 +43,7 @@ CorePlugin::~CorePlugin()
 
 bool CorePlugin::initialize(const QStringList &arguments, QString *error_string)
 {
-    perspective_manager_ = new PerspectiveManager{this};
+    perspective_manager_ = new PerspectiveManager{main_window_, this};
 
     initActionSystem();
     initMainWindow();

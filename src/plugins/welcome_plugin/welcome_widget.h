@@ -16,6 +16,8 @@ public:
     explicit WelcomeWidget(QWidget *parent = 0);
     ~WelcomeWidget();
 
+private slots:
+
 private:
     Ui::WelcomeWidget *ui;
 };

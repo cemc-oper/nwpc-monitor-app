@@ -2,8 +2,11 @@
 
 #include <QObject>
 #include <QVector>
+#include <QPointer>
 
 namespace Core{
+
+class MainWindow;
 
 namespace PerspectiveSystem{
 
@@ -14,7 +17,7 @@ class PerspectiveManagerPrivate : public QObject
 {
     Q_OBJECT
 public:
-    explicit PerspectiveManagerPrivate(PerspectiveManager *parent = nullptr);
+    explicit PerspectiveManagerPrivate(QPointer<Core::MainWindow> main_window, PerspectiveManager *parent = nullptr);
 
     ~PerspectiveManagerPrivate();
 
@@ -23,8 +26,8 @@ public:
     IPerspective *perspective(QString id);
 
     void loadPerspectives();
-
     void addPerspective(IPerspective *persp);
+    void activatePerspective(const QString &id);
 
 signals:
 
@@ -34,6 +37,7 @@ private:
     PerspectiveManager *q;
 
     QVector<IPerspective*> perspective_list_;
+    QPointer<Core::MainWindow> main_window_;
 
     friend class Core::PerspectiveSystem::PerspectiveManager;
 };

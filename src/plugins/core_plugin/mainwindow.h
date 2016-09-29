@@ -29,11 +29,10 @@ public:
     void pluginsInitialized();
     void aboutToShutdown();
 
-public slots:
-    void slotPerspectiveActionTriggered(QAction* action);
+    void activatePerspective(QString id);
 
 private slots:
-    void slotActivatePerspective(QString id);
+    void slotPerspectiveActionTriggered(QAction* action);
 
 private:
     void registerMainActionContainers();
@@ -41,7 +40,6 @@ private:
 
     void loadPerspectives();
     void loadViews();
-    void activatePerspective(QString id);
     void initStatusBar();
 
     Ui::MainWindow *ui;

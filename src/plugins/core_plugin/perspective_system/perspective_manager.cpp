@@ -1,6 +1,8 @@
 #include "perspective_manager.h"
 #include "perspective_manager_private.h"
 
+#include "../mainwindow.h"
+
 using namespace Core::PerspectiveSystem;
 
 PerspectiveManager *perspective_manager_instance = nullptr;
@@ -36,10 +38,15 @@ void PerspectiveManager::addPerspective(IPerspective *persp)
     d->addPerspective(persp);
 }
 
-PerspectiveManager::PerspectiveManager(QObject *parent) : QObject(parent)
+void PerspectiveManager::activatePerspective(const QString &id)
+{
+    d->activatePerspective(id);
+}
+
+PerspectiveManager::PerspectiveManager(QPointer<Core::MainWindow> main_window, QObject *parent) : QObject(parent)
 {
     perspective_manager_instance = this;
-    d = new PerspectiveManagerPrivate{this};
+    d = new PerspectiveManagerPrivate{main_window, this};
 }
 
 PerspectiveManager::~PerspectiveManager()

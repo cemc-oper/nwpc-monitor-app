@@ -1,7 +1,7 @@
 #include "perspective_manager_private.h"
-
 #include "perspective_manager.h"
 #include "iperspective.h"
+#include "../mainwindow.h"
 
 #include <plugin_manager/plugin_manager.h>
 
@@ -10,9 +10,10 @@
 using namespace Core::PerspectiveSystem;
 using namespace PluginSystem;
 
-PerspectiveManagerPrivate::PerspectiveManagerPrivate(PerspectiveManager *parent) :
+PerspectiveManagerPrivate::PerspectiveManagerPrivate(QPointer<Core::MainWindow> main_window, PerspectiveManager *parent) :
     QObject(parent),
-    q{parent}
+    q{parent},
+    main_window_{main_window}
 {
 
 }
@@ -65,4 +66,9 @@ void PerspectiveManagerPrivate::loadPerspectives()
 void PerspectiveManagerPrivate::addPerspective(IPerspective *persp)
 {
     perspective_list_.append(persp);
+}
+
+void PerspectiveManagerPrivate::activatePerspective(const QString &id)
+{
+    main_window_->activatePerspective(id);
 }

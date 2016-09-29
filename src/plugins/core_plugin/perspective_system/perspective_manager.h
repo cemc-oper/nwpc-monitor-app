@@ -1,6 +1,6 @@
 #pragma once
 
-#include <core_plugin_global.h>
+#include "../core_plugin_global.h"
 
 #include <QObject>
 #include <QVector>
@@ -8,6 +8,7 @@
 namespace Core{
 
 class CorePlugin;
+class MainWindow;
 
 namespace PerspectiveSystem{
 
@@ -24,15 +25,15 @@ public:
     static IPerspective *perspective(QString id);
 
     static void loadPerspectives();
-
     static void addPerspective(IPerspective *persp);    
+    static void activatePerspective(const QString &id);
 
 signals:
 
 public slots:
 
 private:
-    explicit PerspectiveManager(QObject *parent = 0);
+    explicit PerspectiveManager(QPointer<MainWindow> main_window, QObject *parent = 0);
     ~PerspectiveManager();
 
     friend class Core::CorePlugin;
