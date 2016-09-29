@@ -38,7 +38,7 @@ void LlclassPanel::slotRequestQuery()
 {
     if(!monitor_widget_->hasSession())
     {
-        QMessageBox::warning(this, tr("Session"), tr("Please set the session."));
+        QMessageBox::warning(this, tr("Session"), tr("Please choose a session."));
         return;
     }
     QMap<QString, QString> args = monitor_widget_->getSessionArguments();

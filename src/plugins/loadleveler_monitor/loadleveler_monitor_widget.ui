@@ -78,6 +78,18 @@
    <item row="0" column="0">
     <widget class="QFrame" name="session_frame">
      <layout class="QHBoxLayout" name="session_layout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QLabel" name="label_8">
         <property name="text">
@@ -95,7 +107,7 @@
       <item>
        <widget class="QLineEdit" name="host_edit">
         <property name="text">
-         <string>uranus.hpc.nmic.cn</string>
+         <string/>
         </property>
        </widget>
       </item>
@@ -115,7 +127,7 @@
          </size>
         </property>
         <property name="text">
-         <string>22</string>
+         <string/>
         </property>
        </widget>
       </item>
@@ -129,7 +141,7 @@
       <item>
        <widget class="QLineEdit" name="user_edit">
         <property name="text">
-         <string>wangdp</string>
+         <string/>
         </property>
        </widget>
       </item>
@@ -143,7 +155,7 @@
       <item>
        <widget class="QLineEdit" name="password_edit">
         <property name="text">
-         <string>perilla</string>
+         <string/>
         </property>
         <property name="echoMode">
          <enum>QLineEdit::Password</enum>
