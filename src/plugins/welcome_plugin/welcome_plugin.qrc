@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/welcome_plugin">
+        <file>images/hpc-monitor.png</file>
+        <file>images/loadleveler-monitor.png</file>
+        <file>images/sms-monitor.png</file>
+    </qresource>
+</RCC>

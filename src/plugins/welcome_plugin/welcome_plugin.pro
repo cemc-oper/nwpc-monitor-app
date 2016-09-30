@@ -34,3 +34,6 @@ unix {
 
 FORMS += \
     welcome_widget.ui
+
+RESOURCES += \
+    welcome_plugin.qrc
