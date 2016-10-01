@@ -22,8 +22,6 @@ private Q_SLOTS:
 
     void testSetSessionManager();
 
-    void testRemoveSession();
-
 private:
     QVector<Session> session_list_;
 };
