@@ -21,6 +21,7 @@ SessionSettingDialog::~SessionSettingDialog()
 void SessionSettingDialog::setSession(Session *session)
 {
     session_ = session;
+    updateUi();
 }
 
 Session *SessionSettingDialog::getSession() const
@@ -48,4 +49,13 @@ void SessionSettingDialog::updateSession()
     session_->port_ = ui->port_line_edit->text();
     session_->user_ = ui->user_line_edit->text();
     session_->password_ = ui->password_line_edit->text();
+}
+
+void SessionSettingDialog::updateUi()
+{
+    ui->name_line_edit->setText(session_->name_);
+    ui->host_line_edit->setText(session_->host_);
+    ui->port_line_edit->setText(session_->port_);
+    ui->user_line_edit->setText(session_->user_);
+    ui->password_line_edit->setText(session_->password_);
 }

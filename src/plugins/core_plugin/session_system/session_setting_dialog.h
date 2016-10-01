@@ -31,6 +31,8 @@ private:
     void createSession();
     void updateSession();
 
+    void updateUi();
+
     Ui::SessionSettingDialog *ui;
     Session *session_;
 };

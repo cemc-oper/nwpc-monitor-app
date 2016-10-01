@@ -56,35 +56,51 @@ void SessionDialog::createSession()
 
 void SessionDialog::editSession()
 {
+    if(!checkSelectedSession())
+        return;
+    QString id = selected_session_.name_;
 
+    SessionSettingDialog setting_dialog{this};
+    setting_dialog.setSession(&selected_session_);
+    if(setting_dialog.exec())
+    {
+        Session *session = setting_dialog.getSession();
+        // session name can be edited. so delete old session first.
+        session_manager_->removeSession(id);
+        // NOTE: update session using addSession
+        session_manager_->addSession(*session);
+    }
+    updateSessionList();
 }
 
 void SessionDialog::removeSession()
 {
-
+    if(!checkSelectedSession())
+        return;
+    session_manager_->removeSession(selected_session_.name_);
+    updateSessionList();
 }
 
 void SessionDialog::cloneSession()
 {
-
+    if(!checkSelectedSession())
+        return;
+    SessionSettingDialog setting_dialog{this};
+    setting_dialog.setSession(&selected_session_);
+    if(setting_dialog.exec())
+    {
+        Session *session = setting_dialog.getSession();
+        session_manager_->addSession(*session);
+    }
+    updateSessionList();
 }
 
 void SessionDialog::accept()
 {
-    qDebug()<<"[SessionDialog::accept] check selection";
-
-    auto index_list = ui->session_table_view->selectionModel()->selectedRows();
-    if(index_list.isEmpty())
-    {
-        qDebug()<<"[SessionDialog::accept] no row is selected selection";
+    if(checkSelectedSession())
+        QDialog::accept();
+    else
         return;
-    }
-
-    QModelIndex index = index_list.first();
-    QString session_name = session_model_->itemFromIndex(index)->text();
-    selected_session_ = session_manager_->getSession(session_name);
-
-    QDialog::accept();
 }
 
 void SessionDialog::updateSessionList()
@@ -104,4 +120,18 @@ void SessionDialog::updateSessionList()
         );
     }
     session_model_->setHorizontalHeaderLabels(QStringList()<<"Name"<<"Address"<<"User");
+}
+
+bool SessionDialog::checkSelectedSession()
+{
+    auto index_list = ui->session_table_view->selectionModel()->selectedRows();
+    if(index_list.isEmpty())
+    {
+        qDebug()<<"[SessionDialog::checkSelectedSession] no row is selected selection";
+        return false;
+    }
+    QModelIndex index = index_list.first();
+    QString session_name = session_model_->itemFromIndex(index)->text();
+    selected_session_ = session_manager_->getSession(session_name);
+    return true;
 }

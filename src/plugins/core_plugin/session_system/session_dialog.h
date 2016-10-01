@@ -43,6 +43,7 @@ protected:
 
 private:
     void updateSessionList();
+    bool checkSelectedSession();
 
     Ui::SessionDialog *ui;
     QPointer<SessionManager> session_manager_;
