@@ -64,8 +64,7 @@ void SessionWidgetTest::testSetSessionManager()
         manager->addSession(session);
     }
 
-    QPointer<SessionDialog> session_widget = new SessionDialog;
-    session_widget->setSessionManager(manager);
+    QPointer<SessionDialog> session_widget = new SessionDialog{manager};
 
     session_widget->deleteLater();
     manager->deleteLater();

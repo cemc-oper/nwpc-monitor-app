@@ -27,6 +27,12 @@ SessionDialog::SessionDialog(QWidget *parent) :
     ui->session_table_view->setModel(session_model_);
 }
 
+SessionDialog::SessionDialog(SessionManager *manager, QWidget *parent):
+    SessionDialog(parent)
+{
+    setSessionManager(manager);
+}
+
 SessionDialog::~SessionDialog()
 {
     delete ui;

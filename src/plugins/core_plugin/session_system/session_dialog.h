@@ -26,10 +26,9 @@ class CORE_PLUGIN_EXPORT SessionDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit SessionDialog(QWidget *parent = 0);
+    explicit SessionDialog(SessionManager *manager, QWidget *parent = 0);
     ~SessionDialog();
 
-    void setSessionManager(SessionManager *manager);
     Session getSelectedSession() const;
 
 public slots:
@@ -42,6 +41,9 @@ protected:
     void accept() override;
 
 private:
+    explicit SessionDialog(QWidget *parent = 0);
+    void setSessionManager(SessionManager *manager);
+
     void updateSessionList();
     bool checkSelectedSession();
 

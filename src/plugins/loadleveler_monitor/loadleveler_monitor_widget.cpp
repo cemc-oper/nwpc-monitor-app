@@ -76,8 +76,7 @@ void LoadLevelerMonitorWidget::slotChooseSession()
         return;
     }
 
-    Core::SessionSystem::SessionDialog dialog{this};
-    dialog.setSessionManager(manager_list.first());
+    Core::SessionSystem::SessionDialog dialog{manager_list.first(), this};
     if(dialog.exec())
     {
         Core::SessionSystem::Session session = dialog.getSelectedSession();

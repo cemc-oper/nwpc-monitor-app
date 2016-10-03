@@ -17,8 +17,7 @@ int main(int argc, char *argv[])
     Session wangdp{"wangdp", "uranus.hpc.nmic.cn", "22", "wangdp", "perilla"};
     session_manager->addSession(wangdp);
 
-    SessionDialog session_dialog;
-    session_dialog.setSessionManager(session_manager);
+    SessionDialog session_dialog{session_manager};
     if(session_dialog.exec())
     {
         Session selected_session = session_dialog.getSelectedSession();
