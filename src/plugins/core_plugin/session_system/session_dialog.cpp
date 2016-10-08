@@ -24,6 +24,10 @@ SessionDialog::SessionDialog(QWidget *parent) :
     connect(ui->connect_button, &QPushButton::clicked, this, &SessionDialog::accept);
     connect(ui->cancel_button, &QPushButton::clicked, this, &QDialog::reject);
 
+    connect(ui->session_table_view, &QTableView::doubleClicked, [=](const QModelIndex &index){
+         accept();
+    });
+
     ui->session_table_view->setModel(session_model_);
 }
 
