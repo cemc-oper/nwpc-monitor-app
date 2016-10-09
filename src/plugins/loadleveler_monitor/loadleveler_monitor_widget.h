@@ -24,14 +24,13 @@ public:
     explicit LoadLevelerMonitorWidget(QWidget *parent = 0);
     ~LoadLevelerMonitorWidget();
 
-    bool hasSession() const;
-    QMap<QString, QString> getSessionArguments();
-
 private slots:
     void slotChooseSession();
+    void slotSessionEditorsChanged();
 
 private:
     void setSession(const Core::SessionSystem::Session &session);
+    void setSessionInQueryPanels(const Core::SessionSystem::Session &session);
 
     Ui::LoadLevelerMonitorWidget *ui;
 

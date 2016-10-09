@@ -57,6 +57,26 @@ void QueryPanel::setMonitorWidget(LoadLevelerMonitorWidget *widget)
     monitor_widget_ = widget;
 }
 
+void QueryPanel::setSession(const Core::SessionSystem::Session &session)
+{
+    session_ = session;
+}
+
+Core::SessionSystem::Session QueryPanel::getSession() const
+{
+    return session_;
+}
+
+bool QueryPanel::hasSession() const
+{
+    return !session_.isEmpty();
+}
+
+QMap<QString, QString> QueryPanel::getSessionArguments()
+{
+    return session_.toArguments();
+}
+
 
 void QueryPanel::slotStyleActionTriggered(QAction *action)
 {

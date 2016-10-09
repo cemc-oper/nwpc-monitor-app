@@ -12,6 +12,8 @@
 
 using namespace LoadLevelerMonitor;
 using namespace LoadLevelerMonitor::Model;
+using namespace Core::SessionSystem;
+using namespace PluginSystem;
 
 LoadLevelerMonitorWidget::LoadLevelerMonitorWidget(QWidget *parent) :
     QWidget{parent},
@@ -36,6 +38,11 @@ LoadLevelerMonitorWidget::LoadLevelerMonitorWidget(QWidget *parent) :
 
     ui->llq_panel_button->setChecked(true);
 
+    connect(ui->host_edit, &QLineEdit::editingFinished, this, &LoadLevelerMonitorWidget::slotSessionEditorsChanged);
+    connect(ui->port_edit, &QLineEdit::editingFinished, this, &LoadLevelerMonitorWidget::slotSessionEditorsChanged);
+    connect(ui->user_edit, &QLineEdit::editingFinished, this, &LoadLevelerMonitorWidget::slotSessionEditorsChanged);
+    connect(ui->password_edit, &QLineEdit::editingFinished, this, &LoadLevelerMonitorWidget::slotSessionEditorsChanged);
+
     connect(ui->choose_session_button, &QPushButton::clicked, this, &LoadLevelerMonitorWidget::slotChooseSession);
 }
 
@@ -47,48 +54,48 @@ LoadLevelerMonitorWidget::~LoadLevelerMonitorWidget()
     }
 }
 
-bool LoadLevelerMonitorWidget::hasSession() const
-{
-    bool has_empty = ui->host_edit->text().isEmpty()
-            || ui->port_edit->text().isEmpty()
-            || ui->user_edit->text().isEmpty()
-            || ui->password_edit->text().isEmpty();
-    return !has_empty;
-}
-
-QMap<QString, QString> LoadLevelerMonitorWidget::getSessionArguments()
-{
-    QMap<QString, QString> args;
-    args["host"] = ui->host_edit->text();
-    args["port"] = ui->port_edit->text();
-    args["user"] = ui->user_edit->text();
-    args["password"] = ui->password_edit->text();
-    return args;
-}
-
 void LoadLevelerMonitorWidget::slotChooseSession()
 {
     // NOTE: change way of getting SessionManager.
-    QList<Core::SessionSystem::SessionManager *> manager_list = PluginSystem::PluginManager::getObjects<Core::SessionSystem::SessionManager>();
+    QList<SessionManager *> manager_list = PluginManager::getObjects<Core::SessionSystem::SessionManager>();
     if(manager_list.length() != 1)
     {
         qWarning()<<"[LoadLevelerMonitorWidget::slotChooseSession] SessionManager must be one. current is "<<manager_list.size();
         return;
     }
 
-    Core::SessionSystem::SessionDialog dialog{manager_list.first(), this};
+    SessionDialog dialog{manager_list.first(), this};
     if(dialog.exec())
     {
-        Core::SessionSystem::Session session = dialog.getSelectedSession();
+        Session session = dialog.getSelectedSession();
         setSession(session);
     }
 
 }
 
-void LoadLevelerMonitorWidget::setSession(const Core::SessionSystem::Session &session)
+void LoadLevelerMonitorWidget::slotSessionEditorsChanged()
+{
+    Session session;
+    session.host_ = ui->host_edit->text();
+    session.port_ = ui->port_edit->text();
+    session.user_ = ui->user_edit->text();
+    session.password_ = ui->password_edit->text();
+    setSessionInQueryPanels(session);
+}
+
+void LoadLevelerMonitorWidget::setSession(const Session &session)
 {
     ui->host_edit->setText(session.host_);
     ui->port_edit->setText(session.port_);
     ui->user_edit->setText(session.user_);
     ui->password_edit->setText(session.password_);
+
+    setSessionInQueryPanels(session);
+}
+
+void LoadLevelerMonitorWidget::setSessionInQueryPanels(const Session &session)
+{
+    // set session for all query_pages
+    ui->llq_panel->setSession(session);
+    ui->llclass_panel->setSession(session);
 }

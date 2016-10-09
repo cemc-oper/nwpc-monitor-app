@@ -1,6 +1,8 @@
 #pragma once
 
+#include "../loadleveler_monitor_global.h"
 #include <progress_util/shell_command.h>
+#include <core_plugin/session_system/session.h>
 
 #include <QWidget>
 #include <QPointer>
@@ -30,7 +32,7 @@ namespace Ui {
 class QueryPanel;
 }
 
-class QueryPanel : public QWidget
+class LOADLEVELER_MONITOR_EXPORT QueryPanel : public QWidget
 {
     Q_OBJECT
 
@@ -39,6 +41,11 @@ public:
     ~QueryPanel();
 
     void setMonitorWidget(LoadLevelerMonitor::LoadLevelerMonitorWidget *widget);
+
+    void setSession(const Core::SessionSystem::Session& session);
+    Core::SessionSystem::Session getSession() const;
+    bool hasSession() const;
+    QMap<QString, QString> getSessionArguments();
 
 public slots:
     virtual void slotRequestQuery() = 0;
@@ -89,6 +96,9 @@ protected:
     // chart
     QMap<QAction *, LoadLevelerMonitor::Chart::ModelProcessor*> chart_type_action_map_;
     QPointer<QActionGroup> chart_type_action_group_;
+
+    // session
+    Core::SessionSystem::Session session_;
 };
 
 }

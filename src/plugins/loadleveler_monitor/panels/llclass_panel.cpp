@@ -36,12 +36,12 @@ LlclassPanel::~LlclassPanel()
 
 void LlclassPanel::slotRequestQuery()
 {
-    if(!monitor_widget_->hasSession())
+    if(!hasSession())
     {
         QMessageBox::warning(this, tr("LoadLeveler Monitor"), tr("Please choose a session."));
         return;
     }
-    QMap<QString, QString> args = monitor_widget_->getSessionArguments();
+    QMap<QString, QString> args = getSessionArguments();
     args["command"] = "llclass";
     QString arg_string = ui->argument_edit->text();
     if(!arg_string.isEmpty())
@@ -164,7 +164,8 @@ void LlclassPanel::slotQueryModelContextMenuRequest(const QPoint &global_point, 
             QStandardItem *id_item = query_model_->itemFromIndex(id_index);
             QString id = id_item->text();
             qDebug()<<"[LlqPanel::slotQueryModelContextMenuRequest] llq.id:"<<id;
-            QMap<QString, QString> args = monitor_widget_->getSessionArguments();
+
+            QMap<QString, QString> args = getSessionArguments();
             args["command"] = "llclass -l "+id;
 
             ClientCommandWidget *command_widget = new ClientCommandWidget();

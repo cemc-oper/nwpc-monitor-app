@@ -50,12 +50,12 @@ LlqPanel::~LlqPanel()
 
 void LlqPanel::slotRequestQuery()
 {
-    if(!monitor_widget_->hasSession())
+    if(!hasSession())
     {
         QMessageBox::warning(this, tr("LoadLeveler Monitor"), tr("Please choose a session."));
         return;
     }
-    QMap<QString, QString> args = monitor_widget_->getSessionArguments();
+    QMap<QString, QString> args = getSessionArguments();
     args["command"] = "llq";
     QString arg_string = ui->argument_edit->text();
     if(!arg_string.isEmpty())
@@ -176,7 +176,8 @@ void LlqPanel::slotQueryModelContextMenuRequest(const QPoint &global_point, cons
             QStandardItem *id_item = query_model_->itemFromIndex(id_index);
             QString id = id_item->text();
             qDebug()<<"[LlqPanel::slotQueryModelContextMenuRequest] llq.id:"<<id;
-            QMap<QString, QString> args = monitor_widget_->getSessionArguments();
+
+            QMap<QString, QString> args = getSessionArguments();
             args["command"] = "llq -l "+id;
 
             //TODO: 创建一个弹出窗口，接收命令执行结果，将窗口传递给 client。
@@ -345,7 +346,7 @@ void LlqPanel::cancelSelectedJobs()
     QStringList job_id_list = LlqPanel::getLlqJobIdList(query_model_, checked_rows);
     foreach(QString job_id, job_id_list)
     {
-        QMap<QString, QString> args = monitor_widget_->getSessionArguments();
+        QMap<QString, QString> args = getSessionArguments();
         args["command"] = "llcancel " + job_id;
         LoadLevelerMonitorPlugin::client()->runLlcancelCommand(args, this);
     }
@@ -357,7 +358,7 @@ void LlqPanel::releaseSelectedJobs()
     QStringList job_id_list = LlqPanel::getLlqJobIdList(query_model_, checked_rows);
     foreach(QString job_id, job_id_list)
     {
-        QMap<QString, QString> args = monitor_widget_->getSessionArguments();
+        QMap<QString, QString> args = getSessionArguments();
         args["command"] = "llhold -r " + job_id;
         LoadLevelerMonitorPlugin::client()->runLlholdCommand(args, this);
     }
