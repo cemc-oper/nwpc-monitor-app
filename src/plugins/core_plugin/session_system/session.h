@@ -4,6 +4,7 @@
 
 #include <QString>
 #include <QJsonObject>
+#include <QMap>
 
 namespace Core{
 
@@ -17,6 +18,9 @@ public:
     explicit Session(const QJsonObject &obj);
 
     bool operator ==(const Session &other) const;
+    bool isEmpty() const;
+
+    QMap<QString, QString> toArguments() const;
 
 public:
     QString name_;

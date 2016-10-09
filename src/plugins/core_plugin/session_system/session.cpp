@@ -88,3 +88,22 @@ bool Session::operator ==(const Session &other) const
         return false;
     return true;
 }
+
+bool Session::isEmpty() const
+{
+    bool has_empty = host_.isEmpty()
+            || port_.isEmpty()
+            || user_.isEmpty()
+            || password_.isEmpty();
+    return has_empty;
+}
+
+QMap<QString, QString> Session::toArguments() const
+{
+    QMap<QString, QString> args;
+    args["host"] = host_;
+    args["port"] = port_;
+    args["user"] = user_;
+    args["password"] = password_;
+    return args;
+}
