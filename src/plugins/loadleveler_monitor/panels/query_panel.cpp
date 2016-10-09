@@ -52,11 +52,6 @@ QueryPanel::~QueryPanel()
     }
 }
 
-void QueryPanel::setMonitorWidget(LoadLevelerMonitorWidget *widget)
-{
-    monitor_widget_ = widget;
-}
-
 void QueryPanel::setSession(const Core::SessionSystem::Session &session)
 {
     session_ = session;

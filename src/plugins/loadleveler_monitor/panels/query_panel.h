@@ -40,8 +40,6 @@ public:
     explicit QueryPanel(QWidget *parent = 0);
     ~QueryPanel();
 
-    void setMonitorWidget(LoadLevelerMonitor::LoadLevelerMonitorWidget *widget);
-
     void setSession(const Core::SessionSystem::Session& session);
     Core::SessionSystem::Session getSession() const;
     bool hasSession() const;
@@ -81,8 +79,6 @@ protected:
 
     // text style
     void updateTextStylePage(const QString &str);
-
-    QPointer<LoadLevelerMonitor::LoadLevelerMonitorWidget> monitor_widget_;
 
     Ui::QueryPanel *ui;
     QPointer<QActionGroup> style_action_group_;
