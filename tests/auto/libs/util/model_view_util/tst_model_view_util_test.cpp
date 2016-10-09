@@ -89,6 +89,9 @@ void ModelViewUtilTest::testAllItemChecked()
 
 void ModelViewUtilTest::testGetCheckedRows_data()
 {
+    QTest::addColumn< QPointer<QStandardItemModel> >("model");
+    QTest::addColumn<QList<int>>("selected_rows");
+
     QPointer<QStandardItemModel> model_ex1 = new QStandardItemModel;
     model_ex1->invisibleRootItem()->appendRow(QList<QStandardItem *>()<<new QStandardItem("cell (0,0)")<<new QStandardItem("cell (0,1)"));
     model_ex1->invisibleRootItem()->appendRow(QList<QStandardItem *>()<<new QStandardItem("cell (1,0)")<<new QStandardItem("cell (1,1)"));
@@ -97,14 +100,11 @@ void ModelViewUtilTest::testGetCheckedRows_data()
     model_ex1->invisibleRootItem()->child(1)->setCheckState(Qt::Checked);
     model_ex1->invisibleRootItem()->child(2)->setCheckState(Qt::Checked);
 
-    QTest::addColumn< QPointer<QStandardItemModel> >("model");
-    QTest::addColumn<QList<int>>("selected_rows");
-
-    QPointer<QStandardItemModel> empty_model = new QStandardItemModel;
-
     QTest::newRow("normal_model")
             << model_ex1
-            << QList<int>()<<1<<2;
+            << QList<int>{1,2};
+
+    QPointer<QStandardItemModel> empty_model = new QStandardItemModel;
     QTest::newRow("empty model")
             << empty_model
             << QList<int>();
