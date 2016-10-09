@@ -1,0 +1,18 @@
+{
+    "type": "loadleveler_command",
+    "app": "nwpc_loadleveler",
+    "data": {
+        "request": {
+            "command": "llq",
+            "arguments": [],
+            "time": "2016-10-09 16:07:34"
+        },
+        "response": {
+            "time": "2016-10-09 16:07:34",
+            "message": {
+                "output": "",
+                "error_output": ""
+            }
+        }
+    }
+}

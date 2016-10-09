@@ -15,7 +15,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="LoadLevelerMonitor::Panels::LlqPanel" name="widget" native="true"/>
+    <widget class="LoadLevelerMonitor::Panels::LlqPanel" name="llq_panel" native="true"/>
    </item>
   </layout>
  </widget>

@@ -1,0 +1,15 @@
+Id                       Owner      Submitted   ST PRI Class        Running On
+------------------------ ---------- ----------- -- --- ------------ -----------
+cma19n04.3198707.0       nwp_vfy    10/1  00:30 R  100 serial       cma19n06
+cma19n02.3199185.0       nwp_vfy    10/1  12:10 R  100 serial       cma19n07
+cma20n02.3208457.0       nwp_sp     10/2  02:40 R  100 serial       cma20n07
+cma20n04.3210330.0       nwp_sp     10/2  13:40 R  100 serial       cma20n07
+cma20n02.3208766.0       nwp_vfy    10/3  04:00 R  100 serial       cma19n06
+cma19n02.3213175.0       nwp_hb     10/3  16:44 R  100 normal       cma11n27
+cma19n02.3213179.0       nwp_hb     10/4  06:44 R  100 normal       cma19n21
+cma20n01.3211874.0       nwp_hb     10/5  01:46 R  100 normal       cma19n16
+cma20n04.3212864.0       nwp_hb     10/5  03:46 R  100 normal       cma08n10
+cma19n02.3213306.0       nwp_pd     10/5  13:53 R  100 serial_op    cma18n06
+cma20n04.3212965.0       nwp_pd     10/5  09:54 R  100 serial_op    cma18n05
+cma20n04.3213445.0       nwp        10/3  07:31 R  100 serial_op    cma18n07
+cma20n04.3213579.0       nwp_qu     10/2  07:45 R  100 operation    cma03n07
