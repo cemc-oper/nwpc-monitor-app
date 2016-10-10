@@ -45,7 +45,8 @@ SOURCES += loadleveler_monitor_plugin.cpp \
     model/query_item_value_saver.cpp \
     model/query_record_parser.cpp \
     model/special_value_saver.cpp \
-    model/special_record_parser.cpp
+    model/special_record_parser.cpp \
+    organize_system/filter_value_checker.cpp
 
 HEADERS += loadleveler_monitor_plugin.h \
     loadleveler_monitor_global.h \
@@ -77,7 +78,8 @@ HEADERS += loadleveler_monitor_plugin.h \
     model/query_item_value_saver.h \
     model/query_record_parser.h \
     model/special_value_saver.h \
-    model/special_record_parser.h
+    model/special_record_parser.h \
+    organize_system/filter_value_checker.h
 
 DISTFILES += loadleveler_monitor.json \
     nwpc_loadleveler/loadleveler.py \

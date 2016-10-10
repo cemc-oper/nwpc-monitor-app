@@ -3,4 +3,5 @@ TEMPLATE = subdirs
 SUBDIRS += \
     panels \
     model \
-    query
+    query \
+    organize_system
