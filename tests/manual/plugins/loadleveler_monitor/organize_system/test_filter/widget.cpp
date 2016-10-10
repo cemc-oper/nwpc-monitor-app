@@ -2,7 +2,6 @@
 #include "ui_widget.h"
 
 #include <progress_util/shell_command.h>
-#include <loadleveler_monitor/model/llq_command_manager.h>
 
 #include <QDateTime>
 #include <QFile>
@@ -18,7 +17,8 @@ using namespace LoadLevelerMonitor;
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Widget)
+    ui(new Ui::Widget),
+    ll_manager_{new LlqCommandManager{this}}
 {
     ui->setupUi(this);
 

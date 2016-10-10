@@ -18,6 +18,7 @@ LlqCommandManager *LlqCommandManager::instance()
 
 void LlqCommandManager::initialize()
 {
+    Q_ASSERT(d);
     d->initCategoryList();
     d->initModelProcessor();
 }

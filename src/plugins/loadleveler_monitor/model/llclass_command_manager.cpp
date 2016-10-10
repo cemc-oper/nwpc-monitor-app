@@ -18,6 +18,7 @@ LlclassCommandManager *LlclassCommandManager::instance()
 
 void LlclassCommandManager::initialize()
 {
+    Q_ASSERT(d);
     d->initCategoryList();
     d->initModelProcessor();
 }

@@ -5,8 +5,7 @@
 
 using namespace LoadLevelerMonitor::Model;
 
-QueryCategoryList::QueryCategoryList():
-    valid_category_{}
+QueryCategoryList::QueryCategoryList()
 {
 
 }
