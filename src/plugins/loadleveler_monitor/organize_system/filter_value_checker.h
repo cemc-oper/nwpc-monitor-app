@@ -24,7 +24,7 @@ public:
         Contain,
         Equal,
         StartWith,
-        EndWidth,
+        EndsWith,
         NotContain,
         RegExp
     };
