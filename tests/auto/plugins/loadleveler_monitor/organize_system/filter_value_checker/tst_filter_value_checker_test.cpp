@@ -1,12 +1,15 @@
 #include <loadleveler_monitor/organize_system/filter_value_checker.h>
 
 #include <QString>
+#include <QDateTime>
 #include <QtTest>
 
 #include <memory>
 
 Q_DECLARE_METATYPE(LoadLevelerMonitor::OrganizeSystem::StringChecker::OperatorType)
 Q_DECLARE_METATYPE(LoadLevelerMonitor::OrganizeSystem::NumberChecker::OperatorType)
+Q_DECLARE_METATYPE(LoadLevelerMonitor::OrganizeSystem::DateTimeChecker::OperatorType)
+Q_DECLARE_METATYPE(LoadLevelerMonitor::OrganizeSystem::BooleanChecker::OperatorType)
 
 using namespace LoadLevelerMonitor::OrganizeSystem;
 
@@ -26,6 +29,12 @@ private Q_SLOTS:
 
     void testNumberChecker_data();
     void testNumberChecker();
+
+    void testDateTimeChecker_data();
+    void testDateTimeChecker();
+
+    void testBooleanChecker_data();
+    void testBooleanChecker();
 };
 
 FilterValueCheckerTest::FilterValueCheckerTest()
@@ -125,6 +134,95 @@ void FilterValueCheckerTest::testNumberChecker()
 
     auto checker = std::make_unique<NumberChecker>();
     checker->setCondition(type, condition_value);
+
+    QCOMPARE(checker->isFit(value), is_fit);
+}
+
+void FilterValueCheckerTest::testDateTimeChecker_data()
+{
+    QTest::addColumn<QDateTime>("value");
+    QTest::addColumn<DateTimeChecker::OperatorType>("type");
+    QTest::addColumn<QDateTime>("condition_value");
+    QTest::addColumn<bool>("is_fit");
+
+    QTest::newRow("Before.1") << QDateTime{ QDate{2016, 10, 11}, QTime{8, 0, 0} }
+                              << DateTimeChecker::OperatorType::Before
+                              << QDateTime{ QDate{2016, 10, 11}, QTime{9, 00, 0} }
+                              << true;
+    QTest::newRow("Before.2") << QDateTime{ QDate{2016, 10, 11}, QTime{8, 0, 0} }
+                              << DateTimeChecker::OperatorType::Before
+                              << QDateTime{ QDate{2016, 10, 11}, QTime{7, 0, 0} }
+                              << false;
+    QTest::newRow("Before.3") << QDateTime{ QDate{2016, 10, 11}, QTime{8, 0, 0} }
+                              << DateTimeChecker::OperatorType::Before
+                              << QDateTime{ QDate{2016, 10, 11}, QTime{8, 0, 0} }
+                              << false;
+
+    QTest::newRow("Equal.1")  << QDateTime{ QDate{2016, 10, 11}, QTime{8, 0, 0} }
+                              << DateTimeChecker::OperatorType::Equal
+                              << QDateTime{ QDate{2016, 10, 11}, QTime{8, 0, 0} }
+                              << true;
+    QTest::newRow("Equal.2")  << QDateTime{ QDate{2016, 10, 11}, QTime{8, 0, 0} }
+                              << DateTimeChecker::OperatorType::Equal
+                              << QDateTime{ QDate{2016, 10, 11}, QTime{9, 0, 0} }
+                              << false;
+
+    QTest::newRow("NotEqual.1") << QDateTime{ QDate{2016, 10, 11}, QTime{8, 0, 0} }
+                                << DateTimeChecker::OperatorType::NotEqual
+                                << QDateTime{ QDate{2016, 10, 11}, QTime{9, 0, 0} }
+                                << true;
+    QTest::newRow("NotEqual.2") << QDateTime{ QDate{2016, 10, 11}, QTime{8, 0, 0} }
+                                << DateTimeChecker::OperatorType::NotEqual
+                                << QDateTime{ QDate{2016, 10, 11}, QTime{8, 0, 0} }
+                                << false;
+
+    QTest::newRow("After.1")  << QDateTime{ QDate{2016, 10, 11}, QTime{8, 0, 0} }
+                              << DateTimeChecker::OperatorType::After
+                              << QDateTime{ QDate{2016, 10, 11}, QTime{7, 0, 0} }
+                              << true;
+    QTest::newRow("After.2")  << QDateTime{ QDate{2016, 10, 11}, QTime{8, 0, 0} }
+                              << DateTimeChecker::OperatorType::After
+                              << QDateTime{ QDate{2016, 10, 11}, QTime{9, 0, 0} }
+                              << false;
+    QTest::newRow("After.3")  << QDateTime{ QDate{2016, 10, 11}, QTime{8, 0, 0} }
+                              << DateTimeChecker::OperatorType::After
+                              << QDateTime{ QDate{2016, 10, 11}, QTime{8, 0, 0} }
+                              << false;
+}
+
+void FilterValueCheckerTest::testDateTimeChecker()
+{
+    QFETCH(QDateTime, value);
+    QFETCH(DateTimeChecker::OperatorType, type);
+    QFETCH(QDateTime, condition_value);
+    QFETCH(bool, is_fit);
+
+    auto checker = std::make_unique<DateTimeChecker>();
+    checker->setCondition(type, condition_value);
+
+    QCOMPARE(checker->isFit(value), is_fit);
+}
+
+void FilterValueCheckerTest::testBooleanChecker_data()
+{
+    QTest::addColumn<bool>("value");
+    QTest::addColumn<BooleanChecker::OperatorType>("type");
+    QTest::addColumn<bool>("is_fit");
+
+    QTest::newRow("Set.1")      << true     << BooleanChecker::OperatorType::Set    << true;
+    QTest::newRow("Set.2")      << false    << BooleanChecker::OperatorType::Set    << false;
+    QTest::newRow("Unset.1")    << true     << BooleanChecker::OperatorType::Unset  << false;
+    QTest::newRow("Unset.2")    << false    << BooleanChecker::OperatorType::Unset  << true;
+}
+
+void FilterValueCheckerTest::testBooleanChecker()
+{
+    QFETCH(bool, value);
+    QFETCH(BooleanChecker::OperatorType, type);
+    QFETCH(bool, is_fit);
+
+    auto checker = std::make_unique<BooleanChecker>();
+    checker->setCondition(type);
 
     QCOMPARE(checker->isFit(value), is_fit);
 }

@@ -2,8 +2,9 @@
 
 #include "../loadleveler_monitor_global.h"
 
-#include <QString>
 #include <QVariant>
+#include <QString>
+#include <QDateTime>
 
 namespace LoadLevelerMonitor{
 
@@ -61,6 +62,45 @@ public:
 private:
     OperatorType operator_type_;
     double value_;
+};
+
+class LOADLEVELER_MONITOR_EXPORT DateTimeChecker: public FilterValueChecker {
+public:
+    enum class OperatorType{
+        Before,
+        Equal,
+        NotEqual,
+        After
+    };
+
+    DateTimeChecker();
+    ~DateTimeChecker();
+
+    void setCondition(OperatorType oper_type, const QDateTime &date_time);
+
+    bool isFit(const QVariant &value);
+
+private:
+    OperatorType operator_type_;
+    QDateTime value_;
+};
+
+class LOADLEVELER_MONITOR_EXPORT BooleanChecker: public FilterValueChecker {
+public:
+    enum class OperatorType{
+        Set,
+        Unset
+    };
+
+    BooleanChecker();
+    ~BooleanChecker();
+
+    void setCondition(OperatorType oper_type);
+
+    bool isFit(const QVariant &value);
+
+private:
+    OperatorType operator_type_;
 };
 
 }

@@ -112,3 +112,84 @@ bool NumberChecker::isFit(const QVariant &value)
         return false;
     }
 }
+
+DateTimeChecker::DateTimeChecker()
+{
+
+}
+
+DateTimeChecker::~DateTimeChecker()
+{
+
+}
+
+void DateTimeChecker::setCondition(DateTimeChecker::OperatorType oper_type, const QDateTime &date_time)
+{
+    operator_type_ = oper_type;
+    value_ = date_time;
+}
+
+bool DateTimeChecker::isFit(const QVariant &value)
+{
+    Q_ASSERT(value.canConvert(QVariant::DateTime));
+
+    QDateTime date_time = value.toDateTime();
+
+    if(operator_type_ == OperatorType::Before)
+    {
+        return date_time < value_;
+    }
+    else if(operator_type_ == OperatorType::Equal)
+    {
+        return date_time == value_;
+    }
+    else if(operator_type_ == OperatorType::NotEqual)
+    {
+        return date_time != value_;
+    }
+    else if(operator_type_ == OperatorType::After)
+    {
+        return date_time > value_;
+    }
+    else
+    {
+        qFatal("[DateTimeChecker::isFit] unknown operator type");
+        return false;
+    }
+}
+
+BooleanChecker::BooleanChecker()
+{
+
+}
+
+BooleanChecker::~BooleanChecker()
+{
+
+}
+
+void BooleanChecker::setCondition(BooleanChecker::OperatorType oper_type)
+{
+    operator_type_ = oper_type;
+}
+
+bool BooleanChecker::isFit(const QVariant &value)
+{
+    Q_ASSERT(value.canConvert(QVariant::Bool));
+
+    bool b = value.toBool();
+
+    if(operator_type_ == OperatorType::Set)
+    {
+        return b;
+    }
+    else if(operator_type_ == OperatorType::Unset)
+    {
+        return !b;
+    }
+    else
+    {
+        qFatal("[BooleanChecker::isFit] unknown operator type");
+        return false;
+    }
+}
