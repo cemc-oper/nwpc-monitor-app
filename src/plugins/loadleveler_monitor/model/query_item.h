@@ -32,17 +32,17 @@ public:
 
     QVariant data(int role = Qt::UserRole + 1) const;
 
-    static QList<QStandardItem *> buildDefaultQueryRow(
+    static QList<QueryItem *> buildDefaultQueryRow(
             const QString &line, const QueryCategoryList &category_list);
 
-    static QList<QStandardItem *> buildDetailQueryRow(
+    static QList<QueryItem *> buildDetailQueryRow(
             const QStringList &lines, const QueryCategoryList &category_list);
 
     static QueryItem *createIndexNoItem(const QueryCategory &num_category, int num);
 
 private:
-    static QStandardItem *buildDefaultQueryItem(const QueryCategory &category, const QString &line);
-    static QStandardItem *buildDetailQueryItem(const QueryCategory &category, const QStringList &lines);
+    static QueryItem *buildDefaultQueryItem(const QueryCategory &category, const QString &line);
+    static QueryItem *buildDetailQueryItem(const QueryCategory &category, const QStringList &lines);
 
     QueryCategory category_;
 };

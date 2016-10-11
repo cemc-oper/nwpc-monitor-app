@@ -121,12 +121,18 @@ QueryModel *QueryModel::buildFromLlqDefaultQueryResponse(const QStringList &line
     query_model->setQueryType(QueryType::LlqDefaultQuery);
     for(int i = begin_record_line; i < end_record_line; i++ )
     {
-        QList<QStandardItem*> row = QueryItem::buildDefaultQueryRow(lines[i], category_list);
+        QList<QueryItem*> row = QueryItem::buildDefaultQueryRow(lines[i], category_list);
 
         QueryItem *item = QueryItem::createIndexNoItem(row_num_category, i-1);
         row.push_front(item);
 
-        query_model->invisibleRootItem()->appendRow(row);
+        QList<QStandardItem*> standard_item_row;
+        foreach(QueryItem* query_item, row)
+        {
+            standard_item_row.push_back(static_cast<QStandardItem*>(query_item));
+        }
+
+        query_model->invisibleRootItem()->appendRow(standard_item_row);;
     }
 
     // insert no category
@@ -210,11 +216,17 @@ QueryModel *QueryModel::buildFromLlqDetailQueryResponse(const QStringList &lines
             category_list = LlqCommandManager::parellelJobDetailQueryCategoryList();
         }
 
-        QList<QStandardItem*> row = QueryItem::buildDetailQueryRow(record_lines, category_list);
+        QList<QueryItem*> row = QueryItem::buildDetailQueryRow(record_lines, category_list);
         QueryItem *item = QueryItem::createIndexNoItem(row_num_category, record_no+1);
         row.push_front(item);
 
-        query_model->invisibleRootItem()->appendRow(row);
+        QList<QStandardItem*> standard_item_row;
+        foreach(QueryItem* query_item, row)
+        {
+            standard_item_row.push_back(static_cast<QStandardItem*>(query_item));
+        }
+
+        query_model->invisibleRootItem()->appendRow(standard_item_row);
     }
 
     // insert no category
@@ -314,12 +326,18 @@ QueryModel *QueryModel::buildFromLlclassDefaultQueryResponse(const QStringList &
 
     for(int i=record_line_begin; i < record_line_end; i++ )
     {
-        QList<QStandardItem*> row = QueryItem::buildDefaultQueryRow(lines[i], category_list);
+        QList<QueryItem*> row = QueryItem::buildDefaultQueryRow(lines[i], category_list);
 
         QueryItem *item = QueryItem::createIndexNoItem(row_num_category, i-2);
         row.push_front(item);
 
-        query_model->invisibleRootItem()->appendRow(row);
+        QList<QStandardItem*> standard_item_row;
+        foreach(QueryItem* query_item, row)
+        {
+            standard_item_row.push_back(static_cast<QStandardItem*>(query_item));
+        }
+
+        query_model->invisibleRootItem()->appendRow(standard_item_row);
     }
 
     // insert no category
@@ -381,12 +399,19 @@ QueryModel *QueryModel::buildFromLlclassDetailQueryResponse(const QStringList &l
         int end_line_no = record_start_line_no_list[record_no+1];
         QStringList record_lines = lines.mid(begin_line_no, end_line_no - begin_line_no);
 
-        QList<QStandardItem*> row = QueryItem::buildDetailQueryRow(record_lines, category_list);
+        QList<QueryItem*> row = QueryItem::buildDetailQueryRow(record_lines, category_list);
 
         QueryItem *item = QueryItem::createIndexNoItem(row_num_category, record_no+1);
         row.push_front(item);
 
-        query_model->invisibleRootItem()->appendRow(row);
+        //TODO: repeat is evil
+        QList<QStandardItem*> standard_item_row;
+        foreach(QueryItem* query_item, row)
+        {
+            standard_item_row.push_back(static_cast<QStandardItem*>(query_item));
+        }
+
+        query_model->invisibleRootItem()->appendRow(standard_item_row);
     }
 
     // insert no category

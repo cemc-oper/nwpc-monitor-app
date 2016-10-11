@@ -41,29 +41,29 @@ QVariant QueryItem::data(int role) const
     return QStandardItem::data(role);
 }
 
-QList<QStandardItem *> QueryItem::buildDefaultQueryRow(
+QList<QueryItem *> QueryItem::buildDefaultQueryRow(
         const QString &line,
         const QueryCategoryList &category_list)
 {
-    QList<QStandardItem *> row;
+    QList<QueryItem *> row;
     for(int i = 0; i < category_list.size(); i++)
     {
         QueryCategory c = category_list[i];
-        QStandardItem *item = buildDefaultQueryItem(c, line);
+        QueryItem *item = buildDefaultQueryItem(c, line);
         row<<item;
     }
     return row;
 }
 
-QList<QStandardItem *> QueryItem::buildDetailQueryRow(
+QList<QueryItem *> QueryItem::buildDetailQueryRow(
         const QStringList &lines,
         const QueryCategoryList &category_list)
 {
-    QList<QStandardItem *> row;
+    QList<QueryItem *> row;
     //TODO: 使用更高效的方法，当前多次遍历lines，需要改为只遍历一次lines
     foreach(QueryCategory c, category_list.categoryList())
     {
-        QStandardItem *item = buildDetailQueryItem(c, lines);
+        QueryItem *item = buildDetailQueryItem(c, lines);
         row<<item;
     }
     return row;
@@ -78,7 +78,7 @@ QueryItem *QueryItem::createIndexNoItem(const QueryCategory &num_category, int n
     return item;
 }
 
-QStandardItem *QueryItem::buildDefaultQueryItem(const QueryCategory &category, const QString &line)
+QueryItem *QueryItem::buildDefaultQueryItem(const QueryCategory &category, const QString &line)
 {
     QueryItem *item = new QueryItem{};
     item->setCategory(category);
@@ -92,7 +92,7 @@ QStandardItem *QueryItem::buildDefaultQueryItem(const QueryCategory &category, c
     return item;
 }
 
-QStandardItem *QueryItem::buildDetailQueryItem(const QueryCategory &category, const QStringList &lines)
+QueryItem *QueryItem::buildDetailQueryItem(const QueryCategory &category, const QStringList &lines)
 {
     QueryItem *item = new QueryItem();
     item->setCategory(category);

@@ -211,7 +211,7 @@ void QueryItemTest::testBuildLlqDefaultQueryRow()
     QFETCH(QString, ll_class);
     QFETCH(QString, running_on);
 
-    QList<QStandardItem *> row = QueryItem::buildDefaultQueryRow(line, llq_default_category_list_);
+    QList<QueryItem *> row = QueryItem::buildDefaultQueryRow(line, llq_default_category_list_);
 
     QCOMPARE(row[0]->text(), id);
     QCOMPARE(row[1]->text(), owner);
@@ -344,7 +344,7 @@ void QueryItemTest::testBuildLlclassDefaultQueryRow()
     QFETCH(QString, max_slots);
     QFETCH(QString, description);
 
-    QList<QStandardItem *> row = QueryItem::buildDefaultQueryRow(line, llclass_default_category_list_);
+    QList<QueryItem *> row = QueryItem::buildDefaultQueryRow(line, llclass_default_category_list_);
 
     QCOMPARE(row[0]->text(), name);
     QCOMPARE(row[1]->text(), max_job_cpu);
