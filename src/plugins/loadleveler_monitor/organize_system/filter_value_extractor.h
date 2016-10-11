@@ -33,6 +33,8 @@ public:
     QVariant extract(QList<Model::QueryItem *> row);
 
 private:
+    int findCategoryIndex(QList<Model::QueryItem *> row);
+
     Model::QueryCategory category_;
 };
 

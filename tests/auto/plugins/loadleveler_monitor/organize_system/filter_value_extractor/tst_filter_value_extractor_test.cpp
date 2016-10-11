@@ -83,31 +83,36 @@ void FilterValueExtractorTest::testQueryCategoryValueExtractor_data()
 
     QTest::addColumn<QVariant>("value");
 
-    QStringList lines{
-        "cma20n02.2860805.0       nwp_vfy     9/6  04:00 R  100 serial       cma20n07   ",
-        "cma20n01.2864767.0       nwp_sp      9/10 12:58 ST 100 serial       cma19n07   ",
-        "cma20n02.2860805.0       nwp_vfy    10/1  04:00 R  100 operation    cma20n03   ",
-        "cma20n04.2865560.0       nwp_sp     11/16 07:58 I  100 serial                  ",
-        "cma19n02.2865233.0       bcccsmqu    9/6  06:48 I  50  normal                  ",
-        "cma20n02.2864013.0       nwp_sp      9/6  07:50 C  100 serial                  ",
-    };
+    QTest::newRow("string")
+        << "cma20n02.2860805.0       nwp_vfy     9/6  04:00 R  100 serial       cma20n07   "
+        << llq_default_category_list_.categoryFromId(Constant::Llq::Id)
+        << QVariant{"cma20n02.2860805.0"};
 
+    QTest::newRow("number")
+        << "cma20n02.2860805.0       nwp_vfy     9/6  04:00 R  100 serial       cma20n07   "
+        << llq_default_category_list_.categoryFromId(Constant::Llq::Priority)
+        << QVariant{100};
 
+    QDate cur_date = QDate::currentDate();
+    int year = cur_date.year();
+    if(cur_date.month() < 9)
+        year -= 1;
 
-//    int row_count = 0;
-//    for(int i=0; i<lines.length(); i++)
-//    {
-//        QTest::newRow(QString::number(row_count++)) << lines[i];
-//    }
+    QTest::newRow("date")
+        << "cma20n02.2860805.0       nwp_vfy     9/6  04:00 R  100 serial       cma20n07   "
+        << llq_default_category_list_.categoryFromId(Constant::Llq::Submitted)
+        << QVariant{QDateTime{QDate{year, 9, 6}, QTime{4,0}}};
 
-
+    QTest::newRow("empty string")
+        << "cma20n04.2865560.0       nwp_sp     11/16 07:58 I  100 serial                  "
+        << llq_default_category_list_.categoryFromId(Constant::Llq::HostName)
+        << QVariant{""};
 }
 
 void FilterValueExtractorTest::testQueryCategoryValueExtractor()
 {
     QFETCH(QString, line);
     QFETCH(QueryCategory, category);
-    QFETCH(int, column_no);
     QFETCH(QVariant, value);
 
     QList<QueryItem *> row = QueryItem::buildDefaultQueryRow(line, llq_default_category_list_);
