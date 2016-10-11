@@ -42,6 +42,27 @@ private:
 
 };
 
+class LOADLEVELER_MONITOR_EXPORT NumberChecker: public FilterValueChecker {
+public:
+    enum class OperatorType{
+        GreaterThan,
+        Equal,
+        NotEqual,
+        LessThan
+    };
+
+    NumberChecker();
+    ~NumberChecker();
+
+    void setCondition(OperatorType oper_type, double value);
+
+    bool isFit(const QVariant &value);
+
+private:
+    OperatorType operator_type_;
+    double value_;
+};
+
 }
 
 }

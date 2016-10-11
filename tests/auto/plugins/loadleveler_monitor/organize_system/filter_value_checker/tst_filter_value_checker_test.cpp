@@ -6,6 +6,7 @@
 #include <memory>
 
 Q_DECLARE_METATYPE(LoadLevelerMonitor::OrganizeSystem::StringChecker::OperatorType)
+Q_DECLARE_METATYPE(LoadLevelerMonitor::OrganizeSystem::NumberChecker::OperatorType)
 
 using namespace LoadLevelerMonitor::OrganizeSystem;
 
@@ -22,6 +23,9 @@ private Q_SLOTS:
 
     void testStringChecker_data();
     void testStringChecker();
+
+    void testNumberChecker_data();
+    void testNumberChecker();
 };
 
 FilterValueCheckerTest::FilterValueCheckerTest()
@@ -85,6 +89,44 @@ void FilterValueCheckerTest::testStringChecker()
 
     QCOMPARE(checker->isFit(value), is_fit);
 
+}
+
+void FilterValueCheckerTest::testNumberChecker_data()
+{
+    QTest::addColumn<int>("value");
+    QTest::addColumn<NumberChecker::OperatorType>("type");
+    QTest::addColumn<int>("condition_value");
+    QTest::addColumn<bool>("is_fit");
+
+    QTest::newRow("GreaterThan.1")    << 10 << NumberChecker::OperatorType::GreaterThan   << 5    << true;
+    QTest::newRow("GreaterThan.2")    << 10 << NumberChecker::OperatorType::GreaterThan   << 10   << false;
+    QTest::newRow("GreaterThan.3")    << 10 << NumberChecker::OperatorType::GreaterThan   << 15   << false;
+
+    QTest::newRow("Equal.1")          << 10 << NumberChecker::OperatorType::Equal         << 10   << true;
+    QTest::newRow("Equal.2")          << 10 << NumberChecker::OperatorType::Equal         << 11   << false;
+    QTest::newRow("Equal.3")          << 10 << NumberChecker::OperatorType::Equal         << 9    << false;
+
+    QTest::newRow("NotEqual.1")       << 10 << NumberChecker::OperatorType::NotEqual      << 10   << false;
+    QTest::newRow("NotEqual.2")       << 10 << NumberChecker::OperatorType::NotEqual      << 11   << true;
+    QTest::newRow("NotEqual.3")       << 10 << NumberChecker::OperatorType::NotEqual      << 9    << true;
+
+    QTest::newRow("LessThan.1")       << 10 << NumberChecker::OperatorType::LessThan      << 15   << true;
+    QTest::newRow("LessThan.2")       << 10 << NumberChecker::OperatorType::LessThan      << 10   << false;
+    QTest::newRow("LessThan.3")       << 10 << NumberChecker::OperatorType::LessThan      << 5    << false;
+
+}
+
+void FilterValueCheckerTest::testNumberChecker()
+{
+    QFETCH(int, value);
+    QFETCH(NumberChecker::OperatorType, type);
+    QFETCH(int, condition_value);
+    QFETCH(bool, is_fit);
+
+    auto checker = std::make_unique<NumberChecker>();
+    checker->setCondition(type, condition_value);
+
+    QCOMPARE(checker->isFit(value), is_fit);
 }
 
 QTEST_APPLESS_MAIN(FilterValueCheckerTest)
