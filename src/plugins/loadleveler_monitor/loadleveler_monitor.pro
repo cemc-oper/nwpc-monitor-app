@@ -49,7 +49,8 @@ SOURCES += loadleveler_monitor_plugin.cpp \
     organize_system/filter_value_checker.cpp \
     organize_system/filter_value_extractor.cpp \
     organize_system/filter_condition.cpp \
-    organize_system/filter.cpp
+    organize_system/filter.cpp \
+    organize_system/filter_query_model.cpp
 
 HEADERS += loadleveler_monitor_plugin.h \
     loadleveler_monitor_global.h \
@@ -85,7 +86,8 @@ HEADERS += loadleveler_monitor_plugin.h \
     organize_system/filter_value_checker.h \
     organize_system/filter_value_extractor.h \
     organize_system/filter_condition.h \
-    organize_system/filter.h
+    organize_system/filter.h \
+    organize_system/filter_query_model.h
 
 DISTFILES += loadleveler_monitor.json \
     nwpc_loadleveler/loadleveler.py \
