@@ -77,6 +77,7 @@ void FilterQueryModelTest::cleanupTestCase()
 void FilterQueryModelTest::testFilter_data()
 {
     QTest::addColumn<shared_ptr<Filter>>("filter");
+    QTest::addColumn<int>("column_no");
     QTest::addColumn<QStringList>("id_list");
 
     // checker
@@ -107,18 +108,33 @@ void FilterQueryModelTest::testFilter_data()
     owner_filter->addCondition(owner_condition);
 
     QStringList owner_is_nwp_id_list{
-        "cma20n02.3239038.0",
-        "cma20n02.3239059.0",
-        "cma20n04.3243333.0",
-        "cma20n01.3242327.0",
+        QString("cma20n02.3239038.0"),
+        QString("cma20n02.3239059.0"),
+        QString("cma20n04.3243333.0"),
+        QString("cma20n01.3242327.0"),
     };
+    QTest::newRow("owner_is_nwp")<<owner_filter<<1<<owner_is_nwp_id_list;
 
-    QTest::newRow("owner_is_nwp")<<owner_filter<<owner_is_nwp_id_list;
+    auto pri_filter = make_shared<Filter>();
+    pri_filter->setCombinationType(Filter::CombinationType::All);
+    pri_filter->addCondition(pri_condition);
+    QStringList pri_larger_than_50_id_list{
+        "cma20n02.3239038.0",
+        "cma20n04.3240584.0",
+        "cma20n02.3239059.0",
+        "cma19n02.3241883.0",
+        "cma19n02.3243033.0",
+        "cma20n02.3241383.0",
+        "cma20n04.3243333.0",
+        "cma20n02.3241861.0",
+    };
+    QTest::newRow("pri_larger_than_50")<<pri_filter<<1<<pri_larger_than_50_id_list;
 }
 
 void FilterQueryModelTest::testFilter()
 {
     QFETCH(shared_ptr<Filter>, filter);
+    QFETCH(int, column_no);
     QFETCH(QStringList, id_list);
 
     auto filter_query_model = make_unique<FilterQueryModel>();
@@ -129,7 +145,7 @@ void FilterQueryModelTest::testFilter()
 
     for(int i=0;i<filter_query_model->rowCount();i++)
     {
-        QString id = model_->itemFromIndex(filter_query_model->mapToSource(filter_query_model->index(i, 1)))->text();
+        QString id = model_->itemFromIndex(filter_query_model->mapToSource(filter_query_model->index(i, column_no)))->text();
         QVERIFY(id_list.contains(id));
     }
 
