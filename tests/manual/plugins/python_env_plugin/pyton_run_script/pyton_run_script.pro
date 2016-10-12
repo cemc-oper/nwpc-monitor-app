@@ -1,6 +1,6 @@
 include(../../../../../nwpc-monitor-app.pri)
 
-QT       += core gui widgets
+QT       += core gui widgets testlib
 
 TARGET = pyton_run_script
 TEMPLATE = app

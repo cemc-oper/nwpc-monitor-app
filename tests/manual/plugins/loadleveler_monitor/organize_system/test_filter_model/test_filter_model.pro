@@ -2,7 +2,7 @@ include(../../loadleveler_monitor.pri)
 
 QT       += core gui widgets testlib
 
-TARGET = test_filter
+TARGET = test_filter_model
 TEMPLATE = app
 
 
