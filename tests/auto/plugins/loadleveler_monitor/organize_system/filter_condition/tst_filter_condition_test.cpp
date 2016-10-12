@@ -46,6 +46,7 @@ FilterConditionTest::FilterConditionTest()
 
 void FilterConditionTest::initTestCase()
 {
+    //TODO: repeat is evil
     QString llq_category_mark_line = "------------------------ ---------- ----------- -- --- ------------ -----------";
     QVector<int> llq_category_column_width = getCategoryColumnWidth(llq_category_mark_line);
 
