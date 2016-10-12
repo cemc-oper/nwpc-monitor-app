@@ -1,23 +1,14 @@
 #pragma once
 
 #include "../loadleveler_monitor_global.h"
+#include "filter_condition.h"
 
-#include <QVariant>
 #include <QString>
 #include <QDateTime>
 
 namespace LoadLevelerMonitor{
 
 namespace OrganizeSystem{
-
-class FilterValueChecker
-{
-public:
-    FilterValueChecker();
-    virtual ~FilterValueChecker();
-
-    virtual bool isFit(const QVariant& value) = 0;
-};
 
 class LOADLEVELER_MONITOR_EXPORT StringChecker: public FilterValueChecker {
 public:

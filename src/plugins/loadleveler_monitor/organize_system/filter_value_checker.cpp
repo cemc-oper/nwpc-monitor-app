@@ -5,16 +5,6 @@
 
 using namespace LoadLevelerMonitor::OrganizeSystem;
 
-FilterValueChecker::FilterValueChecker()
-{
-
-}
-
-FilterValueChecker::~FilterValueChecker()
-{
-
-}
-
 StringChecker::StringChecker():
     FilterValueChecker{}
 {

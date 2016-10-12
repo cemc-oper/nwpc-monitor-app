@@ -3,6 +3,9 @@
 #include "../loadleveler_monitor_global.h"
 
 #include <QtGlobal>
+#include <QVariant>
+#include <QList>
+
 #include <memory>
 
 namespace LoadLevelerMonitor{
@@ -13,8 +16,24 @@ class QueryItem;
 
 namespace OrganizeSystem{
 
-class FilterValueChecker;
-class FilterValueExtractor;
+class FilterValueChecker
+{
+public:
+    FilterValueChecker();
+    virtual ~FilterValueChecker();
+
+    virtual bool isFit(const QVariant& value) = 0;
+};
+
+class FilterValueExtractor
+{
+public:
+    FilterValueExtractor();
+    virtual ~FilterValueExtractor();
+
+    virtual QVariant extract(QList<Model::QueryItem*> row) = 0;
+};
+
 
 class LOADLEVELER_MONITOR_EXPORT FilterCondition
 {

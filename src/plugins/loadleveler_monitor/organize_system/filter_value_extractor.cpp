@@ -7,16 +7,6 @@
 using namespace LoadLevelerMonitor::OrganizeSystem;
 using namespace LoadLevelerMonitor::Model;
 
-FilterValueExtractor::FilterValueExtractor()
-{
-
-}
-
-FilterValueExtractor::~FilterValueExtractor()
-{
-
-}
-
 QueryCategoryValueExtractor::QueryCategoryValueExtractor()
 {
 

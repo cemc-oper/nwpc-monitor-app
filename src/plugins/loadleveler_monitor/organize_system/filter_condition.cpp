@@ -7,6 +7,27 @@
 using namespace LoadLevelerMonitor::OrganizeSystem;
 using namespace LoadLevelerMonitor::Model;
 
+
+FilterValueChecker::FilterValueChecker()
+{
+
+}
+
+FilterValueChecker::~FilterValueChecker()
+{
+
+}
+
+FilterValueExtractor::FilterValueExtractor()
+{
+
+}
+
+FilterValueExtractor::~FilterValueExtractor()
+{
+
+}
+
 FilterCondition::FilterCondition()
 {
 
@@ -29,3 +50,4 @@ bool FilterCondition::isFit(QList<QueryItem *> row)
     QVariant value = value_extractor_->extract(row);
     return value_checker_->isFit(value);
 }
+

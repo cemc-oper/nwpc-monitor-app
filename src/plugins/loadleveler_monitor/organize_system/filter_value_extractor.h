@@ -1,8 +1,7 @@
 #pragma once
 
 #include "../model/query_category.h"
-
-#include <QVariant>
+#include "filter_condition.h"
 
 namespace LoadLevelerMonitor{
 
@@ -11,16 +10,6 @@ class QueryItem;
 }
 
 namespace OrganizeSystem{
-
-class FilterValueExtractor
-{
-public:
-    FilterValueExtractor();
-    virtual ~FilterValueExtractor();
-
-    virtual QVariant extract(QList<Model::QueryItem*> row) = 0;
-};
-
 
 class LOADLEVELER_MONITOR_EXPORT QueryCategoryValueExtractor: public FilterValueExtractor
 {
