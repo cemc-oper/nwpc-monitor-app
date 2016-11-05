@@ -2,7 +2,6 @@
 
 #include "../loadleveler_monitor_global.h"
 #include "query_panel.h"
-
 namespace LoadLevelerMonitor{
 
 namespace Panels{

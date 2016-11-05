@@ -7,6 +7,7 @@
 
 #include <QMenu>
 #include <QAction>
+#include <QSet>
 #include <QtDebug>
 
 using namespace LoadLevelerMonitor::Panels;
@@ -77,6 +78,8 @@ void TableStylePage::setModel(QPointer<QueryModel> query_model)
             [=](const QPoint &pos){
         emit signalQueryModelContextMenuRequest(ui->table_view->mapToGlobal(pos), ui->table_view->indexAt(pos));
     });
+    connect(ui->table_view->selectionModel(), &QItemSelectionModel::selectionChanged,
+            this, &TableStylePage::slotUpdateTableViewSelection);
 }
 
 void TableStylePage::setSummaryModel(QPointer<QStandardItemModel> summary_model)
@@ -98,6 +101,18 @@ void TableStylePage::setOperationButtons(QVector<QPointer<QAction>> action_list)
             action->activate(QAction::Trigger);
         });
     }
+}
+
+void TableStylePage::slotUpdateTableViewSelection(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    //qDebug() << ui->table_view->selectionModel()->selectedIndexes().count();
+    QSet<int> row_set;
+    Q_FOREACH(QModelIndex index, ui->table_view->selectionModel()->selectedIndexes())
+    {
+        row_set.insert(index.row());
+    }
+
+    ui->summary_label->setText(tr("selected ") + QString::number(row_set.count()) + tr(" jobs"));
 }
 
 void TableStylePage::clearOperationButtons()

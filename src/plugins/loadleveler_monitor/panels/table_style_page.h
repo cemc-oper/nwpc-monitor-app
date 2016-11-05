@@ -4,6 +4,8 @@
 #include "../loadleveler_monitor_global.h"
 
 #include <QPointer>
+#include <QItemSelection>
+
 
 QT_BEGIN_NAMESPACE
 class QStandardItemModel;
@@ -37,6 +39,9 @@ public:
 
 signals:
     void signalQueryModelContextMenuRequest(const QPoint &global_point, const QModelIndex &index);
+
+private slots:
+    void slotUpdateTableViewSelection(const QItemSelection &selected, const QItemSelection &deselected);
 
 private:
     void clearOperationButtons();
