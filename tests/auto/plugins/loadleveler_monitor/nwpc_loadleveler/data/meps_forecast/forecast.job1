@@ -1,0 +1,357 @@
+## This is a head file for loadleveler job#
+#!/bin/ksh
+# @ job_type=parallel
+# @ input=/dev/null
+# @ output = /cma/g6/nwp_qu/SMSOUT/meps_grapes_v2_0_4/00/members/mem13/model/forecast.1
+# @ error =  /cma/g6/nwp_qu/SMSOUT/meps_grapes_v2_0_4/00/members/mem13/model/forecast.1.err
+## @ notify_user = nwp_xp@cma20n03
+# @ notification = error
+# @ checkpoint = no
+# @ restart = no
+## @ wall_clock_limit = 3600
+## @ environment = MBX_SIZE=160000000;MP_SHARED_MEMORY=YES;XLSMPOPTS="parthds=1:stack=100000000:spins=0:yields=0:schedule=affinity"
+# @ comment = Meps_grapes
+# @ class= operation1
+###this is head file for loadlevel job model####
+# @ input= /dev/null
+# @ environment = MBX_SIZE=160000000;XLSMPOPTS="parthds=1:stack=100000000:spins=0:yields=0:schedule=affinity"
+# @ node_usage = not_shared
+# @ node = 12
+# @ tasks_per_node = 32 
+# @ network.MPI = sn_single,shared,US
+# @ queue
+#=====set env for running===========#
+export MP_CSS_INTERRUPT=yes
+export MP_SHARED_MEMORY=yes
+export MP_EAGER_LIMIT=65536
+echo 'MM5 start date:'; date
+
+
+set -e # stop the shell on first error
+set -u # fail when using an undefined variable
+set -x # echo script lines as they are executed
+
+export  LDR_CNTRL=DATAPSIZE=64K@TEXTPSIZE=64K@STACKPSIZE=64K
+
+# Defines the three variables that are needed for any
+# communication with SMS
+
+export SMS_PROG=310067  # SMS Remote Procedure Call number
+export SMSNODE=cma18n03    # The name sms that issued this task
+export SMSNAME=/meps_grapes_v2_0_4/00/members/mem13/model/forecast    # The name of this current task
+export SMSPASS=.idZRJup    # A unique password
+export SMSTRYNO=1  # Current try number of the task
+PATH=$PATH:$HOME/bin
+
+# Tell SMS we have stated
+# The SMS variable SMSRID will be set to parameter of smsinit
+# Here we give the current PID.
+
+RID=$( echo ${LOADL_JOB_NAME:-0.0} | cut -d "." -f2 )
+if [ $RID -eq 0 ] ; then
+  RID=$$
+fi
+
+smsinit $RID
+
+# Defined a error hanlder
+
+ERROR() {
+	set +e        # Clear -e flag, so we don't fail
+	smsabort      # Notify SMS that something went wrong
+	trap 0        # Remove the trap
+ exit 0        # End the script
+}
+
+# Trap any calls to exit and errors caught by the -e flag
+
+trap ERROR 0
+
+# Trap any signal that may cause the script to fail
+
+#trap ' echo "Killed by a signal"; ERROR ; ' 1 2 3 4 5 6 7 8 10 12 13 15
+#trap '{ echo "Killed by a signal"; ERROR ; }' 1 2 3 4 5 6 7 8 10 12 13 15
+trap '{ echo "Killed by a signal";trap 0;ERROR; }' 1 2 3 4 5 6 7 8 10 12 13 15
+
+
+set -e # stop the shell on first error
+set -u # fail when using an undefined variable
+set -x # echo script lines as they are executed
+
+export MP_EAGER_LIMIT=32000
+export MP_INFOLEVEL=2
+export MP_BUFFER_MEM=64M
+export XLSMPOPTS="parthds=1:spins=0:yields=0:schedule=affinity:stack=50000000"
+export OMP_NUM_THREADS=1
+export AIXTHREAD_MNRATIO=1:1
+export SPINLOOPTIME=500
+export YIELDLOOPTIME=500
+export OMP_DYNAMIC=FALSE,AIX_THREAD_SCOPE=S,MALLOCMULTIHEAP=TRUE
+
+
+
+
+
+
+set -a
+SMSDATE=20161106
+HH=00
+SYSNAME=NWP_MEPS
+RMF_MODEL=grapes_meso
+#----------------------#
+if [ $HH = "NONE" ] ;then RHH=18 ;fi
+#----------------------#
+ID=M13
+FTIMEH=084
+#----------------------#
+modelDt=60
+fcst_len=96
+#----------------------#
+curdir=`pwd`
+#----------------------#
+#======================#
+#======================#
+epsNAME=MEPS
+#epsNAME=REPS
+#======================#
+#---- nwp_qu ----------#
+WORKDIR=/cma/g6/$(whoami)
+GLEPSHOME=/cma/u/$(whoami)/NWP_${epsNAME}
+DATADIR=${WORKDIR}/NWP_${epsNAME}_DATA
+#---- nwp_xp ----------#
+#WORKDIR=/cma/g3/$(whoami)
+#GLEPSHOME=/cma/u/$(whoami)/NWPSYS/NWP_${epsNAME}  
+#DATADIR=${WORKDIR}/NWP_${epsNAME}_DATA      
+#----------------------#
+#======================#
+#======================#
+GRAPESDIR=${DATADIR}/grapes_meso      
+SHELL=${GLEPSHOME}/script       
+run_dir=${DATADIR}/fcst        
+control_dir=${DATADIR}/fcst/run00 
+obs_dir=${DATADIR}/fcst/run_obs 
+bckg_dir=${DATADIR}/gfs    
+newper_dir=${DATADIR}/xa_new  
+EPSETKF=${DATADIR}/etkf     
+BLENDING=${DATADIR}/filter
+#----------------------#
+YYYY=`echo $SMSDATE | cut -c1-4`
+YY=`echo $SMSDATE | cut -c3-4`
+MM=`echo $SMSDATE | cut -c5-6`
+DD=`echo $SMSDATE | cut -c7-8`
+YESTD=`smsdate -D $SMSDATE -1`
+
+#YYYY=$(echo $SMSDATE | cut -c1-4)
+#YY=$(echo $SMSDATE | cut -c3-4)
+#MM=$(echo $SMSDATE | cut -c5-6)
+#DD=$(echo $SMSDATE | cut -c7-8)
+#YESTD=$(smsdate -D $SMSDATE -1)
+
+begintime=$YYYY$MM$DD$HH
+YYYY1=`echo $begintime | cut -c1-4`
+MM1=`echo $begintime | cut -c5-6`
+DD1=`echo $begintime | cut -c7-8`
+HH1=`echo $begintime | cut -c9-10`
+
+#YYYY2=`echo $endtime | cut -c1-4`
+#MM2=`echo $endtime | cut -c5-6`
+#DD2=`echo $endtime | cut -c7-8`
+#HH2=`echo $endtime | cut -c9-10`
+#----------------------#
+#-----downgfs----#
+year=`echo $SMSDATE | cut -c1-4`
+date=`echo $SMSDATE | cut -c1-8`
+hour=`echo $SMSDATE$HH | cut -c9-10`
+
+#----------------------#
+begintime=$YYYY$MM$DD$HH
+PATH_NEWDATE=${DATADIR}
+set +e
+YYYYMMDDHH=$(${PATH_NEWDATE}/newdate $begintime -0)
+set -e
+YYYYMMDD=`echo ${YYYYMMDDHH} | cut -c 1-8`
+
+GRAPESROOT=${WORKDIR}/NWP_MEPS_DATA/grapes_meso        
+GEODATA_DIR=${DATADIR}/static/rfs/geog/v3    
+OBS_DIR=${DATADIR}/obs/aob           
+GRAPES_M4DV_DIR=${GRAPESROOT}/4dvar        
+MODELVAR_PROC_DIR=${GRAPESROOT}/fcst/modelvar_proc  
+bckgdata_dir=${DATADIR}/gfs                     
+dataproc_dir=${GRAPESROOT}/data_proc/GFS_proc    
+GRAPES_RESULTS=${GRAPESROOT}/DATABAK           
+
+#----------------------#
+EXEDIR=${GLEPSHOME}/bin                 
+
+#----------------------#
+#-----------------------------#
+#---prepare for gmf_get-------#
+bckghr=0
+BDYTIME=$SMSDATE$HH
+#bckghr=-0
+#BKGTIME=$(smsdate $SMSDATE$HH ${bckghr})
+#BDYTIME=$BKGTIME
+TTT=084
+
+#######################################
+
+workdir_t639=/cma/g6/nwp_qu
+
+#######################################
+#-----------------------------#
+if [ $ID = "M00" ] ;then MEM=00;mem=0; si_fcst_dir=${control_dir} ;GID=P0M0;t639mem=000;BL_SUR=3;BL_PBL=1;CU=1;TTT=084;BDYPRE_ID=${workdir_t639}/NWP_GEPS_DATA/t639/${GID}/prods/grib2_forRMF/T639GSI2GRIB2_forRMF_;BDY_ID=${BDYPRE_ID}${BDYTIME}/gef.639.${t639mem}.${BDYTIME}${TTT}.grb2;fi
+#if [ $ID = "M00" ] ;then MEM=00; si_fcst_dir=${control_dir} ;GID=P0M0;t639mem=000;BL_SUR=3;BL_PBL=1;CU=2;TTT=084;BDYPRE_ID=/cma/g1/nwp/NWP_GMFS_DATA/t639_gsi/prods/grib2_forCAST/T639GSI2GRIB2_forCAST_;BDY_ID=${BDYPRE_ID}${SMSDATE}${HH}/gmf.639.${SMSDATE}${HH}${TTT}.grb2; fi
+if [ $ID = "M01" ] ;then MEM=01;mem=1; si_fcst_dir=${run_dir}/run${MEM};GID=P1M1;t639mem=001;BL_SUR=3;BL_PBL=1;CU=99;BDYPRE_ID=${workdir_t639}/NWP_GEPS_DATA/t639/${GID}/prods/grib2_forRMF/T639GSI2GRIB2_forRMF_;BDY_ID=${BDYPRE_ID}${BDYTIME}/gef.639.${t639mem}.${BDYTIME}${TTT}.grb2;fi 
+if [ $ID = "M02" ] ;then MEM=02;mem=2; si_fcst_dir=${run_dir}/run${MEM};GID=P1M2;t639mem=002;BL_SUR=3;BL_PBL=1;CU=2;BDYPRE_ID=${workdir_t639}/NWP_GEPS_DATA/t639/${GID}/prods/grib2_forRMF/T639GSI2GRIB2_forRMF_;BDY_ID=${BDYPRE_ID}${BDYTIME}/gef.639.${t639mem}.${BDYTIME}${TTT}.grb2;fi
+if [ $ID = "M03" ] ;then MEM=03;mem=3; si_fcst_dir=${run_dir}/run${MEM};GID=P2M1;t639mem=003;BL_SUR=3;BL_PBL=1;CU=1;BDYPRE_ID=${workdir_t639}/NWP_GEPS_DATA/t639/${GID}/prods/grib2_forRMF/T639GSI2GRIB2_forRMF_;BDY_ID=${BDYPRE_ID}${BDYTIME}/gef.639.${t639mem}.${BDYTIME}${TTT}.grb2;fi
+if [ $ID = "M04" ] ;then MEM=04;mem=4; si_fcst_dir=${run_dir}/run${MEM};GID=P2M2;t639mem=004;BL_SUR=3;BL_PBL=1;CU=99;BDYPRE_ID=${workdir_t639}/NWP_GEPS_DATA/t639/${GID}/prods/grib2_forRMF/T639GSI2GRIB2_forRMF_;BDY_ID=${BDYPRE_ID}${BDYTIME}/gef.639.${t639mem}.${BDYTIME}${TTT}.grb2;fi
+if [ $ID = "M05" ] ;then MEM=05;mem=5; si_fcst_dir=${run_dir}/run${MEM};GID=P3M1;t639mem=005;BL_SUR=3;BL_PBL=1;CU=2;BDYPRE_ID=${workdir_t639}/NWP_GEPS_DATA/t639/${GID}/prods/grib2_forRMF/T639GSI2GRIB2_forRMF_;BDY_ID=${BDYPRE_ID}${BDYTIME}/gef.639.${t639mem}.${BDYTIME}${TTT}.grb2;fi
+if [ $ID = "M06" ] ;then MEM=06;mem=6; si_fcst_dir=${run_dir}/run${MEM};GID=P3M2;t639mem=006;BL_SUR=3;BL_PBL=1;CU=1;BDYPRE_ID=${workdir_t639}/NWP_GEPS_DATA/t639/${GID}/prods/grib2_forRMF/T639GSI2GRIB2_forRMF_;BDY_ID=${BDYPRE_ID}${BDYTIME}/gef.639.${t639mem}.${BDYTIME}${TTT}.grb2;fi
+if [ $ID = "M07" ] ;then MEM=07;mem=7; si_fcst_dir=${run_dir}/run${MEM};GID=P4M1;t639mem=007;BL_SUR=3;BL_PBL=1;CU=99;BDYPRE_ID=${workdir_t639}/NWP_GEPS_DATA/t639/${GID}/prods/grib2_forRMF/T639GSI2GRIB2_forRMF_;BDY_ID=${BDYPRE_ID}${BDYTIME}/gef.639.${t639mem}.${BDYTIME}${TTT}.grb2;fi
+if [ $ID = "M08" ] ;then MEM=08;mem=8; si_fcst_dir=${run_dir}/run${MEM};GID=P4M2;t639mem=008;BL_SUR=3;BL_PBL=3;CU=3;BDYPRE_ID=${workdir_t639}/NWP_GEPS_DATA/t639/${GID}/prods/grib2_forRMF/T639GSI2GRIB2_forRMF_;BDY_ID=${BDYPRE_ID}${BDYTIME}/gef.639.${t639mem}.${BDYTIME}${TTT}.grb2;fi
+if [ $ID = "M09" ] ;then MEM=09;mem=9; si_fcst_dir=${run_dir}/run${MEM};GID=P5M1;t639mem=009;BL_SUR=3;BL_PBL=3;CU=2;BDYPRE_ID=${workdir_t639}/NWP_GEPS_DATA/t639/${GID}/prods/grib2_forRMF/T639GSI2GRIB2_forRMF_;BDY_ID=${BDYPRE_ID}${BDYTIME}/gef.639.${t639mem}.${BDYTIME}${TTT}.grb2;fi
+if [ $ID = "M10" ] ;then MEM=10;mem=10; si_fcst_dir=${run_dir}/run${MEM};GID=P5M2;t639mem=010;BL_SUR=3;BL_PBL=3;CU=99;BDYPRE_ID=${workdir_t639}/NWP_GEPS_DATA/t639/${GID}/prods/grib2_forRMF/T639GSI2GRIB2_forRMF_;BDY_ID=${BDYPRE_ID}${BDYTIME}/gef.639.${t639mem}.${BDYTIME}${TTT}.grb2;fi
+if [ $ID = "M11" ] ;then MEM=11;mem=11; si_fcst_dir=${run_dir}/run${MEM};GID=P6M1;t639mem=011;BL_SUR=3;BL_PBL=3;CU=3;BDYPRE_ID=${workdir_t639}/NWP_GEPS_DATA/t639/${GID}/prods/grib2_forRMF/T639GSI2GRIB2_forRMF_;BDY_ID=${BDYPRE_ID}${BDYTIME}/gef.639.${t639mem}.${BDYTIME}${TTT}.grb2;fi
+if [ $ID = "M12" ] ;then MEM=12;mem=12; si_fcst_dir=${run_dir}/run${MEM};GID=P6M2;t639mem=012;BL_SUR=3;BL_PBL=3;CU=2;BDYPRE_ID=${workdir_t639}/NWP_GEPS_DATA/t639/${GID}/prods/grib2_forRMF/T639GSI2GRIB2_forRMF_;BDY_ID=${BDYPRE_ID}${BDYTIME}/gef.639.${t639mem}.${BDYTIME}${TTT}.grb2;fi
+if [ $ID = "M13" ] ;then MEM=13;mem=13; si_fcst_dir=${run_dir}/run${MEM};GID=P7M1;t639mem=013;BL_SUR=3;BL_PBL=3;CU=99;BDYPRE_ID=${workdir_t639}/NWP_GEPS_DATA/t639/${GID}/prods/grib2_forRMF/T639GSI2GRIB2_forRMF_;BDY_ID=${BDYPRE_ID}${BDYTIME}/gef.639.${t639mem}.${BDYTIME}${TTT}.grb2;fi
+if [ $ID = "M14" ] ;then MEM=14;mem=14; si_fcst_dir=${run_dir}/run${MEM};GID=P7M2;t639mem=014;BL_SUR=3;BL_PBL=3;CU=3;BDYPRE_ID=${workdir_t639}/NWP_GEPS_DATA/t639/${GID}/prods/grib2_forRMF/T639GSI2GRIB2_forRMF_;BDY_ID=${BDYPRE_ID}${BDYTIME}/gef.639.${t639mem}.${BDYTIME}${TTT}.grb2;fi
+if [ $ID = "M15" ] ;then MEM=_obs; si_fcst_dir=${obs_dir};GID=P0M0;t639mem=000;TTT=084;BDYPRE_ID=${workdir_t639}/NWP_GEPS_DATA/t639/${GID}/prods/grib2_forRMF/T639GSI2GRIB2_forRMF_;BDY_ID=${BDYPRE_ID}${BDYTIME}/gef.639.${t639mem}.${BDYTIME}${TTT}.grb2;fi
+#if [ $ID = "M15" ] ;then MEM=_obs; si_fcst_dir=${obs_dir};GID=P0M0;t639mem=000;TTT=084;BDYPRE_ID=/cma/g1/nwp/NWP_GMFS_DATA/t639_gsi/prods/grib2_forCAST/T639GSI2GRIB2_forCAST_;BDY_ID=${BDYPRE_ID}${SMSDATE}${HH}/gmf.639.${SMSDATE}${HH}${TTT}.grb2;fi
+if [ $ID = "M16" ] ;then MEM=16; fi
+if [ $ID = "M17" ] ;then MEM=17; fi
+if [ $ID = "P01" ] ;then MEM=18; fi
+if [ $ID = "P02" ] ;then MEM=19; fi
+if [ $ID = "P03" ] ;then MEM=20; fi
+if [ $ID = "P04" ] ;then MEM=21; fi
+if [ $ID = "P05" ] ;then MEM=22; fi
+if [ $ID = "P06" ] ;then MEM=23; fi
+
+if [ $ID = "TY" ] ;then MEM=24; fi
+#--------------------------------------#
+BACKGRD=${DATADIR}/fcst/run${MEM}/bckg_data
+#---------- use archive --------------------------------------
+ARCH="no"
+#ARCH="yes"
+  if [ ${ARCH} = "no" ];then
+echo "not from archive"
+else
+BDYPRE_ID=/archive/baknwp/nwp_qu/${YYYY}${MM}/EPS_T639${YYYY}${MM}${DD}/grib2_org_${HH}
+ID1=${BDYPRE_ID}/gef.639.
+ID2=.${BDYTIME}${TTT}.grb2
+if [ $ID = "M00" ] ;then MEM=00; si_fcst_dir=${control_dir} ;t639mem=000;BL_SUR=3;BL_PBL=1;CU=1;TTT=084;BDY_ID=${ID1}${t639mem}${ID2};fi
+if [ $ID = "M01" ] ;then MEM=01; si_fcst_dir=${run_dir}/run${MEM};t639mem=001;BL_SUR=3;BL_PBL=1;CU=99;BDY_ID=${ID1}${t639mem}${ID2};fi
+if [ $ID = "M02" ] ;then MEM=02; si_fcst_dir=${run_dir}/run${MEM};t639mem=002;BL_SUR=3;BL_PBL=1;CU=2;BDY_ID=${ID1}${t639mem}${ID2};fi
+if [ $ID = "M03" ] ;then MEM=03; si_fcst_dir=${run_dir}/run${MEM};GID=P2M1;t639mem=003;BL_SUR=3;BL_PBL=1;CU=1;BDY_ID=${ID1}${t639mem}${ID2};fi
+if [ $ID = "M04" ] ;then MEM=04; si_fcst_dir=${run_dir}/run${MEM};GID=P2M2;t639mem=004;BL_SUR=3;BL_PBL=1;CU=99;BDY_ID=${ID1}${t639mem}${ID2};fi
+if [ $ID = "M05" ] ;then MEM=05; si_fcst_dir=${run_dir}/run${MEM};GID=P3M1;t639mem=005;BL_SUR=3;BL_PBL=1;CU=2;BDY_ID=${ID1}${t639mem}${ID2};fi
+if [ $ID = "M06" ] ;then MEM=06; si_fcst_dir=${run_dir}/run${MEM};GID=P3M2;t639mem=006;BL_SUR=3;BL_PBL=1;CU=1;BDY_ID=${ID1}${t639mem}${ID2};fi
+if [ $ID = "M07" ] ;then MEM=07; si_fcst_dir=${run_dir}/run${MEM};GID=P4M1;t639mem=007;BL_SUR=3;BL_PBL=1;CU=99;BDY_ID=${ID1}${t639mem}${ID2};fi
+if [ $ID = "M08" ] ;then MEM=08; si_fcst_dir=${run_dir}/run${MEM};GID=P4M2;t639mem=008;BL_SUR=3;BL_PBL=3;CU=3;BDY_ID=${ID1}${t639mem}${ID2};fi
+if [ $ID = "M09" ] ;then MEM=09; si_fcst_dir=${run_dir}/run${MEM};GID=P5M1;t639mem=009;BL_SUR=3;BL_PBL=3;CU=2;BDY_ID=${ID1}${t639mem}${ID2};fi
+if [ $ID = "M10" ] ;then MEM=10; si_fcst_dir=${run_dir}/run${MEM};GID=P5M2;t639mem=010;BL_SUR=3;BL_PBL=3;CU=99;BDY_ID=${ID1}${t639mem}${ID2};fi
+if [ $ID = "M11" ] ;then MEM=11; si_fcst_dir=${run_dir}/run${MEM};GID=P6M1;t639mem=011;BL_SUR=3;BL_PBL=3;CU=3;BDY_ID=${ID1}${t639mem}${ID2};fi
+if [ $ID = "M12" ] ;then MEM=12; si_fcst_dir=${run_dir}/run${MEM};GID=P6M2;t639mem=012;BL_SUR=3;BL_PBL=3;CU=2;BDY_ID=${ID1}${t639mem}${ID2};fi
+if [ $ID = "M13" ] ;then MEM=13; si_fcst_dir=${run_dir}/run${MEM};GID=P7M1;t639mem=013;BL_SUR=3;BL_PBL=3;CU=99;BDY_ID=${ID1}${t639mem}${ID2};fi
+if [ $ID = "M14" ] ;then MEM=14; si_fcst_dir=${run_dir}/run${MEM};GID=P7M2;t639mem=014;BL_SUR=3;BL_PBL=3;CU=3;BDY_ID=${ID1}${t639mem}${ID2};fi
+if [ $ID = "M15" ] ;then MEM=_obs; si_fcst_dir=${obs_dir};GID=P0M0;t639mem=000;TTT=084;BDY_ID=${ID1}${t639mem}${ID2};fi
+if [ $ID = "M16" ] ;then MEM=16; fi
+if [ $ID = "M17" ] ;then MEM=17; fi
+#--------------------------------------#
+fi
+
+
+#-------------------------------------------------------------
+#========================================================================================
+#-------------------------- post start --------------------------------------------------
+#--------------------#
+GPFS=${DATADIR}
+BGPFS=${DATADIR}
+REPSDIR=${DATADIR}
+GRADS=$HOME
+GRAPESEXE=${GLEPSHOME}/bin
+GRAPESBIN=${GLEPSHOME}/bin
+CONDIR=${GLEPSHOME}/condat
+
+PRDDIR=$GPFS/prods
+#--------------------#
+
+YESTD=$(smsdate -D $SMSDATE -1)
+SECD=$(smsdate -D $SMSDATE +1)
+#--------------------#
+#------ condat for test upload_plot ftp -----------
+NMCIP="10.20.49.131"
+NMCAUTH="user wangyzh wangyzh123"
+NMCDIR="./"
+#----- condat for test upload_grib2 ftp -----------
+FCAUTH="user wangyzh wangyzh123"
+FCdir="/cma/u/wangyzh/testftp/upload_grib2"
+FCIP="10.20.49.131"
+
+NMICITAUTH="user wangyzh wangyzh123"
+NMICITDIR="/cma/u/wangyzh/testftp/upload_grib2"
+NMICITIP="10.20.49.131"
+
+#----- condat for test upload_micaps ftp -----------
+S9210_AUTH="user wangyzh wangyzh123"
+S9210_DIR="/cma/u/wangyzh/testftp/upload_micaps"
+S9210_IP="10.20.49.131"
+
+#-------------------------- post end ----------------------------------------------------
+#========================================================================================
+
+ARCHDIR=/archive/baknwp/nwp_qu
+#========================================================================================
+
+date
+set +a
+
+
+#=======================
+#=======================================================================
+echo ${MEM}
+ cd ${DATADIR}/fcst/run${MEM}
+ rm -rf job_num.${SMSDATE}${HH}
+ seed_forecast=run${MEM}
+#------------------------------------------------------
+HH=00
+#if [ $HH -eq 12 ]; then
+if [ $HH -eq 00 ] || [ $HH -eq 12 ]; then
+  cycle_len=84
+else
+  cycle_len=6
+fi
+#--------------------------------
+model_dt=60          
+#-----------------------------------------
+#----------------------------------------------------------------------------
+#test -s grapes_etkf.exe || cp /cma/g3/nwp_xp/NWPSYS/NWP_REPS/bin/grapes_etkf.exe ./
+#./grapes_etkf.exe
+#test -s grapes_etkf_20150403.exe || cp /cma/g3/nwp_xp/NWPSYS/NWP_REPS/bin/grapes_etkf_20150403.exe ./
+#./grapes_etkf_20150403.exe
+test -s grapes_members.exe || cp ${GLEPSHOME}/bin/grapes_members.exe ./
+./grapes_members.exe
+#----------------------------------------------------------------------------
+#postvarfilename=postvar$SMSDATE$HH
+#if [ ! -e ${postvarfilename} ]; then
+#                echo "Error: ${postvarfilename} doesnot exist!"
+#                exit 1
+#fi
+#=======================================================================
+cp ${si_fcst_dir}/grapesinput grapesinput${YYYYMMDDHH}
+cp ${si_fcst_dir}/grapesbdy   grapesbdy${YYYYMMDDHH}
+cp ${si_fcst_dir}/namelist.input namelist.input.${YYYYMMDDHH}.${t639mem}
+#=======================================================================
+#if [ $HH -eq 00 ] || [ $HH -eq 12 ]; then
+#  cd $DATADIR
+#  test -d flag/$SMSDATE$HH ||mkdir -p flag/$SMSDATE$HH
+#  cd flag/$SMSDATE$HH
+#  echo "All is fine for: $$SMSDATE$HH  $MEM ">post_$SMSDATE${HH}_${ID}.fg
+#fi
+#=======================================================================
+date
+smscomplete  # Notify SMS of a normal end
+trap 0       # Remove all traps
+exit 0       # End the shell
+
+
+

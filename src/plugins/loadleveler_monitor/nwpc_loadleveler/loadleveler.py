@@ -268,9 +268,10 @@ def run_handler(args):
     result = {
         'app': 'nwpc_loadleveler',
         'type': 'loadleveler_command',
+        'error': '',
         'data': {
             'request': {
-                'command': command,
+                'command': 'run',
                 'arguments': [],
                 'time': request_time_string
             },
@@ -286,6 +287,120 @@ def run_handler(args):
     print(json.dumps(result, indent=4))
     return
 
+
+def file_handler(args):
+    MAX_FILE_SIZE = 10000000
+    line_limit = 1000
+
+    host = args.host
+    port = args.port
+    user = args.user
+    password = args.password
+    path = args.path
+
+    request_date_time = datetime.datetime.now()
+    request_time_string = request_date_time.strftime("%Y-%m-%d %H:%M:%S")
+
+    client = SSHClient()
+    client.set_missing_host_key_policy(AutoAddPolicy())
+    client.connect(host, port, user, password)
+
+    file_size_command = "/usr/bin/ls -l {path} | awk '{{ print $5 }}'".format(path=path)
+    stdin, stdout, stderr = client.exec_command(
+        file_size_command
+    )
+
+    std_out_string = stdout.read().decode('UTF-8')
+    std_error_out_string = stderr.read().decode('UTF-8')
+
+    if len(std_error_out_string) !=0:
+        result = {
+            'app': 'nwpc_loadleveler',
+            'type': 'loadleveler_command',
+            'error': 'get_file_size_error',
+            'data': {
+                'request': {
+                    'command': 'file',
+                    'arguments': [
+                        '-f {path}'.format(path=path)
+                    ],
+                    'time': request_time_string
+                },
+                'response': {
+                    'message': {
+                        'output': std_out_string,
+                        'error_output': std_error_out_string
+                    },
+                    'time': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                },
+                'error_message': 'can\'t get file size: ' + path
+            }
+        }
+        print(json.dumps(result, indent=4))
+        return
+
+    file_size = int(std_out_string)
+    if file_size > MAX_FILE_SIZE:
+        get_file_text_command = "/usr/bin/head -n {line_limit} {path}".format(line_limit=line_limit, path=path)
+        stdin, stdout, stderr = client.exec_command(
+            get_file_text_command
+        )
+        std_out_string = stdout.read().decode('UTF-8')
+        std_error_out_string = stderr.read().decode('UTF-8')
+        result = {
+            'app': 'nwpc_loadleveler',
+            'type': 'loadleveler_command',
+            'data': {
+                'request': {
+                    'command': 'file',
+                    'arguments': [
+                        '-f {path}'.format(path=path)
+                    ],
+                    'time': request_time_string
+                },
+                'response': {
+                    'text': std_out_string,
+                    'range': {
+                        'type': 'head',
+                        'head': line_limit
+                    },
+                    'warning': 'file is to big',
+                    'time': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                },
+            }
+        }
+        print(json.dumps(result, indent=4))
+        return
+
+    get_file_text_command = "/usr/bin/cat {path}".format(path=path)
+    stdin, stdout, stderr = client.exec_command(
+        get_file_text_command
+    )
+    std_out_string = stdout.read().decode('UTF-8')
+    std_error_out_string = stderr.read().decode('UTF-8')
+    result = {
+        'app': 'nwpc_loadleveler',
+        'type': 'loadleveler_command',
+        'data': {
+            'request': {
+                'command': 'file',
+                'arguments': [
+                    '-f {path}'.format(path=path)
+                ],
+                'time': request_time_string
+            },
+            'response': {
+                'text': std_out_string,
+                'range': {
+                    'type': 'cat',
+                },
+                'time': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            },
+            'error_message': 'can not get file size: ' + path
+        }
+    }
+    print(json.dumps(result, indent=4))
+    return
 
 def loadleveler_main():
     parser = argparse.ArgumentParser(prog="hpc-loadleveler")
@@ -318,6 +433,10 @@ def loadleveler_main():
     parser_llsubmit = subparsers.add_parser('llsubmit', help='use llsubmit command', parents=[login_parser])
     parser_llsubmit.add_argument('-c', '--command', type=str, help='llq command', required=True)
     parser_llsubmit.set_defaults(func=llsubmit_handler)
+
+    parser_file = subparsers.add_parser('file', help='show file', parents=[login_parser])
+    parser_file.add_argument('-p', '--path', type=str, help='file path', required=True)
+    parser_file.set_defaults(func=file_handler)
 
     args = parser.parse_args()
 
