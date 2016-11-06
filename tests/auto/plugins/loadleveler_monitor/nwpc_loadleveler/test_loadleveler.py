@@ -29,7 +29,7 @@ class TestNwpcLoadleveler(unittest.TestCase):
                 port=22,
                 user="wangdp",
                 password="perilla",
-                path="/cma/g3/wangdp/work/2016/nwpc-monitor-app/nwpc-monitor-app/"
+                file_path="/cma/g3/wangdp/work/2016/nwpc-monitor-app/nwpc-monitor-app/"
                         "tests/auto/plugins/loadleveler_monitor/nwpc_loadleveler/data/"
                         "meps_forecast/forecast.job1"
             )
@@ -50,7 +50,7 @@ class TestNwpcLoadleveler(unittest.TestCase):
                 port=22,
                 user="wangdp",
                 password="perilla",
-                path="/cma/g3/wangdp/work/2016/nwpc-monitor-app/nwpc-monitor-app/"
+                file_path="/cma/g3/wangdp/work/2016/nwpc-monitor-app/nwpc-monitor-app/"
                         "tests/auto/plugins/loadleveler_monitor/nwpc_loadleveler/data/"
                         "meps_forecast/forecast.1"
             )

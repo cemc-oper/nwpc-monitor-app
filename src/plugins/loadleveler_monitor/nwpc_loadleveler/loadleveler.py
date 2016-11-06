@@ -268,10 +268,9 @@ def run_handler(args):
     result = {
         'app': 'nwpc_loadleveler',
         'type': 'loadleveler_command',
-        'error': '',
         'data': {
             'request': {
-                'command': 'run',
+                'command': command,
                 'arguments': [],
                 'time': request_time_string
             },
@@ -296,7 +295,7 @@ def file_handler(args):
     port = args.port
     user = args.user
     password = args.password
-    path = args.path
+    path = args.file_path
 
     request_date_time = datetime.datetime.now()
     request_time_string = request_date_time.strftime("%Y-%m-%d %H:%M:%S")
@@ -402,6 +401,7 @@ def file_handler(args):
     print(json.dumps(result, indent=4))
     return
 
+
 def loadleveler_main():
     parser = argparse.ArgumentParser(prog="hpc-loadleveler")
     parser.add_argument('--foo', action='store_true', help='foo help')
@@ -435,7 +435,7 @@ def loadleveler_main():
     parser_llsubmit.set_defaults(func=llsubmit_handler)
 
     parser_file = subparsers.add_parser('file', help='show file', parents=[login_parser])
-    parser_file.add_argument('-p', '--path', type=str, help='file path', required=True)
+    parser_file.add_argument('-f', '--file', type=str, help='file path', required=True, dest='file_path')
     parser_file.set_defaults(func=file_handler)
 
     args = parser.parse_args()
