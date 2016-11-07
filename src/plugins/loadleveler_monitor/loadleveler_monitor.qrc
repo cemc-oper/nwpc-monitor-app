@@ -9,5 +9,6 @@
         <file>images/repo_16.png</file>
         <file>images/request_time@16x16.png</file>
         <file>images/response_handle_second@16x16.png</file>
+        <file>images/response-style.png</file>
     </qresource>
 </RCC>

@@ -50,7 +50,8 @@ SOURCES += loadleveler_monitor_plugin.cpp \
     organize_system/filter_value_extractor.cpp \
     organize_system/filter_condition.cpp \
     organize_system/filter.cpp \
-    organize_system/filter_query_model.cpp
+    organize_system/filter_query_model.cpp \
+    widgets/job_detail_widget.cpp
 
 HEADERS += loadleveler_monitor_plugin.h \
     loadleveler_monitor_global.h \
@@ -87,7 +88,8 @@ HEADERS += loadleveler_monitor_plugin.h \
     organize_system/filter_value_extractor.h \
     organize_system/filter_condition.h \
     organize_system/filter.h \
-    organize_system/filter_query_model.h
+    organize_system/filter_query_model.h \
+    widgets/job_detail_widget.h
 
 DISTFILES += loadleveler_monitor.json \
     nwpc_loadleveler/loadleveler.py \
@@ -104,7 +106,8 @@ FORMS += \
     panels/text_style_page.ui \
     panels/chart_style_page.ui \
     panels/table_style_page.ui \
-    panels/query_panel.ui
+    panels/query_panel.ui \
+    widgets/job_detail_widget.ui
 
 RESOURCES += \
     loadleveler_monitor.qrc
