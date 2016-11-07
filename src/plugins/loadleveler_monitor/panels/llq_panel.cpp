@@ -11,7 +11,7 @@
 #include "../loadleveler_monitor_plugin.h"
 #include "../loadleveler_client.h"
 
-#include "../client_command_widget.h"
+#include "../widgets/job_detail_widget.h"
 #include "../loadleveler_monitor_widget.h"
 
 #include <util/model_view_util.h>
@@ -32,6 +32,7 @@ using namespace LoadLevelerMonitor;
 using namespace LoadLevelerMonitor::Panels;
 using namespace LoadLevelerMonitor::Model;
 using namespace LoadLevelerMonitor::Chart;
+using namespace LoadLevelerMonitor::Widgets;
 using namespace QtCharts;
 
 LlqPanel::LlqPanel(QWidget *parent) :
@@ -180,11 +181,11 @@ void LlqPanel::slotQueryModelContextMenuRequest(const QPoint &global_point, cons
             QMap<QString, QString> args = getSessionArguments();
             args["command"] = "llq -l "+id;
 
-            //TODO: 创建一个弹出窗口，接收命令执行结果，将窗口传递给 client。
-            ClientCommandWidget *command_widget = new ClientCommandWidget();
-            command_widget->show();
+            JobDetailWidget *job_detail_widget = new JobDetailWidget();
+            job_detail_widget->setJobId(id);
+            job_detail_widget->show();
 
-            LoadLevelerMonitorPlugin::client()->runCommand(args, command_widget);
+            LoadLevelerMonitorPlugin::client()->runQueryJobDetailCommand(args, job_detail_widget);
             detail_action->deleteLater();
         });
     }

@@ -3,6 +3,7 @@
 #include "client_command_widget.h"
 #include "panels/llq_panel.h"
 #include "panels/llclass_panel.h"
+#include "widgets/job_detail_widget.h"
 
 #include <python_env_plugin/python_command.h>
 #include <core_plugin/progress_system/progress_manager.h>
@@ -186,4 +187,40 @@ void LoadLevelerClient::runCommand(QMap<QString, QString> args, QPointer<ClientC
     progress_item_widget->setDescription("Run shell command: " + args["command"] + " ...");
 
     qDebug()<<"[LoadLevelerClient::runCommand] end";
+}
+
+void LoadLevelerClient::runQueryJobDetailCommand(QMap<QString, QString> args, QPointer<Widgets::JobDetailWidget> widget)
+{
+    qDebug()<<"[LoadLevelerClient::runQueryJobDetailCommand] start";
+    QStringList arguments;
+    PythonCommand* command = createPythonCommand();
+
+    if(!widget.isNull())
+    {
+        connect(command, &PythonCommand::signalStdOutString,
+                widget, &Widgets::JobDetailWidget::receiveResponse);
+
+//        connect(command, &PythonCommand::signalStdErrString,
+//                command_widget, &ClientCommandWidget::setErrorOutputText);
+    }
+
+    arguments<<"run";
+    arguments<<"--host=" + args["host"];
+    arguments<<"--port=" + args["port"];
+    arguments<<"--user=" + args["user"];
+    arguments<<"--password=" + args["password"];
+    arguments<<"--command=" + args["command"];
+
+    qDebug()<<arguments;
+
+    QFuture<void> future = executePythonScript(
+        command,
+        "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app\\src\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
+        arguments
+    );
+
+    ProgressItemWidget *progress_item_widget =  ProgressManager::addTask(future, args["command"]);
+    progress_item_widget->setDescription("Run shell command: " + args["command"] + " ...");
+
+    qDebug()<<"[LoadLevelerClient::runQueryJobDetailCommand] end";
 }

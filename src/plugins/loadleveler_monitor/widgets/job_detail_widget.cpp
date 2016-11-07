@@ -1,20 +1,29 @@
 #include "job_detail_widget.h"
 #include "ui_job_detail_widget.h"
 
+#include "../model/model_constants.h"
+#include "../model/query_category.h"
+#include "../model/query_item.h"
+
+#include <QStandardItemModel>
 #include <QActionGroup>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QtDebug>
 
-using namespace LoadlevelerMonitor::Widgets;
+using namespace LoadLevelerMonitor::Widgets;
+using namespace LoadLevelerMonitor::Model;
+using namespace std;
 
 JobDetailWidget::JobDetailWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::JobDetailWidget),
-    style_action_group_{new QActionGroup{this}}
+    style_action_group_{new QActionGroup{this}},
+    property_model_{new QStandardItemModel{this}}
 {
     ui->setupUi(this);
-    setupStyleActions();
+    ui->tree_view->setModel(property_model_);
+    setupStyle();
 }
 
 JobDetailWidget::~JobDetailWidget()
@@ -45,6 +54,8 @@ void JobDetailWidget::receiveResponse(const QString &response)
 
     QString output_message = result_object["data"].toObject()["response"].toObject()["message"].toObject()["output"].toString();
     setOutputStylePage(output_message);
+
+    setTreeStylePage(output_message);
 }
 
 void JobDetailWidget::slotStyleActionTriggered(QAction *action)
@@ -58,7 +69,7 @@ void JobDetailWidget::slotStyleActionTriggered(QAction *action)
     }
 }
 
-void JobDetailWidget::setupStyleActions()
+void JobDetailWidget::setupStyle()
 {
     style_action_list_.append(ui->action_output_style);
     style_action_list_.append(ui->action_tree_style);
@@ -87,4 +98,74 @@ void JobDetailWidget::setResponseStylePage(const QString &response)
 void JobDetailWidget::setOutputStylePage(const QString &output)
 {
     ui->output_text_browser->setText(output);
+}
+
+void JobDetailWidget::setTreeStylePage(const QString &output)
+{
+    property_model_->clear();
+
+    QStringList record = output.split('\n');
+    QString step_type = JobDetailWidget::getTextByLabel("Step Type", record);
+
+    // job script
+    QString job_script;
+    if(step_type == "Serial")
+    {
+        job_script = JobDetailWidget::getTextByLabel("Cmd", record);
+    }
+    else if(step_type == "General Parallel")
+    {
+        job_script = JobDetailWidget::getTextByLabel("Executable", record);
+    }
+    else
+    {
+        qWarning()<<"[JobDetailWidget::setTreeStylePage] unsupported step type:"<< step_type;
+    }
+
+    QString output_script_path = JobDetailWidget::getTextByLabel("Out", record);
+    QString error_script_path = JobDetailWidget::getTextByLabel("Err", record);
+    QString initial_working_dir = JobDetailWidget::getTextByLabel("Initial Working Dir", record);
+
+    QStandardItem *general_section = new QStandardItem{"General"};
+    general_section->appendRow(
+        QList<QStandardItem*>()<< new QStandardItem{"Step Type"} << new QStandardItem{ step_type }
+    );
+    general_section->appendRow(
+        QList<QStandardItem*>()<< new QStandardItem{"Job Script"} << new QStandardItem{ job_script }
+    );
+    general_section->appendRow(
+        QList<QStandardItem*>()<< new QStandardItem{"Output File"} << new QStandardItem{ output_script_path }
+    );
+    general_section->appendRow(
+        QList<QStandardItem*>()<< new QStandardItem{"Error Ouput File"} << new QStandardItem{ error_script_path }
+    );
+    general_section->appendRow(
+        QList<QStandardItem*>()<< new QStandardItem{"Initial Working Dir"} << new QStandardItem{ initial_working_dir }
+    );
+
+    property_model_->invisibleRootItem()->appendRow(general_section);
+    property_model_->setColumnCount(2);
+    property_model_->setHorizontalHeaderLabels(QStringList{"Property", "Value"});
+    ui->tree_view->expandAll();
+    ui->tree_view->setColumnWidth(0, 200);
+
+    return;
+}
+
+QString JobDetailWidget::getTextByLabel(const QString &label, const QStringList &record)
+{
+    DefaultQueryCategoryType param = make_tuple(
+                label,
+                label,
+                label,
+                QueryValueType::String,
+                "",
+                kDetailLabelParser,
+                QVariantList{label}
+    );
+    QueryCategory category = QueryCategoryFactory::createCateogry(param);
+    QueryItem *item = QueryItem::buildDetailQueryItem(category, record);
+    QString text = item->text();
+    delete item;
+    return text;
 }

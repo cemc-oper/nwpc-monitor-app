@@ -40,10 +40,10 @@ public:
 
     static QueryItem *createIndexNoItem(const QueryCategory &num_category, int num);
 
-private:
     static QueryItem *buildDefaultQueryItem(const QueryCategory &category, const QString &line);
     static QueryItem *buildDetailQueryItem(const QueryCategory &category, const QStringList &lines);
 
+private:
     QueryCategory category_;
 };
 

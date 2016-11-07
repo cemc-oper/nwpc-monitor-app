@@ -17,7 +17,7 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="serial_running_tab">
       <attribute name="title">
@@ -25,7 +25,7 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout_5">
        <item row="0" column="0">
-        <widget class="LoadlevelerMonitor::Widgets::JobDetailWidget" name="serial_running_job_detail_widget" native="true"/>
+        <widget class="LoadLevelerMonitor::Widgets::JobDetailWidget" name="serial_running_job_detail_widget" native="true"/>
        </item>
       </layout>
      </widget>
@@ -35,7 +35,7 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="0">
-        <widget class="LoadlevelerMonitor::Widgets::JobDetailWidget" name="serial_idle_job_detail_widget" native="true"/>
+        <widget class="LoadLevelerMonitor::Widgets::JobDetailWidget" name="serial_idle_job_detail_widget" native="true"/>
        </item>
       </layout>
      </widget>
@@ -45,7 +45,7 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0">
-        <widget class="LoadlevelerMonitor::Widgets::JobDetailWidget" name="parallel_running_job_detail_widget" native="true"/>
+        <widget class="LoadLevelerMonitor::Widgets::JobDetailWidget" name="parallel_running_job_detail_widget" native="true"/>
        </item>
       </layout>
      </widget>
@@ -55,7 +55,7 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="0">
-        <widget class="LoadlevelerMonitor::Widgets::JobDetailWidget" name="parallel_idle_job_detail_widget" native="true"/>
+        <widget class="LoadLevelerMonitor::Widgets::JobDetailWidget" name="parallel_idle_job_detail_widget" native="true"/>
        </item>
       </layout>
      </widget>
@@ -66,7 +66,7 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>LoadlevelerMonitor::Widgets::JobDetailWidget</class>
+   <class>LoadLevelerMonitor::Widgets::JobDetailWidget</class>
    <extends>QWidget</extends>
    <header location="global">loadleveler_monitor/widgets/job_detail_widget.h</header>
    <container>1</container>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>LoadlevelerMonitor::Widgets::JobDetailWidget</class>
- <widget class="QWidget" name="LoadlevelerMonitor::Widgets::JobDetailWidget">
+ <class>LoadLevelerMonitor::Widgets::JobDetailWidget</class>
+ <widget class="QWidget" name="LoadLevelerMonitor::Widgets::JobDetailWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>547</width>
-    <height>366</height>
+    <width>821</width>
+    <height>515</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -159,7 +159,11 @@
      <widget class="QWidget" name="tree_style_page">
       <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="0">
-        <widget class="QTreeView" name="tree_view"/>
+        <widget class="QTreeView" name="tree_view">
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

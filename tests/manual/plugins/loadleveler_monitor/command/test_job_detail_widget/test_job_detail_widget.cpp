@@ -7,7 +7,7 @@
 #include <tuple>
 
 using namespace std;
-using namespace LoadlevelerMonitor::Widgets;
+using namespace LoadLevelerMonitor::Widgets;
 
 using JobDetailTestParam = tuple<QString, JobDetailWidget*>;
 

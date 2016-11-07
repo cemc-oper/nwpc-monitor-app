@@ -1,5 +1,4 @@
-#ifndef TEST_JOB_DETAIL_WIDGET_H
-#define TEST_JOB_DETAIL_WIDGET_H
+#pragma once
 
 #include <QWidget>
 
@@ -18,5 +17,3 @@ public:
 private:
     Ui::TestJobDetailWidget *ui;
 };
-
-#endif // TEST_JOB_DETAIL_WIDGET_H

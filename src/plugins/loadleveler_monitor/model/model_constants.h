@@ -37,6 +37,10 @@ const QString NodeMinimum   =   "llq.node_minimum";
 const QString NodeActual    =   "llq.node_actual";
 const QString NodeMaximum   =   "llq.node_maximum";
 const QString TaskInstanceCount =   "llq.task_instance_count";
+
+const QString Out           =   "llq.in";
+const QString Err           =   "llq.err";
+const QString InitialWorkingDir =   "llq.initial_working_dir";
 }
 
 namespace Llclass{

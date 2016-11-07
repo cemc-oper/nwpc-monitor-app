@@ -8,10 +8,11 @@
 QT_BEGIN_NAMESPACE
 class QActionGroup;
 class QAction;
+class QStandardItemModel;
 QT_END_NAMESPACE
 
 
-namespace LoadlevelerMonitor{
+namespace LoadLevelerMonitor{
 
 namespace Widgets{
 
@@ -36,15 +37,20 @@ private slots:
     void slotStyleActionTriggered(QAction *action);
 
 private:
-    void setupStyleActions();
+    void setupStyle();
 
     void setResponseStylePage(const QString &response);
     void setOutputStylePage(const QString &output);
+    void setTreeStylePage(const QString &output);
+
+    static QString getTextByLabel(const QString &label, const QStringList &record);
 
     Ui::JobDetailWidget *ui;
 
     QVector<QAction *> style_action_list_;
     QPointer<QActionGroup> style_action_group_;
+
+    QPointer<QStandardItemModel> property_model_;
 
 };
 
