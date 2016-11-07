@@ -6,16 +6,60 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>634</width>
-    <height>449</height>
+    <width>776</width>
+    <height>602</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>TestJobDetailWidget</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
+  <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
-    <widget class="LoadlevelerMonitor::Widgets::JobDetailWidget" name="job_detail_widget" native="true"/>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="serial_running_tab">
+      <attribute name="title">
+       <string>Serial Running</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="0" column="0">
+        <widget class="LoadlevelerMonitor::Widgets::JobDetailWidget" name="serial_running_job_detail_widget" native="true"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="serial_idle_tab">
+      <attribute name="title">
+       <string>Serial Idle</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="0">
+        <widget class="LoadlevelerMonitor::Widgets::JobDetailWidget" name="serial_idle_job_detail_widget" native="true"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="parallel_running_tab">
+      <attribute name="title">
+       <string>Parallel Running</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
+        <widget class="LoadlevelerMonitor::Widgets::JobDetailWidget" name="parallel_running_job_detail_widget" native="true"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="parallel_idle_tab">
+      <attribute name="title">
+       <string>Parallel Idle</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="LoadlevelerMonitor::Widgets::JobDetailWidget" name="parallel_idle_job_detail_widget" native="true"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
    </item>
   </layout>
  </widget>

@@ -14,4 +14,7 @@ HEADERS  += test_job_detail_widget.h
 FORMS    += test_job_detail_widget.ui
 
 DISTFILES += \
-    data/parallel_job_detail.txt
+    data/serial_running_job_detail.txt \
+    data/parallel_idle_job_detail.txt \
+    data/serial_idle_job_detail.txt \
+    data/parallel_running_job_detail.txt
