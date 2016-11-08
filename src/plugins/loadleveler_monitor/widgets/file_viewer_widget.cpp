@@ -1,0 +1,45 @@
+#include "file_viewer_widget.h"
+#include "ui_file_viewer_widget.h"
+
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QtDebug>
+
+using namespace LoadLevelerMonitor::Widgets;
+
+FileViewerWidget::FileViewerWidget(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::FileViewerWidget)
+{
+    ui->setupUi(this);
+}
+
+FileViewerWidget::~FileViewerWidget()
+{
+    delete ui;
+}
+
+void FileViewerWidget::setFilePath(const QString &path)
+{
+    ui->file_path_line_edit->setText(path);
+}
+
+void FileViewerWidget::setFileContext(const QString &context)
+{
+    ui->file_context_browser->setText(context);
+}
+
+void FileViewerWidget::receiveResponse(const QString &response)
+{
+    QJsonDocument doc = QJsonDocument::fromJson(response.toUtf8());
+    if(!doc.isObject())
+    {
+        qDebug()<<"[FileViewerWidget::slotReceiveResponse] result is not a json string.";
+        return;
+    }
+
+    QJsonObject result_object = doc.object();
+
+    QString file_context = result_object["data"].toObject()["response"].toObject()["text"].toString();
+    setFileContext(file_context);
+}

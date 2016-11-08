@@ -9,6 +9,7 @@ namespace LoadLevelerMonitor{
 
 class ClientCommandWidget;
 namespace Widgets{
+class FileViewerWidget;
 class JobDetailWidget;
 }
 
@@ -30,7 +31,7 @@ public:
     void runLlclassCommand(QMap<QString, QString> args, QPointer<Panels::QueryPanel> query_panel = nullptr);
 
     void runCommand(QMap<QString, QString> args, QPointer<ClientCommandWidget> command_widget = nullptr);
-    void runFileCommand(QMap<QString, QString> args, QPointer<ClientCommandWidget> command_widget = nullptr);
+    void runFileCommand(QMap<QString, QString> args, QPointer<Widgets::FileViewerWidget> widget = nullptr);
 
     void runQueryJobDetailCommand(QMap<QString, QString> args, QPointer<Widgets::JobDetailWidget> widget = nullptr);
 

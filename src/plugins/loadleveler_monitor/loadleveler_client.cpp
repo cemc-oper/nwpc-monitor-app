@@ -4,6 +4,7 @@
 #include "panels/llq_panel.h"
 #include "panels/llclass_panel.h"
 #include "widgets/job_detail_widget.h"
+#include "widgets/file_viewer_widget.h"
 
 #include <python_env_plugin/python_command.h>
 #include <core_plugin/progress_system/progress_manager.h>
@@ -191,30 +192,15 @@ void LoadLevelerClient::runCommand(QMap<QString, QString> args, QPointer<ClientC
     qDebug()<<"[LoadLevelerClient::runCommand] end";
 }
 
-void LoadLevelerClient::runFileCommand(QMap<QString, QString> args, QPointer<ClientCommandWidget> command_widget)
+void LoadLevelerClient::runFileCommand(QMap<QString, QString> args, QPointer<Widgets::FileViewerWidget> widget)
 {
     qDebug()<<"[LoadLevelerClient::runFillCommand] start";
     QStringList arguments;
     PythonCommand* command = createPythonCommand();
 
-    if(!command_widget.isNull())
+    if(!widget.isNull())
     {
-        connect(command, &PythonCommand::signalStdOutString,
-                [&command_widget](const QString &response){
-            command_widget->setResponseText(response);
-
-            QJsonDocument doc = QJsonDocument::fromJson(response.toUtf8());
-            if(!doc.isObject())
-            {
-                qDebug()<<"[LoadLevelerClient::runFileCommand] result is not a json string.";
-                return;
-            }
-
-            QJsonObject result_object = doc.object();
-
-            QString output_message = result_object["data"].toObject()["response"].toObject()["text"].toString();
-            command_widget->setOutputText(output_message);
-        });
+        connect(command, &PythonCommand::signalStdOutString, widget, &Widgets::FileViewerWidget::receiveResponse);
 
 //        connect(command, &PythonCommand::signalStdErrString,
 //                command_widget, &ClientCommandWidget::setErrorOutputText);
@@ -235,7 +221,7 @@ void LoadLevelerClient::runFileCommand(QMap<QString, QString> args, QPointer<Cli
         arguments
     );
 
-    command_widget->setCommandText("loadleveler.py " + arguments.join(" "));
+    widget->setFilePath(args["file"]);
 
     ProgressItemWidget *progress_item_widget =  ProgressManager::addTask(future, args["file"]);
     progress_item_widget->setDescription("Run file command: " + args["file"] + " ...");

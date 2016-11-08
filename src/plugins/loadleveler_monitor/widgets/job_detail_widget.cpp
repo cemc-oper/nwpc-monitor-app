@@ -6,7 +6,7 @@
 #include "../model/query_item.h"
 #include "../loadleveler_client.h"
 #include "../loadleveler_monitor_plugin.h"
-#include "../client_command_widget.h"
+#include "file_viewer_widget.h"
 
 #include <QStandardItemModel>
 #include <QActionGroup>
@@ -212,9 +212,9 @@ void JobDetailWidget::requestSeeFile(const QString &file_path)
     }
     args["file"] = path;
 
-    ClientCommandWidget *command_widget = new ClientCommandWidget();
-    command_widget->show();
-    LoadLevelerMonitorPlugin::client()->runFileCommand(args, command_widget);
+    FileViewerWidget *widget = new FileViewerWidget();
+    widget->show();
+    LoadLevelerMonitorPlugin::client()->runFileCommand(args, widget);
 }
 
 QString JobDetailWidget::getTextByLabel(const QString &label, const QStringList &record)
