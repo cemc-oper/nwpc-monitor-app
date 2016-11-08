@@ -2,7 +2,7 @@ DEFINES += LOADLEVELER_MONITOR_LIBRARY
 
 include(../../../nwpc-monitor-app.pri)
 
-QT       += core gui widgets charts webenginewidgets webchannel
+QT       += core gui widgets charts #webenginewidgets webchannel
 
 TARGET = loadleveler_monitor
 TEMPLATE = lib

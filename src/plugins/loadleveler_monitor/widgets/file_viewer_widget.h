@@ -3,9 +3,9 @@
 #include <QWidget>
 #include <QPointer>
 
-QT_BEGIN_NAMESPACE
-class QWebEnginePage;
-QT_END_NAMESPACE
+//QT_BEGIN_NAMESPACE
+//class QWebEnginePage;
+//QT_END_NAMESPACE
 namespace LoadLevelerMonitor{
 
 namespace Widgets{
@@ -31,7 +31,7 @@ private:
     void showInWebPage(const QString &script);
 
     Ui::FileViewerWidget *ui;
-    QPointer<QWebEnginePage> web_page_;
+//    QPointer<QWebEnginePage> web_page_;
 };
 
 }
