@@ -16,6 +16,10 @@ TestJobDetailWidget::TestJobDetailWidget(QWidget *parent) :
     ui(new ::Ui::TestJobDetailWidget)
 {
     ui->setupUi(this);
+    session_.host_ = "uranus.hpc.nmic.cn";
+    session_.port_ = 22;
+    session_.user_ = "wangdp";
+    session_.password_ = "perilla";
 
     vector<JobDetailTestParam> params = {
         make_tuple(QString("data/serial_running_job_detail.txt"), ui->serial_running_job_detail_widget),
@@ -26,6 +30,7 @@ TestJobDetailWidget::TestJobDetailWidget(QWidget *parent) :
 
     foreach(JobDetailTestParam param, params)
     {
+        get<1>(param)->setSession(session_);
         QString response_file_path = QFINDTESTDATA(get<0>(param));
 
         QFile response_file{response_file_path};
@@ -34,8 +39,6 @@ TestJobDetailWidget::TestJobDetailWidget(QWidget *parent) :
         response_file.close();
         get<1>(param)->receiveResponse(response);
     }
-
-
 }
 
 TestJobDetailWidget::~TestJobDetailWidget()

@@ -4,13 +4,19 @@
 #include "../model/model_constants.h"
 #include "../model/query_category.h"
 #include "../model/query_item.h"
+#include "../loadleveler_client.h"
+#include "../loadleveler_monitor_plugin.h"
+#include "../client_command_widget.h"
 
 #include <QStandardItemModel>
 #include <QActionGroup>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QMenu>
+#include <QScopedPointer>
 #include <QtDebug>
 
+using namespace LoadLevelerMonitor;
 using namespace LoadLevelerMonitor::Widgets;
 using namespace LoadLevelerMonitor::Model;
 using namespace std;
@@ -23,12 +29,22 @@ JobDetailWidget::JobDetailWidget(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->tree_view->setModel(property_model_);
+
+    connect(ui->tree_view, &QTreeView::customContextMenuRequested,
+            [=](const QPoint &pos){
+        slotPropertyModelContextMenuRequest(ui->tree_view->mapToGlobal(pos), ui->tree_view->indexAt(pos));
+    });
     setupStyle();
 }
 
 JobDetailWidget::~JobDetailWidget()
 {
     delete ui;
+}
+
+void JobDetailWidget::setSession(const Core::SessionSystem::Session &session)
+{
+    session_ = session;
 }
 
 void JobDetailWidget::setJobId(const QString &job_id)
@@ -69,6 +85,35 @@ void JobDetailWidget::slotStyleActionTriggered(QAction *action)
     }
 }
 
+void JobDetailWidget::slotPropertyModelContextMenuRequest(const QPoint &global_point, const QModelIndex &index)
+{
+    if (!index.isValid()) {
+        return;
+    }
+    QStandardItem *cur_item = property_model_->itemFromIndex(index);
+    qDebug()<<index.row()<<index.column()<<cur_item->parent();
+    if(cur_item->parent()==nullptr)
+        return;
+
+    QStandardItem* property_name_item = property_model_->itemFromIndex(index.sibling(index.row(), 0));
+    QStandardItem* value_item = property_model_->itemFromIndex(index.sibling(index.row(), 1));
+
+    QString property_name = property_name_item->text();
+    QString value = value_item->text();
+
+    if(property_name == "Output File" || property_name == "Error Output File" || property_name == "Job Script")
+    {
+        QScopedPointer<QMenu> context_menu{new QMenu};
+        QScopedPointer<QAction> see_action{new QAction{"See file..."}};
+        context_menu->addAction(see_action.data());
+        connect(see_action.data(), &QAction::triggered,
+                [=](bool){
+            requestSeeFile(value);
+        });
+        context_menu->exec(global_point);
+    }
+}
+
 void JobDetailWidget::setupStyle()
 {
     style_action_list_.append(ui->action_output_style);
@@ -103,9 +148,11 @@ void JobDetailWidget::setOutputStylePage(const QString &output)
 void JobDetailWidget::setTreeStylePage(const QString &output)
 {
     property_model_->clear();
+    property_map_.clear();
 
     QStringList record = output.split('\n');
     QString step_type = JobDetailWidget::getTextByLabel("Step Type", record);
+    property_map_["Step Type"] = step_type;
 
     // job script
     QString job_script;
@@ -121,10 +168,14 @@ void JobDetailWidget::setTreeStylePage(const QString &output)
     {
         qWarning()<<"[JobDetailWidget::setTreeStylePage] unsupported step type:"<< step_type;
     }
+    property_map_["Job Script"] = job_script;
 
     QString output_script_path = JobDetailWidget::getTextByLabel("Out", record);
+    property_map_["Out"] = output_script_path;
     QString error_script_path = JobDetailWidget::getTextByLabel("Err", record);
+    property_map_["Err"] = error_script_path;
     QString initial_working_dir = JobDetailWidget::getTextByLabel("Initial Working Dir", record);
+    property_map_["Initial Working Dir"] = initial_working_dir;
 
     QStandardItem *general_section = new QStandardItem{"General"};
     general_section->appendRow(
@@ -150,6 +201,20 @@ void JobDetailWidget::setTreeStylePage(const QString &output)
     ui->tree_view->setColumnWidth(0, 200);
 
     return;
+}
+
+void JobDetailWidget::requestSeeFile(const QString &file_path)
+{
+    QString path = file_path;
+    QMap<QString, QString> args = session_.toArguments();
+    if(!path.startsWith('/')){
+        path = property_map_["Initial Working Dir"].toString() + "/" + path;
+    }
+    args["file"] = path;
+
+    ClientCommandWidget *command_widget = new ClientCommandWidget();
+    command_widget->show();
+    LoadLevelerMonitorPlugin::client()->runFileCommand(args, command_widget);
 }
 
 QString JobDetailWidget::getTextByLabel(const QString &label, const QStringList &record)

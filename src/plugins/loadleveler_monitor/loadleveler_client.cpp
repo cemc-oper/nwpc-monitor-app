@@ -11,6 +11,8 @@
 
 #include <QProcess>
 #include <QDateTime>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QtDebug>
 
 using namespace LoadLevelerMonitor;
@@ -185,6 +187,58 @@ void LoadLevelerClient::runCommand(QMap<QString, QString> args, QPointer<ClientC
 
     ProgressItemWidget *progress_item_widget =  ProgressManager::addTask(future, args["command"]);
     progress_item_widget->setDescription("Run shell command: " + args["command"] + " ...");
+
+    qDebug()<<"[LoadLevelerClient::runCommand] end";
+}
+
+void LoadLevelerClient::runFileCommand(QMap<QString, QString> args, QPointer<ClientCommandWidget> command_widget)
+{
+    qDebug()<<"[LoadLevelerClient::runFillCommand] start";
+    QStringList arguments;
+    PythonCommand* command = createPythonCommand();
+
+    if(!command_widget.isNull())
+    {
+        connect(command, &PythonCommand::signalStdOutString,
+                [&command_widget](const QString &response){
+            command_widget->setResponseText(response);
+
+            QJsonDocument doc = QJsonDocument::fromJson(response.toUtf8());
+            if(!doc.isObject())
+            {
+                qDebug()<<"[LoadLevelerClient::runFileCommand] result is not a json string.";
+                return;
+            }
+
+            QJsonObject result_object = doc.object();
+
+            QString output_message = result_object["data"].toObject()["response"].toObject()["text"].toString();
+            command_widget->setOutputText(output_message);
+        });
+
+//        connect(command, &PythonCommand::signalStdErrString,
+//                command_widget, &ClientCommandWidget::setErrorOutputText);
+    }
+
+    arguments<<"file";
+    arguments<<"--host=" + args["host"];
+    arguments<<"--port=" + args["port"];
+    arguments<<"--user=" + args["user"];
+    arguments<<"--password=" + args["password"];
+    arguments<<"--file=" + args["file"];
+
+    qDebug()<<arguments;
+
+    QFuture<void> future = executePythonScript(
+        command,
+        "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app\\src\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
+        arguments
+    );
+
+    command_widget->setCommandText("loadleveler.py " + arguments.join(" "));
+
+    ProgressItemWidget *progress_item_widget =  ProgressManager::addTask(future, args["file"]);
+    progress_item_widget->setDescription("Run file command: " + args["file"] + " ...");
 
     qDebug()<<"[LoadLevelerClient::runCommand] end";
 }

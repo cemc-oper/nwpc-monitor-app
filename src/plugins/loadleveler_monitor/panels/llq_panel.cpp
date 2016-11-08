@@ -182,6 +182,7 @@ void LlqPanel::slotQueryModelContextMenuRequest(const QPoint &global_point, cons
             args["command"] = "llq -l "+id;
 
             JobDetailWidget *job_detail_widget = new JobDetailWidget();
+            job_detail_widget->setSession(session_);
             job_detail_widget->setJobId(id);
             job_detail_widget->show();
 

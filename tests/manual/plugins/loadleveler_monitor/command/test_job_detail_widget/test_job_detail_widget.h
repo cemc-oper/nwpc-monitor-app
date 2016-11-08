@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QWidget>
+#include <core_plugin/session_system/session.h>
 
 namespace Ui {
 class TestJobDetailWidget;
@@ -16,4 +17,5 @@ public:
 
 private:
     Ui::TestJobDetailWidget *ui;
+    Core::SessionSystem::Session session_;
 };

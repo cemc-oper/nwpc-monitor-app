@@ -26,13 +26,12 @@ public slots:
     void receiveResponse(const QString &response);
     void setErrorOutputText(const QString &error_output);
     void setOutputText(const QString &output);
+    void setResponseText(const QString &output);
 
 protected:
     void closeEvent(QCloseEvent *event) override;
 
 private:
-    void setResponseText(const QString &output);
-
     Ui::ClientCommandWidget *ui;
 
     PythonEnv::PythonCommand *python_command_;

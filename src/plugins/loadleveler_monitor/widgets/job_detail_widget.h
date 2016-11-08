@@ -1,9 +1,13 @@
 #pragma once
 
 #include "../loadleveler_monitor_global.h"
+
+#include <core_plugin/session_system/session.h>
+
 #include <QWidget>
 #include <QPointer>
 #include <QVector>
+#include <QHash>
 
 QT_BEGIN_NAMESPACE
 class QActionGroup;
@@ -13,6 +17,8 @@ QT_END_NAMESPACE
 
 
 namespace LoadLevelerMonitor{
+
+class LoadLevelerClient;
 
 namespace Widgets{
 
@@ -28,6 +34,7 @@ public:
     explicit JobDetailWidget(QWidget *parent = 0);
     ~JobDetailWidget();
 
+    void setSession(const Core::SessionSystem::Session &session);
     void setJobId(const QString &job_id);
 
 public slots:
@@ -35,6 +42,7 @@ public slots:
 
 private slots:
     void slotStyleActionTriggered(QAction *action);
+    void slotPropertyModelContextMenuRequest(const QPoint &global_point, const QModelIndex &index);
 
 private:
     void setupStyle();
@@ -42,6 +50,8 @@ private:
     void setResponseStylePage(const QString &response);
     void setOutputStylePage(const QString &output);
     void setTreeStylePage(const QString &output);
+
+    void requestSeeFile(const QString &file_path);
 
     static QString getTextByLabel(const QString &label, const QStringList &record);
 
@@ -51,7 +61,12 @@ private:
     QPointer<QActionGroup> style_action_group_;
 
     QPointer<QStandardItemModel> property_model_;
+    QHash<QString, QVariant> property_map_;
 
+    // session
+    Core::SessionSystem::Session session_;
+
+    QPointer<LoadLevelerClient> client_;
 };
 
 }
