@@ -71,6 +71,8 @@ Thumbs.db
 *.dll
 *.exe
 
+# javascript
+node_modules
 
 # pycharm
 .idea/

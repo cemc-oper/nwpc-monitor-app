@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Viewer</title>
+    <link type="text/css" href="loadleveler_monitor/web/dist/css/atom-one-dark.css" rel="stylesheet" />
+    <script src="loadleveler_monitor/web/dist/js/jquery.min.js"></script>
+    <script src="loadleveler_monitor/web/dist/js/highlight.pack.min.js"></script>
+</head>
+<body>
+
+<h1>File Viewer</h1>
+<div id="app"></div>
+<pre>
+    <code class="css">
+@font-face {
+  font-family: Chunkfive; src: url('Chunkfive.otf');
+}
+
+body, .usertext {
+  color: #F0F0F0; background: #600;
+  font-family: Chunkfive, sans;
+}
+
+@import url(print.css);
+@media print {
+  a[href^=http]::after {
+    content: attr(href)
+  }
+}
+    </code>
+</pre>
+</body>
+</html>

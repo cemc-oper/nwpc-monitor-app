@@ -10,5 +10,10 @@
         <file>images/request_time@16x16.png</file>
         <file>images/response_handle_second@16x16.png</file>
         <file>images/response-style.png</file>
+        <file>web/static/file_viewer_text_browser.html</file>
+        <file>web/dist/js/jquery.min.js</file>
+        <file>web/app/file_viewer_app.js</file>
+        <file>web/dist/css/atom-one-dark.css</file>
+        <file>web/dist/js/highlight.pack.min.js</file>
     </qresource>
 </RCC>

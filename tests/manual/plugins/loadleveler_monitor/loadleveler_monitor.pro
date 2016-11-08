@@ -2,4 +2,4 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     organize_system \
-    command
+    widgets

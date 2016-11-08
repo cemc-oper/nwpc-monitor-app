@@ -1,7 +1,11 @@
 #pragma once
 
 #include <QWidget>
+#include <QPointer>
 
+QT_BEGIN_NAMESPACE
+class QWebEnginePage;
+QT_END_NAMESPACE
 namespace LoadLevelerMonitor{
 
 namespace Widgets{
@@ -24,7 +28,10 @@ public slots:
     void receiveResponse(const QString &response);
 
 private:
+    void showInWebPage(const QString &script);
+
     Ui::FileViewerWidget *ui;
+    QPointer<QWebEnginePage> web_page_;
 };
 
 }

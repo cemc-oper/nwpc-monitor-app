@@ -28,7 +28,7 @@ namespace SessionSystem{
 class SessionManager;
 }
 
-class CorePlugin : public PluginSystem::IPlugin
+class CORE_PLUGIN_EXPORT CorePlugin : public PluginSystem::IPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.cma.nwpc.nwpc-monitor-app.plugin" FILE "core_plugin.json")

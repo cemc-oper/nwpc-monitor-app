@@ -1,12 +1,19 @@
 #include "test_job_detail_widget.h"
 #include "ui_test_job_detail_widget.h"
 
+#include <plugin_manager/plugin_manager.h>
+#include <loadleveler_monitor/loadleveler_monitor_plugin.h>
+#include <core_plugin/core_plugin.h>
+
 #include <QTest>
 #include <QFile>
 #include <vector>
 #include <tuple>
 
 using namespace std;
+using namespace PluginSystem;
+using namespace Core;
+using namespace LoadLevelerMonitor;
 using namespace LoadLevelerMonitor::Widgets;
 
 using JobDetailTestParam = tuple<QString, JobDetailWidget*>;
@@ -15,9 +22,17 @@ TestJobDetailWidget::TestJobDetailWidget(QWidget *parent) :
     QWidget(parent),
     ui(new ::Ui::TestJobDetailWidget)
 {
+    QStringList args;
+    QString error_string;
+    PluginManager *manager = new PluginManager;
+    CorePlugin *core_plugin = new CorePlugin;
+    core_plugin->initialize(args, &error_string);
+    LoadLevelerMonitorPlugin *loadleveler_monitor_plugin = new LoadLevelerMonitorPlugin;
+    loadleveler_monitor_plugin->initialize(args, &error_string);
+
     ui->setupUi(this);
     session_.host_ = "uranus.hpc.nmic.cn";
-    session_.port_ = 22;
+    session_.port_ = "22";
     session_.user_ = "wangdp";
     session_.password_ = "perilla";
 
