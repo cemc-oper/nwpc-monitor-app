@@ -1,11 +1,15 @@
 #include "file_viewer_widget.h"
 #include "ui_file_viewer_widget.h"
 
+#include "../loadleveler_monitor_plugin.h"
+#include "../loadleveler_client.h"
+
 //#include <QWebEnginePage>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QtDebug>
 
+using namespace LoadLevelerMonitor;
 using namespace LoadLevelerMonitor::Widgets;
 
 FileViewerWidget::FileViewerWidget(QWidget *parent) :
@@ -14,6 +18,12 @@ FileViewerWidget::FileViewerWidget(QWidget *parent) :
 //    web_page_{new QWebEnginePage{this}}
 {
     ui->setupUi(this);
+    ui->refresh_tool_button->setDefaultAction(ui->action_refresh);
+
+    connect(ui->action_refresh, &QAction::triggered, [=](bool){
+        LoadLevelerMonitorPlugin::client()->runFileCommand(request_args_, this);
+    });
+
 //    ui->web_engine_view->setPage(web_page_);
 //    web_page_->load(QUrl("qrc:/loadleveler_monitor/web/static/file_viewer_text_browser.html"));
     setAttribute(Qt::WA_DeleteOnClose);
@@ -22,6 +32,11 @@ FileViewerWidget::FileViewerWidget(QWidget *parent) :
 FileViewerWidget::~FileViewerWidget()
 {
     delete ui;
+}
+
+void FileViewerWidget::setRequestArguments(const QMap<QString, QString> args)
+{
+    request_args_ = args;
 }
 
 void FileViewerWidget::setFilePath(const QString &path)

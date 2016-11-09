@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include <QPointer>
+#include <QMap>
 
 //QT_BEGIN_NAMESPACE
 //class QWebEnginePage;
@@ -21,6 +22,7 @@ public:
     explicit FileViewerWidget(QWidget *parent = 0);
     ~FileViewerWidget();
 
+    void setRequestArguments(const QMap<QString, QString> args);
     void setFilePath(const QString &path);
     void setFileContext(const QString &context);
 
@@ -32,6 +34,8 @@ private:
 
     Ui::FileViewerWidget *ui;
 //    QPointer<QWebEnginePage> web_page_;
+
+    QMap<QString, QString> request_args_;
 };
 
 }

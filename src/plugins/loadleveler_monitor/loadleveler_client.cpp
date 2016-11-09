@@ -204,6 +204,8 @@ void LoadLevelerClient::runFileCommand(QMap<QString, QString> args, QPointer<Wid
 
 //        connect(command, &PythonCommand::signalStdErrString,
 //                command_widget, &ClientCommandWidget::setErrorOutputText);
+        widget->setFilePath(args["file"]);
+        widget->setRequestArguments(args);
     }
 
     arguments<<"file";
@@ -220,8 +222,6 @@ void LoadLevelerClient::runFileCommand(QMap<QString, QString> args, QPointer<Wid
         "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app\\src\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
         arguments
     );
-
-    widget->setFilePath(args["file"]);
 
     ProgressItemWidget *progress_item_widget =  ProgressManager::addTask(future, args["file"]);
     progress_item_widget->setDescription("Run file command: " + args["file"] + " ...");

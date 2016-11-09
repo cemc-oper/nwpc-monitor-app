@@ -15,5 +15,6 @@
         <file>web/app/file_viewer_app.js</file>
         <file>web/dist/css/atom-one-dark.css</file>
         <file>web/dist/js/highlight.pack.min.js</file>
+        <file>images/refresh.png</file>
     </qresource>
 </RCC>

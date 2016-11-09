@@ -26,13 +26,31 @@
      <item>
       <widget class="QLineEdit" name="file_path_line_edit"/>
      </item>
+     <item>
+      <widget class="QToolButton" name="refresh_tool_button">
+       <property name="text">
+        <string>...</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item row="1" column="0">
     <widget class="QTextBrowser" name="file_context_browser"/>
    </item>
   </layout>
+  <action name="action_refresh">
+   <property name="icon">
+    <iconset resource="../loadleveler_monitor.qrc">
+     <normaloff>:/loadleveler_monitor/images/refresh.png</normaloff>:/loadleveler_monitor/images/refresh.png</iconset>
+   </property>
+   <property name="text">
+    <string>Refresh</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../loadleveler_monitor.qrc"/>
+ </resources>
  <connections/>
 </ui>
