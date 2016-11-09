@@ -29,13 +29,19 @@ public:
 public slots:
     void receiveResponse(const QString &response);
 
+private slots:
+    void slotScrollToEnd(bool flag);
+    void scrollToEnd();
+
 private:
+    void setupActions();
     void showInWebPage(const QString &script);
 
     Ui::FileViewerWidget *ui;
 //    QPointer<QWebEnginePage> web_page_;
 
     QMap<QString, QString> request_args_;
+    bool is_scroll_to_end_;
 };
 
 }
