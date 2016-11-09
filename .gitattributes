@@ -1,1 +1,2 @@
 tests/auto/plugins/loadleveler_monitor/nwpc_loadleveler/data* linguist-vendored
+tests/auto/plugins/loadleveler_monitor/model/query_record_parser/data/* linguist-vendored

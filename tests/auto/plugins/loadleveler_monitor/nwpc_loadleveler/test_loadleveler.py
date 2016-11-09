@@ -31,7 +31,7 @@ class TestNwpcLoadleveler(unittest.TestCase):
                 password="perilla",
                 file_path="/cma/g3/wangdp/work/2016/nwpc-monitor-app/nwpc-monitor-app/"
                         "tests/auto/plugins/loadleveler_monitor/nwpc_loadleveler/data/"
-                        "meps_forecast/forecast.job1"
+                        "meps_forecast/forecast.job1.txt"
             )
             loadleveler.file_handler(args)
             output = mock_output.getvalue()
@@ -52,7 +52,7 @@ class TestNwpcLoadleveler(unittest.TestCase):
                 password="perilla",
                 file_path="/cma/g3/wangdp/work/2016/nwpc-monitor-app/nwpc-monitor-app/"
                         "tests/auto/plugins/loadleveler_monitor/nwpc_loadleveler/data/"
-                        "meps_forecast/forecast.1"
+                        "meps_forecast/forecast.1.txt"
             )
             loadleveler.file_handler(args)
             output = mock_output.getvalue()
