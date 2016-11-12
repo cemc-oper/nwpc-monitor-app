@@ -102,4 +102,6 @@ void FileViewerWidget::setupActions()
 
     ui->scroll_to_end_button->setDefaultAction(ui->action_scroll_to_end);
     connect(ui->action_scroll_to_end, &QAction::triggered, this, &FileViewerWidget::slotScrollToEnd);
+
+    connect(ui->close_button, &QPushButton::clicked, this, &FileViewerWidget::close);
 }

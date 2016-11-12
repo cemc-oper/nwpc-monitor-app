@@ -14,6 +14,7 @@
 #include <QJsonObject>
 #include <QMenu>
 #include <QScopedPointer>
+#include <QScrollBar>
 #include <QtDebug>
 
 using namespace LoadLevelerMonitor;
@@ -25,7 +26,8 @@ JobDetailWidget::JobDetailWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::JobDetailWidget),
     style_action_group_{new QActionGroup{this}},
-    property_model_{new QStandardItemModel{this}}
+    property_model_{new QStandardItemModel{this}},
+    is_scroll_to_end_{false}
 {
     ui->setupUi(this);
     ui->tree_view->setModel(property_model_);
@@ -34,6 +36,20 @@ JobDetailWidget::JobDetailWidget(QWidget *parent) :
             [=](const QPoint &pos){
         slotPropertyModelContextMenuRequest(ui->tree_view->mapToGlobal(pos), ui->tree_view->indexAt(pos));
     });
+    connect(ui->close_button, &QPushButton::clicked,
+            this, &JobDetailWidget::close);
+
+    ui->line_wrap_tool_button->setDefaultAction(ui->action_line_wrap);
+    connect(ui->action_line_wrap, &QAction::toggled, [=](bool flag){
+        if(flag)
+            ui->output_text_browser->setLineWrapMode(QTextEdit::WidgetWidth);
+        else
+            ui->output_text_browser->setLineWrapMode(QTextEdit::NoWrap);
+    });
+
+    ui->scroll_to_end_button->setDefaultAction(ui->action_scroll_to_end);
+    connect(ui->action_scroll_to_end, &QAction::triggered, this, &JobDetailWidget::slotScrollToEnd);
+
     setupStyle();
 }
 
@@ -114,6 +130,25 @@ void JobDetailWidget::slotPropertyModelContextMenuRequest(const QPoint &global_p
     }
 }
 
+void JobDetailWidget::slotScrollToEnd(bool flag)
+{
+    is_scroll_to_end_ = flag;
+    if(flag)
+    {
+        scrollToEnd();
+        connect(ui->output_text_browser, &QTextBrowser::textChanged, this, &JobDetailWidget::scrollToEnd);
+    }
+    else
+    {
+        disconnect(ui->output_text_browser, &QTextBrowser::textChanged, this, &JobDetailWidget::scrollToEnd);
+    }
+}
+
+void JobDetailWidget::scrollToEnd()
+{
+    ui->output_text_browser->verticalScrollBar()->setValue(ui->output_text_browser->verticalScrollBar()->maximum());
+}
+
 void JobDetailWidget::setupStyle()
 {
     style_action_list_.append(ui->action_output_style);
@@ -188,7 +223,7 @@ void JobDetailWidget::setTreeStylePage(const QString &output)
         QList<QStandardItem*>()<< new QStandardItem{"Output File"} << new QStandardItem{ output_script_path }
     );
     general_section->appendRow(
-        QList<QStandardItem*>()<< new QStandardItem{"Error Ouput File"} << new QStandardItem{ error_script_path }
+        QList<QStandardItem*>()<< new QStandardItem{"Error Output File"} << new QStandardItem{ error_script_path }
     );
     general_section->appendRow(
         QList<QStandardItem*>()<< new QStandardItem{"Initial Working Dir"} << new QStandardItem{ initial_working_dir }

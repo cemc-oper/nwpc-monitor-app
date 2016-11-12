@@ -44,6 +44,9 @@ private slots:
     void slotStyleActionTriggered(QAction *action);
     void slotPropertyModelContextMenuRequest(const QPoint &global_point, const QModelIndex &index);
 
+    void slotScrollToEnd(bool flag);
+    void scrollToEnd();
+
 private:
     void setupStyle();
 
@@ -67,6 +70,7 @@ private:
     Core::SessionSystem::Session session_;
 
     QPointer<LoadLevelerClient> client_;
+    bool is_scroll_to_end_;
 };
 
 }

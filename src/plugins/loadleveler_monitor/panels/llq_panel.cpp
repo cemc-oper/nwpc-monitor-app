@@ -198,7 +198,7 @@ void LlqPanel::slotQueryModelContextMenuRequest(const QPoint &global_point, cons
         QStandardItem *owner_item = query_model_->itemFromIndex(owner_index);
         QString owner = owner_item->text();
 
-        QAction *owner_action = new QAction{tr("Query user ") + owner + tr("'s all jobs.")};
+        QAction *owner_action = new QAction{tr("Query by user: ") + owner};
         context_menu->addAction(owner_action);
         connect(owner_action, &QAction::triggered,
                 [=](bool){
@@ -216,7 +216,7 @@ void LlqPanel::slotQueryModelContextMenuRequest(const QPoint &global_point, cons
         QStandardItem *class_item = query_model_->itemFromIndex(class_index);
         QString job_class = class_item->text();
 
-        QAction *class_action = new QAction{tr("Query class ") + job_class + tr("'s all jobs.")};
+        QAction *class_action = new QAction{tr("Query by class: ") + job_class};
         context_menu->addAction(class_action);
         connect(class_action, &QAction::triggered,
                 [=](bool){
