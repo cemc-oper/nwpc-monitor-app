@@ -10,6 +10,8 @@
 
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QApplication>
+#include <QDir>
 #include <QtDebug>
 
 using namespace LoadLevelerMonitor;
@@ -45,13 +47,11 @@ bool LoadLevelerMonitorPlugin::initialize(const QStringList &arguments, QString 
     loadleveler_client_ = new LoadLevelerClient{this};
     PluginManager::addObject(loadleveler_client_);
 
-    //TODO(windroc, 2016.07.08): use plugin dir.
-    loadleveler_client_->setPythonDistributionDir(
-        "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app-playground\\python\\python35"
-    );
-    loadleveler_client_->setPythonExecutableProgramPath(
-        "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app-playground\\python\\python35\\python.exe"
-    );
+    //NOTE(windroc, 2016.11.24): use vendor dir.
+    QString python_interpreter_dir = QApplication::applicationDirPath() + "/../vendor/python";
+    QString python_exe_dir = python_interpreter_dir + "/python.exe";
+    loadleveler_client_->setPythonDistributionDir(python_interpreter_dir);
+    loadleveler_client_->setPythonExecutableProgramPath(python_exe_dir);
 
     llq_command_manager_ = new LlqCommandManager{this};
     LlqCommandManager::initialize();
