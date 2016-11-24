@@ -114,3 +114,12 @@ FORMS += \
 
 RESOURCES += \
     loadleveler_monitor.qrc
+
+
+nwpc_loadleveler_target_dir = $${DESTDIR}/nwpc_loadleveler
+nwpc_loadleveler_target_dir~=s,/,\\,g
+nwpc_loadleveler_dir = $$PWD/nwpc_loadleveler
+nwpc_loadleveler_dir~=s,/,\\,g
+
+QMAKE_POST_LINK += $$quote(IF NOT EXIST $${nwpc_loadleveler_target_dir} (MKDIR $${nwpc_loadleveler_target_dir})$$escape_expand(\n\t))
+QMAKE_POST_LINK += $$quote(XCOPY $${nwpc_loadleveler_dir} $${nwpc_loadleveler_target_dir} /E /Y$$escape_expand(\n\t))

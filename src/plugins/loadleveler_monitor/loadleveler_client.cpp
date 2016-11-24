@@ -14,6 +14,7 @@
 #include <QDateTime>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QApplication>
 #include <QtDebug>
 
 using namespace LoadLevelerMonitor;
@@ -55,7 +56,7 @@ void LoadLevelerClient::runLlqCommand(QMap<QString, QString> args, QPointer<Pane
 
     QFuture<void> future = executePythonScript(
         command,
-        "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app\\src\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
+        QApplication::applicationDirPath()+"\\..\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
         arguments
     );
 
@@ -84,7 +85,7 @@ void LoadLevelerClient::runLlcancelCommand(QMap<QString, QString> args, QPointer
 
     QFuture<void> future = executePythonScript(
         command,
-        "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app\\src\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
+        QApplication::applicationDirPath()+"\\..\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
         arguments
     );
 
@@ -112,7 +113,7 @@ void LoadLevelerClient::runLlholdCommand(QMap<QString, QString> args, QPointer<P
 
     QFuture<void> future = executePythonScript(
         command,
-        "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app\\src\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
+        QApplication::applicationDirPath()+"\\..\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
         arguments
     );
 
@@ -145,7 +146,7 @@ void LoadLevelerClient::runLlclassCommand(QMap<QString, QString> args, QPointer<
 
     QFuture<void> future = executePythonScript(
         command,
-        "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app\\src\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
+        QApplication::applicationDirPath()+"\\..\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
         arguments
     );
     ProgressItemWidget *progress_item_widget =  ProgressManager::addTask(future, args["command"]);
@@ -180,7 +181,7 @@ void LoadLevelerClient::runCommand(QMap<QString, QString> args, QPointer<ClientC
 
     QFuture<void> future = executePythonScript(
         command,
-        "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app\\src\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
+        QApplication::applicationDirPath()+"\\..\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
         arguments
     );
 
@@ -219,7 +220,7 @@ void LoadLevelerClient::runFileCommand(QMap<QString, QString> args, QPointer<Wid
 
     QFuture<void> future = executePythonScript(
         command,
-        "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app\\src\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
+        QApplication::applicationDirPath()+"\\..\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
         arguments
     );
 
@@ -255,7 +256,7 @@ void LoadLevelerClient::runQueryJobDetailCommand(QMap<QString, QString> args, QP
 
     QFuture<void> future = executePythonScript(
         command,
-        "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app\\src\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
+        QApplication::applicationDirPath()+"\\..\\plugins\\loadleveler_monitor\\nwpc_loadleveler\\loadleveler.py",
         arguments
     );
 

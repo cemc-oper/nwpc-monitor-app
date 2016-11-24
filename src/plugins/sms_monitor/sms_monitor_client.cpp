@@ -3,7 +3,7 @@
 #include "sms_monitor_plugin.h"
 
 #include <python_env_plugin/python_command.h>
-
+#include <QApplication>
 #include <QtDebug>
 
 using namespace SmsMonitor;
@@ -42,7 +42,7 @@ void SmsMonitorClient::updateStatus()
 
     executePythonScript(
         command,
-        "D:\\windroc\\project\\2016\\nwpc-monitor-app\\nwpc-monitor-app\\src\\plugins\\sms_monitor\\nwpc_sms_monitor\\update_sms_status.py",
+        QApplication::applicationDirPath()+"\\..\\plugins\\sms_monitor\\nwpc_sms_monitor\\update_sms_status.py",
         arguments
     );
     qDebug()<<"[SmsMonitorClient::updateStatus] end";

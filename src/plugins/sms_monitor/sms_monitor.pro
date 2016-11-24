@@ -42,3 +42,11 @@ unix {
 
 FORMS += \
     sms_monitor_widget.ui
+
+nwpc_sms_monitor_target_dir = $${DESTDIR}/nwpc_sms_monitor
+nwpc_sms_monitor_target_dir~=s,/,\\,g
+nwpc_sms_monitor_dir = $$PWD/nwpc_sms_monitor
+nwpc_sms_monitor_dir~=s,/,\\,g
+
+QMAKE_POST_LINK += $$quote(IF NOT EXIST $${nwpc_sms_monitor_target_dir} (MKDIR $${nwpc_sms_monitor_target_dir})$$escape_expand(\n\t))
+QMAKE_POST_LINK += $$quote(XCOPY $${nwpc_sms_monitor_dir} $${nwpc_sms_monitor_target_dir} /E /Y$$escape_expand(\n\t))
