@@ -4,9 +4,10 @@
 #include <QPointer>
 #include <QMap>
 
-//QT_BEGIN_NAMESPACE
-//class QWebEnginePage;
-//QT_END_NAMESPACE
+QT_BEGIN_NAMESPACE
+class QWebEnginePage;
+QT_END_NAMESPACE
+
 namespace LoadLevelerMonitor{
 
 namespace Widgets{
@@ -38,7 +39,7 @@ private:
     void showInWebPage(const QString &script);
 
     Ui::FileViewerWidget *ui;
-//    QPointer<QWebEnginePage> web_page_;
+    QPointer<QWebEnginePage> web_page_;
 
     QMap<QString, QString> request_args_;
     bool is_scroll_to_end_;

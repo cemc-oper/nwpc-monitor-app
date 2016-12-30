@@ -4,11 +4,14 @@
 #include "../loadleveler_monitor_plugin.h"
 #include "../loadleveler_client.h"
 
-//#include <QWebEnginePage>
+#include <QWebEnginePage>
 #include <QScrollBar>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QtDebug>
+
+#include <string>
+#include <algorithm>
 
 using namespace LoadLevelerMonitor;
 using namespace LoadLevelerMonitor::Widgets;
@@ -16,14 +19,14 @@ using namespace LoadLevelerMonitor::Widgets;
 FileViewerWidget::FileViewerWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::FileViewerWidget),
-    is_scroll_to_end_{false}
-//    web_page_{new QWebEnginePage{this}}
+    is_scroll_to_end_{false},
+    web_page_{new QWebEnginePage{this}}
 {
     ui->setupUi(this);
     setupActions();
 
-//    ui->web_engine_view->setPage(web_page_);
-//    web_page_->load(QUrl("qrc:/loadleveler_monitor/web/static/file_viewer_text_browser.html"));
+    ui->web_engine_view->setPage(web_page_);
+    web_page_->load(QUrl("qrc:/loadleveler_monitor/web/static/file_viewer_text_browser.html"));
     setAttribute(Qt::WA_DeleteOnClose);
 }
 
@@ -49,6 +52,12 @@ void FileViewerWidget::setFileContext(const QString &context)
     {
         scrollToEnd();
     }
+    QString escaped = context;
+    escaped.replace(QLatin1String("\n"), QLatin1String("\\n"));
+    escaped.replace(QLatin1String("\""), QLatin1String("\\\""));
+    QString script = "updateCode(\"" + escaped +"\");";
+    web_page_->runJavaScript(script);
+
 }
 
 void FileViewerWidget::receiveResponse(const QString &response)
