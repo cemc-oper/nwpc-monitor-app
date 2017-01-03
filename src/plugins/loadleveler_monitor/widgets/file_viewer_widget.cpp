@@ -4,6 +4,7 @@
 #include "../loadleveler_monitor_plugin.h"
 #include "../loadleveler_client.h"
 
+#include <QActionGroup>
 #include <QWebEnginePage>
 #include <QScrollBar>
 #include <QJsonDocument>
@@ -20,6 +21,7 @@ FileViewerWidget::FileViewerWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::FileViewerWidget),
     is_scroll_to_end_{false},
+    style_action_group_{new QActionGroup{this}},
     web_page_{new QWebEnginePage{this}}
 {
     ui->setupUi(this);
@@ -28,6 +30,8 @@ FileViewerWidget::FileViewerWidget(QWidget *parent) :
     ui->web_engine_view->setPage(web_page_);
     web_page_->load(QUrl("qrc:/loadleveler_monitor/web/static/file_viewer_text_browser.html"));
     setAttribute(Qt::WA_DeleteOnClose);
+
+    setupStyle();
 }
 
 FileViewerWidget::~FileViewerWidget()
@@ -52,6 +56,7 @@ void FileViewerWidget::setFileContext(const QString &context)
     {
         scrollToEnd();
     }
+    // TODO: replace single backslash to double backslash
     QString escaped = context;
     escaped.replace(QLatin1String("\n"), QLatin1String("\\n"));
     escaped.replace(QLatin1String("\""), QLatin1String("\\\""));
@@ -73,6 +78,19 @@ void FileViewerWidget::receiveResponse(const QString &response)
 
     QString file_context = result_object["data"].toObject()["response"].toObject()["text"].toString();
     setFileContext(file_context);
+}
+
+void FileViewerWidget::slotStyleActionTriggered(QAction *action)
+{
+    int index = style_action_list_.indexOf(action);
+    if(index != -1)
+    {
+        ui->file_content_viewer_stacked_widget->setCurrentIndex(index);
+    }
+    else
+    {
+        qWarning()<<"[FileViewerWidget::slotStyleActionTriggered] action don't find in action list:"<<action;
+    }
 }
 
 void FileViewerWidget::slotScrollToEnd(bool flag)
@@ -113,4 +131,21 @@ void FileViewerWidget::setupActions()
     connect(ui->action_scroll_to_end, &QAction::triggered, this, &FileViewerWidget::slotScrollToEnd);
 
     connect(ui->close_button, &QPushButton::clicked, this, &FileViewerWidget::close);
+}
+
+void FileViewerWidget::setupStyle()
+{
+    style_action_list_.append(ui->action_text_style);
+    style_action_list_.append(ui->action_web_style);
+
+    foreach(QAction* action, style_action_list_)
+    {
+        style_action_group_->addAction(action);
+    }
+
+    connect(style_action_group_, &QActionGroup::triggered, this, &FileViewerWidget::slotStyleActionTriggered);
+    ui->action_text_style->activate(QAction::Trigger);
+
+    ui->text_style_tool_button->setDefaultAction(ui->action_text_style);
+    ui->web_style_tool_button->setDefaultAction(ui->action_web_style);
 }

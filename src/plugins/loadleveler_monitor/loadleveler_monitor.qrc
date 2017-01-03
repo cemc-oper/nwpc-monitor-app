@@ -16,5 +16,6 @@
         <file>web/dist/css/atom-one-dark.css</file>
         <file>web/dist/js/highlight.pack.min.js</file>
         <file>images/refresh.png</file>
+        <file>images/web-style.png</file>
     </qresource>
 </RCC>

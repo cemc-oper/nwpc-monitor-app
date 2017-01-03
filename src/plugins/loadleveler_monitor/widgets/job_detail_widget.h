@@ -44,6 +44,8 @@ private slots:
     void slotStyleActionTriggered(QAction *action);
     void slotPropertyModelContextMenuRequest(const QPoint &global_point, const QModelIndex &index);
 
+
+    // TODO: repeat is evil: text browser
     void slotScrollToEnd(bool flag);
     void scrollToEnd();
 
