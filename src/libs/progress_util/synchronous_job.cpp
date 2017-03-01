@@ -61,17 +61,6 @@ SynchronousJobResponse SynchronousJob::run(const QString &program, const QString
         response_.std_out_ = process_.readAllStandardOutput();
         response_.std_err_ = process_.readAllStandardError();
 
-//        emit signalStdOutString(response_.std_out_);
-//        if(!response_.std_err_.isEmpty())
-//        {
-//            emit signalStdErrString(response_.std_err_);
-//        }
-
-//        if(response_.exit_code_ == 0)
-//        {
-//            emit signalSuccess();
-//        }
-
         if(isGuiThread())
             QApplication::restoreOverrideCursor();
     }

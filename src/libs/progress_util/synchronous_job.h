@@ -36,11 +36,6 @@ public:
     SynchronousJobResponse run(const QString &program, const QStringList &args);
 
 signals:
-//    void signalFinished(int exit_code, QProcess::ExitStatus exit_status);
-//    void signalSuccess();
-
-//    void signalStdOutString(const QString &out);
-//    void signalStdErrString(const QString &err);
 
 public slots:
 

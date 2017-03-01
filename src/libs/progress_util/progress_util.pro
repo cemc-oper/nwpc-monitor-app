@@ -18,12 +18,12 @@ unix {
 }
 
 
-SOURCES += progress_util.cpp \
+SOURCES += \
     synchronous_job.cpp \
     shell_command.cpp \
     async_job.cpp
 
-HEADERS += progress_util.h\
+HEADERS +=\
         progress_util_global.h \
     synchronous_job.h \
     shell_command.h \
