@@ -21,15 +21,31 @@ TableStylePage::TableStylePage(QWidget *parent) :
 
     connect(ui->check_all_button, &QPushButton::clicked,
             [=](){
-                Util::ModelView::changeAllItemsCheckState(query_model_, Qt::Checked);
-            }
-    );
+        Util::ModelView::changeAllItemsCheckState(query_model_, Qt::Checked);
+    });
 
     connect(ui->uncheck_all_button, &QPushButton::clicked,
             [=](){
-                Util::ModelView::changeAllItemsCheckState(query_model_, Qt::Unchecked);
-            }
-    );
+        Util::ModelView::changeAllItemsCheckState(query_model_, Qt::Unchecked);
+    });
+
+    connect(ui->check_selected_button, &QPushButton::clicked,
+            [=](){
+        Q_FOREACH(QModelIndex index, ui->table_view->selectionModel()->selectedIndexes())
+        {
+            QStandardItem *no_item = query_model_->itemFromIndex(index.sibling(index.row(), 0));
+            no_item->setCheckState(Qt::Checked);
+        }
+    });
+
+    connect(ui->uncheck_selected_button, &QPushButton::clicked,
+            [=](){
+        Q_FOREACH(QModelIndex index, ui->table_view->selectionModel()->selectedIndexes())
+        {
+            QStandardItem *no_item = query_model_->itemFromIndex(index.sibling(index.row(), 0));
+            no_item->setCheckState(Qt::Unchecked);
+        }
+    });
 }
 
 TableStylePage::~TableStylePage()

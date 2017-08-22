@@ -63,6 +63,20 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QPushButton" name="check_selected_button">
+          <property name="text">
+           <string>选取高亮的项</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="uncheck_selected_button">
+          <property name="text">
+           <string>取消高亮的项</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>
